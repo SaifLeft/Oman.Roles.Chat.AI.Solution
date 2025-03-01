@@ -1,3 +1,9 @@
+using API.Services;
+using Data.Structure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Services;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,7 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddDbContext<MuhamiContext>(
+        options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 // Configure localization resources path
 var resourcesPath = Path.Combine(builder.Environment.ContentRootPath, "Resources");
 Directory.CreateDirectory(resourcesPath); // Ensure the directory exists
