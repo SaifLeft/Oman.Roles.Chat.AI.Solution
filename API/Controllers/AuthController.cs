@@ -1,27 +1,31 @@
 ﻿using API.Services;
 using Helpers;
-using Microsoft.AspNetCore.Identity.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Services;
+using System.Security.Claims;
 
 namespace API.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
-    public class AuthController : ControllerBase
+    public class UserController : ControllerBase
     {
+        private readonly IUserService _userService;
         private readonly IJwtService _jwtService;
-        private readonly ILogger<AuthController> _logger;
+        private readonly ILogger<UserController> _logger;
         private readonly ILocalizationService _localizationService;
         private readonly IConfiguration _configuration;
 
-        public AuthController(
+        public UserController(
+            IUserService userService,
             IJwtService jwtService,
-            ILogger<AuthController> logger,
+            ILogger<UserController> logger,
             ILocalizationService localizationService,
             IConfiguration configuration)
         {
+            _userService = userService;
             _jwtService = jwtService;
             _logger = logger;
             _localizationService = localizationService;
@@ -29,50 +33,54 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// تسجيل الدخول واستلام رمز JWT
+        /// تسجيل مستخدم جديد
         /// </summary>
-        [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginRequest request)
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterUserRequestDTO request)
         {
             // استخراج اللغة المفضلة من رأس الطلب
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
-            {
-                // في بيئة حقيقية، ستقوم بالتحقق من بيانات المستخدم في قاعدة البيانات
-                // هنا نقوم بعملية تسجيل دخول بسيطة لأغراض التوضيح
-                if (request.Username == "admin" && request.Password == "password123")
-                {
-                    var user = new UserInfo
-                    {
-                        Id = "1",
-                        Username = "admin",
-                        Email = "admin@example.com",
-                        FullName = "مدير النظام",
-                        Roles = new List<string> { "Admin" }
-                    };
 
-                    var response = _jwtService.GenerateJwtToken(user);
-                    var successMessage = _localizationService.GetMessage("LoginSuccess", "Messages", language);
-                    return Ok(BaseResponse<LoginResponse>.SuccessResponse(response, successMessage));
-                }
-                else if (request.Username == "user" && request.Password == "password123")
-                {
-                    var user = new UserInfo
-                    {
-                        Id = "2",
-                        Username = "user",
-                        Email = "user@example.com",
-                        FullName = "مستخدم عادي",
-                        Roles = new List<string> { "User" }
-                    };
+            // تعيين عنوان IP ومعلومات المستعرض
+            request.IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+            request.UserAgent = Request.Headers["User-Agent"].ToString();
 
-                    var response = _jwtService.GenerateJwtToken(user);
-                    var successMessage = _localizationService.GetMessage("LoginSuccess", "Messages", language);
-                    return Ok(BaseResponse<LoginResponse>.SuccessResponse(response, successMessage));
-                }
+            var result = await _userService.RegisterUserAsync(request, language);
+            return StatusCode(result.StatusCode, result);
+        }
 
-                var errorMessage = _localizationService.GetMessage("InvalidCredentials", "Errors", language);
-                return Unauthorized(BaseResponse.FailureResponse(errorMessage, 401));
-            }
+        /// <summary>
+        /// تسجيل الدخول باستخدام اسم المستخدم وكلمة المرور
+        /// </summary>
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequestDTO request)
+        {
+            // استخراج اللغة المفضلة من رأس الطلب
+            string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
+
+            // تعيين عنوان IP ومعلومات المستعرض
+            request.IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+            request.UserAgent = Request.Headers["User-Agent"].ToString();
+
+            var result = await _userService.LoginAsync(request, language);
+            return StatusCode(result.StatusCode, result);
+        }
+
+        /// <summary>
+        /// تسجيل الدخول باستخدام رقم الهاتف وكلمة المرور
+        /// </summary>
+        [HttpPost("login-with-phone")]
+        public async Task<IActionResult> LoginWithPhone([FromBody] LoginWithPhoneRequestDTO request)
+        {
+            // استخراج اللغة المفضلة من رأس الطلب
+            string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
+
+            // تعيين عنوان IP ومعلومات المستعرض
+            request.IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+            request.UserAgent = Request.Headers["User-Agent"].ToString();
+
+            var result = await _userService.LoginWithPhoneAsync(request, language);
+            return StatusCode(result.StatusCode, result);
         }
 
         /// <summary>
@@ -83,38 +91,135 @@ namespace API.Controllers
         {
             // استخراج اللغة المفضلة من رأس الطلب
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
-            {
-                var response = _jwtService.RefreshToken(request.RefreshToken);
-                if (response == null)
-                {
-                    var errorMessage = _localizationService.GetMessage("InvalidRefreshToken", "Errors", language);
-                    return BadRequest(BaseResponse.FailureResponse(errorMessage, 400));
-                }
 
-                var successMessage = _localizationService.GetMessage("TokenRefreshed", "Messages", language);
-                return Ok(BaseResponse<LoginResponse>.SuccessResponse(response, successMessage));
+            var response = _jwtService.RefreshToken(request.RefreshToken);
+            if (response == null)
+            {
+                var errorMessage = _localizationService.GetMessage("InvalidRefreshToken", "Errors", language);
+                return BadRequest(BaseResponse.FailureResponse(errorMessage, 400));
             }
+
+            var successMessage = _localizationService.GetMessage("TokenRefreshed", "Messages", language);
+            return Ok(BaseResponse<LoginResponse>.SuccessResponse(response, successMessage));
         }
 
         /// <summary>
-        /// التحقق من صحة الرمز
+        /// الحصول على الملف الشخصي للمستخدم الحالي
         /// </summary>
-        [HttpPost("validate-token")]
-        public IActionResult ValidateToken([FromBody] ValidateTokenRequest request)
+        [Authorize]
+        [HttpGet("profile")]
+        public async Task<IActionResult> GetProfile()
         {
             // استخراج اللغة المفضلة من رأس الطلب
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
+
+            // استخراج معرف المستخدم من رمز JWT
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim) || !long.TryParse(userIdClaim, out long userId))
             {
-                var user = _jwtService.ValidateJwtToken(request.Token);
-                if (user == null)
-                {
-                    var errorMessage = _localizationService.GetMessage("InvalidToken", "Errors", language);
-                    return BadRequest(BaseResponse.FailureResponse(errorMessage, 400));
-                }
+                var errorMessage = _localizationService.GetMessage("UserIdRequired", "Errors", language);
+                return BadRequest(BaseResponse.FailureResponse(errorMessage, 400));
             }
 
-            var successMessage = _localizationService.GetMessage("TokenValid", "Messages", language);
-            return Ok(BaseResponse.SuccessResponse(successMessage));
+            var result = await _userService.GetUserProfileAsync(userId, language);
+            return StatusCode(result.StatusCode, result);
+        }
+
+        /// <summary>
+        /// تحديث الملف الشخصي للمستخدم الحالي
+        /// </summary>
+        [Authorize]
+        [HttpPut("profile")]
+        public async Task<IActionResult> UpdateProfile([FromBody] UpdateUserProfileRequestDTO request)
+        {
+            // استخراج اللغة المفضلة من رأس الطلب
+            string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
+
+            // استخراج معرف المستخدم من رمز JWT
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim) || !long.TryParse(userIdClaim, out long userId))
+            {
+                var errorMessage = _localizationService.GetMessage("UserIdRequired", "Errors", language);
+                return BadRequest(BaseResponse.FailureResponse(errorMessage, 400));
+            }
+
+            // تعيين عنوان IP ومعلومات المستعرض
+            request.IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+            request.UserAgent = Request.Headers["User-Agent"].ToString();
+
+            var result = await _userService.UpdateUserProfileAsync(userId, request, language);
+            return StatusCode(result.StatusCode, result);
+        }
+
+        /// <summary>
+        /// تغيير كلمة المرور للمستخدم الحالي
+        /// </summary>
+        [Authorize]
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequestDTO request)
+        {
+            // استخراج اللغة المفضلة من رأس الطلب
+            string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
+
+            // استخراج معرف المستخدم من رمز JWT
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim) || !long.TryParse(userIdClaim, out long userId))
+            {
+                var errorMessage = _localizationService.GetMessage("UserIdRequired", "Errors", language);
+                return BadRequest(BaseResponse.FailureResponse(errorMessage, 400));
+            }
+
+            // تعيين عنوان IP ومعلومات المستعرض
+            request.IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+            request.UserAgent = Request.Headers["User-Agent"].ToString();
+
+            var result = await _userService.ChangePasswordAsync(userId, request, language);
+            return StatusCode(result.StatusCode, result);
+        }
+
+        /// <summary>
+        /// إعادة تعيين كلمة المرور (نسيان كلمة المرور)
+        /// </summary>
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequestDTO request)
+        {
+            // استخراج اللغة المفضلة من رأس الطلب
+            string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
+
+            // تعيين عنوان IP ومعلومات المستعرض
+            request.IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+            request.UserAgent = Request.Headers["User-Agent"].ToString();
+
+            var result = await _userService.ResetPasswordAsync(request, language);
+            return StatusCode(result.StatusCode, result);
+        }
+
+        /// <summary>
+        /// تفعيل حساب المستخدم (للمسؤولين فقط)
+        /// </summary>
+        [Authorize(Roles = "Admin")]
+        [HttpPost("activate/{userId}")]
+        public async Task<IActionResult> ActivateUser(long userId)
+        {
+            // استخراج اللغة المفضلة من رأس الطلب
+            string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
+
+            var result = await _userService.ActivateUserAsync(userId, language);
+            return StatusCode(result.StatusCode, result);
+        }
+
+        /// <summary>
+        /// تعطيل حساب المستخدم (للمسؤولين فقط)
+        /// </summary>
+        [Authorize(Roles = "Admin")]
+        [HttpPost("deactivate/{userId}")]
+        public async Task<IActionResult> DeactivateUser(long userId)
+        {
+            // استخراج اللغة المفضلة من رأس الطلب
+            string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
+
+            var result = await _userService.DeactivateUserAsync(userId, language);
+            return StatusCode(result.StatusCode, result);
         }
     }
 }

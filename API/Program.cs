@@ -54,7 +54,7 @@ builder.Configuration["ChatSettings:PdfInfoPath"] = pdfInfoPath;
 builder.Configuration["ChatSettings:DataPath"] = chatDataPath;
 builder.Configuration["ChatSettings:RulesPath"] = chatRulesPath;
 
-// Configure JWT Authentication
+// ÅÖÇÝÉ ÎÏãÉ ÇáãÕÇÏÞÉ
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 var key = Encoding.ASCII.GetBytes(jwtSettings["Secret"] ?? throw new InvalidOperationException("JWT Secret is not configured"));
 
@@ -78,6 +78,13 @@ builder.Services.AddAuthentication(options =>
         ValidateLifetime = true,
         ClockSkew = TimeSpan.Zero
     };
+});
+
+// ÅÖÇÝÉ ÇáÊæËíÞ
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("RequireUserRole", policy => policy.RequireRole("User"));
 });
 
 // Add CORS

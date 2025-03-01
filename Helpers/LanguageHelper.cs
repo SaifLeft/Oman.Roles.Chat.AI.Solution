@@ -1,4 +1,7 @@
-﻿namespace Helpers
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+
+namespace Helpers
 {
     /// <summary>
     /// فئة مساعدة للتعامل مع اللغة
@@ -17,8 +20,9 @@
             var defaultLanguage = configuration["Localization:DefaultLanguage"] ?? "en";
 
             // الحصول على اللغات المدعومة من الإعدادات
-            var supportedLanguages = configuration.GetSection("Localization:SupportedLanguages")
-                .Get<string[]>() ?? new[] { "en", "ar" };
+            var supportedLanguages = configuration.GetSection("Localization:SupportedLanguages").GetChildren()
+                .Select(lang => lang.Value.ToLower())
+                .ToList();
 
             // محاولة استخراج اللغة من رأس "Accept-Language"
             var acceptLanguage = request.Headers["Accept-Language"].FirstOrDefault();

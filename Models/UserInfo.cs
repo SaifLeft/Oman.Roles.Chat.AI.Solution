@@ -41,7 +41,7 @@ namespace Models
     /// <summary>
     /// نموذج طلب تسجيل الدخول
     /// </summary>
-    public class LoginRequest
+    public class LoginRequestDTO
     {
         /// <summary>
         /// اسم المستخدم
@@ -54,6 +54,8 @@ namespace Models
         /// </summary>
         [JsonPropertyName("password")]
         public string Password { get; set; } = string.Empty;
+        public string? IpAddress { get; set; }
+        public string UserAgent { get; set; }
     }
 
     /// <summary>
