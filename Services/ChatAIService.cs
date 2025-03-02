@@ -1,5 +1,4 @@
 ﻿using API.Services;
-using Data.Structure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Models;
@@ -18,7 +17,7 @@ namespace Services
         /// <param name="userId">معرف المستخدم</param>
         /// <param name="language">اللغة المستخدمة</param>
         /// <returns>معلومات غرفة الدردشة المنشأة</returns>
-        Task<BaseResponse<ChatRoom>> CreateChatRoomAsync(CreateChatRoomRequest request, string userId, string language);
+        Task<BaseResponse<ChatRoomDTO>> CreateChatRoomAsync(CreateChatRoomRequest request, string userId, string language);
 
         /// <summary>
         /// إرسال رسالة واستلام الرد من النظام الذكي
@@ -36,7 +35,7 @@ namespace Services
         /// <param name="userId">معرف المستخدم</param>
         /// <param name="language">اللغة المستخدمة</param>
         /// <returns>معلومات غرفة الدردشة</returns>
-        Task<BaseResponse<ChatRoom>> GetChatRoomAsync(string roomId, string userId, string language);
+        Task<BaseResponse<ChatRoomDTO>> GetChatRoomAsync(string roomId, string userId, string language);
 
         /// <summary>
         /// الحصول على تاريخ المحادثات لغرفة دردشة
@@ -45,7 +44,7 @@ namespace Services
         /// <param name="userId">معرف المستخدم</param>
         /// <param name="language">اللغة المستخدمة</param>
         /// <returns>قائمة بالرسائل المتبادلة</returns>
-        Task<BaseResponse<List<ChatMessage>>> GetChatHistoryAsync(string roomId, string userId, string language);
+        Task<BaseResponse<List<ChatMessageDTO>>> GetChatHistoryAsync(string roomId, string userId, string language);
 
         /// <summary>
         /// الحصول على جميع غرف الدردشة الخاصة بالمستخدم
@@ -53,7 +52,7 @@ namespace Services
         /// <param name="userId">معرف المستخدم</param>
         /// <param name="language">اللغة المستخدمة</param>
         /// <returns>قائمة بغرف الدردشة</returns>
-        Task<BaseResponse<List<ChatRoom>>> GetUserChatRoomsAsync(string userId, string language);
+        Task<BaseResponse<List<ChatRoomDTO>>> GetUserChatRoomsAsync(string userId, string language);
 
         /// <summary>
         /// حذف غرفة دردشة
@@ -114,7 +113,7 @@ namespace Services
         /// <summary>
         /// إنشاء غرفة دردشة جديدة
         /// </summary>
-        public async Task<BaseResponse<ChatRoom>> CreateChatRoomAsync(CreateChatRoomRequest request, string userId, string language)
+        public async Task<BaseResponse<ChatRoomDTO>> CreateChatRoomAsync(CreateChatRoomRequest request, string userId, string language)
         {
             try
             {
@@ -124,7 +123,7 @@ namespace Services
                 if (string.IsNullOrWhiteSpace(request.Title))
                 {
                     var errorMessage = _localizationService.GetMessage("ChatRoomTitleRequired", "Errors", language);
-                    return BaseResponse<ChatRoom>.FailureResponse(errorMessage, 400);
+                    return BaseResponse<ChatRoomDTO>.FailureResponse(errorMessage, 400);
                 }
 
                 // التحقق من وجود ملفات PDF المحددة
@@ -135,7 +134,7 @@ namespace Services
                         if (!File.Exists(Path.Combine(_pdfBasePath, pdfFile)))
                         {
                             var errorMessage = _localizationService.GetMessage("PdfFileNotFound", "Errors", language);
-                            return BaseResponse<ChatRoom>.FailureResponse(string.Format(errorMessage, pdfFile), 400);
+                            return BaseResponse<ChatRoomDTO>.FailureResponse(string.Format(errorMessage, pdfFile), 400);
                         }
                     }
                 }
@@ -166,7 +165,7 @@ namespace Services
                 if (dbChatRoom == null)
                 {
                     var errorMessage = _localizationService.GetMessage("ChatRoomCreationError", "Errors", language);
-                    return BaseResponse<ChatRoom>.FailureResponse(errorMessage, 500);
+                    return BaseResponse<ChatRoomDTO>.FailureResponse(errorMessage, 500);
                 }
 
                 // إضافة المعلومات الإضافية للغرفة
@@ -174,13 +173,13 @@ namespace Services
                 dbChatRoom.Rules = chatRules;
 
                 var successMessage = _localizationService.GetMessage("ChatRoomCreated", "Messages", language);
-                return BaseResponse<ChatRoom>.SuccessResponse(dbChatRoom, successMessage);
+                return BaseResponse<ChatRoomDTO>.SuccessResponse(dbChatRoom, successMessage);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ أثناء إنشاء غرفة الدردشة");
                 var errorMessage = _localizationService.GetMessage("ChatRoomCreationError", "Errors", language);
-                return BaseResponse<ChatRoom>.FailureResponse(errorMessage, 500);
+                return BaseResponse<ChatRoomDTO>.FailureResponse(errorMessage, 500);
             }
         }
 
@@ -326,7 +325,7 @@ namespace Services
         /// <summary>
         /// الحصول على غرفة دردشة بمعرفها
         /// </summary>
-        public async Task<BaseResponse<ChatRoom>> GetChatRoomAsync(string roomId, string userId, string language)
+        public async Task<BaseResponse<ChatRoomDTO>> GetChatRoomAsync(string roomId, string userId, string language)
         {
             try
             {
@@ -337,30 +336,30 @@ namespace Services
                 if (chatRoom == null)
                 {
                     var errorMessage = _localizationService.GetMessage("ChatRoomNotFound", "Errors", language);
-                    return BaseResponse<ChatRoom>.FailureResponse(errorMessage, 404);
+                    return BaseResponse<ChatRoomDTO>.FailureResponse(errorMessage, 404);
                 }
 
                 // التحقق من أن المستخدم يملك الغرفة
                 if (chatRoom.CreatedBy != userId)
                 {
                     var errorMessage = _localizationService.GetMessage("UnauthorizedChatRoomAccess", "Errors", language);
-                    return BaseResponse<ChatRoom>.FailureResponse(errorMessage, 403);
+                    return BaseResponse<ChatRoomDTO>.FailureResponse(errorMessage, 403);
                 }
 
-                return BaseResponse<ChatRoom>.SuccessResponse(chatRoom);
+                return BaseResponse<ChatRoomDTO>.SuccessResponse(chatRoom);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ أثناء استرجاع غرفة الدردشة");
                 var errorMessage = _localizationService.GetMessage("ChatRoomRetrievalError", "Errors", language);
-                return BaseResponse<ChatRoom>.FailureResponse(errorMessage, 500);
+                return BaseResponse<ChatRoomDTO>.FailureResponse(errorMessage, 500);
             }
         }
 
         /// <summary>
         /// الحصول على تاريخ المحادثات لغرفة دردشة
         /// </summary>
-        public async Task<BaseResponse<List<ChatMessage>>> GetChatHistoryAsync(string roomId, string userId, string language)
+        public async Task<BaseResponse<List<ChatMessageDTO>>> GetChatHistoryAsync(string roomId, string userId, string language)
         {
             try
             {
@@ -371,33 +370,33 @@ namespace Services
                 if (chatRoom == null)
                 {
                     var errorMessage = _localizationService.GetMessage("ChatRoomNotFound", "Errors", language);
-                    return BaseResponse<List<ChatMessage>>.FailureResponse(errorMessage, 404);
+                    return BaseResponse<List<ChatMessageDTO>>.FailureResponse(errorMessage, 404);
                 }
 
                 // التحقق من أن المستخدم يملك الغرفة
                 if (chatRoom.CreatedBy != userId)
                 {
                     var errorMessage = _localizationService.GetMessage("UnauthorizedChatRoomAccess", "Errors", language);
-                    return BaseResponse<List<ChatMessage>>.FailureResponse(errorMessage, 403);
+                    return BaseResponse<List<ChatMessageDTO>>.FailureResponse(errorMessage, 403);
                 }
 
                 // الحصول على رسائل الغرفة
                 var messages = await _chatDbService.GetChatRoomMessagesAsync(long.Parse(roomId), 100);
 
-                return BaseResponse<List<ChatMessage>>.SuccessResponse(messages);
+                return BaseResponse<List<ChatMessageDTO>>.SuccessResponse(messages);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ أثناء استرجاع تاريخ المحادثات");
                 var errorMessage = _localizationService.GetMessage("ChatHistoryRetrievalError", "Errors", language);
-                return BaseResponse<List<ChatMessage>>.FailureResponse(errorMessage, 500);
+                return BaseResponse<List<ChatMessageDTO>>.FailureResponse(errorMessage, 500);
             }
         }
 
         /// <summary>
         /// الحصول على جميع غرف الدردشة الخاصة بالمستخدم
         /// </summary>
-        public async Task<BaseResponse<List<ChatRoom>>> GetUserChatRoomsAsync(string userId, string language)
+        public async Task<BaseResponse<List<ChatRoomDTO>>> GetUserChatRoomsAsync(string userId, string language)
         {
             try
             {
@@ -406,13 +405,13 @@ namespace Services
                 // الحصول على غرف الدردشة من قاعدة البيانات
                 var chatRooms = await _chatDbService.GetChatRoomsByUserIdAsync(long.Parse(userId));
 
-                return BaseResponse<List<ChatRoom>>.SuccessResponse(chatRooms);
+                return BaseResponse<List<ChatRoomDTO>>.SuccessResponse(chatRooms);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ أثناء استرجاع قائمة غرف الدردشة للمستخدم");
                 var errorMessage = _localizationService.GetMessage("UserChatRoomsRetrievalError", "Errors", language);
-                return BaseResponse<List<ChatRoom>>.FailureResponse(errorMessage, 500);
+                return BaseResponse<List<ChatRoomDTO>>.FailureResponse(errorMessage, 500);
             }
         }
 
@@ -464,7 +463,7 @@ namespace Services
         /// <summary>
         /// الحصول على رسالة محددة من قاعدة البيانات
         /// </summary>
-        private async Task<ChatMessage> GetChatMessageById(long roomId, long messageId)
+        private async Task<ChatMessageDTO> GetChatMessageById(long roomId, long messageId)
         {
             // الحصول على جميع الرسائل
             var messages = await _chatDbService.GetChatRoomMessagesAsync(roomId);

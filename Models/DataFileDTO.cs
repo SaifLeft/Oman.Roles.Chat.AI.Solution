@@ -8,7 +8,7 @@ namespace Models
     /// <summary>
     /// نموذج ملف PDF
     /// </summary>
-    public class PdfFile
+    public class DataFileDTO
     {
         /// <summary>
         /// معرف الملف
@@ -79,6 +79,8 @@ namespace Models
         /// رابط تنزيل الملف
         /// </summary>
         public string DownloadUrl { get; set; } = string.Empty;
+        public DateTime UploadDate { get; set; }
+        public string UploadedBy { get; set; }
     }
 
     /// <summary>
@@ -90,7 +92,7 @@ namespace Models
         /// قائمة الملفات
         /// </summary>
         [JsonPropertyName("files")]
-        public List<PdfFile> Files { get; set; } = new();
+        public List<DataFileDTO> Files { get; set; } = new();
 
         /// <summary>
         /// إجمالي عدد الملفات

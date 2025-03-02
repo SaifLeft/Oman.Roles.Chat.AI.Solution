@@ -17,7 +17,9 @@ public partial class PlanFeature
 
     public DateTime CreateDate { get; set; }
 
-    public bool? IsDeleted { get; set; }
+    public bool IsDeleted { get; set; }
+
+    public DateTime? DeletedAt { get; set; }
 
     public virtual SubscriptionPlan Plan { get; set; }
 }

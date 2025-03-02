@@ -5,22 +5,17 @@ using System.Collections.Generic;
 
 namespace Data.Structure;
 
-public partial class ChatMessage
+public partial class ConversationPdfReference
 {
     public long Id { get; set; }
 
-    public long ChatRoomId { get; set; }
+    public long ConversationId { get; set; }
 
-    public string SenderId { get; set; }
+    public string FileName { get; set; }
 
-    /// <summary>
-    /// user or system
-    /// </summary>
-    public string Role { get; set; }
+    public long FileId { get; set; }
 
-    public string Content { get; set; }
-
-    public DateTime Timestamp { get; set; }
+    public long RelevanceScore { get; set; }
 
     public long CreatedByUserId { get; set; }
 
@@ -34,5 +29,7 @@ public partial class ChatMessage
 
     public DateTime? DeletedAt { get; set; }
 
-    public virtual ChatRoom ChatRoom { get; set; }
+    public virtual ConversationTracking Conversation { get; set; }
+
+    public virtual DataSourceFile File { get; set; }
 }

@@ -1,10 +1,10 @@
 ﻿using API.Services;
+using AutoMapper;
+using Data.Structure;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Models;
-using System.Collections.Concurrent;
-using System.Text.Json;
-using System.Transactions;
 
 namespace Services
 {
@@ -13,37 +13,37 @@ namespace Services
         /// <summary>
         /// الحصول على جميع خطط الاشتراك
         /// </summary>
-        Task<BaseResponse<List<SubscriptionPlan>>> GetAllPlansAsync(string language);
+        Task<BaseResponse<List<SubscriptionPlanDTO>>> GetAllPlansAsync(string language);
 
         /// <summary>
         /// الحصول على خطة اشتراك بواسطة المعرف
         /// </summary>
-        Task<BaseResponse<SubscriptionPlan>> GetPlanByIdAsync(string planId, string language);
+        Task<BaseResponse<SubscriptionPlanDTO>> GetPlanByIdAsync(string planId, string language);
 
         /// <summary>
         /// الحصول على اشتراك المستخدم
         /// </summary>
-        Task<BaseResponse<UserSubscription>> GetUserSubscriptionAsync(string userId, string language);
+        Task<BaseResponse<UserSubscriptionDTO>> GetUserSubscriptionAsync(string userId, string language);
 
         /// <summary>
         /// إنشاء اشتراك جديد
         /// </summary>
-        Task<BaseResponse<UserSubscription>> CreateSubscriptionAsync(string userId, CreateSubscriptionRequest request, string language);
+        Task<BaseResponse<UserSubscriptionDTO>> CreateSubscriptionAsync(string userId, CreateSubscriptionRequest request, string language);
 
         /// <summary>
         /// تجديد اشتراك
         /// </summary>
-        Task<BaseResponse<UserSubscription>> RenewSubscriptionAsync(string userId, RenewSubscriptionRequest request, string language);
+        Task<BaseResponse<UserSubscriptionDTO>> RenewSubscriptionAsync(string userId, RenewSubscriptionRequest request, string language);
 
         /// <summary>
         /// إيقاف التجديد التلقائي
         /// </summary>
-        Task<BaseResponse<UserSubscription>> CancelAutoRenewalAsync(string userId, string subscriptionId, string language);
+        Task<BaseResponse<UserSubscriptionDTO>> CancelAutoRenewalAsync(string userId, string subscriptionId, string language);
 
         /// <summary>
         /// إلغاء اشتراك
         /// </summary>
-        Task<BaseResponse<UserSubscription>> CancelSubscriptionAsync(string userId, string subscriptionId, string language);
+        Task<BaseResponse<UserSubscriptionDTO>> CancelSubscriptionAsync(string userId, string subscriptionId, string language);
 
         /// <summary>
         /// التحقق من صلاحية كوبون
@@ -58,289 +58,196 @@ namespace Services
 
     public class SubscriptionService : ISubscriptionService
     {
+        private readonly MuhamiContext _context;
+        private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
         private readonly ILogger<SubscriptionService> _logger;
         private readonly ILocalizationService _localizationService;
-        private readonly string _plansPath;
-        private readonly string _subscriptionsPath;
-        private readonly string _couponsPath;
-        private readonly string _transactionsPath;
-
-        private readonly ConcurrentDictionary<string, SubscriptionPlan> _plans = new();
-        private readonly ConcurrentDictionary<string, UserSubscription> _subscriptions = new();
-        private readonly ConcurrentDictionary<string, DiscountCoupon> _coupons = new();
-        private readonly ConcurrentDictionary<string, List<FinancialTransaction>> _userTransactions = new();
-
-        private readonly object _fileLock = new object();
-
-        // خطط افتراضية
-        private readonly List<SubscriptionPlan> _defaultPlans = new()
-        {
-            new SubscriptionPlan
-            {
-                Id = "basic",
-                Name = "الخطة الأساسية",
-                Description = "خطة أساسية للاستخدام الفردي",
-                PriceMonthly = 9.99m,
-                PriceYearly = 99.99m,
-                AllowedChatRooms = 3,
-                AllowedFiles = 10,
-                AllowedFileSizeMb = 50,
-                IsActive = true,
-                IsTrial = false,
-                Features = new List<string>
-                {
-                    "إنشاء 3 غرف دردشة",
-                    "رفع 10 ملفات PDF",
-                    "حجم الملف حتى 50 ميجابايت",
-                    "دعم فني بالبريد الإلكتروني"
-                }
-            },
-            new SubscriptionPlan
-            {
-                Id = "pro",
-                Name = "الخطة الاحترافية",
-                Description = "خطة احترافية للاستخدام المتقدم",
-                PriceMonthly = 24.99m,
-                PriceYearly = 249.99m,
-                AllowedChatRooms = 10,
-                AllowedFiles = 50,
-                AllowedFileSizeMb = 200,
-                IsActive = true,
-                IsTrial = false,
-                Features = new List<string>
-                {
-                    "إنشاء 10 غرف دردشة",
-                    "رفع 50 ملف PDF",
-                    "حجم الملف حتى 200 ميجابايت",
-                    "تخصيص قواعد الدردشة",
-                    "دعم فني على مدار الساعة"
-                }
-            },
-            new SubscriptionPlan
-            {
-                Id = "enterprise",
-                Name = "خطة المؤسسات",
-                Description = "خطة متكاملة للشركات والمؤسسات",
-                PriceMonthly = 99.99m,
-                PriceYearly = 999.99m,
-                AllowedChatRooms = 100,
-                AllowedFiles = 500,
-                AllowedFileSizeMb = 500,
-                IsActive = true,
-                IsTrial = false,
-                Features = new List<string>
-                {
-                    "غرف دردشة غير محدودة",
-                    "رفع 500 ملف PDF",
-                    "حجم الملف حتى 500 ميجابايت",
-                    "تخصيص كامل للقواعد",
-                    "دعم فني بالأولوية",
-                    "تكامل مع أنظمة الشركة",
-                    "تقارير وتحليلات متقدمة"
-                }
-            },
-            new SubscriptionPlan
-            {
-                Id = "trial",
-                Name = "الخطة التجريبية",
-                Description = "خطة تجريبية مجانية لمدة 14 يوم",
-                PriceMonthly = 0,
-                PriceYearly = 0,
-                AllowedChatRooms = 1,
-                AllowedFiles = 3,
-                AllowedFileSizeMb = 10,
-                IsActive = true,
-                IsTrial = true,
-                TrialDays = 14,
-                Features = new List<string>
-                {
-                    "إنشاء غرفة دردشة واحدة",
-                    "رفع 3 ملفات PDF",
-                    "حجم الملف حتى 10 ميجابايت",
-                    "دعم فني أساسي"
-                }
-            }
-        };
-
-        // كوبونات افتراضية
-        private readonly List<DiscountCoupon> _defaultCoupons = new()
-        {
-            new DiscountCoupon
-            {
-                Id = "welcome2023",
-                Code = "WELCOME2023",
-                Description = "خصم 20% للمستخدمين الجدد",
-                DiscountType = DiscountType.Percentage,
-                DiscountValue = 20,
-                StartDate = new DateTime(2023, 1, 1),
-                EndDate = new DateTime(2023, 12, 31),
-                MaxUses = 1000,
-                CurrentUses = 0,
-                IsActive = true
-            },
-            new DiscountCoupon
-            {
-                Id = "summer2023",
-                Code = "SUMMER2023",
-                Description = "خصم صيف 2023 بقيمة 15%",
-                DiscountType = DiscountType.Percentage,
-                DiscountValue = 15,
-                StartDate = new DateTime(2023, 6, 1),
-                EndDate = new DateTime(2023, 8, 31),
-                MaxUses = 500,
-                CurrentUses = 0,
-                IsActive = true
-            }
-        };
 
         public SubscriptionService(
+            MuhamiContext context,
+            IMapper mapper,
             IConfiguration configuration,
             ILogger<SubscriptionService> logger,
             ILocalizationService localizationService)
         {
+            _context = context;
+            _mapper = mapper;
             _configuration = configuration;
             _logger = logger;
             _localizationService = localizationService;
-
-            // تحديد مسارات حفظ البيانات
-            var subscriptionDataPath = _configuration["SubscriptionSettings:DataPath"] ??
-                                      Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SubscriptionData");
-
-            _plansPath = Path.Combine(subscriptionDataPath, "Plans");
-            _subscriptionsPath = Path.Combine(subscriptionDataPath, "Subscriptions");
-            _couponsPath = Path.Combine(subscriptionDataPath, "Coupons");
-            _transactionsPath = Path.Combine(subscriptionDataPath, "Transactions");
-
-            // التأكد من وجود المسارات
-            Directory.CreateDirectory(_plansPath);
-            Directory.CreateDirectory(_subscriptionsPath);
-            Directory.CreateDirectory(_couponsPath);
-            Directory.CreateDirectory(_transactionsPath);
-
-            // تحميل البيانات
-            LoadPlans();
-            LoadSubscriptions();
-            LoadCoupons();
-            LoadTransactions();
         }
 
         /// <summary>
         /// الحصول على جميع خطط الاشتراك
         /// </summary>
-        public async Task<BaseResponse<List<SubscriptionPlan>>> GetAllPlansAsync(string language)
+        public async Task<BaseResponse<List<SubscriptionPlanDTO>>> GetAllPlansAsync(string language)
         {
             try
             {
-                var plans = _plans.Values.Where(p => p.IsActive).ToList();
-                return BaseResponse<List<SubscriptionPlan>>.SuccessResponse(plans);
+                var plans = await _context.SubscriptionPlans
+                    .Where(p => p.IsActive && p.IsDeleted != true)
+                    .ToListAsync();
+
+                var planDtos = _mapper.Map<List<SubscriptionPlanDTO>>(plans);
+
+                // Load features for each plan
+                foreach (var plan in planDtos)
+                {
+                    var features = await _context.PlanFeatures
+                        .Where(f => f.PlanId.ToString() == plan.Id && f.IsDeleted != true)
+                        .Select(f => f.Feature)
+                        .ToListAsync();
+
+                    plan.Features = features;
+                }
+
+                return BaseResponse<List<SubscriptionPlanDTO>>.SuccessResponse(planDtos);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "حدث خطأ أثناء الحصول على خطط الاشتراك");
+                _logger.LogError(ex, "Error retrieving subscription plans");
                 var errorMessage = _localizationService.GetMessage("PlansRetrievalError", "Errors", language);
-                return BaseResponse<List<SubscriptionPlan>>.FailureResponse(errorMessage, 500);
+                return BaseResponse<List<SubscriptionPlanDTO>>.FailureResponse(errorMessage, 500);
             }
         }
 
         /// <summary>
         /// الحصول على خطة اشتراك بواسطة المعرف
         /// </summary>
-        public async Task<BaseResponse<SubscriptionPlan>> GetPlanByIdAsync(string planId, string language)
+        public async Task<BaseResponse<SubscriptionPlanDTO>> GetPlanByIdAsync(string planId, string language)
         {
             try
             {
-                if (!_plans.TryGetValue(planId, out var plan) || !plan.IsActive)
+                if (!long.TryParse(planId, out long id))
                 {
-                    var errorMessage = _localizationService.GetMessage("PlanNotFound", "Errors", language);
-                    return BaseResponse<SubscriptionPlan>.FailureResponse(errorMessage, 404);
+                    var invalidIdMessage = _localizationService.GetMessage("InvalidPlanId", "Errors", language);
+                    return BaseResponse<SubscriptionPlanDTO>.FailureResponse(invalidIdMessage, 400);
                 }
 
-                return BaseResponse<SubscriptionPlan>.SuccessResponse(plan);
+                var plan = await _context.SubscriptionPlans
+                    .FirstOrDefaultAsync(p => p.Id == id && p.IsActive && p.IsDeleted != true);
+
+                if (plan == null)
+                {
+                    var errorMessage = _localizationService.GetMessage("PlanNotFound", "Errors", language);
+                    return BaseResponse<SubscriptionPlanDTO>.FailureResponse(errorMessage, 404);
+                }
+
+                var planDto = _mapper.Map<SubscriptionPlanDTO>(plan);
+
+                // Load features
+                planDto.Features = await _context.PlanFeatures
+                    .Where(f => f.PlanId == id && f.IsDeleted != true)
+                    .Select(f => f.Feature)
+                    .ToListAsync();
+
+                return BaseResponse<SubscriptionPlanDTO>.SuccessResponse(planDto);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "حدث خطأ أثناء الحصول على خطة الاشتراك {planId}", planId);
+                _logger.LogError(ex, "Error retrieving subscription plan {planId}", planId);
                 var errorMessage = _localizationService.GetMessage("PlanRetrievalError", "Errors", language);
-                return BaseResponse<SubscriptionPlan>.FailureResponse(errorMessage, 500);
+                return BaseResponse<SubscriptionPlanDTO>.FailureResponse(errorMessage, 500);
             }
         }
 
         /// <summary>
         /// الحصول على اشتراك المستخدم
         /// </summary>
-        public async Task<BaseResponse<UserSubscription>> GetUserSubscriptionAsync(string userId, string language)
+        public async Task<BaseResponse<UserSubscriptionDTO>> GetUserSubscriptionAsync(string userId, string language)
         {
             try
             {
-                var subscription = _subscriptions.Values
-                    .Where(s => s.UserId == userId && s.Status != SubscriptionStatus.Cancelled)
+                if (!long.TryParse(userId, out long id))
+                {
+                    var invalidIdMessage = _localizationService.GetMessage("InvalidUserId", "Errors", language);
+                    return BaseResponse<UserSubscriptionDTO>.FailureResponse(invalidIdMessage, 400);
+                }
+
+                var subscription = await _context.UserSubscriptions
+                    .Where(s => s.UserId == id && s.Status != "Cancelled" && s.IsDeleted != true)
                     .OrderByDescending(s => s.EndDate)
-                    .FirstOrDefault();
+                    .FirstOrDefaultAsync();
 
                 if (subscription == null)
                 {
                     var errorMessage = _localizationService.GetMessage("SubscriptionNotFound", "Errors", language);
-                    return BaseResponse<UserSubscription>.FailureResponse(errorMessage, 404);
+                    return BaseResponse<UserSubscriptionDTO>.FailureResponse(errorMessage, 404);
                 }
 
-                // التحقق من حالة الاشتراك وتحديثها إذا لزم الأمر
-                if (subscription.EndDate < DateTime.UtcNow)
+                // Check if subscription has expired and update if necessary
+                if (subscription.EndDate < DateTime.Now && subscription.Status != "Expired")
                 {
-                    if (subscription.Status != SubscriptionStatus.Expired)
-                    {
-                        subscription.Status = SubscriptionStatus.Expired;
-                        subscription.UpdatedAt = DateTime.UtcNow;
-                        SaveSubscription(subscription);
-                    }
+                    subscription.Status = "Expired";
+                    subscription.ModifiedDate = DateTime.Now;
+                    subscription.ModifiedByUserId = id;
+                    await _context.SaveChangesAsync();
                 }
 
-                return BaseResponse<UserSubscription>.SuccessResponse(subscription);
+                var subscriptionDto = _mapper.Map<UserSubscriptionDTO>(subscription);
+                return BaseResponse<UserSubscriptionDTO>.SuccessResponse(subscriptionDto);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "حدث خطأ أثناء الحصول على اشتراك المستخدم {userId}", userId);
+                _logger.LogError(ex, "Error retrieving user subscription for user {userId}", userId);
                 var errorMessage = _localizationService.GetMessage("SubscriptionRetrievalError", "Errors", language);
-                return BaseResponse<UserSubscription>.FailureResponse(errorMessage, 500);
+                return BaseResponse<UserSubscriptionDTO>.FailureResponse(errorMessage, 500);
             }
         }
 
         /// <summary>
         /// إنشاء اشتراك جديد
         /// </summary>
-        public async Task<BaseResponse<UserSubscription>> CreateSubscriptionAsync(string userId, CreateSubscriptionRequest request, string language)
+        public async Task<BaseResponse<UserSubscriptionDTO>> CreateSubscriptionAsync(string userId, CreateSubscriptionRequest request, string language)
         {
             try
             {
-                // التحقق من وجود اشتراك نشط للمستخدم
-                var existingSubscription = _subscriptions.Values
-                    .Where(s => s.UserId == userId &&
-                               (s.Status == SubscriptionStatus.Active || s.Status == SubscriptionStatus.Trial))
-                    .OrderByDescending(s => s.EndDate)
-                    .FirstOrDefault();
+                if (!long.TryParse(userId, out long userIdLong))
+                {
+                    var invalidIdMessage = _localizationService.GetMessage("InvalidUserId", "Errors", language);
+                    return BaseResponse<UserSubscriptionDTO>.FailureResponse(invalidIdMessage, 400);
+                }
 
-                if (existingSubscription != null && existingSubscription.EndDate > DateTime.UtcNow)
+                if (!long.TryParse(request.PlanId, out long planIdLong))
+                {
+                    var invalidIdMessage = _localizationService.GetMessage("InvalidPlanId", "Errors", language);
+                    return BaseResponse<UserSubscriptionDTO>.FailureResponse(invalidIdMessage, 400);
+                }
+
+                // Check for existing active subscription
+                var existingSubscription = await _context.UserSubscriptions
+                    .Where(s => s.UserId == userIdLong &&
+                              (s.Status == "Active" || s.Status == "Trial") &&
+                              s.IsDeleted != true)
+                    .OrderByDescending(s => s.EndDate)
+                    .FirstOrDefaultAsync();
+
+                if (existingSubscription != null && existingSubscription.EndDate > DateTime.Now)
                 {
                     var errorMessage = _localizationService.GetMessage("ActiveSubscriptionExists", "Errors", language);
-                    return BaseResponse<UserSubscription>.FailureResponse(errorMessage, 400);
+                    return BaseResponse<UserSubscriptionDTO>.FailureResponse(errorMessage, 400);
                 }
 
-                // التحقق من وجود الخطة
-                if (!_plans.TryGetValue(request.PlanId, out var plan) || !plan.IsActive)
+                // Verify plan exists
+                var plan = await _context.SubscriptionPlans
+                    .FirstOrDefaultAsync(p => p.Id == planIdLong && p.IsActive && p.IsDeleted != true);
+
+                if (plan == null)
                 {
                     var errorMessage = _localizationService.GetMessage("PlanNotFound", "Errors", language);
-                    return BaseResponse<UserSubscription>.FailureResponse(errorMessage, 404);
+                    return BaseResponse<UserSubscriptionDTO>.FailureResponse(errorMessage, 404);
                 }
 
-                // حساب سعر الاشتراك
+                // Calculate subscription price
                 decimal price = request.PeriodType == SubscriptionPeriodType.Monthly
-                    ? plan.PriceMonthly
-                    : plan.PriceYearly;
+                    ? (decimal)plan.PriceMonthly
+                    : (decimal)plan.PriceYearly;
 
                 decimal discountAmount = 0;
                 string? couponCode = null;
 
-                // التحقق من كوبون الخصم
+                // Validate coupon if provided
                 if (!string.IsNullOrEmpty(request.CouponCode))
                 {
                     var couponValidation = await ValidateCouponInternalAsync(request.CouponCode, request.PlanId);
@@ -359,138 +266,159 @@ namespace Services
                     }
                 }
 
-                // حساب المبلغ النهائي
+                // Calculate final amount
                 decimal totalAmount = price - discountAmount;
                 if (totalAmount < 0) totalAmount = 0;
 
-                // حساب تاريخ انتهاء الاشتراك
-                DateTime startDate = DateTime.UtcNow;
+                // Calculate subscription dates
+                DateTime startDate = DateTime.Now;
                 DateTime endDate = request.PeriodType == SubscriptionPeriodType.Monthly
                     ? startDate.AddMonths(1)
                     : startDate.AddYears(1);
 
-                // تحديد حالة الاشتراك
-                var status = plan.IsTrial ? SubscriptionStatus.Trial : SubscriptionStatus.Active;
+                // Set subscription status based on plan type
+                var status = plan.IsTrial ? "Trial" : "Active";
 
-                // إذا كانت خطة تجريبية، استخدام مدة التجربة المحددة
+                // Adjust end date for trial plans
                 if (plan.IsTrial && plan.TrialDays.HasValue)
                 {
                     endDate = startDate.AddDays(plan.TrialDays.Value);
                 }
 
-                // إنشاء رقم فاتورة فريد
-                string invoiceNumber = $"INV-{DateTime.UtcNow:yyyyMMdd}-{Guid.NewGuid().ToString().Substring(0, 8)}";
+                // Generate unique invoice number
+                string invoiceNumber = $"INV-{DateTime.Now:yyyyMMdd}-{Guid.NewGuid().ToString().Substring(0, 8)}";
 
-                // إنشاء الاشتراك
+                // Create subscription
                 var subscription = new UserSubscription
                 {
-                    UserId = userId,
-                    PlanId = plan.Id,
+                    UserId = userIdLong,
+                    PlanId = planIdLong,
+                    Status = status,
                     StartDate = startDate,
                     EndDate = endDate,
-                    PeriodType = request.PeriodType,
-                    Status = status,
+                    PeriodType = request.PeriodType == SubscriptionPeriodType.Monthly ? "Monthly" : "Yearly",
                     AutoRenew = request.AutoRenew,
-                    LastInvoiceNumber = invoiceNumber
+                    LastRenewalDate = null,
+                    LastInvoiceId = null,
+                    CreatedByUserId = userIdLong,
+                    CreateDate = DateTime.Now
                 };
 
-                // إنشاء معاملة مالية
-                var transaction = new FinancialTransaction
+                _context.UserSubscriptions.Add(subscription);
+                await _context.SaveChangesAsync();
+
+                // Create financial transaction
+                var transaction = new Invoice
                 {
-                    UserId = userId,
-                    SubscriptionId = subscription.Id,
-                    PlanId = plan.Id,
-                    Type = TransactionType.NewSubscription,
-                    Amount = price,
-                    DiscountAmount = discountAmount,
-                    TotalAmount = totalAmount,
+                    PlanId = planIdLong,
+                    UserId = userIdLong,
+                    Type = "NewSubscription",
+                    Amount = (double)price,
+                    DiscountAmount = (double)discountAmount,
+                    TotalAmount = (double)totalAmount,
                     CouponCode = couponCode,
                     InvoiceNumber = invoiceNumber,
-                    Status = TransactionStatus.Completed
+                    Status = "Completed",
+                    TransactionDate = DateTime.Now,
+                    CreatedByUserId = userIdLong,
+                    CreateDate = DateTime.Now
                 };
 
-                // تحديث استخدام الكوبون إذا وجد
+                _context.Invoices.Add(transaction);
+
+                // Update coupon usage if applicable
                 if (!string.IsNullOrEmpty(couponCode))
                 {
-                    var coupon = _coupons.Values.FirstOrDefault(c => c.Code.Equals(couponCode, StringComparison.OrdinalIgnoreCase));
+                    var coupon = await _context.DiscountCoupons
+                        .FirstOrDefaultAsync(c => c.Code == couponCode && c.IsDeleted != true);
+
                     if (coupon != null)
                     {
                         coupon.CurrentUses++;
-                        SaveCoupon(coupon);
+                        coupon.ModifiedByUserId = userIdLong;
+                        coupon.ModifiedDate = DateTime.Now;
                     }
                 }
 
-                // حفظ الاشتراك والمعاملة
-                _subscriptions[subscription.Id] = subscription;
-                SaveSubscription(subscription);
+                // Set subscription's last invoice ID
+                subscription.LastInvoiceId = transaction.Id;
+                await _context.SaveChangesAsync();
 
-                // حفظ المعاملة
-                if (!_userTransactions.TryGetValue(userId, out var userTransactions))
-                {
-                    userTransactions = new List<FinancialTransaction>();
-                    _userTransactions[userId] = userTransactions;
-                }
-                userTransactions.Add(transaction);
-                SaveTransaction(transaction);
-
+                var subscriptionDto = _mapper.Map<UserSubscriptionDTO>(subscription);
                 var successMessage = _localizationService.GetMessage("SubscriptionCreated", "Messages", language);
-                return BaseResponse<UserSubscription>.SuccessResponse(subscription, successMessage);
+                return BaseResponse<UserSubscriptionDTO>.SuccessResponse(subscriptionDto, successMessage);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "حدث خطأ أثناء إنشاء اشتراك جديد للمستخدم {userId}", userId);
+                _logger.LogError(ex, "Error creating subscription for user {userId}", userId);
                 var errorMessage = _localizationService.GetMessage("SubscriptionCreationError", "Errors", language);
-                return BaseResponse<UserSubscription>.FailureResponse(errorMessage, 500);
+                return BaseResponse<UserSubscriptionDTO>.FailureResponse(errorMessage, 500);
             }
         }
 
         /// <summary>
         /// تجديد اشتراك
         /// </summary>
-        public async Task<BaseResponse<UserSubscription>> RenewSubscriptionAsync(string userId, RenewSubscriptionRequest request, string language)
+        public async Task<BaseResponse<UserSubscriptionDTO>> RenewSubscriptionAsync(string userId, RenewSubscriptionRequest request, string language)
         {
             try
             {
-                // التحقق من وجود الاشتراك
-                if (!_subscriptions.TryGetValue(request.SubscriptionId, out var subscription))
+                if (!long.TryParse(userId, out long userIdLong))
+                {
+                    var invalidIdMessage = _localizationService.GetMessage("InvalidUserId", "Errors", language);
+                    return BaseResponse<UserSubscriptionDTO>.FailureResponse(invalidIdMessage, 400);
+                }
+
+                if (!long.TryParse(request.SubscriptionId, out long subscriptionIdLong))
+                {
+                    var invalidIdMessage = _localizationService.GetMessage("InvalidSubscriptionId", "Errors", language);
+                    return BaseResponse<UserSubscriptionDTO>.FailureResponse(invalidIdMessage, 400);
+                }
+
+                // Get the subscription
+                var subscription = await _context.UserSubscriptions
+                    .FirstOrDefaultAsync(s => s.Id == subscriptionIdLong && s.IsDeleted != true);
+
+                if (subscription == null)
                 {
                     var errorMessage = _localizationService.GetMessage("SubscriptionNotFound", "Errors", language);
-                    return BaseResponse<UserSubscription>.FailureResponse(errorMessage, 404);
+                    return BaseResponse<UserSubscriptionDTO>.FailureResponse(errorMessage, 404);
                 }
 
-                // التحقق من ملكية الاشتراك
-                if (subscription.UserId != userId)
+                // Verify user owns the subscription
+                if (subscription.UserId != userIdLong)
                 {
                     var errorMessage = _localizationService.GetMessage("UnauthorizedOperation", "Errors", language);
-                    return BaseResponse<UserSubscription>.FailureResponse(errorMessage, 403);
+                    return BaseResponse<UserSubscriptionDTO>.FailureResponse(errorMessage, 403);
                 }
 
-                // التحقق من حالة الاشتراك
-                if (subscription.Status == SubscriptionStatus.Cancelled)
+                // Check subscription status
+                if (subscription.Status == "Cancelled")
                 {
                     var errorMessage = _localizationService.GetMessage("CannotRenewCancelledSubscription", "Errors", language);
-                    return BaseResponse<UserSubscription>.FailureResponse(errorMessage, 400);
+                    return BaseResponse<UserSubscriptionDTO>.FailureResponse(errorMessage, 400);
                 }
 
-                // التحقق من وجود الخطة
-                if (!_plans.TryGetValue(subscription.PlanId, out var plan) || !plan.IsActive)
+                // Get the plan
+                var plan = await _context.SubscriptionPlans
+                    .FirstOrDefaultAsync(p => p.Id == subscription.PlanId && p.IsActive && p.IsDeleted != true);
+
+                if (plan == null)
                 {
                     var errorMessage = _localizationService.GetMessage("PlanNotFound", "Errors", language);
-                    return BaseResponse<UserSubscription>.FailureResponse(errorMessage, 404);
+                    return BaseResponse<UserSubscriptionDTO>.FailureResponse(errorMessage, 404);
                 }
 
-                // حساب سعر التجديد
-                decimal price = subscription.PeriodType == SubscriptionPeriodType.Monthly
-                    ? plan.PriceMonthly
-                    : plan.PriceYearly;
-
+                // Calculate renewal price
+                bool isMonthly = subscription.PeriodType == "Monthly";
+                decimal price = isMonthly ? (decimal)plan.PriceMonthly : (decimal)plan.PriceYearly;
                 decimal discountAmount = 0;
                 string? couponCode = null;
 
-                // التحقق من كوبون الخصم
+                // Validate coupon if provided
                 if (!string.IsNullOrEmpty(request.CouponCode))
                 {
-                    var couponValidation = await ValidateCouponInternalAsync(request.CouponCode, subscription.PlanId);
+                    var couponValidation = await ValidateCouponInternalAsync(request.CouponCode, subscription.PlanId.ToString());
                     if (couponValidation.IsValid)
                     {
                         if (couponValidation.DiscountType == DiscountType.Percentage)
@@ -506,157 +434,190 @@ namespace Services
                     }
                 }
 
-                // حساب المبلغ النهائي
+                // Calculate final amount
                 decimal totalAmount = price - discountAmount;
                 if (totalAmount < 0) totalAmount = 0;
 
-                // حساب تاريخ انتهاء الاشتراك الجديد
-                DateTime renewalStartDate = subscription.EndDate > DateTime.UtcNow
-                    ? subscription.EndDate // استخدام تاريخ الانتهاء الحالي إذا لم ينته بعد
-                    : DateTime.UtcNow; // استخدام التاريخ الحالي إذا انتهى بالفعل
+                // Calculate renewal dates
+                DateTime renewalStartDate = subscription.EndDate.Value > DateTime.Now
+                    ? subscription.EndDate.Value // Use current end date if subscription is still active
+                    : DateTime.Now; // Use now if subscription has expired
 
-                DateTime renewalEndDate = subscription.PeriodType == SubscriptionPeriodType.Monthly
+                DateTime renewalEndDate = isMonthly
                     ? renewalStartDate.AddMonths(1)
                     : renewalStartDate.AddYears(1);
 
-                // إنشاء رقم فاتورة فريد
-                string invoiceNumber = $"INV-{DateTime.UtcNow:yyyyMMdd}-{Guid.NewGuid().ToString().Substring(0, 8)}";
+                // Generate unique invoice number
+                string invoiceNumber = $"INV-{DateTime.Now:yyyyMMdd}-{Guid.NewGuid().ToString().Substring(0, 8)}";
 
-                // تحديث الاشتراك
+                // Update subscription
                 subscription.StartDate = renewalStartDate;
                 subscription.EndDate = renewalEndDate;
-                subscription.Status = SubscriptionStatus.Active;
-                subscription.LastRenewalDate = DateTime.UtcNow;
-                subscription.LastInvoiceNumber = invoiceNumber;
-                subscription.UpdatedAt = DateTime.UtcNow;
+                subscription.Status = "Active";
+                subscription.LastRenewalDate = DateTime.Now;
+                subscription.ModifiedByUserId = userIdLong;
+                subscription.ModifiedDate = DateTime.Now;
 
-                // إنشاء معاملة مالية
-                var transaction = new FinancialTransaction
+                // Create financial transaction
+                var transaction = new Invoice
                 {
-                    UserId = userId,
-                    SubscriptionId = subscription.Id,
                     PlanId = subscription.PlanId,
-                    Type = TransactionType.Renewal,
-                    Amount = price,
-                    DiscountAmount = discountAmount,
-                    TotalAmount = totalAmount,
+                    UserId = userIdLong,
+                    Type = "Renewal",
+                    Amount = (double)price,
+                    DiscountAmount = (double)discountAmount,
+                    TotalAmount = (double)totalAmount,
                     CouponCode = couponCode,
                     InvoiceNumber = invoiceNumber,
-                    Status = TransactionStatus.Completed
+                    Status = "Completed",
+                    TransactionDate = DateTime.Now,
+                    CreatedByUserId = userIdLong,
+                    CreateDate = DateTime.Now
                 };
 
-                // تحديث استخدام الكوبون إذا وجد
+                _context.Invoices.Add(transaction);
+                await _context.SaveChangesAsync();
+
+                // Update coupon usage if applicable
                 if (!string.IsNullOrEmpty(couponCode))
                 {
-                    var coupon = _coupons.Values.FirstOrDefault(c => c.Code.Equals(couponCode, StringComparison.OrdinalIgnoreCase));
+                    var coupon = await _context.DiscountCoupons
+                        .FirstOrDefaultAsync(c => c.Code == couponCode && c.IsDeleted != true);
+
                     if (coupon != null)
                     {
                         coupon.CurrentUses++;
-                        SaveCoupon(coupon);
+                        coupon.ModifiedByUserId = userIdLong;
+                        coupon.ModifiedDate = DateTime.Now;
                     }
                 }
 
-                // حفظ التغييرات
-                SaveSubscription(subscription);
+                // Set subscription's last invoice ID
+                subscription.LastInvoiceId = transaction.Id;
+                await _context.SaveChangesAsync();
 
-                // حفظ المعاملة
-                if (!_userTransactions.TryGetValue(userId, out var userTransactions))
-                {
-                    userTransactions = new List<FinancialTransaction>();
-                    _userTransactions[userId] = userTransactions;
-                }
-                userTransactions.Add(transaction);
-                SaveTransaction(transaction);
-
+                var subscriptionDto = _mapper.Map<UserSubscriptionDTO>(subscription);
                 var successMessage = _localizationService.GetMessage("SubscriptionRenewed", "Messages", language);
-                return BaseResponse<UserSubscription>.SuccessResponse(subscription, successMessage);
+                return BaseResponse<UserSubscriptionDTO>.SuccessResponse(subscriptionDto, successMessage);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "حدث خطأ أثناء تجديد الاشتراك {subscriptionId} للمستخدم {userId}", request.SubscriptionId, userId);
+                _logger.LogError(ex, "Error renewing subscription {subscriptionId} for user {userId}", request.SubscriptionId, userId);
                 var errorMessage = _localizationService.GetMessage("SubscriptionRenewalError", "Errors", language);
-                return BaseResponse<UserSubscription>.FailureResponse(errorMessage, 500);
+                return BaseResponse<UserSubscriptionDTO>.FailureResponse(errorMessage, 500);
             }
         }
 
         /// <summary>
         /// إيقاف التجديد التلقائي
         /// </summary>
-        public async Task<BaseResponse<UserSubscription>> CancelAutoRenewalAsync(string userId, string subscriptionId, string language)
+        public async Task<BaseResponse<UserSubscriptionDTO>> CancelAutoRenewalAsync(string userId, string subscriptionId, string language)
         {
             try
             {
-                // التحقق من وجود الاشتراك
-                if (!_subscriptions.TryGetValue(subscriptionId, out var subscription))
+                if (!long.TryParse(userId, out long userIdLong))
+                {
+                    var invalidIdMessage = _localizationService.GetMessage("InvalidUserId", "Errors", language);
+                    return BaseResponse<UserSubscriptionDTO>.FailureResponse(invalidIdMessage, 400);
+                }
+
+                if (!long.TryParse(subscriptionId, out long subscriptionIdLong))
+                {
+                    var invalidIdMessage = _localizationService.GetMessage("InvalidSubscriptionId", "Errors", language);
+                    return BaseResponse<UserSubscriptionDTO>.FailureResponse(invalidIdMessage, 400);
+                }
+
+                // Get the subscription
+                var subscription = await _context.UserSubscriptions
+                    .FirstOrDefaultAsync(s => s.Id == subscriptionIdLong && s.IsDeleted != true);
+
+                if (subscription == null)
                 {
                     var errorMessage = _localizationService.GetMessage("SubscriptionNotFound", "Errors", language);
-                    return BaseResponse<UserSubscription>.FailureResponse(errorMessage, 404);
+                    return BaseResponse<UserSubscriptionDTO>.FailureResponse(errorMessage, 404);
                 }
 
-                // التحقق من ملكية الاشتراك
-                if (subscription.UserId != userId)
+                // Verify user owns the subscription
+                if (subscription.UserId != userIdLong)
                 {
                     var errorMessage = _localizationService.GetMessage("UnauthorizedOperation", "Errors", language);
-                    return BaseResponse<UserSubscription>.FailureResponse(errorMessage, 403);
+                    return BaseResponse<UserSubscriptionDTO>.FailureResponse(errorMessage, 403);
                 }
 
-                // تحديث حالة التجديد التلقائي
+                // Update auto-renewal status
                 subscription.AutoRenew = false;
-                subscription.UpdatedAt = DateTime.UtcNow;
-                subscription.Notes = (subscription.Notes ?? "") + $"\nAuto-renewal cancelled on {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss}";
+                subscription.ModifiedByUserId = userIdLong;
+                subscription.ModifiedDate = DateTime.Now;
+                subscription.Notes = (subscription.Notes ?? "") + $"\nAuto-renewal cancelled on {DateTime.Now:yyyy-MM-dd HH:mm:ss}";
 
-                // حفظ التغييرات
-                SaveSubscription(subscription);
+                await _context.SaveChangesAsync();
 
+                var subscriptionDto = _mapper.Map<UserSubscriptionDTO>(subscription);
                 var successMessage = _localizationService.GetMessage("AutoRenewalCancelled", "Messages", language);
-                return BaseResponse<UserSubscription>.SuccessResponse(subscription, successMessage);
+                return BaseResponse<UserSubscriptionDTO>.SuccessResponse(subscriptionDto, successMessage);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "حدث خطأ أثناء إيقاف التجديد التلقائي للاشتراك {subscriptionId} للمستخدم {userId}", subscriptionId, userId);
+                _logger.LogError(ex, "Error cancelling auto-renewal for subscription {subscriptionId} for user {userId}", subscriptionId, userId);
                 var errorMessage = _localizationService.GetMessage("AutoRenewalCancellationError", "Errors", language);
-                return BaseResponse<UserSubscription>.FailureResponse(errorMessage, 500);
+                return BaseResponse<UserSubscriptionDTO>.FailureResponse(errorMessage, 500);
             }
         }
 
         /// <summary>
         /// إلغاء اشتراك
         /// </summary>
-        public async Task<BaseResponse<UserSubscription>> CancelSubscriptionAsync(string userId, string subscriptionId, string language)
+        public async Task<BaseResponse<UserSubscriptionDTO>> CancelSubscriptionAsync(string userId, string subscriptionId, string language)
         {
             try
             {
-                // التحقق من وجود الاشتراك
-                if (!_subscriptions.TryGetValue(subscriptionId, out var subscription))
+                if (!long.TryParse(userId, out long userIdLong))
+                {
+                    var invalidIdMessage = _localizationService.GetMessage("InvalidUserId", "Errors", language);
+                    return BaseResponse<UserSubscriptionDTO>.FailureResponse(invalidIdMessage, 400);
+                }
+
+                if (!long.TryParse(subscriptionId, out long subscriptionIdLong))
+                {
+                    var invalidIdMessage = _localizationService.GetMessage("InvalidSubscriptionId", "Errors", language);
+                    return BaseResponse<UserSubscriptionDTO>.FailureResponse(invalidIdMessage, 400);
+                }
+
+                // Get the subscription
+                var subscription = await _context.UserSubscriptions
+                    .FirstOrDefaultAsync(s => s.Id == subscriptionIdLong && s.IsDeleted != true);
+
+                if (subscription == null)
                 {
                     var errorMessage = _localizationService.GetMessage("SubscriptionNotFound", "Errors", language);
-                    return BaseResponse<UserSubscription>.FailureResponse(errorMessage, 404);
+                    return BaseResponse<UserSubscriptionDTO>.FailureResponse(errorMessage, 404);
                 }
 
-                // التحقق من ملكية الاشتراك
-                if (subscription.UserId != userId)
+                // Verify user owns the subscription
+                if (subscription.UserId != userIdLong)
                 {
                     var errorMessage = _localizationService.GetMessage("UnauthorizedOperation", "Errors", language);
-                    return BaseResponse<UserSubscription>.FailureResponse(errorMessage, 403);
+                    return BaseResponse<UserSubscriptionDTO>.FailureResponse(errorMessage, 403);
                 }
 
-                // تحديث حالة الاشتراك
-                subscription.Status = SubscriptionStatus.Cancelled;
+                // Update subscription status
+                subscription.Status = "Cancelled";
                 subscription.AutoRenew = false;
-                subscription.UpdatedAt = DateTime.UtcNow;
-                subscription.Notes = (subscription.Notes ?? "") + $"\nSubscription cancelled on {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss}";
+                subscription.ModifiedByUserId = userIdLong;
+                subscription.ModifiedDate = DateTime.Now;
+                subscription.Notes = (subscription.Notes ?? "") + $"\nSubscription cancelled on {DateTime.Now:yyyy-MM-dd HH:mm:ss}";
 
-                // حفظ التغييرات
-                SaveSubscription(subscription);
+                await _context.SaveChangesAsync();
 
+                var subscriptionDto = _mapper.Map<UserSubscriptionDTO>(subscription);
                 var successMessage = _localizationService.GetMessage("SubscriptionCancelled", "Messages", language);
-                return BaseResponse<UserSubscription>.SuccessResponse(subscription, successMessage);
+                return BaseResponse<UserSubscriptionDTO>.SuccessResponse(subscriptionDto, successMessage);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "حدث خطأ أثناء إلغاء الاشتراك {subscriptionId} للمستخدم {userId}", subscriptionId, userId);
+                _logger.LogError(ex, "Error cancelling subscription {subscriptionId} for user {userId}", subscriptionId, userId);
                 var errorMessage = _localizationService.GetMessage("SubscriptionCancellationError", "Errors", language);
-                return BaseResponse<UserSubscription>.FailureResponse(errorMessage, 500);
+                return BaseResponse<UserSubscriptionDTO>.FailureResponse(errorMessage, 500);
             }
         }
 
@@ -671,14 +632,17 @@ namespace Services
 
                 if (!validation.IsValid)
                 {
-                    return BaseResponse<CouponValidationResponse>.FailureResponse(validation.ErrorMessage ?? "Invalid coupon", 400, new List<string> { validation.ErrorMessage ?? "Invalid coupon" });
+                    return BaseResponse<CouponValidationResponse>.FailureResponse(
+                        validation.ErrorMessage ?? "Invalid coupon",
+                        400,
+                        new List<string> { validation.ErrorMessage ?? "Invalid coupon" });
                 }
 
                 return BaseResponse<CouponValidationResponse>.SuccessResponse(validation);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "حدث خطأ أثناء التحقق من صلاحية الكوبون {couponCode}", request.CouponCode);
+                _logger.LogError(ex, "Error validating coupon {couponCode}", request.CouponCode);
                 var errorMessage = _localizationService.GetMessage("CouponValidationError", "Errors", language);
                 return BaseResponse<CouponValidationResponse>.FailureResponse(errorMessage, 500);
             }
@@ -691,21 +655,53 @@ namespace Services
         {
             try
             {
-                if (!_userTransactions.TryGetValue(userId, out var transactions))
+                if (!long.TryParse(userId, out long userIdLong))
                 {
-                    return BaseResponse<List<FinancialTransaction>>.SuccessResponse(new List<FinancialTransaction>());
+                    var invalidIdMessage = _localizationService.GetMessage("InvalidUserId", "Errors", language);
+                    return BaseResponse<List<FinancialTransaction>>.FailureResponse(invalidIdMessage, 400);
                 }
 
-                var orderedTransactions = transactions.OrderByDescending(t => t.TransactionDate).ToList();
-                return BaseResponse<List<FinancialTransaction>>.SuccessResponse(orderedTransactions);
+                var invoices = await _context.Invoices
+                    .Where(i => i.UserId == userIdLong && i.IsDeleted != true)
+                    .OrderByDescending(i => i.TransactionDate)
+                    .ToListAsync();
+
+                // Map to FinancialTransaction DTOs
+                var transactions = new List<FinancialTransaction>();
+                foreach (var invoice in invoices)
+                {
+                    var transaction = new FinancialTransaction
+                    {
+                        Id = invoice.Id.ToString(),
+                        UserId = invoice.UserId.ToString(),
+                        PlanId = invoice.PlanId.ToString(),
+                        Type = Enum.Parse<TransactionType>(invoice.Type),
+                        Amount = (decimal)invoice.Amount,
+                        DiscountAmount = (decimal)invoice.DiscountAmount,
+                        TotalAmount = (decimal)invoice.TotalAmount,
+                        CouponCode = invoice.CouponCode,
+                        InvoiceNumber = invoice.InvoiceNumber,
+                        Status = Enum.Parse<TransactionStatus>(invoice.Status),
+                        PaymentGatewayTransactionId = invoice.PaymentGatewayTransactionId,
+                        PaymentMethod = invoice.PaymentMethod,
+                        TransactionDate = invoice.TransactionDate,
+                        Notes = invoice.Notes
+                    };
+
+                    transactions.Add(transaction);
+                }
+
+                return BaseResponse<List<FinancialTransaction>>.SuccessResponse(transactions);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "حدث خطأ أثناء الحصول على معاملات المستخدم {userId}", userId);
+                _logger.LogError(ex, "Error retrieving user transactions for user {userId}", userId);
                 var errorMessage = _localizationService.GetMessage("TransactionsRetrievalError", "Errors", language);
                 return BaseResponse<List<FinancialTransaction>>.FailureResponse(errorMessage, 500);
             }
         }
+
+        #region Helper Methods
 
         /// <summary>
         /// التحقق من صلاحية كوبون داخليًا
@@ -714,8 +710,20 @@ namespace Services
         {
             var response = new CouponValidationResponse { IsValid = false };
 
-            // البحث عن الكوبون
-            var coupon = _coupons.Values.FirstOrDefault(c => c.Code.Equals(couponCode, StringComparison.OrdinalIgnoreCase));
+            if (string.IsNullOrEmpty(couponCode))
+            {
+                response.ErrorMessage = "Coupon code is required";
+                return response;
+            }
+            if (!long.TryParse(planId, out long planIdLong))
+            {
+                response.ErrorMessage = "Invalid plan ID";
+                return response;
+            }
+
+            // Find the coupon
+            var coupon = await _context.DiscountCoupons
+                .FirstOrDefaultAsync(c => c.Code == couponCode && c.IsDeleted != true);
 
             if (coupon == null)
             {
@@ -723,265 +731,55 @@ namespace Services
                 return response;
             }
 
-            // التحقق من نشاط الكوبون
+            // Check if coupon is active
             if (!coupon.IsActive)
             {
                 response.ErrorMessage = "Coupon is not active";
                 return response;
             }
 
-            // التحقق من تاريخ الصلاحية
-            if (coupon.StartDate > DateTime.UtcNow)
+            // Check start date
+            if (coupon.StartDate.HasValue && coupon.StartDate.Value > DateTime.Now)
             {
                 response.ErrorMessage = "Coupon is not yet valid";
                 return response;
             }
 
-            if (coupon.EndDate.HasValue && coupon.EndDate.Value < DateTime.UtcNow)
+            // Check end date
+            if (coupon.EndDate.HasValue && coupon.EndDate.Value < DateTime.Now)
             {
                 response.ErrorMessage = "Coupon has expired";
                 return response;
             }
 
-            // التحقق من عدد الاستخدامات
+            // Check usage limit
             if (coupon.MaxUses.HasValue && coupon.CurrentUses >= coupon.MaxUses.Value)
             {
                 response.ErrorMessage = "Coupon usage limit has been reached";
                 return response;
             }
 
-            // التحقق من تطبيق الكوبون على الخطة
-            if (coupon.ApplicablePlanIds.Count > 0 && !coupon.ApplicablePlanIds.Contains(planId))
+            // Check if coupon applies to this plan
+            var couponPlan = await _context.CouponPlans
+                .AnyAsync(cp => cp.CouponId == coupon.Id && cp.PlanId == planIdLong && cp.IsDeleted != true);
+
+            // If there are coupon-plan relationships but this plan isn't included
+            var hasAnyPlans = await _context.CouponPlans
+                .AnyAsync(cp => cp.CouponId == coupon.Id && cp.IsDeleted != true);
+
+            if (hasAnyPlans && !couponPlan)
             {
                 response.ErrorMessage = "Coupon is not applicable for this plan";
                 return response;
             }
 
-            // الكوبون صالح
+            // Coupon is valid
             response.IsValid = true;
-            response.DiscountType = coupon.DiscountType;
-            response.DiscountValue = coupon.DiscountValue;
+            response.DiscountType = (DiscountType)coupon.DiscountType;
+            response.DiscountValue = (decimal)coupon.DiscountValue;
 
             return response;
+            #endregion
         }
-
-        #region Data Loading and Saving Methods
-
-        /// <summary>
-        /// تحميل خطط الاشتراك
-        /// </summary>
-        private void LoadPlans()
-        {
-            try
-            {
-                var files = Directory.GetFiles(_plansPath, "*.json");
-
-                if (files.Length == 0)
-                {
-                    // إنشاء الخطط الافتراضية إذا لم توجد خطط
-                    foreach (var plan in _defaultPlans)
-                    {
-                        _plans[plan.Id] = plan;
-                        SavePlan(plan);
-                    }
-                }
-                else
-                {
-                    foreach (var file in files)
-                    {
-                        var json = File.ReadAllText(file);
-                        var plan = JsonSerializer.Deserialize<SubscriptionPlan>(json);
-                        if (plan != null)
-                        {
-                            _plans[plan.Id] = plan;
-                        }
-                    }
-                }
-
-                _logger.LogInformation("تم تحميل {count} خطة اشتراك", _plans.Count);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "حدث خطأ أثناء تحميل خطط الاشتراك");
-            }
-        }
-
-        /// <summary>
-        /// تحميل الاشتراكات
-        /// </summary>
-        private void LoadSubscriptions()
-        {
-            try
-            {
-                var files = Directory.GetFiles(_subscriptionsPath, "*.json");
-                foreach (var file in files)
-                {
-                    var json = File.ReadAllText(file);
-                    var subscription = JsonSerializer.Deserialize<UserSubscription>(json);
-                    if (subscription != null)
-                    {
-                        _subscriptions[subscription.Id] = subscription;
-                    }
-                }
-
-                _logger.LogInformation("تم تحميل {count} اشتراك", _subscriptions.Count);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "حدث خطأ أثناء تحميل الاشتراكات");
-            }
-        }
-
-        /// <summary>
-        /// تحميل كوبونات الخصم
-        /// </summary>
-        private void LoadCoupons()
-        {
-            try
-            {
-                var files = Directory.GetFiles(_couponsPath, "*.json");
-
-                if (files.Length == 0)
-                {
-                    // إنشاء الكوبونات الافتراضية إذا لم توجد كوبونات
-                    foreach (var coupon in _defaultCoupons)
-                    {
-                        _coupons[coupon.Id] = coupon;
-                        SaveCoupon(coupon);
-                    }
-                }
-                else
-                {
-                    foreach (var file in files)
-                    {
-                        var json = File.ReadAllText(file);
-                        var coupon = JsonSerializer.Deserialize<DiscountCoupon>(json);
-                        if (coupon != null)
-                        {
-                            _coupons[coupon.Id] = coupon;
-                        }
-                    }
-                }
-
-                _logger.LogInformation("تم تحميل {count} كوبون خصم", _coupons.Count);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "حدث خطأ أثناء تحميل كوبونات الخصم");
-            }
-        }
-
-        /// <summary>
-        /// تحميل المعاملات المالية
-        /// </summary>
-        private void LoadTransactions()
-        {
-            try
-            {
-                var files = Directory.GetFiles(_transactionsPath, "*.json");
-                foreach (var file in files)
-                {
-                    var json = File.ReadAllText(file);
-                    var transaction = JsonSerializer.Deserialize<FinancialTransaction>(json);
-                    if (transaction != null)
-                    {
-                        if (!_userTransactions.TryGetValue(transaction.UserId, out var userTransactions))
-                        {
-                            userTransactions = new List<FinancialTransaction>();
-                            _userTransactions[transaction.UserId] = userTransactions;
-                        }
-                        userTransactions.Add(transaction);
-                    }
-                }
-
-                _logger.LogInformation("تم تحميل معاملات لـ {count} مستخدم", _userTransactions.Count);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "حدث خطأ أثناء تحميل المعاملات المالية");
-            }
-        }
-
-        /// <summary>
-        /// حفظ خطة اشتراك
-        /// </summary>
-        private void SavePlan(SubscriptionPlan plan)
-        {
-            try
-            {
-                lock (_fileLock)
-                {
-                    var planPath = Path.Combine(_plansPath, $"{plan.Id}.json");
-                    var json = JsonSerializer.Serialize(plan, new JsonSerializerOptions { WriteIndented = true });
-                    File.WriteAllText(planPath, json);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "حدث خطأ أثناء حفظ خطة الاشتراك {planId}", plan.Id);
-            }
-        }
-
-        /// <summary>
-        /// حفظ اشتراك
-        /// </summary>
-        private void SaveSubscription(UserSubscription subscription)
-        {
-            try
-            {
-                lock (_fileLock)
-                {
-                    var subscriptionPath = Path.Combine(_subscriptionsPath, $"{subscription.Id}.json");
-                    var json = JsonSerializer.Serialize(subscription, new JsonSerializerOptions { WriteIndented = true });
-                    File.WriteAllText(subscriptionPath, json);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "حدث خطأ أثناء حفظ الاشتراك {subscriptionId}", subscription.Id);
-            }
-        }
-
-        /// <summary>
-        /// حفظ كوبون خصم
-        /// </summary>
-        private void SaveCoupon(DiscountCoupon coupon)
-        {
-            try
-            {
-                lock (_fileLock)
-                {
-                    var couponPath = Path.Combine(_couponsPath, $"{coupon.Id}.json");
-                    var json = JsonSerializer.Serialize(coupon, new JsonSerializerOptions { WriteIndented = true });
-                    File.WriteAllText(couponPath, json);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "حدث خطأ أثناء حفظ كوبون الخصم {couponId}", coupon.Id);
-            }
-        }
-
-        /// <summary>
-        /// حفظ معاملة مالية
-        /// </summary>
-        private void SaveTransaction(UserSubscription transaction)
-        {
-            try
-            {
-                lock (_fileLock)
-                {
-                    var transactionPath = Path.Combine(_transactionsPath, $"{transaction.Id}.json");
-                    var json = JsonSerializer.Serialize(transaction, new JsonSerializerOptions { WriteIndented = true });
-                    File.WriteAllText(transactionPath, json);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "حدث خطأ أثناء حفظ المعاملة المالية {transactionId}", transaction.Id);
-            }
-        }
-
-        #endregion
     }
 }

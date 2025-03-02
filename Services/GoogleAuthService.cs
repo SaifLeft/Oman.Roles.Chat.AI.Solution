@@ -20,7 +20,7 @@ namespace Services
         /// <param name="code">رمز المصادقة</param>
         /// <param name="redirectUri">عنوان إعادة التوجيه</param>
         /// <returns>معلومات المستخدم</returns>
-        Task<UserInfo> AuthenticateAsync(string code, string redirectUri);
+        Task<UserDTO> AuthenticateAsync(string code, string redirectUri);
     }
 
     public class GoogleAuthService : IGoogleAuthService
@@ -72,7 +72,7 @@ namespace Services
         /// <summary>
         /// معالجة رمز المصادقة من Google والحصول على معلومات المستخدم
         /// </summary>
-        public async Task<UserInfo> AuthenticateAsync(string code, string redirectUri)
+        public async Task<UserDTO> AuthenticateAsync(string code, string redirectUri)
         {
             // التحقق من وجود رمز المصادقة
             if (string.IsNullOrEmpty(code))
@@ -128,7 +128,7 @@ namespace Services
             }
 
             // تحويل معلومات المستخدم من Google إلى نموذج المستخدم الخاص بنا
-            var userInfo = new UserInfo
+            var userInfo = new UserDTO
             {
                 Id = googleUserInfo.Id,
                 Username = googleUserInfo.Email,

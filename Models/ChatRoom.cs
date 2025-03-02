@@ -35,7 +35,7 @@ namespace Models
         /// تاريخ الإنشاء
         /// </summary>
         [JsonPropertyName("createdAt")]
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         /// <summary>
         /// قائمة ملفات PDF المرتبطة بالغرفة
@@ -83,7 +83,7 @@ namespace Models
         /// تاريخ الإرسال
         /// </summary>
         [JsonPropertyName("timestamp")]
-        public DateTime Timestamp { get; set; } = DateTime.UtcNow;
+        public DateTime Timestamp { get; set; } = DateTime.Now;
     }
 
     /// <summary>

@@ -23,7 +23,11 @@ public partial class ChatRoom
 
     public DateTime? ModifiedDate { get; set; }
 
-    public bool? IsDeleted { get; set; }
+    public bool IsDeleted { get; set; }
+
+    public DateTime? DeletedAt { get; set; }
 
     public virtual ICollection<ChatMessage> ChatMessages { get; set; } = new List<ChatMessage>();
+
+    public virtual ICollection<ConversationTracking> ConversationTrackings { get; set; } = new List<ConversationTracking>();
 }

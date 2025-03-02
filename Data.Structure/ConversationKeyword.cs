@@ -5,23 +5,27 @@ using System.Collections.Generic;
 
 namespace Data.Structure;
 
-public partial class CouponPlan
+public partial class ConversationKeyword
 {
     public long Id { get; set; }
 
-    public long CouponId { get; set; }
+    public long ConversationId { get; set; }
 
-    public long PlanId { get; set; }
+    public long Count { get; set; }
+
+    public string Keyword { get; set; }
 
     public long CreatedByUserId { get; set; }
 
     public DateTime CreateDate { get; set; }
 
+    public long? ModifiedByUserId { get; set; }
+
+    public DateTime? ModifiedDate { get; set; }
+
     public bool IsDeleted { get; set; }
 
     public DateTime? DeletedAt { get; set; }
 
-    public virtual DiscountCoupon Coupon { get; set; }
-
-    public virtual SubscriptionPlan Plan { get; set; }
+    public virtual ConversationTracking Conversation { get; set; }
 }

@@ -1,4 +1,5 @@
 ﻿using API.Services;
+using AutoMapper;
 using Data.Structure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -27,14 +28,14 @@ namespace Services
         /// </summary>
         /// <param name="roomId">معرف الغرفة</param>
         /// <returns>معلومات الغرفة</returns>
-        Task<ChatRoom> GetChatRoomByIdAsync(long roomId);
+        Task<ChatRoomDTO> GetChatRoomByIdAsync(long roomId);
 
         /// <summary>
         /// الحصول على غرف الدردشة للمستخدم
         /// </summary>
         /// <param name="userId">معرف المستخدم</param>
         /// <returns>قائمة بغرف الدردشة</returns>
-        Task<List<ChatRoom>> GetChatRoomsByUserIdAsync(long userId);
+        Task<List<ChatRoomDTO>> GetChatRoomsByUserIdAsync(long userId);
 
         /// <summary>
         /// إضافة رسالة دردشة جديدة
@@ -52,7 +53,7 @@ namespace Services
         /// <param name="roomId">معرف الغرفة</param>
         /// <param name="limit">عدد الرسائل المطلوبة (الأحدث أولاً)</param>
         /// <returns>قائمة بالرسائل</returns>
-        Task<List<ChatMessage>> GetChatRoomMessagesAsync(long roomId, int limit = 50);
+        Task<List<ChatMessageDTO>> GetChatRoomMessagesAsync(long roomId, int limit = 50);
 
         /// <summary>
         /// تحديث تاريخ آخر نشاط في غرفة الدردشة
@@ -68,21 +69,6 @@ namespace Services
         /// <param name="userId">معرف المستخدم</param>
         /// <returns>نجاح العملية</returns>
         Task<bool> DeleteChatRoomAsync(long roomId, long userId);
-
-        /// <summary>
-        /// تحويل كائن ChatRoom من قاعدة البيانات إلى نموذج
-        /// </summary>
-        /// <param name="dbChatRoom">كائن غرفة الدردشة من قاعدة البيانات</param>
-        /// <param name="includeMessages">تضمين الرسائل</param>
-        /// <returns>نموذج غرفة الدردشة</returns>
-        ChatRoomDTO ConvertToChatRoomModel(Data.Structure.ChatRoom dbChatRoom, bool includeMessages = true);
-
-        /// <summary>
-        /// تحويل كائن ChatMessage من قاعدة البيانات إلى نموذج
-        /// </summary>
-        /// <param name="dbChatMessage">كائن رسالة الدردشة من قاعدة البيانات</param>
-        /// <returns>نموذج رسالة الدردشة</returns>
-        ChatMessageDTO ConvertToChatMessageModel(Data.Structure.ChatMessage dbChatMessage);
     }
 
     /// <summary>
@@ -94,6 +80,7 @@ namespace Services
         private readonly ILogger<ChatDbService> _logger;
         private readonly ILocalizationService _localizationService;
         private readonly IConfiguration _configuration;
+        private readonly IMapper _mapper;
 
         // ذاكرة تخزين مؤقت للغرف والرسائل (للتحسين)
         private readonly ConcurrentDictionary<long, Models.ChatRoomDTO> _chatRoomsCache = new();
@@ -106,12 +93,14 @@ namespace Services
             MuhamiContext context,
             ILogger<ChatDbService> logger,
             ILocalizationService localizationService,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IMapper mapper)
         {
             _context = context;
             _logger = logger;
             _localizationService = localizationService;
             _configuration = configuration;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -123,13 +112,13 @@ namespace Services
             {
                 _logger.LogInformation("إنشاء غرفة دردشة جديدة: {Title} بواسطة المستخدم: {UserId}", title, userId);
 
-                var chatRoom = new Data.Structure.ChatRoom
+                var chatRoom = new ChatRoom
                 {
                     Title = title,
                     Description = description,
-                    LastActivityAt = DateTime.UtcNow,
+                    LastActivityAt = DateTime.Now,
                     CreatedByUserId = userId,
-                    CreateDate = DateTime.UtcNow
+                    CreateDate = DateTime.Now
                 };
 
                 _context.ChatRooms.Add(chatRoom);
@@ -165,7 +154,7 @@ namespace Services
                     return null;
                 }
 
-                return ConvertToChatRoomModel(dbChatRoom);
+                return _mapper.Map<ChatRoomDTO>(dbChatRoom);
             }
             catch (Exception ex)
             {
@@ -177,7 +166,7 @@ namespace Services
         /// <summary>
         /// الحصول على غرف الدردشة للمستخدم
         /// </summary>
-        public async Task<List<ChatRoom>> GetChatRoomsByUserIdAsync(long userId)
+        public async Task<List<ChatRoomDTO>> GetChatRoomsByUserIdAsync(long userId)
         {
             try
             {
@@ -188,10 +177,10 @@ namespace Services
                     .OrderByDescending(cr => cr.LastActivityAt)
                     .ToListAsync();
 
-                var chatRooms = new List<ChatRoom>();
+                var chatRooms = new List<ChatRoomDTO>();
                 foreach (var dbChatRoom in dbChatRooms)
                 {
-                    chatRooms.Add(ConvertToChatRoomModel(dbChatRoom, false)); // بدون تحميل الرسائل للأداء
+                    chatRooms.Add(_mapper.Map<ChatRoomDTO>(dbChatRoom));
                 }
 
                 return chatRooms;
@@ -223,21 +212,21 @@ namespace Services
                 }
 
                 // إنشاء رسالة جديدة
-                var chatMessage = new Data.Structure.ChatMessage
+                var chatMessage = new ChatMessage
                 {
                     ChatRoomId = roomId,
                     SenderId = senderId,
                     Role = role,
                     Content = content,
-                    Timestamp = DateTime.UtcNow,
+                    Timestamp = DateTime.Now,
                     CreatedByUserId = long.Parse(senderId),
-                    CreateDate = DateTime.UtcNow
+                    CreateDate = DateTime.Now
                 };
 
                 _context.ChatMessages.Add(chatMessage);
 
                 // تحديث تاريخ آخر نشاط في الغرفة
-                chatRoom.LastActivityAt = DateTime.UtcNow;
+                chatRoom.LastActivityAt = DateTime.Now;
 
                 await _context.SaveChangesAsync();
 
@@ -256,7 +245,7 @@ namespace Services
         /// <summary>
         /// الحصول على رسائل غرفة دردشة
         /// </summary>
-        public async Task<List<ChatMessage>> GetChatRoomMessagesAsync(long roomId, int limit = 50)
+        public async Task<List<ChatMessageDTO>> GetChatRoomMessagesAsync(long roomId, int limit = 50)
         {
             try
             {
@@ -275,10 +264,10 @@ namespace Services
                     .Take(limit)
                     .ToListAsync();
 
-                var chatMessages = new List<Models.ChatMessageDTO>();
+                var chatMessages = new List<ChatMessageDTO>();
                 foreach (var dbChatMessage in dbChatMessages)
                 {
-                    chatMessages.Add(ConvertToChatMessageModel(dbChatMessage));
+                    chatMessages.Add(_mapper.Map<ChatMessageDTO>(dbChatMessage));
                 }
 
                 // تخزين الرسائل في الذاكرة المؤقتة
@@ -311,7 +300,7 @@ namespace Services
                     return;
                 }
 
-                chatRoom.LastActivityAt = DateTime.UtcNow;
+                chatRoom.LastActivityAt = DateTime.Now;
                 await _context.SaveChangesAsync();
 
                 // حذف الغرفة من الذاكرة المؤقتة
@@ -350,8 +339,7 @@ namespace Services
 
                 // حذف منطقي للغرفة
                 chatRoom.IsDeleted = true;
-                chatRoom.ModifiedByUserId = userId;
-                chatRoom.ModifiedDate = DateTime.UtcNow;
+                chatRoom.DeletedAt = DateTime.Now;
 
                 // حذف منطقي لجميع رسائل الغرفة
                 var chatMessages = await _context.ChatMessages
@@ -361,8 +349,7 @@ namespace Services
                 foreach (var message in chatMessages)
                 {
                     message.IsDeleted = true;
-                    message.ModifiedByUserId = userId;
-                    message.ModifiedDate = DateTime.UtcNow;
+                    message.DeletedAt = DateTime.Now;
                 }
 
                 await _context.SaveChangesAsync();
@@ -380,55 +367,5 @@ namespace Services
             }
         }
 
-        /// <summary>
-        /// تحويل كائن ChatRoom من قاعدة البيانات إلى نموذج
-        /// </summary>
-        public Models.ChatRoomDTO ConvertToChatRoomModel(ChatRoom dbChatRoom, bool includeMessages = true)
-        {
-            var chatRoom = new Models.ChatRoomDTO
-            {
-                Id = dbChatRoom.Id.ToString(),
-                Title = dbChatRoom.Title,
-                Description = dbChatRoom.Description ?? string.Empty,
-                CreatedBy = dbChatRoom.CreatedByUserId.ToString(),
-                CreatedAt = dbChatRoom.CreateDate,
-                Messages = new List<Models.ChatMessageDTO>(),
-                PdfFiles = new List<string>(), // سيتم تنفيذ ربط ملفات PDF في مستوى أعلى
-                Rules = string.Empty // سيتم تنفيذ ربط القواعد في مستوى أعلى
-            };
-
-            if (includeMessages)
-            {
-                // تحميل الرسائل إذا كانت مضمنة
-                var dbMessages = _context.ChatMessages
-                    .Where(cm => cm.ChatRoomId == dbChatRoom.Id && cm.IsDeleted != true)
-                    .OrderBy(cm => cm.Timestamp)
-                    .ToList();
-
-                foreach (var dbMessage in dbMessages)
-                {
-                    chatRoom.Messages.Add(ConvertToChatMessageModel(dbMessage));
-                }
-            }
-
-            // تخزين في الذاكرة المؤقتة
-            _chatRoomsCache[dbChatRoom.Id] = chatRoom;
-
-            return chatRoom;
-        }
-
-        /// <summary>
-        /// تحويل كائن ChatMessage من قاعدة البيانات إلى نموذج
-        /// </summary>
-        public ChatMessageDTO ConvertToChatMessageModel(ChatMessage dbChatMessage)
-        {
-            return new ChatMessageDTO
-            {
-                Id = dbChatMessage.Id,
-                Role = dbChatMessage.Role,
-                Content = dbChatMessage.Content,
-                Timestamp = dbChatMessage.Timestamp
-            };
-        }
     }
 }

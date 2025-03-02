@@ -1,10 +1,9 @@
-﻿using API.Helpers;
-using API.Services;
-using API.Services.Pdf;
+﻿using API.Services;
+using Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Oman.Roles.Chat.AI.Models.Pdf;
-using Oman.Roles.Chat.AI.Models.Responses;
+using Models;
+using Services;
 using System.Security.Claims;
 
 namespace API.Controllers

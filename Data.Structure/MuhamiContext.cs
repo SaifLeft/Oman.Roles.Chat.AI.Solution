@@ -19,6 +19,12 @@ public partial class MuhamiContext : DbContext
 
     public virtual DbSet<ChatRule> ChatRules { get; set; }
 
+    public virtual DbSet<ConversationKeyword> ConversationKeywords { get; set; }
+
+    public virtual DbSet<ConversationPdfReference> ConversationPdfReferences { get; set; }
+
+    public virtual DbSet<ConversationTracking> ConversationTrackings { get; set; }
+
     public virtual DbSet<CouponPlan> CouponPlans { get; set; }
 
     public virtual DbSet<DataSourceFile> DataSourceFiles { get; set; }
@@ -58,7 +64,12 @@ public partial class MuhamiContext : DbContext
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("create_date");
             entity.Property(e => e.CreatedByUserId).HasColumnName("created_by_user_id");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.DeletedAt)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("deleted_at");
+            entity.Property(e => e.IsDeleted)
+                .HasDefaultValue(false)
+                .HasColumnName("is_deleted");
             entity.Property(e => e.ModifiedByUserId).HasColumnName("modified_by_user_id");
             entity.Property(e => e.ModifiedDate)
                 .HasColumnType("timestamp without time zone")
@@ -92,8 +103,13 @@ public partial class MuhamiContext : DbContext
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("create_date");
             entity.Property(e => e.CreatedByUserId).HasColumnName("created_by_user_id");
+            entity.Property(e => e.DeletedAt)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("deleted_at");
             entity.Property(e => e.Description).HasColumnName("description");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsDeleted)
+                .HasDefaultValue(false)
+                .HasColumnName("is_deleted");
             entity.Property(e => e.LastActivityAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
@@ -120,10 +136,15 @@ public partial class MuhamiContext : DbContext
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("create_date");
             entity.Property(e => e.CreatedByUserId).HasColumnName("created_by_user_id");
+            entity.Property(e => e.DeletedAt)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("deleted_at");
             entity.Property(e => e.IsDefault)
                 .HasDefaultValue(false)
                 .HasColumnName("is_default");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsDeleted)
+                .HasDefaultValue(false)
+                .HasColumnName("is_deleted");
             entity.Property(e => e.Language)
                 .IsRequired()
                 .HasDefaultValueSql("'ar'::text")
@@ -138,6 +159,140 @@ public partial class MuhamiContext : DbContext
                 .HasColumnName("text");
         });
 
+        modelBuilder.Entity<ConversationKeyword>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("conversation_keyword_pkey");
+
+            entity.ToTable("conversation_keyword");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.ConversationId).HasColumnName("conversation_id");
+            entity.Property(e => e.Count)
+                .HasDefaultValue(1L)
+                .HasColumnName("count");
+            entity.Property(e => e.CreateDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("create_date");
+            entity.Property(e => e.CreatedByUserId).HasColumnName("created_by_user_id");
+            entity.Property(e => e.DeletedAt)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("deleted_at");
+            entity.Property(e => e.IsDeleted)
+                .HasDefaultValue(false)
+                .HasColumnName("is_deleted");
+            entity.Property(e => e.Keyword)
+                .IsRequired()
+                .HasColumnName("keyword");
+            entity.Property(e => e.ModifiedByUserId).HasColumnName("modified_by_user_id");
+            entity.Property(e => e.ModifiedDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("modified_date");
+
+            entity.HasOne(d => d.Conversation).WithMany(p => p.ConversationKeywords)
+                .HasForeignKey(d => d.ConversationId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fkconversati216598");
+        });
+
+        modelBuilder.Entity<ConversationPdfReference>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("conversation_pdf_reference_pkey");
+
+            entity.ToTable("conversation_pdf_reference");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.ConversationId).HasColumnName("conversation_id");
+            entity.Property(e => e.CreateDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("create_date");
+            entity.Property(e => e.CreatedByUserId).HasColumnName("created_by_user_id");
+            entity.Property(e => e.DeletedAt)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("deleted_at");
+            entity.Property(e => e.FileId).HasColumnName("file_id");
+            entity.Property(e => e.FileName)
+                .IsRequired()
+                .HasColumnName("file_name");
+            entity.Property(e => e.IsDeleted)
+                .HasDefaultValue(false)
+                .HasColumnName("is_deleted");
+            entity.Property(e => e.ModifiedByUserId).HasColumnName("modified_by_user_id");
+            entity.Property(e => e.ModifiedDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("modified_date");
+            entity.Property(e => e.RelevanceScore)
+                .HasDefaultValue(0L)
+                .HasColumnName("relevance_score");
+
+            entity.HasOne(d => d.Conversation).WithMany(p => p.ConversationPdfReferences)
+                .HasForeignKey(d => d.ConversationId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fkconversati876832");
+
+            entity.HasOne(d => d.File).WithMany(p => p.ConversationPdfReferences)
+                .HasForeignKey(d => d.FileId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fkconversati495653");
+        });
+
+        modelBuilder.Entity<ConversationTracking>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("conversation_tracking_pkey");
+
+            entity.ToTable("conversation_tracking");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.AiResponse)
+                .IsRequired()
+                .HasColumnName("ai_response");
+            entity.Property(e => e.ConversationId)
+                .IsRequired()
+                .HasColumnName("conversation_id");
+            entity.Property(e => e.CreateDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("create_date");
+            entity.Property(e => e.CreatedByUserId).HasColumnName("created_by_user_id");
+            entity.Property(e => e.DeletedAt)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("deleted_at");
+            entity.Property(e => e.IsDeleted)
+                .HasDefaultValue(false)
+                .HasColumnName("is_deleted");
+            entity.Property(e => e.Language)
+                .IsRequired()
+                .HasDefaultValueSql("'AR'::text")
+                .HasColumnName("language");
+            entity.Property(e => e.MetadataJson)
+                .IsRequired()
+                .HasColumnName("metadata_json");
+            entity.Property(e => e.ModifiedByUserId).HasColumnName("modified_by_user_id");
+            entity.Property(e => e.ModifiedDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("modified_date");
+            entity.Property(e => e.RoomId).HasColumnName("room_id");
+            entity.Property(e => e.Timestamp)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("timestamp");
+            entity.Property(e => e.Topic)
+                .IsRequired()
+                .HasDefaultValueSql("'GENERAL'::text")
+                .HasColumnName("topic");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.UserQuery)
+                .IsRequired()
+                .HasColumnName("user_query");
+
+            entity.HasOne(d => d.Room).WithMany(p => p.ConversationTrackings)
+                .HasForeignKey(d => d.RoomId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fkconversati300556");
+
+            entity.HasOne(d => d.User).WithMany(p => p.ConversationTrackings)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fkconversati28274");
+        });
+
         modelBuilder.Entity<CouponPlan>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("coupon_plan_pkey");
@@ -150,7 +305,12 @@ public partial class MuhamiContext : DbContext
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("create_date");
             entity.Property(e => e.CreatedByUserId).HasColumnName("created_by_user_id");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.DeletedAt)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("deleted_at");
+            entity.Property(e => e.IsDeleted)
+                .HasDefaultValue(false)
+                .HasColumnName("is_deleted");
             entity.Property(e => e.PlanId).HasColumnName("plan_id");
 
             entity.HasOne(d => d.Coupon).WithMany(p => p.CouponPlans)
@@ -180,6 +340,9 @@ public partial class MuhamiContext : DbContext
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("create_date");
             entity.Property(e => e.CreatedByUserId).HasColumnName("created_by_user_id");
+            entity.Property(e => e.DeletedAt)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("deleted_at");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.FileName)
                 .IsRequired()
@@ -187,7 +350,9 @@ public partial class MuhamiContext : DbContext
             entity.Property(e => e.FilePath)
                 .IsRequired()
                 .HasColumnName("file_path");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsDeleted)
+                .HasDefaultValue(false)
+                .HasColumnName("is_deleted");
             entity.Property(e => e.ModifiedByUserId).HasColumnName("modified_by_user_id");
             entity.Property(e => e.ModifiedDate)
                 .HasColumnType("timestamp without time zone")
@@ -237,6 +402,9 @@ public partial class MuhamiContext : DbContext
             entity.Property(e => e.CurrentUses)
                 .HasDefaultValue(0L)
                 .HasColumnName("current_uses");
+            entity.Property(e => e.DeletedAt)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("deleted_at");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.DiscountType)
                 .HasComment("Percentage, Fixed")
@@ -272,6 +440,9 @@ public partial class MuhamiContext : DbContext
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("create_date");
             entity.Property(e => e.CreatedByUserId).HasColumnName("created_by_user_id");
+            entity.Property(e => e.DeletedAt)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("deleted_at");
             entity.Property(e => e.DiscountAmount).HasColumnName("discount_amount");
             entity.Property(e => e.InvoiceNumber)
                 .IsRequired()
@@ -322,10 +493,15 @@ public partial class MuhamiContext : DbContext
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("create_date");
             entity.Property(e => e.CreatedByUserId).HasColumnName("created_by_user_id");
+            entity.Property(e => e.DeletedAt)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("deleted_at");
             entity.Property(e => e.Feature)
                 .IsRequired()
                 .HasColumnName("feature");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsDeleted)
+                .HasDefaultValue(false)
+                .HasColumnName("is_deleted");
             entity.Property(e => e.PlanId).HasColumnName("plan_id");
 
             entity.HasOne(d => d.Plan).WithMany(p => p.PlanFeatures)
@@ -347,10 +523,15 @@ public partial class MuhamiContext : DbContext
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("create_date");
             entity.Property(e => e.CreatedByUserId).HasColumnName("created_by_user_id");
+            entity.Property(e => e.DeletedAt)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("deleted_at");
             entity.Property(e => e.ExpiresAt)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("expires_at");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsDeleted)
+                .HasDefaultValue(false)
+                .HasColumnName("is_deleted");
             entity.Property(e => e.RevokedAt)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("revoked_at");
@@ -379,11 +560,16 @@ public partial class MuhamiContext : DbContext
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("create_date");
             entity.Property(e => e.CreatedByUserId).HasColumnName("created_by_user_id");
+            entity.Property(e => e.DeletedAt)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("deleted_at");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.IsActive)
                 .HasDefaultValue(true)
                 .HasColumnName("is_active");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsDeleted)
+                .HasDefaultValue(false)
+                .HasColumnName("is_deleted");
             entity.Property(e => e.IsTrial)
                 .HasDefaultValue(false)
                 .HasColumnName("is_trial");
@@ -414,6 +600,9 @@ public partial class MuhamiContext : DbContext
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("create_date");
             entity.Property(e => e.CreatedByUserId).HasColumnName("created_by_user_id");
+            entity.Property(e => e.DeletedAt)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("deleted_at");
             entity.Property(e => e.Email)
                 .IsRequired()
                 .HasMaxLength(50)
@@ -424,7 +613,9 @@ public partial class MuhamiContext : DbContext
             entity.Property(e => e.IsActive)
                 .HasDefaultValue(true)
                 .HasColumnName("is_active");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsDeleted)
+                .HasDefaultValue(false)
+                .HasColumnName("is_deleted");
             entity.Property(e => e.LastLoginAt)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("last_login_at");
@@ -488,10 +679,15 @@ public partial class MuhamiContext : DbContext
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("create_date");
             entity.Property(e => e.CreatedByUserId).HasColumnName("created_by_user_id");
+            entity.Property(e => e.DeletedAt)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("deleted_at");
             entity.Property(e => e.EndDate)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("end_date");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsDeleted)
+                .HasDefaultValue(false)
+                .HasColumnName("is_deleted");
             entity.Property(e => e.LastInvoiceId).HasColumnName("last_invoice_id");
             entity.Property(e => e.LastRenewalDate)
                 .HasColumnType("timestamp without time zone")

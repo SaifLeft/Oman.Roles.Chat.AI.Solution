@@ -10,14 +10,14 @@ namespace Services
     /// </summary>
     public class ChatSubscriptionService
     {
-        private readonly IChatService _chatService;
+        private readonly IChatDbService _chatService;
         private readonly ISubscriptionService _subscriptionService;
         private readonly ILogger<ChatSubscriptionService> _logger;
         private readonly ILocalizationService _localizationService;
         private readonly IConfiguration _configuration;
 
         public ChatSubscriptionService(
-            IChatService chatService,
+            IChatDbService chatService,
             ISubscriptionService subscriptionService,
             ILogger<ChatSubscriptionService> logger,
             ILocalizationService localizationService,
@@ -68,8 +68,8 @@ namespace Services
                 var plan = planResponse.Data;
 
                 // الحصول على عدد غرف الدردشة الحالية للمستخدم
-                var userRoomsResponse = await _chatService.GetUserChatRoomsAsync(userId, language);
-                int currentRoomCount = userRoomsResponse.Success ? userRoomsResponse.Data.Count : 0;
+                var userRoomsResponse = await _chatService.GetChatRoomsByUserIdAsync(long.Parse(userId));
+                int currentRoomCount = userRoomsResponse.Count;
 
                 // التحقق مما إذا كان المستخدم قد وصل إلى الحد الأقصى من غرف الدردشة
                 if (currentRoomCount >= plan.AllowedChatRooms)
@@ -162,7 +162,7 @@ namespace Services
         /// <summary>
         /// إنشاء اشتراك تجريبي للمستخدم تلقائيًا
         /// </summary>
-        public async Task<BaseResponse<UserSubscription>> CreateTrialSubscriptionAsync(string userId, string language)
+        public async Task<BaseResponse<UserSubscriptionDTO>> CreateTrialSubscriptionAsync(string userId, string language)
         {
             try
             {
@@ -171,7 +171,7 @@ namespace Services
                 if (!enableTrialAccounts)
                 {
                     var errorMessage = _localizationService.GetMessage("TrialAccountsDisabled", "Errors", language);
-                    return BaseResponse<UserSubscription>.FailureResponse(errorMessage, 403);
+                    return BaseResponse<UserSubscriptionDTO>.FailureResponse(errorMessage, 403);
                 }
 
                 // البحث عن خطة التجربة المجانية
@@ -181,7 +181,7 @@ namespace Services
                 if (trialPlan == null)
                 {
                     var errorMessage = _localizationService.GetMessage("TrialPlanNotFound", "Errors", language);
-                    return BaseResponse<UserSubscription>.FailureResponse(errorMessage, 404);
+                    return BaseResponse<UserSubscriptionDTO>.FailureResponse(errorMessage, 404);
                 }
 
                 // إنشاء طلب اشتراك تجريبي
@@ -199,7 +199,7 @@ namespace Services
             {
                 _logger.LogError(ex, "حدث خطأ أثناء إنشاء اشتراك تجريبي للمستخدم {userId}", userId);
                 var errorMessage = _localizationService.GetMessage("TrialSubscriptionCreationError", "Errors", language);
-                return BaseResponse<UserSubscription>.FailureResponse(errorMessage, 500);
+                return BaseResponse<UserSubscriptionDTO>.FailureResponse(errorMessage, 500);
             }
         }
     }

@@ -5,7 +5,7 @@ namespace Models
     /// <summary>
     /// معلومات المستخدم
     /// </summary>
-    public class UserInfo
+    public class UserDTO
     {
         /// <summary>
         /// معرف المستخدم
@@ -85,7 +85,7 @@ namespace Models
         /// معلومات المستخدم
         /// </summary>
         [JsonPropertyName("user")]
-        public UserInfo User { get; set; } = new UserInfo();
+        public UserDTO User { get; set; } = new UserDTO();
     }
 
     /// <summary>

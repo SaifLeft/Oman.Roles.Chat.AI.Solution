@@ -37,7 +37,9 @@ public partial class SubscriptionPlan
 
     public DateTime? ModifiedDate { get; set; }
 
-    public bool? IsDeleted { get; set; }
+    public bool IsDeleted { get; set; }
+
+    public DateTime? DeletedAt { get; set; }
 
     public virtual ICollection<CouponPlan> CouponPlans { get; set; } = new List<CouponPlan>();
 

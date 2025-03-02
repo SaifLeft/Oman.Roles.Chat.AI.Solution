@@ -16,12 +16,12 @@ namespace Services
         /// <summary>
         /// الحصول على معلومات ملف PDF
         /// </summary>
-        Task<BaseResponse<PdfFile>> GetPdfFileInfoAsync(string fileName, string language);
+        Task<BaseResponse<DataFileDTO>> GetPdfFileInfoAsync(string fileName, string language);
 
         /// <summary>
         /// تحديث معلومات ملف PDF
         /// </summary>
-        Task<BaseResponse<PdfFile>> UpdatePdfInfoAsync(string fileName, string title, string description, List<string> keywords, string userId, string language);
+        Task<BaseResponse<DataFileDTO>> UpdatePdfInfoAsync(string fileName, string title, string description, List<string> keywords, string userId, string language);
     }
 
     public class PdfService : IPdfService
@@ -62,7 +62,7 @@ namespace Services
             try
             {
                 var files = Directory.GetFiles(_pdfBasePath, "*.pdf");
-                var pdfFiles = new List<PdfFile>();
+                var pdfFiles = new List<DataFileDTO>();
 
                 foreach (var file in files)
                 {
@@ -90,7 +90,7 @@ namespace Services
         /// <summary>
         /// الحصول على معلومات ملف PDF
         /// </summary>
-        public async Task<BaseResponse<PdfFile>> GetPdfFileInfoAsync(string fileName, string language)
+        public async Task<BaseResponse<DataFileDTO>> GetPdfFileInfoAsync(string fileName, string language)
         {
             try
             {
@@ -99,23 +99,23 @@ namespace Services
                 if (fileInfo == null)
                 {
                     var errorMessage = _localizationService.GetMessage("PdfFileNotFound", "Errors", language);
-                    return BaseResponse<PdfFile>.FailureResponse(string.Format(errorMessage, fileName), 404);
+                    return BaseResponse<DataFileDTO>.FailureResponse(string.Format(errorMessage, fileName), 404);
                 }
 
-                return BaseResponse<PdfFile>.SuccessResponse(fileInfo);
+                return BaseResponse<DataFileDTO>.SuccessResponse(fileInfo);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ أثناء الحصول على معلومات ملف PDF {fileName}", fileName);
                 var errorMessage = _localizationService.GetMessage("PdfFileInfoRetrievalError", "Errors", language);
-                return BaseResponse<PdfFile>.FailureResponse(errorMessage, 500);
+                return BaseResponse<DataFileDTO>.FailureResponse(errorMessage, 500);
             }
         }
 
         /// <summary>
         /// تحديث معلومات ملف PDF
         /// </summary>
-        public async Task<BaseResponse<PdfFile>> UpdatePdfInfoAsync(string fileName, string title, string description, List<string> keywords, string userId, string language)
+        public async Task<BaseResponse<DataFileDTO>> UpdatePdfInfoAsync(string fileName, string title, string description, List<string> keywords, string userId, string language)
         {
             try
             {
@@ -124,7 +124,7 @@ namespace Services
                 if (fileInfo == null)
                 {
                     var errorMessage = _localizationService.GetMessage("PdfFileNotFound", "Errors", language);
-                    return BaseResponse<PdfFile>.FailureResponse(string.Format(errorMessage, fileName), 404);
+                    return BaseResponse<DataFileDTO>.FailureResponse(string.Format(errorMessage, fileName), 404);
                 }
 
                 // تحديث المعلومات
@@ -136,20 +136,20 @@ namespace Services
                 SavePdfFileInfo(fileInfo);
 
                 var successMessage = _localizationService.GetMessage("PdfFileInfoUpdated", "Messages", language);
-                return BaseResponse<PdfFile>.SuccessResponse(fileInfo, successMessage);
+                return BaseResponse<DataFileDTO>.SuccessResponse(fileInfo, successMessage);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ أثناء تحديث معلومات ملف PDF {fileName}", fileName);
                 var errorMessage = _localizationService.GetMessage("PdfFileInfoUpdateError", "Errors", language);
-                return BaseResponse<PdfFile>.FailureResponse(errorMessage, 500);
+                return BaseResponse<DataFileDTO>.FailureResponse(errorMessage, 500);
             }
         }
 
         /// <summary>
         /// الحصول على معلومات ملف PDF داخليًا
         /// </summary>
-        private async Task<PdfFile?> GetPdfFileInfoInternalAsync(string fileName)
+        private async Task<DataFileDTO?> GetPdfFileInfoInternalAsync(string fileName)
         {
             var pdfFilePath = Path.Combine(_pdfBasePath, fileName);
             if (!File.Exists(pdfFilePath))
@@ -163,7 +163,7 @@ namespace Services
             if (File.Exists(infoFilePath))
             {
                 var json = await File.ReadAllTextAsync(infoFilePath);
-                var fileInfo = JsonSerializer.Deserialize<PdfFile>(json);
+                var fileInfo = JsonSerializer.Deserialize<DataFileDTO>(json);
 
                 if (fileInfo != null)
                 {
@@ -173,7 +173,7 @@ namespace Services
 
             // إذا لم يكن ملف المعلومات موجودًا، ننشئه
             var fileSize = new FileInfo(pdfFilePath).Length;
-            var fileInfo2 = new PdfFile
+            var fileInfo2 = new DataFileDTO
             {
                 FileName = fileName,
                 Title = Path.GetFileNameWithoutExtension(fileName),
@@ -191,7 +191,7 @@ namespace Services
         /// <summary>
         /// حفظ معلومات ملف PDF
         /// </summary>
-        private void SavePdfFileInfo(PdfFile fileInfo)
+        private void SavePdfFileInfo(DataFileDTO fileInfo)
         {
             try
             {

@@ -51,6 +51,8 @@ public partial class Invoice
 
     public bool? IsDeleted { get; set; }
 
+    public DateTime? DeletedAt { get; set; }
+
     public virtual SubscriptionPlan Plan { get; set; }
 
     public virtual User User { get; set; }

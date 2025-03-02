@@ -1,5 +1,4 @@
 ﻿using API.Services;
-using Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 
@@ -26,15 +25,5 @@ namespace API.Controllers
             _localizationService = localizationService;
         }
 
-        /// <summary>
-        /// الحصول على جميع خطط الاشتراك
-        /// </summary>
-        [HttpGet("plans")]
-        public async Task<IActionResult> GetAllPlans()
-        {
-            string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
-
-            try
-            {
-                var result = await _subscriptionService.GetAllPlansAsync(language);
-                return StatusCode(result.StatusCode
+    }
+}

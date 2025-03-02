@@ -188,7 +188,7 @@ namespace Models
         /// تاريخ المعاملة
         /// </summary>
         [JsonPropertyName("transactionDate")]
-        public DateTime TransactionDate { get; set; } = DateTime.UtcNow;
+        public DateTime TransactionDate { get; set; } = DateTime.Now;
 
         /// <summary>
         /// ملاحظات

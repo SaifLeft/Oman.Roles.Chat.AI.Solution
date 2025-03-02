@@ -27,6 +27,18 @@
          "ObjectType": 0
       },
       {
+         "Name": "public.conversation_keyword",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.conversation_pdf_reference",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.conversation_tracking",
+         "ObjectType": 0
+      },
+      {
          "Name": "public.coupon_plan",
          "ObjectType": 0
       },

@@ -1,4 +1,5 @@
 ﻿using API.Services;
+using Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -39,7 +40,7 @@ namespace API.Controllers
             try
             {
                 var rules = _chatRulesService.GetDefaultRules(language);
-                return Ok(BaseResponse<string>.SuccessResponse(rules));
+                return Ok(BaseResponse.SuccessResponse(rules));
             }
             catch (Exception ex)
             {

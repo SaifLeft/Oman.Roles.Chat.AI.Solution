@@ -24,7 +24,7 @@ namespace Services
         /// <param name="userId">معرف المستخدم</param>
         /// <param name="language">اللغة المستخدمة</param>
         /// <returns>معلومات الملف المضاف</returns>
-        Task<BaseResponse<PdfFile>> UploadPdfFileAsync(string fileName, string title, string description, byte[] fileContent, string contentType, List<string> keywords, long userId, string language);
+        Task<BaseResponse<DataFileDTO>> UploadPdfFileAsync(string fileName, string title, string description, byte[] fileContent, string contentType, List<string> keywords, long userId, string language);
 
         /// <summary>
         /// الحصول على قائمة ملفات PDF المتاحة
@@ -32,7 +32,7 @@ namespace Services
         /// <param name="userId">معرف المستخدم</param>
         /// <param name="language">اللغة المستخدمة</param>
         /// <returns>قائمة بملفات PDF</returns>
-        Task<BaseResponse<List<PdfFile>>> GetAvailablePdfFilesAsync(long userId, string language);
+        Task<BaseResponse<List<DataFileDTO>>> GetAvailablePdfFilesAsync(long userId, string language);
 
         /// <summary>
         /// الحصول على معلومات ملف PDF
@@ -40,7 +40,7 @@ namespace Services
         /// <param name="fileId">معرف الملف</param>
         /// <param name="language">اللغة المستخدمة</param>
         /// <returns>معلومات الملف</returns>
-        Task<BaseResponse<PdfFile>> GetPdfFileInfoAsync(long fileId, string language);
+        Task<BaseResponse<DataFileDTO>> GetPdfFileInfoAsync(long fileId, string language);
 
         /// <summary>
         /// تحديث معلومات ملف PDF
@@ -52,7 +52,7 @@ namespace Services
         /// <param name="userId">معرف المستخدم</param>
         /// <param name="language">اللغة المستخدمة</param>
         /// <returns>معلومات الملف المحدثة</returns>
-        Task<BaseResponse<PdfFile>> UpdatePdfFileInfoAsync(long fileId, string title, string description, List<string> keywords, long userId, string language);
+        Task<BaseResponse<DataFileDTO>> UpdatePdfFileInfoAsync(long fileId, string title, string description, List<string> keywords, long userId, string language);
 
         /// <summary>
         /// حذف ملف PDF
@@ -69,7 +69,7 @@ namespace Services
         /// <param name="keywords">الكلمات المفتاحية</param>
         /// <param name="language">اللغة المستخدمة</param>
         /// <returns>قائمة بملفات PDF</returns>
-        Task<BaseResponse<List<PdfFile>>> SearchPdfFilesByKeywordsAsync(List<string> keywords, string language);
+        Task<BaseResponse<List<DataFileDTO>>> SearchPdfFilesByKeywordsAsync(List<string> keywords, string language);
     }
 
     /// <summary>
@@ -114,7 +114,7 @@ namespace Services
         /// <summary>
         /// رفع ملف PDF جديد
         /// </summary>
-        public async Task<BaseResponse<PdfFile>> UploadPdfFileAsync(
+        public async Task<BaseResponse<DataFileDTO>> UploadPdfFileAsync(
             string fileName,
             string title,
             string description,
@@ -132,7 +132,7 @@ namespace Services
                 if (!contentType.Equals("application/pdf", StringComparison.OrdinalIgnoreCase))
                 {
                     var errorMessage = _localizationService.GetMessage("InvalidFileType", "Errors", language);
-                    return BaseResponse<PdfFile>.FailureResponse(errorMessage, 400);
+                    return BaseResponse<DataFileDTO>.FailureResponse(errorMessage, 400);
                 }
 
                 // التحقق من حجم الملف (الحد الأقصى 20 ميجابايت)
@@ -140,7 +140,7 @@ namespace Services
                 if (fileContent.Length > maxFileSizeBytes)
                 {
                     var errorMessage = _localizationService.GetMessage("FileTooLarge", "Errors", language);
-                    return BaseResponse<PdfFile>.FailureResponse(errorMessage, 400);
+                    return BaseResponse<DataFileDTO>.FailureResponse(errorMessage, 400);
                 }
 
                 // إنشاء اسم ملف فريد إذا لم يتم تقديمه
@@ -173,7 +173,7 @@ namespace Services
                     Size = fileContent.Length,
                     ContentType = contentType,
                     CreatedByUserId = userId,
-                    CreateDate = DateTime.UtcNow
+                    CreateDate = DateTime.Now
                 };
 
                 // إضافة الكائن إلى قاعدة البيانات
@@ -242,20 +242,20 @@ namespace Services
                 var pdfFile = await ConvertToModelAsync(dataSourceFile);
 
                 var successMessage = _localizationService.GetMessage("PdfFileUploaded", "Messages", language);
-                return BaseResponse<PdfFile>.SuccessResponse(pdfFile, successMessage);
+                return BaseResponse<DataFileDTO>.SuccessResponse(pdfFile, successMessage);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "خطأ في رفع ملف PDF: {FileName}", fileName);
                 var errorMessage = _localizationService.GetMessage("PdfFileUploadError", "Errors", language);
-                return BaseResponse<PdfFile>.FailureResponse(errorMessage, 500);
+                return BaseResponse<DataFileDTO>.FailureResponse(errorMessage, 500);
             }
         }
 
         /// <summary>
         /// الحصول على قائمة ملفات PDF المتاحة
         /// </summary>
-        public async Task<BaseResponse<List<PdfFile>>> GetAvailablePdfFilesAsync(long userId, string language)
+        public async Task<BaseResponse<List<DataFileDTO>>> GetAvailablePdfFilesAsync(long userId, string language)
         {
             try
             {
@@ -266,27 +266,27 @@ namespace Services
                     .OrderByDescending(f => f.CreateDate)
                     .ToListAsync();
 
-                var pdfFiles = new List<PdfFile>();
+                var pdfFiles = new List<DataFileDTO>();
                 foreach (var dataSourceFile in dataSourceFiles)
                 {
                     var pdfFile = await ConvertToModelAsync(dataSourceFile);
                     pdfFiles.Add(pdfFile);
                 }
 
-                return BaseResponse<List<PdfFile>>.SuccessResponse(pdfFiles);
+                return BaseResponse<List<DataFileDTO>>.SuccessResponse(pdfFiles);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "خطأ في الحصول على قائمة ملفات PDF المتاحة");
                 var errorMessage = _localizationService.GetMessage("PdfFilesRetrievalError", "Errors", language);
-                return BaseResponse<List<PdfFile>>.FailureResponse(errorMessage, 500);
+                return BaseResponse<List<DataFileDTO>>.FailureResponse(errorMessage, 500);
             }
         }
 
         /// <summary>
         /// الحصول على معلومات ملف PDF
         /// </summary>
-        public async Task<BaseResponse<PdfFile>> GetPdfFileInfoAsync(long fileId, string language)
+        public async Task<BaseResponse<DataFileDTO>> GetPdfFileInfoAsync(long fileId, string language)
         {
             try
             {
@@ -298,25 +298,25 @@ namespace Services
                 if (dataSourceFile == null)
                 {
                     var errorMessage = _localizationService.GetMessage("PdfFileNotFound", "Errors", language);
-                    return BaseResponse<PdfFile>.FailureResponse(errorMessage, 404);
+                    return BaseResponse<DataFileDTO>.FailureResponse(errorMessage, 404);
                 }
 
                 var pdfFile = await ConvertToModelAsync(dataSourceFile);
 
-                return BaseResponse<PdfFile>.SuccessResponse(pdfFile);
+                return BaseResponse<DataFileDTO>.SuccessResponse(pdfFile);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "خطأ في الحصول على معلومات ملف PDF: {FileId}", fileId);
                 var errorMessage = _localizationService.GetMessage("PdfFileInfoRetrievalError", "Errors", language);
-                return BaseResponse<PdfFile>.FailureResponse(errorMessage, 500);
+                return BaseResponse<DataFileDTO>.FailureResponse(errorMessage, 500);
             }
         }
 
         /// <summary>
         /// تحديث معلومات ملف PDF
         /// </summary>
-        public async Task<BaseResponse<PdfFile>> UpdatePdfFileInfoAsync(
+        public async Task<BaseResponse<DataFileDTO>> UpdatePdfFileInfoAsync(
             long fileId,
             string title,
             string description,
@@ -334,7 +334,7 @@ namespace Services
                 if (dataSourceFile == null)
                 {
                     var errorMessage = _localizationService.GetMessage("PdfFileNotFound", "Errors", language);
-                    return BaseResponse<PdfFile>.FailureResponse(errorMessage, 404);
+                    return BaseResponse<DataFileDTO>.FailureResponse(errorMessage, 404);
                 }
 
                 // تحديث المعلومات
@@ -349,7 +349,7 @@ namespace Services
                 }
 
                 dataSourceFile.ModifiedByUserId = userId;
-                dataSourceFile.ModifiedDate = DateTime.UtcNow;
+                dataSourceFile.ModifiedDate = DateTime.Now;
 
                 // تحديث الكلمات المفتاحية
                 if (keywords != null)
@@ -384,13 +384,13 @@ namespace Services
                 var pdfFile = await ConvertToModelAsync(dataSourceFile);
 
                 var successMessage = _localizationService.GetMessage("PdfFileInfoUpdated", "Messages", language);
-                return BaseResponse<PdfFile>.SuccessResponse(pdfFile, successMessage);
+                return BaseResponse<DataFileDTO>.SuccessResponse(pdfFile, successMessage);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "خطأ في تحديث معلومات ملف PDF: {FileId}", fileId);
                 var errorMessage = _localizationService.GetMessage("PdfFileInfoUpdateError", "Errors", language);
-                return BaseResponse<PdfFile>.FailureResponse(errorMessage, 500);
+                return BaseResponse<DataFileDTO>.FailureResponse(errorMessage, 500);
             }
         }
 
@@ -416,7 +416,7 @@ namespace Services
                 // تنفيذ حذف منطقي (Soft Delete) بدلاً من الحذف الفعلي
                 dataSourceFile.IsDeleted = true;
                 dataSourceFile.ModifiedByUserId = userId;
-                dataSourceFile.ModifiedDate = DateTime.UtcNow;
+                dataSourceFile.ModifiedDate = DateTime.Now;
 
                 await _context.SaveChangesAsync();
 
@@ -452,7 +452,7 @@ namespace Services
         /// <summary>
         /// البحث عن ملفات PDF بالكلمات المفتاحية
         /// </summary>
-        public async Task<BaseResponse<List<PdfFile>>> SearchPdfFilesByKeywordsAsync(List<string> keywords, string language)
+        public async Task<BaseResponse<List<DataFileDTO>>> SearchPdfFilesByKeywordsAsync(List<string> keywords, string language)
         {
             try
             {
@@ -461,7 +461,7 @@ namespace Services
                 if (keywords == null || keywords.Count == 0)
                 {
                     var errorMessage = _localizationService.GetMessage("NoKeywordsProvided", "Errors", language);
-                    return BaseResponse<List<PdfFile>>.FailureResponse(errorMessage, 400);
+                    return BaseResponse<List<DataFileDTO>>.FailureResponse(errorMessage, 400);
                 }
 
                 // تنظيف وتنسيق الكلمات المفتاحية
@@ -473,7 +473,7 @@ namespace Services
                 if (normalizedKeywords.Count == 0)
                 {
                     var errorMessage = _localizationService.GetMessage("NoKeywordsProvided", "Errors", language);
-                    return BaseResponse<List<PdfFile>>.FailureResponse(errorMessage, 400);
+                    return BaseResponse<List<DataFileDTO>>.FailureResponse(errorMessage, 400);
                 }
 
                 // الحصول على معرفات الملفات التي تحتوي على أي من الكلمات المفتاحية
@@ -487,7 +487,7 @@ namespace Services
                 {
                     // لم يتم العثور على ملفات تطابق الكلمات المفتاحية
                     var errorMessage = _localizationService.GetMessage("NoFilesMatchKeywords", "Errors", language);
-                    return BaseResponse<List<PdfFile>>.FailureResponse(errorMessage, 404);
+                    return BaseResponse<List<DataFileDTO>>.FailureResponse(errorMessage, 404);
                 }
 
                 // الحصول على بيانات الملفات
@@ -497,7 +497,7 @@ namespace Services
                     .ToListAsync();
 
                 // تحويل الكائنات إلى النماذج المطلوبة للاستجابة
-                var pdfFiles = new List<PdfFile>();
+                var pdfFiles = new List<DataFileDTO>();
                 foreach (var dataSourceFile in dataSourceFiles)
                 {
                     var pdfFile = await ConvertToModelAsync(dataSourceFile);
@@ -505,20 +505,20 @@ namespace Services
                 }
 
                 var successMessage = _localizationService.GetMessage("FilesFoundWithKeywords", "Messages", language);
-                return BaseResponse<List<PdfFile>>.SuccessResponse(pdfFiles, successMessage);
+                return BaseResponse<List<DataFileDTO>>.SuccessResponse(pdfFiles, successMessage);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "خطأ في البحث عن ملفات PDF بالكلمات المفتاحية");
                 var errorMessage = _localizationService.GetMessage("PdfFileSearchError", "Errors", language);
-                return BaseResponse<List<PdfFile>>.FailureResponse(errorMessage, 500);
+                return BaseResponse<List<DataFileDTO>>.FailureResponse(errorMessage, 500);
             }
         }
 
         /// <summary>
         /// تحويل كائن DataSourceFile إلى نموذج PdfFile
         /// </summary>
-        private async Task<PdfFile> ConvertToModelAsync(DataSourceFile dataSourceFile)
+        private async Task<DataFileDTO> ConvertToModelAsync(DataSourceFile dataSourceFile)
         {
             // الحصول على الكلمات المفتاحية المرتبطة بالملف
             var keywords = await _context.DataSourceFileKeywords
@@ -527,7 +527,7 @@ namespace Services
                 .ToListAsync();
 
             // إنشاء نموذج PdfFile
-            var pdfFile = new PdfFile
+            var pdfFile = new DataFileDTO
             {
                 Id = dataSourceFile.Id.ToString(),
                 FileName = dataSourceFile.FileName,

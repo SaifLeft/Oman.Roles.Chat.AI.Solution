@@ -30,6 +30,7 @@ namespace Data.Structure
             optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.NavigationBaseIncludeIgnored));
         }
 
+
         public override int SaveChanges()
         {
             var userId = GetUserIdFromClaims();

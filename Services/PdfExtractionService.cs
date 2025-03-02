@@ -1,8 +1,10 @@
-﻿using API.Services;
+﻿using iTextSharp.text.pdf;
+using iTextSharp.text.pdf.parser;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Text;
 using System.Text.RegularExpressions;
-
+using Path = System.IO.Path;
 namespace Services
 {
     /// <summary>
@@ -46,30 +48,21 @@ namespace Services
     {
         private readonly IConfiguration _configuration;
         private readonly ILogger<PdfExtractionService> _logger;
-        private readonly ILocalizationService _localizationService;
         private readonly string _pdfBasePath;
         private readonly string _pdfCachePath;
 
-        /// <summary>
-        /// إنشاء مثيل جديد من خدمة استخراج PDF
-        /// </summary>
         public PdfExtractionService(
             IConfiguration configuration,
-            ILogger<PdfExtractionService> logger,
-            ILocalizationService localizationService)
+            ILogger<PdfExtractionService> logger)
         {
             _configuration = configuration;
             _logger = logger;
-            _localizationService = localizationService;
 
-            // استخراج مسارات التكوين
             _pdfBasePath = _configuration["ChatSettings:PdfBasePath"] ??
-                           Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PdfFiles");
-
+                          Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PdfFiles");
             _pdfCachePath = _configuration["ChatSettings:PdfCachePath"] ??
-                           Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PdfCache");
+                          Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PdfCache");
 
-            // التأكد من وجود المسارات
             Directory.CreateDirectory(_pdfBasePath);
             Directory.CreateDirectory(_pdfCachePath);
         }
@@ -77,57 +70,48 @@ namespace Services
         /// <summary>
         /// استخراج النص من ملف PDF
         /// </summary>
-        public async Task<string> ExtractTextFromPdfAsync(string filePath)
+        public async Task<string> ExtractTextFromPdfAsync(string fileName)
         {
             try
             {
-                _logger.LogInformation("جاري استخراج النص من ملف PDF: {FilePath}", filePath);
+                _logger.LogInformation("Extracting text from PDF: {FileName}", fileName);
 
-                // التحقق من صحة مسار الملف
-                string fullPath = Path.Combine(_pdfBasePath, filePath);
+                string fullPath = Path.Combine(_pdfBasePath, fileName);
                 if (!File.Exists(fullPath))
                 {
-                    _logger.LogWarning("ملف PDF غير موجود: {FilePath}", fullPath);
+                    _logger.LogWarning("PDF file not found: {FilePath}", fullPath);
                     return string.Empty;
                 }
 
-                // التحقق من ذاكرة التخزين المؤقت - إذا كان النص مستخرجاً مسبقاً
-                string cacheFilePath = Path.Combine(_pdfCachePath, $"{Path.GetFileNameWithoutExtension(filePath)}.txt");
+                // Check cache first
+                string cacheFilePath = Path.Combine(_pdfCachePath, $"{Path.GetFileNameWithoutExtension(fileName)}.txt");
                 if (File.Exists(cacheFilePath))
                 {
-                    _logger.LogInformation("تم العثور على نص مستخرج مسبقاً: {CacheFilePath}", cacheFilePath);
+                    _logger.LogInformation("Using cached extracted text: {CacheFilePath}", cacheFilePath);
                     return await File.ReadAllTextAsync(cacheFilePath);
                 }
 
-                // في بيئة حقيقية، استخدم مكتبة مثل iText أو PDFsharp لاستخراج النص
-                // لأغراض هذا المثال، نحاول قراءة ملف نصي مرافق بنفس الاسم ولكن بامتداد txt
-
-                // ننشئ ملفاً نصياً مؤقتاً بنفس اسم ملف PDF ولكن بامتداد txt
-                string txtFilePath = Path.ChangeExtension(fullPath, ".txt");
-
-                string extractedText;
-                if (File.Exists(txtFilePath))
+                // Extract text using iTextSharp
+                StringBuilder text = new StringBuilder();
+                using (PdfReader reader = new PdfReader(fullPath))
                 {
-                    // قراءة الملف النصي المصاحب
-                    extractedText = await File.ReadAllTextAsync(txtFilePath);
-                    _logger.LogInformation("تم استخراج النص من الملف المصاحب: {TxtFilePath}", txtFilePath);
-                }
-                else
-                {
-                    // إذا لم يكن هناك ملف نصي مصاحب، نستخدم نصاً افتراضياً للأغراض التوضيحية
-                    _logger.LogWarning("لم يتم العثور على ملف نصي مصاحب. استخدام نص تمثيلي بسيط.");
-                    extractedText = $"محتوى ملف {Path.GetFileName(filePath)} - يرجى استخدام مكتبة استخراج PDF مناسبة في البيئة الإنتاجية.";
+                    for (int i = 1; i <= reader.NumberOfPages; i++)
+                    {
+                        string pageText = PdfTextExtractor.GetTextFromPage(reader, i);
+                        text.AppendLine(pageText);
+                    }
                 }
 
-                // تخزين النص المستخرج في ذاكرة التخزين المؤقت للاستخدام المستقبلي
+                // Cache the extracted text
+                string extractedText = text.ToString();
                 await File.WriteAllTextAsync(cacheFilePath, extractedText);
 
                 return extractedText;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "خطأ في استخراج النص من ملف PDF: {FilePath}", filePath);
-                return $"حدث خطأ أثناء استخراج النص: {ex.Message}";
+                _logger.LogError(ex, "Error extracting text from PDF: {FilePath}", fileName);
+                return $"Error extracting text: {ex.Message}";
             }
         }
 

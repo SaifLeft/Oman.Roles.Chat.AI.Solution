@@ -1,6 +1,6 @@
 ﻿namespace Models
 {
-    public class UserSubscription
+    public class UserSubscriptionDTO
     {
         public string Id { get; set; }
         public SubscriptionStatus Status { get; set; }
@@ -15,7 +15,7 @@
         public DateTime LastRenewalDate { get; set; }
         public string? Notes { get; set; }
     }
-    public class SubscriptionPlan
+    public class SubscriptionPlanDTO
     {
         public string Id { get; set; }
         public string Name { get; set; }
@@ -33,7 +33,7 @@
     }
 
     //DiscountCoupon
-    public class DiscountCoupon
+    public class DiscountCouponDTO
     {
         public string Id { get; set; }
         public string Code { get; set; }

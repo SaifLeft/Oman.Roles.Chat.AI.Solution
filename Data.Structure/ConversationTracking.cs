@@ -5,24 +5,15 @@ using System.Collections.Generic;
 
 namespace Data.Structure;
 
-public partial class DataSourceFile
+public partial class ConversationTracking
 {
     public long Id { get; set; }
 
-    public string FileName { get; set; }
+    public long UserId { get; set; }
 
-    public string Title { get; set; }
+    public string UserQuery { get; set; }
 
-    public string Description { get; set; }
-
-    public string FilePath { get; set; }
-
-    /// <summary>
-    /// bytes
-    /// </summary>
-    public long Size { get; set; }
-
-    public string ContentType { get; set; }
+    public string AiResponse { get; set; }
 
     public long CreatedByUserId { get; set; }
 
@@ -36,7 +27,23 @@ public partial class DataSourceFile
 
     public DateTime? DeletedAt { get; set; }
 
+    public string Topic { get; set; }
+
+    public string Language { get; set; }
+
+    public string MetadataJson { get; set; }
+
+    public DateTime Timestamp { get; set; }
+
+    public long RoomId { get; set; }
+
+    public string ConversationId { get; set; }
+
+    public virtual ICollection<ConversationKeyword> ConversationKeywords { get; set; } = new List<ConversationKeyword>();
+
     public virtual ICollection<ConversationPdfReference> ConversationPdfReferences { get; set; } = new List<ConversationPdfReference>();
 
-    public virtual ICollection<DataSourceFileKeyword> DataSourceFileKeywords { get; set; } = new List<DataSourceFileKeyword>();
+    public virtual ChatRoom Room { get; set; }
+
+    public virtual User User { get; set; }
 }

@@ -36,7 +36,11 @@ public partial class User
 
     public DateTime? ModifiedDate { get; set; }
 
-    public bool? IsDeleted { get; set; }
+    public bool IsDeleted { get; set; }
+
+    public DateTime? DeletedAt { get; set; }
+
+    public virtual ICollection<ConversationTracking> ConversationTrackings { get; set; } = new List<ConversationTracking>();
 
     public virtual ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
 

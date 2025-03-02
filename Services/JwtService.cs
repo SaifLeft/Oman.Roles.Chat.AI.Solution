@@ -15,14 +15,14 @@ namespace Services
         /// </summary>
         /// <param name="user">معلومات المستخدم</param>
         /// <returns>معلومات الرمز المنشأ</returns>
-        LoginResponse GenerateJwtToken(UserInfo user);
+        LoginResponse GenerateJwtToken(UserDTO user);
 
         /// <summary>
         /// التحقق من صحة الرمز وقراءة البيانات منه
         /// </summary>
         /// <param name="token">الرمز المراد التحقق منه</param>
         /// <returns>معلومات المستخدم إذا كان الرمز صالحًا، أو null إذا كان الرمز غير صالح</returns>
-        UserInfo? ValidateJwtToken(string token);
+        UserDTO? ValidateJwtToken(string token);
 
         /// <summary>
         /// تحديث الرمز باستخدام رمز التحديث
@@ -45,13 +45,13 @@ namespace Services
         /// <summary>
         /// إنشاء رمز JWT
         /// </summary>
-        public LoginResponse GenerateJwtToken(UserInfo user)
+        public LoginResponse GenerateJwtToken(UserDTO user)
         {
             var jwtSettings = _configuration.GetSection("JwtSettings");
             var key = Encoding.ASCII.GetBytes(jwtSettings["Secret"] ?? throw new InvalidOperationException("JWT Secret is not configured"));
 
             var tokenExpiryMinutes = int.Parse(jwtSettings["TokenExpiryMinutes"] ?? "60");
-            var expiryTime = DateTime.UtcNow.AddMinutes(tokenExpiryMinutes);
+            var expiryTime = DateTime.Now.AddMinutes(tokenExpiryMinutes);
 
             var claims = new List<Claim>
             {
@@ -98,7 +98,7 @@ namespace Services
         /// <summary>
         /// التحقق من صحة الرمز وقراءة البيانات منه
         /// </summary>
-        public UserInfo? ValidateJwtToken(string token)
+        public UserDTO? ValidateJwtToken(string token)
         {
             if (string.IsNullOrEmpty(token))
                 return null;
@@ -130,7 +130,7 @@ namespace Services
                 var username = jwtToken.Claims.First(x => x.Type == ClaimTypes.Name).Value;
                 var roles = jwtToken.Claims.Where(x => x.Type == ClaimTypes.Role).Select(x => x.Value).ToList();
 
-                return new UserInfo
+                return new UserDTO
                 {
                     Id = userId,
                     Email = email,
@@ -156,7 +156,7 @@ namespace Services
 
             // في بيئة حقيقية، ستقوم بالبحث عن المستخدم في قاعدة البيانات
             // هنا نقوم بإنشاء مستخدم افتراضي لأغراض التوضيح
-            var user = new UserInfo
+            var user = new UserDTO
             {
                 Id = userId,
                 Username = "user123",

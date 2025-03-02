@@ -19,9 +19,11 @@ public partial class RefreshToken
 
     public DateTime CreateDate { get; set; }
 
-    public bool? IsDeleted { get; set; }
+    public bool IsDeleted { get; set; }
 
     public long UserId { get; set; }
+
+    public DateTime? DeletedAt { get; set; }
 
     public virtual User User { get; set; }
 }

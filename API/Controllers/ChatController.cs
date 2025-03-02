@@ -13,13 +13,13 @@ namespace API.Controllers
     [Route("api/[controller]/[action]")]
     public class ChatController : ControllerBase
     {
-        private readonly IChatService _chatService;
+        private readonly IChatAIService _chatService;
         private readonly ILogger<ChatController> _logger;
         private readonly IConfiguration _configuration;
         private readonly ILocalizationService _localizationService;
 
         public ChatController(
-            IChatService chatService,
+            IChatAIService chatService,
             ILogger<ChatController> logger,
             IConfiguration configuration,
             ILocalizationService localizationService)
@@ -68,10 +68,17 @@ namespace API.Controllers
         {
             // «” Œ—«Ã «··€… «·„›÷·… „‰ —√” «·ÿ·»
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
-
+            // «” Œ—«Ã „⁄—› «·„” Œœ„ „‰ «·—„“ «·„„Ì“
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                var errorMessage = _localizationService.GetMessage("UserIdRequired", "Errors", language);
+                return BadRequest(BaseResponse.FailureResponse(errorMessage, 400));
+            }
             try
             {
-                var result = await _chatService.GetChatRoomAsync(roomId, language);
+
+                var result = await _chatService.GetChatRoomAsync(roomId, userId, language);
                 return StatusCode(result.StatusCode, result);
             }
             catch (Exception ex)
@@ -171,3 +178,5 @@ namespace API.Controllers
                 return StatusCode(500, BaseResponse.FailureResponse(errorMessage, 500));
             }
         }
+    }
+}

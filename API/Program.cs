@@ -4,12 +4,14 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Services;
+using Services.Common;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
 builder.Services.AddControllers();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<MuhamiContext>(
@@ -35,15 +37,21 @@ var chatRulesPath = Path.Combine(builder.Environment.ContentRootPath, "ChatRules
 Directory.CreateDirectory(chatRulesPath); // Ensure the directory exists
 
 // Register our services
-builder.Services.AddSingleton<ILocalizationService, LocalizationService>();
 builder.Services.AddHttpClient<IDeepSeekService, DeepSeekService>();
 builder.Services.AddScoped<IDeepSeekService, DeepSeekService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddHttpClient<IGoogleAuthService, GoogleAuthService>();
 builder.Services.AddScoped<IGoogleAuthService, GoogleAuthService>();
-builder.Services.AddSingleton<IChatRulesService, ChatRulesService>();
-builder.Services.AddSingleton<IPdfService, PdfService>();
-builder.Services.AddScoped<IChatService, ChatService>();
+builder.Services.AddScoped<IChatRulesService, ChatRulesService>();
+builder.Services.AddScoped<IPdfService, PdfService>();
+builder.Services.AddScoped<IConversationTrackingService, ConversationTrackingService>();
+builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<ILocalizationService, LocalizationService>();
+builder.Services.AddScoped<IChatRulesService, ChatRulesService>();
+builder.Services.AddScoped<IPdfExtractionService, PdfExtractionService>();
+builder.Services.AddScoped<IPdfService, PdfService>();
 
 // Add configuration
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
@@ -79,6 +87,9 @@ builder.Services.AddAuthentication(options =>
         ClockSkew = TimeSpan.Zero
     };
 });
+
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddAutoMapper(typeof(SubscriptionMappingProfile));
 
 // ÅÖÇÝÉ ÇáÊæËíÞ
 builder.Services.AddAuthorization(options =>
