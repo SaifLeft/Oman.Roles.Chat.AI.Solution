@@ -5,7 +5,7 @@ namespace Models
     /// <summary>
     /// نموذج غرفة الدردشة
     /// </summary>
-    public class ChatRoom
+    public class ChatRoomDTO
     {
         /// <summary>
         /// معرف الغرفة
@@ -47,7 +47,7 @@ namespace Models
         /// محادثات الغرفة
         /// </summary>
         [JsonPropertyName("messages")]
-        public List<ChatMessage> Messages { get; set; } = new();
+        public List<ChatMessageDTO> Messages { get; set; } = new();
 
         /// <summary>
         /// قواعد الدردشة
@@ -59,13 +59,13 @@ namespace Models
     /// <summary>
     /// نموذج رسالة الدردشة
     /// </summary>
-    public class ChatMessage
+    public class ChatMessageDTO
     {
         /// <summary>
         /// معرف الرسالة
         /// </summary>
         [JsonPropertyName("id")]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public long Id { get; set; }
 
         /// <summary>
         /// نوع المرسل (مستخدم أو نظام)
@@ -149,12 +149,12 @@ namespace Models
         /// رسالة المستخدم
         /// </summary>
         [JsonPropertyName("userMessage")]
-        public ChatMessage UserMessage { get; set; } = new();
+        public ChatMessageDTO UserMessage { get; set; } = new();
 
         /// <summary>
         /// رسالة النظام (Deep Seek)
         /// </summary>
         [JsonPropertyName("systemResponse")]
-        public ChatMessage SystemResponse { get; set; } = new();
+        public ChatMessageDTO SystemResponse { get; set; } = new();
     }
 }

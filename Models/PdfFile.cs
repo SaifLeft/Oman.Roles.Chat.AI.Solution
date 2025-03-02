@@ -5,49 +5,80 @@ namespace Models
     /// <summary>
     /// نموذج ملف PDF
     /// </summary>
+    /// <summary>
+    /// نموذج ملف PDF
+    /// </summary>
     public class PdfFile
     {
         /// <summary>
+        /// معرف الملف
+        /// </summary>
+        public string Id { get; set; } = string.Empty;
+
+        /// <summary>
         /// اسم الملف
         /// </summary>
-        [JsonPropertyName("fileName")]
         public string FileName { get; set; } = string.Empty;
 
         /// <summary>
-        /// العنوان الوصفي للملف
+        /// عنوان الملف
         /// </summary>
-        [JsonPropertyName("title")]
         public string Title { get; set; } = string.Empty;
 
         /// <summary>
         /// وصف الملف
         /// </summary>
-        [JsonPropertyName("description")]
         public string Description { get; set; } = string.Empty;
 
         /// <summary>
-        /// تاريخ الرفع
+        /// مسار الملف على الخادم
         /// </summary>
-        [JsonPropertyName("uploadDate")]
-        public DateTime UploadDate { get; set; } = DateTime.UtcNow;
-
-        /// <summary>
-        /// معرف المستخدم الذي قام برفع الملف
-        /// </summary>
-        [JsonPropertyName("uploadedBy")]
-        public string UploadedBy { get; set; } = string.Empty;
+        public string FilePath { get; set; } = string.Empty;
 
         /// <summary>
         /// حجم الملف بالبايت
         /// </summary>
-        [JsonPropertyName("size")]
         public long Size { get; set; }
 
         /// <summary>
-        /// الكلمات المفتاحية للملف
+        /// حجم الملف منسق للعرض (مثال: 2.5 MB)
         /// </summary>
-        [JsonPropertyName("keywords")]
-        public List<string> Keywords { get; set; } = new();
+        public string SizeFormatted { get; set; } = string.Empty;
+
+        /// <summary>
+        /// نوع المحتوى
+        /// </summary>
+        public string ContentType { get; set; } = string.Empty;
+
+        /// <summary>
+        /// الكلمات المفتاحية المرتبطة بالملف
+        /// </summary>
+        public List<string> Keywords { get; set; } = new List<string>();
+
+        /// <summary>
+        /// معرف المستخدم الذي أنشأ الملف
+        /// </summary>
+        public string CreatedByUserId { get; set; } = string.Empty;
+
+        /// <summary>
+        /// تاريخ إنشاء الملف
+        /// </summary>
+        public DateTime CreatedAt { get; set; }
+
+        /// <summary>
+        /// معرف المستخدم الذي عدل الملف
+        /// </summary>
+        public string? ModifiedByUserId { get; set; }
+
+        /// <summary>
+        /// تاريخ تعديل الملف
+        /// </summary>
+        public DateTime? ModifiedAt { get; set; }
+
+        /// <summary>
+        /// رابط تنزيل الملف
+        /// </summary>
+        public string DownloadUrl { get; set; } = string.Empty;
     }
 
     /// <summary>
