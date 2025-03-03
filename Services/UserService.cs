@@ -246,7 +246,7 @@ namespace Services
                 };
 
                 // إنشاء رمز JWT
-                var loginResponse = _jwtService.GenerateJwtToken(userInfo);
+                var loginResponse = await _jwtService.GenerateJwtTokenAsync(userInfo);
 
                 // تخزين رمز التحديث في قاعدة البيانات
                 var refreshTokenEntity = new RefreshToken
@@ -328,7 +328,7 @@ namespace Services
                 };
 
                 // إنشاء رمز JWT
-                var loginResponse = _jwtService.GenerateJwtToken(userInfo);
+                var loginResponse = await _jwtService.GenerateJwtTokenAsync(userInfo);
 
                 // تخزين رمز التحديث في قاعدة البيانات
                 var refreshTokenEntity = new RefreshToken

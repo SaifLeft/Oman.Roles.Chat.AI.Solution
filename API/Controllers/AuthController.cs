@@ -87,12 +87,12 @@ namespace API.Controllers
         /// تحديث رمز JWT باستخدام رمز التحديث
         /// </summary>
         [HttpPost("refresh-token")]
-        public IActionResult RefreshToken([FromBody] RefreshTokenRequest request)
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
         {
             // استخراج اللغة المفضلة من رأس الطلب
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
 
-            var response = _jwtService.RefreshToken(request.RefreshToken);
+            var response = await _jwtService.RefreshTokenAsync(request.RefreshToken);
             if (response == null)
             {
                 var errorMessage = _localizationService.GetMessage("InvalidRefreshToken", "Errors", language);

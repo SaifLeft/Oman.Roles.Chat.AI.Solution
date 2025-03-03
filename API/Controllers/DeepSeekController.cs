@@ -39,14 +39,14 @@ namespace API.Controllers
                 }
 
                 // Log that we're processing the request
-                var processingMessage = _localizationService.GetMessage("ProcessingRequest", "Messages", language);
-                _logger.LogInformation(processingMessage);
+                // var processingMessage = _localizationService.GetMessage("ProcessingRequest", "Messages", language);
+                //_logger.LogInformation(processingMessage);
 
                 var result = await _deepSeekService.ProcessPdfDataAsync(request.Query);
 
                 // Log that we've completed processing
-                var completedMessage = _localizationService.GetMessage("RequestCompleted", "Messages", language);
-                _logger.LogInformation(completedMessage);
+                // var completedMessage = _localizationService.GetMessage("RequestCompleted", "Messages", language);
+                // _logger.LogInformation(completedMessage);
 
                 return Ok(new { response = result });
             }

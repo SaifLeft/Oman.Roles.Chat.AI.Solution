@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Data.Structure;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Models;
 using System.IdentityModel.Tokens.Jwt;
@@ -15,7 +17,7 @@ namespace Services
         /// </summary>
         /// <param name="user">معلومات المستخدم</param>
         /// <returns>معلومات الرمز المنشأ</returns>
-        LoginResponse GenerateJwtToken(UserDTO user);
+        Task<LoginResponse> GenerateJwtTokenAsync(UserDTO user);
 
         /// <summary>
         /// التحقق من صحة الرمز وقراءة البيانات منه
@@ -29,23 +31,38 @@ namespace Services
         /// </summary>
         /// <param name="refreshToken">رمز التحديث</param>
         /// <returns>معلومات الرمز الجديد، أو null إذا كان رمز التحديث غير صالح</returns>
-        LoginResponse? RefreshToken(string refreshToken);
+        Task<LoginResponse?> RefreshTokenAsync(string refreshToken);
+
+        /// <summary>
+        /// إبطال رمز التحديث
+        /// </summary>
+        /// <param name="refreshToken">رمز التحديث</param>
+        /// <returns>نجاح العملية</returns>
+        Task<bool> RevokeRefreshTokenAsync(string refreshToken);
+
+        /// <summary>
+        /// إبطال جميع رموز التحديث للمستخدم
+        /// </summary>
+        /// <param name="userId">معرف المستخدم</param>
+        /// <returns>نجاح العملية</returns>
+        Task<bool> RevokeAllUserRefreshTokensAsync(long userId);
     }
 
     public class JwtService : IJwtService
     {
         private readonly IConfiguration _configuration;
-        private readonly Dictionary<string, string> _refreshTokens = new();
+        private readonly MuhamiContext _context;
 
-        public JwtService(IConfiguration configuration)
+        public JwtService(IConfiguration configuration, MuhamiContext context)
         {
             _configuration = configuration;
+            _context = context;
         }
 
         /// <summary>
         /// إنشاء رمز JWT
         /// </summary>
-        public LoginResponse GenerateJwtToken(UserDTO user)
+        public async Task<LoginResponse> GenerateJwtTokenAsync(UserDTO user)
         {
             var jwtSettings = _configuration.GetSection("JwtSettings");
             var key = Encoding.ASCII.GetBytes(jwtSettings["Secret"] ?? throw new InvalidOperationException("JWT Secret is not configured"));
@@ -55,7 +72,7 @@ namespace Services
 
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.Name, user.Username)
@@ -84,7 +101,28 @@ namespace Services
 
             // إنشاء رمز التحديث
             var refreshToken = GenerateRefreshToken();
-            _refreshTokens[refreshToken] = user.Id;
+
+            // تحديد تاريخ انتهاء رمز التحديث
+            var refreshTokenExpiryDays = int.Parse(jwtSettings["RefreshTokenExpiryDays"] ?? "7");
+            var refreshTokenExpiryTime = DateTime.Now.AddDays(refreshTokenExpiryDays);
+
+            // حفظ رمز التحديث في قاعدة البيانات
+            if (!long.TryParse(user.Id, out long userIdLong))
+            {
+                throw new InvalidOperationException("Invalid user ID format");
+            }
+
+            var refreshTokenEntity = new RefreshToken
+            {
+                Token = refreshToken,
+                UserId = userIdLong,
+                ExpiresAt = refreshTokenExpiryTime,
+                CreatedByUserId = userIdLong,
+                CreateDate = DateTime.Now
+            };
+
+            _context.RefreshTokens.Add(refreshTokenEntity);
+            await _context.SaveChangesAsync();
 
             return new LoginResponse
             {
@@ -125,7 +163,7 @@ namespace Services
                 var jwtToken = (JwtSecurityToken)validatedToken;
 
                 // استخراج البيانات من الرمز
-                var userId = jwtToken.Claims.First(x => x.Type == JwtRegisteredClaimNames.Sub).Value;
+                var userId = jwtToken.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
                 var email = jwtToken.Claims.First(x => x.Type == JwtRegisteredClaimNames.Email).Value;
                 var username = jwtToken.Claims.First(x => x.Type == ClaimTypes.Name).Value;
                 var roles = jwtToken.Claims.Where(x => x.Type == ClaimTypes.Role).Select(x => x.Value).ToList();
@@ -148,30 +186,122 @@ namespace Services
         /// <summary>
         /// تحديث الرمز باستخدام رمز التحديث
         /// </summary>
-        public LoginResponse? RefreshToken(string refreshToken)
+        public async Task<LoginResponse?> RefreshTokenAsync(string refreshToken)
         {
-            // التحقق مما إذا كان رمز التحديث موجودًا
-            if (!_refreshTokens.TryGetValue(refreshToken, out var userId))
-                return null;
-
-            // في بيئة حقيقية، ستقوم بالبحث عن المستخدم في قاعدة البيانات
-            // هنا نقوم بإنشاء مستخدم افتراضي لأغراض التوضيح
-            var user = new UserDTO
+            try
             {
-                Id = userId,
-                Username = "user123",
-                Email = "user@example.com",
-                FullName = "مستخدم نموذجي",
-                Roles = new List<string> { "User" }
-            };
+                // البحث عن رمز التحديث في قاعدة البيانات
+                var tokenEntity = await _context.RefreshTokens
+                    .Include(rt => rt.User)
+                    .FirstOrDefaultAsync(rt => rt.Token == refreshToken &&
+                                               rt.RevokedAt == null &&
+                                               rt.IsDeleted != true);
 
-            // إنشاء رمز جديد
-            var response = GenerateJwtToken(user);
+                if (tokenEntity == null)
+                {
+                    // رمز التحديث غير موجود أو ملغي
+                    return null;
+                }
 
-            // إزالة رمز التحديث القديم
-            _refreshTokens.Remove(refreshToken);
+                // التحقق من صلاحية رمز التحديث
+                if (tokenEntity.ExpiresAt < DateTime.Now)
+                {
+                    // تعليم الرمز كملغي لأنه منتهي الصلاحية
+                    tokenEntity.RevokedAt = DateTime.Now;
+                    await _context.SaveChangesAsync();
+                    return null;
+                }
 
-            return response;
+                // إنشاء معلومات المستخدم من بيانات المستخدم
+                var user = tokenEntity.User;
+                if (user == null || user.IsDeleted == true || !user.IsActive)
+                {
+                    // المستخدم غير موجود أو غير نشط
+                    return null;
+                }
+
+                var userInfo = new UserDTO
+                {
+                    Id = user.Id.ToString(),
+                    Username = user.Username,
+                    Email = user.Email,
+                    FullName = user.FullName,
+                    Roles = new List<string> { user.UserRole }
+                };
+
+                // إلغاء رمز التحديث الحالي
+                tokenEntity.RevokedAt = DateTime.Now;
+                await _context.SaveChangesAsync();
+
+                // إنشاء رمز جديد
+                return await GenerateJwtTokenAsync(userInfo);
+            }
+            catch (Exception)
+            {
+                // في حالة حدوث أي خطأ، نعيد null
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// إبطال رمز التحديث
+        /// </summary>
+        public async Task<bool> RevokeRefreshTokenAsync(string refreshToken)
+        {
+            try
+            {
+                var tokenEntity = await _context.RefreshTokens
+                    .FirstOrDefaultAsync(rt => rt.Token == refreshToken &&
+                                               rt.RevokedAt == null &&
+                                               rt.IsDeleted != true);
+
+                if (tokenEntity == null)
+                {
+                    // رمز التحديث غير موجود أو ملغي بالفعل
+                    return false;
+                }
+
+                tokenEntity.RevokedAt = DateTime.Now;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// إبطال جميع رموز التحديث للمستخدم
+        /// </summary>
+        public async Task<bool> RevokeAllUserRefreshTokensAsync(long userId)
+        {
+            try
+            {
+                var tokens = await _context.RefreshTokens
+                    .Where(rt => rt.UserId == userId &&
+                                 rt.RevokedAt == null &&
+                                 rt.IsDeleted != true)
+                    .ToListAsync();
+
+                if (!tokens.Any())
+                {
+                    // لا توجد رموز تحديث نشطة للمستخدم
+                    return true;
+                }
+
+                foreach (var token in tokens)
+                {
+                    token.RevokedAt = DateTime.Now;
+                }
+
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         /// <summary>
