@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Data.Structure;
-using Muhami.DTOs;
+using Models;
 using System.Text.Json;
 
-namespace Muhami.Mappings
+namespace Services.Common
 {
     public class ConversationMappingProfile : Profile
     {

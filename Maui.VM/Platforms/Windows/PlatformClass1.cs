@@ -1,4 +1,4 @@
-﻿namespace Maui.Service.Platforms.Windows
+﻿namespace Maui.ViewModels.Platforms.Windows
 {
     // All the code in this file is only included on Windows.
     public class PlatformClass1

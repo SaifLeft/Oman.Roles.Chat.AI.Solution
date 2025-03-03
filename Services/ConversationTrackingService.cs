@@ -3,7 +3,7 @@ using Data.Structure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Muhami.DTOs;
+using Models;
 using System.Text.Json;
 
 namespace Services

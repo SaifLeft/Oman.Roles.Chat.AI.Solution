@@ -1,4 +1,4 @@
-﻿namespace Maui.Service.Platforms.MacCatalyst
+﻿namespace Maui.ViewModels.Platforms.MacCatalyst
 {
     // All the code in this file is only included on Mac Catalyst.
     public class PlatformClass1

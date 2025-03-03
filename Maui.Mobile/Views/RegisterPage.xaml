@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Maui.Mobile.Views.RegisterPage"
+             Title="إنشاء حساب جديد"
+             FlowDirection="RightToLeft">
+
+    <ScrollView>
+        <Grid RowDefinitions="Auto,*,Auto"
+              Padding="20">
+
+            <!-- Header -->
+            <StackLayout Grid.Row="0" Spacing="10" Margin="0,20,0,0">
+                <Label Text="إنشاء حساب جديد"
+                       FontSize="28"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource Primary}"
+                       HorizontalOptions="Center" />
+                <Label Text="أدخل المعلومات المطلوبة لإنشاء حسابك"
+                       FontSize="16"
+                       TextColor="Gray"
+                       HorizontalOptions="Center"
+                       Margin="0,0,0,10" />
+            </StackLayout>
+
+            <!-- Registration Form -->
+            <VerticalStackLayout Grid.Row="1" Spacing="15" Margin="0,10">
+                <Frame BorderColor="{StaticResource Gray200}" 
+                       Padding="15" 
+                       CornerRadius="10"
+                       HasShadow="True">
+                    <VerticalStackLayout Spacing="15">
+                        <!-- Full Name -->
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="الاسم الكامل" FontSize="16" />
+                            <Entry x:Name="FullNameEntry" 
+                                   Placeholder="أدخل الاسم الكامل" 
+                                   Text="{Binding FullName}"
+                                   ClearButtonVisibility="WhileEditing" />
+                        </VerticalStackLayout>
+
+                        <!-- Username -->
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="اسم المستخدم" FontSize="16" />
+                            <Entry x:Name="UsernameEntry" 
+                                   Placeholder="أدخل اسم المستخدم" 
+                                   Text="{Binding Username}"
+                                   ClearButtonVisibility="WhileEditing" />
+                        </VerticalStackLayout>
+
+                        <!-- Email -->
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="البريد الإلكتروني" FontSize="16" />
+                            <Entry x:Name="EmailEntry" 
+                                   Placeholder="أدخل البريد الإلكتروني" 
+                                   Keyboard="Email"
+                                   Text="{Binding Email}"
+                                   ClearButtonVisibility="WhileEditing" />
+                        </VerticalStackLayout>
+
+                        <!-- Phone Number -->
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="رقم الهاتف" FontSize="16" />
+                            <Entry x:Name="PhoneEntry" 
+                                   Placeholder="أدخل رقم الهاتف" 
+                                   Keyboard="Telephone"
+                                   Text="{Binding PhoneNumber}"
+                                   ClearButtonVisibility="WhileEditing" />
+                        </VerticalStackLayout>
+
+                        <!-- Password -->
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="كلمة المرور" FontSize="16" />
+                            <Entry x:Name="PasswordEntry" 
+                                   Placeholder="أدخل كلمة المرور" 
+                                   IsPassword="True" 
+                                   Text="{Binding Password}"
+                                   ClearButtonVisibility="WhileEditing" />
+                        </VerticalStackLayout>
+
+                        <!-- Confirm Password -->
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="تأكيد كلمة المرور" FontSize="16" />
+                            <Entry x:Name="ConfirmPasswordEntry" 
+                                   Placeholder="أعد إدخال كلمة المرور" 
+                                   IsPassword="True" 
+                                   Text="{Binding ConfirmPassword}"
+                                   ClearButtonVisibility="WhileEditing" />
+                        </VerticalStackLayout>
+
+                        <!-- Terms and Conditions -->
+                        <HorizontalStackLayout Spacing="10">
+                            <CheckBox x:Name="TermsCheckBox" 
+                                      IsChecked="{Binding AcceptTerms}" 
+                                      Color="{StaticResource Primary}" />
+                            <Label Text="أوافق على شروط وأحكام الاستخدام"
+                                   VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+
+                        <!-- Register Button -->
+                        <Button x:Name="RegisterButton" 
+                                Text="إنشاء الحساب" 
+                                Clicked="OnRegisterClicked"
+                                CornerRadius="10"
+                                HeightRequest="50"
+                                IsEnabled="{Binding AcceptTerms}"
+                                Margin="0,10,0,0" />
+
+                        <!-- Loading Indicator -->
+                        <ActivityIndicator x:Name="LoadingIndicator" 
+                                          IsRunning="False" 
+                                          IsVisible="True"
+                                          HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+
+            <!-- Login Link -->
+            <HorizontalStackLayout Grid.Row="2" 
+                                  HorizontalOptions="Center"
+                                  Spacing="5"
+                                  Margin="0,10,0,20">
+                <Label Text="لديك حساب بالفعل؟" TextColor="Gray" />
+                <Label Text="تسجيل الدخول"
+                       TextColor="{StaticResource Primary}"
+                       FontAttributes="Bold">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnLoginTapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>

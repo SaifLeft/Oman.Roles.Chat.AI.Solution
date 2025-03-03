@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 
-namespace API.Services
+namespace Services
 {
     public interface ILocalizationService
     {

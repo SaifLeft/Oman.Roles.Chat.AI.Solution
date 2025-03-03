@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Muhami.DTOs
+namespace Models
 {
     public class ConversationTrackingDTO
     {

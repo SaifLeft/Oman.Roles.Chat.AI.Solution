@@ -4,11 +4,20 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Maui.Mobile"
+    xmlns:views="clr-namespace:Maui.Mobile.Views"
     Shell.FlyoutBehavior="Disabled"
-    Title="Maui.Mobile">
+    Title="المحامي الذكي"
+    FlowDirection="RightToLeft">
 
+    <!-- Authentication Pages -->
     <ShellContent
-        Title="Home"
+        Title="تسجيل الدخول"
+        ContentTemplate="{DataTemplate views:LoginPage}"
+        Route="LoginPage" />
+
+    <!-- Main Content Pages -->
+    <ShellContent
+        Title="الرئيسية"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 

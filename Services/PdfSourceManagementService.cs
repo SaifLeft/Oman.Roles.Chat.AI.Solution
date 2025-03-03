@@ -1,5 +1,4 @@
-﻿using API.Services;
-using Data.Structure;
+﻿using Data.Structure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;

@@ -1,5 +1,4 @@
-﻿using API.Services;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Services;
 
 namespace API.Controllers
