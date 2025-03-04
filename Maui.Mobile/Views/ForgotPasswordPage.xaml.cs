@@ -56,6 +56,7 @@ public partial class ForgotPasswordPage : ContentPage
         }
     }
 
+
     private bool IsValidEmail(string text)
     {
         var emailRegex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
