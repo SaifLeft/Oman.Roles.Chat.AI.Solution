@@ -1,6 +1,5 @@
 ﻿using API.Client;
 using Maui.Service;
-using Maui.ViewModels;
 using System.Diagnostics;
 using System.Windows.Input;
 

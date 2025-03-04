@@ -1,7 +1,5 @@
 ﻿using API.Client;
 using Maui.Service;
-using Maui.ViewModels;
-using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Windows.Input;
 
@@ -42,7 +40,13 @@ namespace Maui.Mobile.ViewModels
 
             Title = "تسجيل الدخول برقم الهاتف";
 
-            LoginWithPhoneCommand = new Command<(long, string)>(async (params) => await LoginWithPhoneAsync(Item1, Item2));
+            LoginWithPhoneCommand = new Command(async () =>
+            {
+                if (long.TryParse(PhoneNumber, out long phoneNum))
+                {
+                    await LoginWithPhoneAsync(phoneNum, Password);
+                }
+            });
 
             BackToLoginCommand = new Command(async () => await GoToLoginPage());
             ForgotPasswordCommand = new Command(async () => await GoToForgotPasswordPage());
@@ -66,24 +70,24 @@ namespace Maui.Mobile.ViewModels
                 };
 
                 var response = await _apiClient.LoginWithPhoneAsync(loginRequest);
-                var responseContent = await GetResponseContent(response);
+                var loginResponse = response.Data;
 
-                if (responseContent == null)
-                    return false;
-
-                var loginResponse = JsonConvert.DeserializeObject<LoginResponseDTO>(responseContent);
-
-                if (loginResponse == null || string.IsNullOrEmpty(loginResponse.Token))
+                if (loginResponse == null || string.IsNullOrEmpty(loginResponse.AccessToken))
                     return false;
 
                 // Save the token and user info
-                await _authService.SaveTokenAsync(loginResponse.Token);
+                await _authService.SaveTokenAsync(loginResponse.AccessToken);
                 await _authService.SaveRefreshTokenAsync(loginResponse.RefreshToken);
-                await _preferencesService.SaveValueAsync("UserId", loginResponse.UserId.ToString());
-                await _preferencesService.SaveValueAsync("Username", loginResponse.Username);
+                await _preferencesService.SaveValueAsync("UserId", loginResponse.User.Id.ToString());
+                await _preferencesService.SaveValueAsync("Username", loginResponse.User.Username);
                 await _preferencesService.SaveValueAsync("IsAuthenticated", "true");
 
                 return true;
+            }
+            catch (ApiException ex)
+            {
+                Debug.WriteLine($"API Error: {ex.Message}");
+                return false;
             }
             catch (Exception ex)
             {

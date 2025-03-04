@@ -3,7 +3,7 @@ using Maui.Service;
 using System.Diagnostics;
 using System.Windows.Input;
 
-namespace Maui.ViewModels
+namespace Maui.Mobile.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
@@ -32,7 +32,7 @@ namespace Maui.ViewModels
 
         public LoginViewModel(
             IAPIClient apiClient,
-        IAuthService authService,
+            IAuthService authService,
             IPreferencesService preferencesService)
         {
             _apiClient = apiClient;
@@ -41,7 +41,7 @@ namespace Maui.ViewModels
 
             Title = "تسجيل الدخول";
 
-            LoginCommand = new Command<(string, string)>((params) => LoginAsync(Item1, Item2));
+            LoginCommand = new Command<string>((param) => LoginAsync(Username, Password));
             GoogleLoginCommand = new Command(async () => await LoginWithGoogleAsync());
             RegisterCommand = new Command(async () => await GoToRegisterPage());
             ForgotPasswordCommand = new Command(async () => await GoToForgotPasswordPage());
@@ -65,10 +65,6 @@ namespace Maui.ViewModels
                 };
 
                 var response = await _apiClient.LoginAsync(loginRequest);
-                //var responseContent = await GetResponseContent(response);
-
-                //if (responseContent == null)
-                //    return false;
 
                 var loginResponse = response.Data;
 
@@ -153,11 +149,5 @@ namespace Maui.ViewModels
         }
     }
 
-    public class LoginResponseDTO
-    {
-        public string Token { get; set; }
-        public string RefreshToken { get; set; }
-        public long UserId { get; set; }
-        public string Username { get; set; }
-    }
+    // No longer needed - using Maui.Service.Models.LoginResponseDTO instead
 }

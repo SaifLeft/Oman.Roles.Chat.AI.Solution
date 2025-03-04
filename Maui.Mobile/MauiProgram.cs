@@ -2,7 +2,6 @@
 using Maui.Mobile.ViewModels;
 using Maui.Mobile.Views;
 using Maui.Service;
-using Maui.ViewModels;
 using Microsoft.Extensions.Logging;
 using System.Net.Http.Headers;
 
@@ -52,7 +51,7 @@ namespace Maui.Mobile
             var httpClient = new HttpClient();
 
             // Configure base address and headers
-            httpClient.BaseAddress = new Uri("https://api.smartlawyer.com/");
+            httpClient.BaseAddress = new Uri("https://localhost:7155/");
             httpClient.DefaultRequestHeaders.Accept.Clear();
             httpClient.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));

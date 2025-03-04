@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Maui.ViewModels
+namespace Maui.Mobile.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
