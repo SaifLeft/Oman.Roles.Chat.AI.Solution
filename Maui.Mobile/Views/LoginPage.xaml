@@ -2,133 +2,133 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Maui.Mobile.Views.LoginPage"
-             Title="����� ������"
+             Title="تسجيل الدخول"
              Shell.NavBarIsVisible="False"
              FlowDirection="RightToLeft">
 
-	<Grid RowDefinitions="Auto,*,Auto"
+    <Grid RowDefinitions="Auto,*,Auto"
           Padding="20">
 
-		<!-- Logo and Header -->
-		<StackLayout Grid.Row="0" Spacing="10" Margin="0,40,0,0">
-			<Image Source="smart_lawyer_logo.png"
+        <!-- Logo and Header -->
+        <StackLayout Grid.Row="0" Spacing="10" Margin="0,40,0,0">
+            <Image Source="smart_lawyer_logo.png"
                    HeightRequest="120"
                    HorizontalOptions="Center" />
-			<Label Text="������� �����"
+            <Label Text="المحامي الذكي"
                    FontSize="28"
                    FontAttributes="Bold"
                    TextColor="{StaticResource Primary}"
                    HorizontalOptions="Center" />
-			<Label Text="����� ������ ��� �����"
+            <Label Text="استشارات قانونية ذكية"
                    FontSize="18"
                    TextColor="Gray"
                    HorizontalOptions="Center"
                    Margin="0,0,0,20" />
-		</StackLayout>
+        </StackLayout>
 
-		<!-- Login Form -->
-		<ScrollView Grid.Row="1">
-			<VerticalStackLayout Spacing="20" Margin="0,10">
-				<Frame BorderColor="{StaticResource Gray200}"
+        <!-- Login Form -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="20" Margin="0,10">
+                <Frame BorderColor="{StaticResource Gray200}"
                        Padding="15"
                        CornerRadius="10"
                        HasShadow="True">
-					<VerticalStackLayout Spacing="16">
-						<!-- Username -->
-						<VerticalStackLayout Spacing="5">
-							<Label Text="��� ��������" FontSize="16" />
-							<Entry x:Name="UsernameEntry"
-                                   Placeholder="���� ��� ��������"
+                    <VerticalStackLayout Spacing="16">
+                        <!-- Username -->
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="اسم المستخدم" FontSize="16" />
+                            <Entry x:Name="UsernameEntry"
+                                   Placeholder="أدخل اسم المستخدم"
                                    Text="{Binding Username}"
                                    ClearButtonVisibility="WhileEditing" />
-						</VerticalStackLayout>
+                        </VerticalStackLayout>
 
-						<!-- Password -->
-						<VerticalStackLayout Spacing="5">
-							<Label Text="���� ������" FontSize="16" />
-							<Entry x:Name="PasswordEntry"
-                                   Placeholder="���� ���� ������"
+                        <!-- Password -->
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="كلمة المرور" FontSize="16" />
+                            <Entry x:Name="PasswordEntry"
+                                   Placeholder="أدخل كلمة المرور"
                                    IsPassword="True"
                                    Text="{Binding Password}"
                                    ClearButtonVisibility="WhileEditing" />
-						</VerticalStackLayout>
+                        </VerticalStackLayout>
 
-						<!-- Forgot Password Link -->
-						<Label Text="���� ���� �����ѿ"
+                        <!-- Forgot Password Link -->
+                        <Label Text="نسيت كلمة المرور؟"
                                FontSize="14"
                                TextColor="{StaticResource Primary}"
                                HorizontalOptions="End">
-							<Label.GestureRecognizers>
-								<TapGestureRecognizer Tapped="OnForgotPasswordTapped" />
-							</Label.GestureRecognizers>
-						</Label>
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnForgotPasswordTapped" />
+                            </Label.GestureRecognizers>
+                        </Label>
 
-						<!-- Login Button -->
-						<Button x:Name="LoginButton"
-                                Text="����� ������"
+                        <!-- Login Button -->
+                        <Button x:Name="LoginButton"
+                                Text="تسجيل الدخول"
                                 Clicked="OnLoginClicked"
                                 CornerRadius="10"
                                 HeightRequest="50"
                                 Margin="0,10,0,0" />
 
-						<!-- Loading Indicator -->
-						<ActivityIndicator x:Name="LoadingIndicator"
+                        <!-- Loading Indicator -->
+                        <ActivityIndicator x:Name="LoadingIndicator"
                                            IsRunning="False"
                                            IsVisible="True"
                                            HorizontalOptions="Center" />
 
-						<!-- Or Separator -->
-						<Grid ColumnDefinitions="*,Auto,*" Margin="0,10">
-							<BoxView Grid.Column="0"
+                        <!-- Or Separator -->
+                        <Grid ColumnDefinitions="*,Auto,*" Margin="0,10">
+                            <BoxView Grid.Column="0"
                                      HeightRequest="1"
                                      BackgroundColor="{StaticResource Gray300}"
                                      VerticalOptions="Center" />
-							<Label Grid.Column="1"
-                                   Text="��"
+                            <Label Grid.Column="1"
+                                   Text="أو"
                                    Margin="10,0"
                                    TextColor="{StaticResource Gray500}"
                                    VerticalOptions="Center" />
-							<BoxView Grid.Column="2"
+                            <BoxView Grid.Column="2"
                                      HeightRequest="1"
                                      BackgroundColor="{StaticResource Gray300}"
                                      VerticalOptions="Center" />
-						</Grid>
+                        </Grid>
 
-						<!-- Login with Phone -->
-						<Button Text="����� ������ ���� ������"
+                        <!-- Login with Phone -->
+                        <Button Text="تسجيل الدخول برقم الهاتف"
                                 Clicked="OnPhoneLoginTapped"
                                 BackgroundColor="{StaticResource Gray200}"
                                 TextColor="{StaticResource Black}"
                                 CornerRadius="10"
                                 HeightRequest="50" />
 
-						<!-- Google Login Button -->
-						<Button x:Name="GoogleLoginButton"
-                                Text="����� ������ �������� Google"
+                        <!-- Google Login Button -->
+                        <Button x:Name="GoogleLoginButton"
+                                Text="تسجيل الدخول باستخدام Google"
                                 Clicked="OnGoogleLoginClicked"
                                 BackgroundColor="#4285F4"
                                 TextColor="White"
                                 ImageSource="google_icon.png"
                                 CornerRadius="10"
                                 HeightRequest="50" />
-					</VerticalStackLayout>
-				</Frame>
-			</VerticalStackLayout>
-		</ScrollView>
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+        </ScrollView>
 
-		<!-- Register Link -->
-		<HorizontalStackLayout Grid.Row="2"
+        <!-- Register Link -->
+        <HorizontalStackLayout Grid.Row="2"
                                HorizontalOptions="Center"
                                Spacing="5"
                                Margin="0,20,0,0">
-			<Label Text="��� ���� ���ȿ" TextColor="Gray" />
-			<Label Text="����� ���� ����"
+            <Label Text="ليس لديك حساب؟" TextColor="Gray" />
+            <Label Text="إنشاء حساب جديد"
                    TextColor="{StaticResource Primary}"
                    FontAttributes="Bold">
-				<Label.GestureRecognizers>
-					<TapGestureRecognizer Tapped="OnRegisterTapped" />
-				</Label.GestureRecognizers>
-			</Label>
-		</HorizontalStackLayout>
-	</Grid>
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnRegisterTapped" />
+                </Label.GestureRecognizers>
+            </Label>
+        </HorizontalStackLayout>
+    </Grid>
 </ContentPage>
