@@ -1,10 +1,11 @@
 ﻿using API.Client;
 using Maui.Service;
+using Maui.ViewModels;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Windows.Input;
 
-namespace Maui.ViewModels
+namespace Maui.Mobile.ViewModels
 {
     public class PhoneLoginViewModel : BaseViewModel
     {
@@ -41,8 +42,7 @@ namespace Maui.ViewModels
 
             Title = "تسجيل الدخول برقم الهاتف";
 
-            LoginWithPhoneCommand = new Command<(long, string)>(async (params) =>
-                await LoginWithPhoneAsync(params.Item1, params.Item2));
+            LoginWithPhoneCommand = new Command<(long, string)>(async (params) => await LoginWithPhoneAsync(Item1, Item2));
 
             BackToLoginCommand = new Command(async () => await GoToLoginPage());
             ForgotPasswordCommand = new Command(async () => await GoToForgotPasswordPage());
@@ -84,11 +84,6 @@ namespace Maui.ViewModels
                 await _preferencesService.SaveValueAsync("IsAuthenticated", "true");
 
                 return true;
-            }
-            catch (ApiException ex)
-            {
-                Debug.WriteLine($"API Error: {ex.Message}");
-                return false;
             }
             catch (Exception ex)
             {

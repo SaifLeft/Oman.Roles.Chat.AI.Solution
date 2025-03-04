@@ -1,6 +1,5 @@
 ﻿using API.Client;
 using Maui.Service;
-using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Windows.Input;
 
@@ -42,7 +41,7 @@ namespace Maui.ViewModels
 
             Title = "تسجيل الدخول";
 
-            LoginCommand = new Command<(string, string)>(async (params) => await LoginAsync(params.Item1, params.Item2));
+            LoginCommand = new Command<(string, string)>((params) => LoginAsync(Item1, Item2));
             GoogleLoginCommand = new Command(async () => await LoginWithGoogleAsync());
             RegisterCommand = new Command(async () => await GoToRegisterPage());
             ForgotPasswordCommand = new Command(async () => await GoToForgotPasswordPage());
@@ -66,21 +65,21 @@ namespace Maui.ViewModels
                 };
 
                 var response = await _apiClient.LoginAsync(loginRequest);
-                var responseContent = await GetResponseContent(response);
+                //var responseContent = await GetResponseContent(response);
 
-                if (responseContent == null)
-                    return false;
+                //if (responseContent == null)
+                //    return false;
 
-                var loginResponse = JsonConvert.DeserializeObject<LoginResponseDTO>(responseContent);
+                var loginResponse = response.Data;
 
-                if (loginResponse == null || string.IsNullOrEmpty(loginResponse.Token))
+                if (loginResponse == null || string.IsNullOrEmpty(loginResponse.AccessToken))
                     return false;
 
                 // Save the token and user info
-                await _authService.SaveTokenAsync(loginResponse.Token);
+                await _authService.SaveTokenAsync(loginResponse.AccessToken);
                 await _authService.SaveRefreshTokenAsync(loginResponse.RefreshToken);
-                await _preferencesService.SaveValueAsync("UserId", loginResponse.UserId.ToString());
-                await _preferencesService.SaveValueAsync("Username", loginResponse.Username);
+                await _preferencesService.SaveValueAsync("UserId", loginResponse.User.Id.ToString());
+                await _preferencesService.SaveValueAsync("Username", loginResponse.User.Username);
                 await _preferencesService.SaveValueAsync("IsAuthenticated", "true");
 
                 return true;

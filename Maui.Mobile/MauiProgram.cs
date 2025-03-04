@@ -1,6 +1,8 @@
 ﻿using API.Client;
+using Maui.Mobile.ViewModels;
 using Maui.Mobile.Views;
 using Maui.Service;
+using Maui.ViewModels;
 using Microsoft.Extensions.Logging;
 using System.Net.Http.Headers;
 

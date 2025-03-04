@@ -1,3 +1,4 @@
+using Maui.Mobile.ViewModels;
 using System.Diagnostics;
 
 namespace Maui.Mobile.Views;

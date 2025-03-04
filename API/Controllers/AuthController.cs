@@ -35,6 +35,7 @@ namespace API.Controllers
         /// تسجيل مستخدم جديد
         /// </summary>
         [HttpPost("register")]
+        [ProducesDefaultResponseType(typeof(BaseResponse<UserDTO>))]
         public async Task<IActionResult> Register([FromBody] RegisterUserRequestDTO request)
         {
             // استخراج اللغة المفضلة من رأس الطلب
@@ -52,6 +53,8 @@ namespace API.Controllers
         /// تسجيل الدخول باستخدام اسم المستخدم وكلمة المرور
         /// </summary>
         [HttpPost("login")]
+        [ProducesDefaultResponseType(typeof(BaseResponse<LoginResponse>))]
+
         public async Task<IActionResult> Login([FromBody] LoginRequestDTO request)
         {
             // استخراج اللغة المفضلة من رأس الطلب
@@ -69,6 +72,7 @@ namespace API.Controllers
         /// تسجيل الدخول باستخدام رقم الهاتف وكلمة المرور
         /// </summary>
         [HttpPost("login-with-phone")]
+        [ProducesDefaultResponseType(typeof(BaseResponse<LoginResponse>))]
         public async Task<IActionResult> LoginWithPhone([FromBody] LoginWithPhoneRequestDTO request)
         {
             // استخراج اللغة المفضلة من رأس الطلب
@@ -86,6 +90,8 @@ namespace API.Controllers
         /// تحديث رمز JWT باستخدام رمز التحديث
         /// </summary>
         [HttpPost("refresh-token")]
+        [ProducesDefaultResponseType(typeof(BaseResponse<LoginResponse>))]
+
         public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
         {
             // استخراج اللغة المفضلة من رأس الطلب
@@ -107,6 +113,8 @@ namespace API.Controllers
         /// </summary>
         [Authorize]
         [HttpGet("profile")]
+        [ProducesDefaultResponseType(typeof(BaseResponse<UserDTO>))]
+
         public async Task<IActionResult> GetProfile()
         {
             // استخراج اللغة المفضلة من رأس الطلب
@@ -129,6 +137,8 @@ namespace API.Controllers
         /// </summary>
         [Authorize]
         [HttpPut("profile")]
+        [ProducesDefaultResponseType(typeof(BaseResponse<UserDTO>))]
+
         public async Task<IActionResult> UpdateProfile([FromBody] UpdateUserProfileRequestDTO request)
         {
             // استخراج اللغة المفضلة من رأس الطلب
@@ -155,6 +165,7 @@ namespace API.Controllers
         /// </summary>
         [Authorize]
         [HttpPost("change-password")]
+        [ProducesDefaultResponseType(typeof(BaseResponse<bool>))]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequestDTO request)
         {
             // استخراج اللغة المفضلة من رأس الطلب
@@ -180,6 +191,8 @@ namespace API.Controllers
         /// إعادة تعيين كلمة المرور (نسيان كلمة المرور)
         /// </summary>
         [HttpPost("reset-password")]
+        [ProducesDefaultResponseType(typeof(BaseResponse<bool>))]
+
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequestDTO request)
         {
             // استخراج اللغة المفضلة من رأس الطلب
@@ -198,6 +211,8 @@ namespace API.Controllers
         /// </summary>
         [Authorize(Roles = "Admin")]
         [HttpPost("activate/{userId}")]
+        [ProducesDefaultResponseType(typeof(BaseResponse<bool>))]
+
         public async Task<IActionResult> ActivateUser(long userId)
         {
             // استخراج اللغة المفضلة من رأس الطلب
@@ -212,6 +227,8 @@ namespace API.Controllers
         /// </summary>
         [Authorize(Roles = "Admin")]
         [HttpPost("deactivate/{userId}")]
+        [ProducesDefaultResponseType(typeof(BaseResponse<bool>))]
+
         public async Task<IActionResult> DeactivateUser(long userId)
         {
             // استخراج اللغة المفضلة من رأس الطلب
