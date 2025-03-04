@@ -1,5 +1,6 @@
 using API.Client;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace Maui.Mobile.Views;
 
@@ -53,5 +54,11 @@ public partial class ForgotPasswordPage : ContentPage
             LoadingIndicator.IsRunning = false;
             SendButton.IsEnabled = true;
         }
+    }
+
+    private bool IsValidEmail(string text)
+    {
+        var emailRegex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+        return emailRegex.IsMatch(text);
     }
 }
