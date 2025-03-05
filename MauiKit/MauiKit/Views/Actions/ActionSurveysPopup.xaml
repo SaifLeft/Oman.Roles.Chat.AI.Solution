@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rg:PopupPage
+    x:Class="MauiKit.Views.Actions.ActionSurveysPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animation="clr-namespace:RGPopup.Maui.Animations;assembly=RGPopup.Maui"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:handlers="clr-namespace:MauiKit.Handlers"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:rg="clr-namespace:RGPopup.Maui.Pages;assembly=RGPopup.Maui"
+    CloseWhenBackgroundIsClicked="False">
+
+    <rg:PopupPage.Animation>
+        <animation:MoveAnimation PositionIn="Bottom" PositionOut="Bottom" />
+    </rg:PopupPage.Animation>
+
+    <Grid HorizontalOptions="{OnIdiom Phone='Fill', Default='Center'}" VerticalOptions="{OnIdiom Phone='End', Tablet='End', Desktop='End'}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{OnIdiom Desktop='600', Default='*'}" />
+        </Grid.ColumnDefinitions>
+
+        <Border Background="{DynamicResource MainWrapperBackgroundColor}">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="26,26,0,0" />
+            </Border.StrokeShape>
+            <StackLayout
+                Padding="16,25"
+                Spacing="16"
+                VerticalOptions="Center">
+                <Label
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"
+                    Style="{StaticResource Title2}"
+                    Text="{localization:Translate LabelSurveyQuestion}"
+                    TextColor="{DynamicResource BaseTextColor}" />
+
+                <Border
+                    Margin="5,0,5,0"
+                    Padding="10,15"
+                    BackgroundColor="{DynamicResource BasePageColor}"
+                    HeightRequest="{OnIdiom Phone='60',
+                                            Tablet='70',
+                                            Desktop='80'}"
+                    StrokeShape="{RoundRectangle CornerRadius='12'}">
+                    <RadioButton
+                        Content="Facebook"
+                        GroupName="Question"
+                        VerticalOptions="Center" />
+                </Border>
+
+                <Border
+                    Margin="5,0,5,0"
+                    Padding="10,15"
+                    BackgroundColor="{DynamicResource BasePageColor}"
+                    HeightRequest="{OnIdiom Phone='60',
+                                            Tablet='70',
+                                            Desktop='80'}"
+                    StrokeShape="{RoundRectangle CornerRadius='12'}">
+                    <RadioButton
+                        Content="Instagram"
+                        GroupName="Question"
+                        VerticalOptions="Center" />
+                </Border>
+
+                <Border
+                    Margin="5,0,5,0"
+                    Padding="10,15"
+                    BackgroundColor="{DynamicResource BasePageColor}"
+                    HeightRequest="{OnIdiom Phone='60',
+                                            Tablet='70',
+                                            Desktop='80'}"
+                    StrokeShape="{RoundRectangle CornerRadius='12'}">
+                    <RadioButton
+                        Content="WhatsApp"
+                        GroupName="Question"
+                        VerticalOptions="Center" />
+                </Border>
+
+                <Button
+                    BackgroundColor="{DynamicResource PrimaryColor}"
+                    Clicked="SubmitButton_Clicked"
+                    CornerRadius="14"
+                    FontAttributes="Bold"
+                    HeightRequest="50"
+                    Text="{localization:Translate ButtonSubmit}"
+                    TextColor="{DynamicResource White}"
+                    WidthRequest="200" />
+            </StackLayout>
+        </Border>
+    </Grid>
+
+</rg:PopupPage>

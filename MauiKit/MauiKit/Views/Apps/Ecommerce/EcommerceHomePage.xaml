@@ -1,0 +1,386 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Ecommerce.EcommerceHomePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:handlers="clr-namespace:MauiKit.Handlers"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:proc="clr-namespace:PanCardView.Processors;assembly=PanCardView"
+    xmlns:templates="clr-namespace:MauiKit.Views.AppFlows.Ecommerce.Templates"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewModels="clr-namespace:MauiKit.ViewModels.Ecommerce"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    x:Name="homePage">
+
+    <views:BasePage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="SectionHeaderTextStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="TextColor" Value="{DynamicResource BaseTextColor}" />
+                <Setter Property="Margin" Value="0,0,0,5" />
+                <Setter Property="VerticalOptions" Value="End" />
+                <Setter Property="FontFamily" Value="RegularFont" />
+            </Style>
+
+            <Style x:Key="SectionSubheaderTextStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontFamily" Value="MediumFont" />
+                <Setter Property="TextColor" Value="{DynamicResource BaseLightTextColor}" />
+            </Style>
+
+        </ResourceDictionary>
+    </views:BasePage.Resources>
+
+    <views:BasePage.PageContent>
+        <ScrollView>
+            <StackLayout Spacing="0">
+                <!--  HEADER  -->
+                <Grid
+                    Padding="20,10"
+                    ColumnDefinitions="Auto, *, Auto"
+                    ColumnSpacing="20">
+                    <Border
+                        Padding="0"
+                        Background="{DynamicResource BasePageColor}"
+                        HeightRequest="46"
+                        StrokeThickness="1.2"
+                        WidthRequest="46">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
+                        <Image
+                            HeightRequest="26"
+                            HorizontalOptions="Center"
+                            Source="{DynamicResource MenuIcon}"
+                            VerticalOptions="Center"
+                            WidthRequest="26" />
+                    </Border>
+
+                    <Label
+                        Grid.Column="1"
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        HorizontalOptions="Start"
+                        Text="Hi, Nura Lineon"
+                        VerticalOptions="Center" />
+
+                    <Grid Grid.Column="2">
+                        <toolkit:AvatarView
+                            BackgroundColor="Transparent"
+                            BorderWidth="0"
+                            CornerRadius="25"
+                            HeightRequest="45"
+                            ImageSource="https://raw.githubusercontent.com/tlssoftware/raw-material/master/maui-kit/avatars/user2.png"
+                            WidthRequest="45">
+                            <toolkit:AvatarView.Shadow>
+                                <Shadow Opacity="0.3" />
+                            </toolkit:AvatarView.Shadow>
+                        </toolkit:AvatarView>
+                    </Grid>
+                </Grid>
+
+                <!--  SEARCH BAR  -->
+                <StackLayout
+                    Margin="20,12"
+                    HorizontalOptions="FillAndExpand"
+                    Orientation="Horizontal"
+                    Spacing="12">
+                    <Border
+                        Margin="0"
+                        Padding="0"
+                        Background="{DynamicResource EntryAndEditorsBackgroundColor}"
+                        HeightRequest="44"
+                        HorizontalOptions="FillAndExpand"
+                        Stroke="{DynamicResource EntryAndEditorsBorderColor}"
+                        StrokeShape="RoundRectangle 22"
+                        StrokeThickness="1">
+                        <StackLayout
+                            Margin="12,2"
+                            Orientation="Horizontal"
+                            VerticalOptions="CenterAndExpand">
+                            <Label
+                                FontFamily="MaterialDesign"
+                                FontSize="22"
+                                HorizontalOptions="Center"
+                                HorizontalTextAlignment="Center"
+                                Text="{x:Static views:MaterialDesignIcons.Search}"
+                                TextColor="{DynamicResource BaseIconColor}"
+                                VerticalOptions="CenterAndExpand" />
+
+                            <handlers:BorderlessEntry
+                                Margin="8,0"
+                                BackgroundColor="Transparent"
+                                HorizontalOptions="FillAndExpand"
+                                Placeholder="{localization:Translate StringSearch}"
+                                PlaceholderColor="{DynamicResource PlaceholderColor}"
+                                TextColor="{DynamicResource BaseTextColor}" />
+                        </StackLayout>
+                    </Border>
+
+                    <Border
+                        Padding="0"
+                        Background="{DynamicResource PrimaryColor}"
+                        HeightRequest="40"
+                        HorizontalOptions="End"
+                        StrokeShape="RoundRectangle 20"
+                        StrokeThickness="0"
+                        WidthRequest="40">
+                        <Label
+                            FontFamily="MaterialDesign"
+                            FontSize="22"
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            Text="{x:Static views:MaterialDesignIcons.PhotoCamera}"
+                            TextColor="{DynamicResource White}"
+                            VerticalOptions="CenterAndExpand" />
+                    </Border>
+                </StackLayout>
+
+                <StackLayout Spacing="0">
+
+                    <!--  SLIDERS SECTION  -->
+                    <cards:CoverFlowView
+                        Margin="0,20,0,10"
+                        HeightRequest="{OnIdiom Phone=400,
+                                                Tablet=400,
+                                                Desktop=550}"
+                        IndicatorView="IndicatorView"
+                        IsCyclical="True"
+                        IsPanSwipeEnabled="True"
+                        IsUserInteractionEnabled="True"
+                        IsViewReusingEnabled="True"
+                        ItemsSource="{Binding HomeBanners}"
+                        PositionShiftValue="90"
+                        SlideShowDuration="5000">
+
+                        <x:Arguments>
+                            <proc:CoverFlowProcessor OpacityFactor="0.45" ScaleFactor="1" />
+                        </x:Arguments>
+
+                        <cards:CoverFlowView.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                    Margin="60,0"
+                                    Padding="0"
+                                    StrokeShape="RoundRectangle 20">
+                                    <Image Aspect="AspectFill" Source="{Binding ImageUrl}" />
+                                </Border>
+                            </DataTemplate>
+                        </cards:CoverFlowView.ItemTemplate>
+                    </cards:CoverFlowView>
+
+                    <IndicatorView
+                        x:Name="IndicatorView"
+                        Margin="0,8,0,15"
+                        HorizontalOptions="Center"
+                        IndicatorColor="{DynamicResource BaseLightTextColor}"
+                        IndicatorsShape="Square"
+                        SelectedIndicatorColor="{DynamicResource PrimaryColor}"
+                        VerticalOptions="End" />
+
+                    <!--  CATEGORIES SECTION  -->
+                    <StackLayout Margin="16,5,16,0">
+                        <Label Style="{StaticResource SectionSubheaderTextStyle}" Text="{localization:Translate LabelCategorySubheader}" />
+                        <Label Style="{StaticResource SectionHeaderTextStyle}" Text="{localization:Translate LabelCategorySection}" />
+                    </StackLayout>
+
+                    <CollectionView
+                        Margin="16,0"
+                        ItemsSource="{Binding CategoriesList}"
+                        SelectionMode="Single"
+                        VerticalScrollBarVisibility="Never">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout
+                                HorizontalItemSpacing="10"
+                                Orientation="Vertical"
+                                Span="4"
+                                VerticalItemSpacing="10" />
+                        </CollectionView.ItemsLayout>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                    Padding="5,15"
+                                    Background="{DynamicResource BasePageColor}"
+                                    HeightRequest="110"
+                                    HorizontalOptions="Center"
+                                    MinimumWidthRequest="80"
+                                    Stroke="{DynamicResource FrameBorder}"
+                                    StrokeShape="RoundRectangle 10">
+
+                                    <StackLayout HorizontalOptions="Fill" Spacing="15">
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="12"
+                                            HorizontalOptions="Center"
+                                            HorizontalTextAlignment="Center"
+                                            Text="{Binding CategoryName}"
+                                            TextColor="{DynamicResource BaseTextColor}"
+                                            VerticalOptions="Start" />
+
+                                        <Label
+                                            FontFamily="MauiKitIcons"
+                                            FontSize="32"
+                                            HorizontalOptions="Center"
+                                            HorizontalTextAlignment="Center"
+                                            Text="{Binding Icon}"
+                                            TextColor="{DynamicResource BaseIconColor}"
+                                            VerticalOptions="Center" />
+
+                                    </StackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <!--  BEST SELLING SECTION  -->
+                    <StackLayout
+                        Margin="16,25,16,0"
+                        Orientation="Horizontal"
+                        Spacing="0">
+                        <StackLayout>
+                            <Label Style="{StaticResource SectionSubheaderTextStyle}" Text="{localization:Translate LabelBestSellingSubheader}" />
+                            <Label Style="{StaticResource SectionHeaderTextStyle}" Text="{localization:Translate LabelBestSellingSection}" />
+                        </StackLayout>
+
+                        <Button
+                            BackgroundColor="Transparent"
+                            FontSize="14"
+                            HorizontalOptions="EndAndExpand"
+                            Text="{localization:Translate ButtonViewAll}"
+                            TextColor="{DynamicResource PrimaryColor}"
+                            VerticalOptions="End" />
+                    </StackLayout>
+
+                    <StackLayout>
+                        <CollectionView
+                            Margin="16,0"
+                            HeightRequest="300"
+                            ItemsSource="{Binding BestSellingList}">
+
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout ItemSpacing="12" Orientation="Horizontal" />
+                            </CollectionView.ItemsLayout>
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <templates:ProductGridTemplate WidthRequest="190" />
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </StackLayout>
+
+
+                    <!--  FEATURE BRANDS SECTION  -->
+                    <StackLayout Margin="16,25,16,0">
+                        <Label Style="{StaticResource SectionSubheaderTextStyle}" Text="{localization:Translate LabelFeatureBrandSubheader}" />
+                        <Label Style="{StaticResource SectionHeaderTextStyle}" Text="{localization:Translate LabelFeatureBrandSection}" />
+                    </StackLayout>
+
+                    <CollectionView
+                        Margin="16,0"
+                        HeightRequest="100"
+                        ItemsSource="{Binding FeaturedBrandsList}">
+
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="12" Orientation="Horizontal" />
+                        </CollectionView.ItemsLayout>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout>
+                                    <Border
+                                        Padding="16,8"
+                                        Background="{DynamicResource BasePageColor}"
+                                        HeightRequest="80"
+                                        HorizontalOptions="CenterAndExpand"
+                                        Stroke="{DynamicResource FrameBorder}"
+                                        StrokeShape="RoundRectangle 10"
+                                        VerticalOptions="FillAndExpand">
+
+                                        <StackLayout Orientation="Horizontal">
+                                            <Frame
+                                                Padding="0"
+                                                CornerRadius="20"
+                                                HasShadow="False"
+                                                HeightRequest="40"
+                                                Opacity="10"
+                                                WidthRequest="40">
+                                                <Image
+                                                    Aspect="AspectFit"
+                                                    HeightRequest="40"
+                                                    HorizontalOptions="CenterAndExpand"
+                                                    Source="{Binding ImageUrl}"
+                                                    VerticalOptions="CenterAndExpand"
+                                                    WidthRequest="40" />
+                                            </Frame>
+
+                                            <StackLayout Margin="6,0">
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="16"
+                                                    HorizontalOptions="Center"
+                                                    Text="{Binding BrandName}"
+                                                    TextColor="{DynamicResource BaseTextColor}" />
+
+                                                <Label
+                                                    FontSize="12"
+                                                    HorizontalOptions="Center"
+                                                    Style="{StaticResource Footnote}"
+                                                    Text="{Binding Details}" />
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </Border>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <!--  RECOMMENDED SECTION  -->
+                    <StackLayout
+                        Margin="16,25,16,0"
+                        Orientation="Horizontal"
+                        Spacing="0">
+                        <StackLayout>
+                            <Label Style="{StaticResource SectionSubheaderTextStyle}" Text="{localization:Translate LabelRecommendedSubheader}" />
+                            <Label Style="{StaticResource SectionHeaderTextStyle}" Text="{localization:Translate LabelRecommendedSection}" />
+                        </StackLayout>
+
+                        <Button
+                            BackgroundColor="Transparent"
+                            FontSize="14"
+                            HorizontalOptions="EndAndExpand"
+                            Text="{localization:Translate ButtonViewAll}"
+                            TextColor="{DynamicResource PrimaryColor}"
+                            VerticalOptions="End" />
+                    </StackLayout>
+
+                    <CollectionView
+                        Margin="16,0,16,30"
+                        ItemsSource="{Binding RecommendedList}"
+                        VerticalOptions="Start"
+                        VerticalScrollBarVisibility="Never">
+
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout
+                                HorizontalItemSpacing="12"
+                                Orientation="Vertical"
+                                Span="2"
+                                VerticalItemSpacing="12" />
+                        </CollectionView.ItemsLayout>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <templates:ProductGridTemplate />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

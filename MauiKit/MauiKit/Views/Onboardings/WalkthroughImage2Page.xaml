@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiKit.Views.Onboardings.WalkthroughImage2Page"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:cardcontrols="clr-namespace:PanCardView.Controls;assembly=PanCardView"
+    xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:tint="clr-namespace:MauiKit.Controls.TintMask"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:MauiKit.ViewModels"
+    BackgroundColor="{DynamicResource Black}"
+    NavigationPage.HasBackButton="False"
+    NavigationPage.HasNavigationBar="False">
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="Transparent" StatusBarStyle="{OnPlatform Android='DarkContent', Default='LightContent'}" />
+    </ContentPage.Behaviors>
+
+    <ScrollView VerticalScrollBarVisibility="Never">
+        <Grid BackgroundColor="{DynamicResource BasePageColor}" RowDefinitions="*, Auto">
+            <StackLayout>
+
+                <cards:CarouselView
+                    IndicatorView="indicatorView"
+                    IsPanInteractionEnabled="False"
+                    IsPanSwipeEnabled="False"
+                    IsUserInteractionEnabled="False"
+                    ItemsSource="{Binding Boardings}"
+                    SelectedIndex="{Binding Position}">
+                    <cards:CarouselView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid RowDefinitions="*, Auto, Auto" RowSpacing="10">
+
+                                <Grid>
+                                    <Image
+                                        x:Name="image"
+                                        Aspect="AspectFill"
+                                        HeightRequest="460"
+                                        HorizontalOptions="Fill"
+                                        Source="{Binding ImagePath}" />
+
+                                    <tint:TintColorMask
+                                        Aspect="AspectFit"
+                                        HorizontalOptions="FillAndExpand"
+                                        IsVisible="{OnPlatform WinUI='True',
+                                                               Default='False'}"
+                                        Source="divider_3_bottom.png"
+                                        TintColor="{DynamicResource BasePageColor}"
+                                        VerticalOptions="EndAndExpand" />
+
+                                    <tint:DividerBottom5 IsVisible="{OnPlatform WinUI='False', Default='True'}" MaskColor="{DynamicResource BasePageColor}" />
+                                </Grid>
+
+                                <Label
+                                    x:Name="title"
+                                    Grid.Row="1"
+                                    Margin="40,10,40,0"
+                                    FontFamily="BoldFont"
+                                    FontSize="26"
+                                    HorizontalOptions="Center"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding Title}" />
+
+                                <Label
+                                    x:Name="subTitle"
+                                    Grid.Row="2"
+                                    Margin="40,0"
+                                    FontSize="16"
+                                    HorizontalOptions="Center"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding Subtitle}" />
+                            </Grid>
+                        </DataTemplate>
+                    </cards:CarouselView.ItemTemplate>
+                </cards:CarouselView>
+
+                <IndicatorView
+                    x:Name="indicatorView"
+                    Margin="0,20,0,0"
+                    HorizontalOptions="Center"
+                    IndicatorColor="{DynamicResource BaseLightTextColor}"
+                    IndicatorsShape="Square"
+                    SelectedIndicatorColor="{DynamicResource PrimaryColor}" />
+            </StackLayout>
+
+            <StackLayout
+                Grid.Row="1"
+                Margin="30,50,30,20"
+                HorizontalOptions="FillAndExpand"
+                Orientation="Horizontal"
+                Spacing="15">
+
+                <Button
+                    x:Name="skipBtn"
+                    BackgroundColor="{DynamicResource Primary10Color}"
+                    Command="{Binding SkipCommand}"
+                    CornerRadius="15"
+                    HeightRequest="50"
+                    HorizontalOptions="End"
+                    IsVisible="{Binding IsSkipButtonVisible, Mode=TwoWay}"
+                    Text="{localization:Translate ButtonSkip}"
+                    TextColor="{DynamicResource PrimaryColor}"
+                    VerticalOptions="StartAndExpand"
+                    WidthRequest="80" />
+
+                <Button
+                    x:Name="nextBtn"
+                    BackgroundColor="{DynamicResource PrimaryColor}"
+                    Command="{Binding NextCommand}"
+                    CornerRadius="15"
+                    FontAttributes="Bold"
+                    HeightRequest="50"
+                    HorizontalOptions="FillAndExpand"
+                    Text="{Binding NextButtonText, Mode=TwoWay}"
+                    TextColor="{DynamicResource White}" />
+            </StackLayout>
+
+        </Grid>
+    </ScrollView>
+
+</ContentPage>

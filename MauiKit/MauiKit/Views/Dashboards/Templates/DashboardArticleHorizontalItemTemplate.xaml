@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="MauiKit.Views.Dashboards.Templates.DashboardArticleHorizontalItemTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:MauiKit.Views">
+    <Border
+        Margin="10,0,10,0"
+        HeightRequest="{OnIdiom Phone='200',
+                                Tablet='300',
+                                Desktop='360'}"
+        HorizontalOptions="{OnIdiom Phone='FillAndExpand',
+                                    Tablet='CenterAndExpand',
+                                    Desktop='FillAndExpand'}"
+        StrokeShape="{RoundRectangle CornerRadius='16'}"
+        VerticalOptions="FillAndExpand"
+        WidthRequest="{OnIdiom Phone='220',
+                               Tablet='330',
+                               Desktop='440'}">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="{OnIdiom Phone='120', Tablet='200', Desktop='250'}" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Image
+                Aspect="{OnIdiom Phone='AspectFill',
+                                 Desktop='Fill',
+                                 Tablet='AspectFill'}"
+                HeightRequest="{OnIdiom Phone='120',
+                                        Tablet='200',
+                                        Desktop='250'}"
+                Source="{Binding BackgroundImage}" />
+
+            <Border
+                Grid.Row="1"
+                Margin="-1,-16,-1,0"
+                Padding="0"
+                Stroke="{DynamicResource DefaultBorder}"
+                StrokeShape="{RoundRectangle CornerRadius='16'}"
+                StrokeThickness="1"
+                VerticalOptions="FillAndExpand">
+
+                <Grid Padding="{OnIdiom Phone='14,8', Tablet='16,10', Default='20,15'}">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="15"
+                        LineBreakMode="WordWrap"
+                        Text="{Binding Title}"
+                        TextColor="{DynamicResource BaseTextColor}"
+                        VerticalOptions="StartAndExpand" />
+
+                    <Grid
+                        Grid.Row="1"
+                        ColumnSpacing="6"
+                        VerticalOptions="End">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Border
+                            Grid.Column="0"
+                            Padding="12,3"
+                            Background="{Binding SectionColor}"
+                            HorizontalOptions="Start"
+                            StrokeShape="{RoundRectangle CornerRadius='10'}"
+                            StrokeThickness="0"
+                            VerticalOptions="Start">
+                            <Label
+                                FontSize="12"
+                                Text="{Binding Section}"
+                                TextColor="{DynamicResource White}"
+                                VerticalOptions="Center" />
+                        </Border>
+
+                        <Label
+                            Grid.Column="1"
+                            Text="{Binding When}"
+                            TextColor="{DynamicResource BaseLightTextColor}"
+                            VerticalOptions="Center" />
+
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</ContentView>

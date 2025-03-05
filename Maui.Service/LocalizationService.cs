@@ -62,7 +62,9 @@ namespace Maui.Service
                     ["VerificationCode"] = "رمز التحقق",
                     ["NewPassword"] = "كلمة المرور الجديدة",
                     ["SendCode"] = "إرسال الرمز",
-                    ["EnterRegistrationInfo"] = "أدخل المعلومات المطلوبة لإنشاء حسابك"
+                    ["EnterRegistrationInfo"] = "أدخل المعلومات المطلوبة لإنشاء حسابك",
+                    ["LoginSuccess"] = "تم تسجيل الدخول بنجاح",
+                    ["LoginError"] = "فشل تسجيل الدخول، يرجى التحقق من بيانات الدخول والمحاولة مرة أخرى"
                 },
                 ["en"] = new Dictionary<string, string>
                 {

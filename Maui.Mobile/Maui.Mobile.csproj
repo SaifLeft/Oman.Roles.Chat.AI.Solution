@@ -75,7 +75,7 @@
 
 	<ItemGroup>
 		<MauiXaml Update="Controls\LanguageSwitchButton.xaml">
-		  <Generator>MSBuild:Compile</Generator>
+			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="Views\ForgotPasswordPage.xaml">
 			<Generator>MSBuild:Compile</Generator>

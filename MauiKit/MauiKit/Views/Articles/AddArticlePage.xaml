@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Articles.AddArticlePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:handlers="clr-namespace:MauiKit.Handlers"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:templates="clr-namespace:MauiKit.Views.Articles.Templates"
+    xmlns:views="clr-namespace:MauiKit.Views">
+
+    <views:BasePage.PageContent>
+        <ScrollView>
+            <Grid RowDefinitions="Auto, Auto, Auto">
+                <VerticalStackLayout Padding="20" Spacing="20">
+                    <Label
+                        FontFamily="RegularFont"
+                        FontSize="20"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="Create New Article" />
+
+                    <!--  Title  -->
+                    <Border Padding="20,5" Background="{DynamicResource EntryAndEditorsBackgroundColor}">
+                        <handlers:BorderlessEntry
+                            FontFamily="RegularFont"
+                            HeightRequest="42"
+                            Keyboard="Default"
+                            Placeholder="{localization:Translate StringPostTitle}"
+                            PlaceholderColor="{DynamicResource BaseTextColor}" />
+                    </Border>
+
+                    <!--  Content  -->
+                    <Border Padding="20,5" Background="{DynamicResource EntryAndEditorsBackgroundColor}">
+                        <handlers:BorderlessEditor
+                            BackgroundColor="Transparent"
+                            FontFamily="RegularFont"
+                            HeightRequest="200"
+                            Placeholder="{localization:Translate StringWritePostContent}"
+                            PlaceholderColor="{DynamicResource BaseTextColor}" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <StackLayout
+                    Grid.Row="{OnPlatform iOS='2',
+                                          Default='1'}"
+                    Padding="20,5"
+                    VerticalOptions="Start">
+                    <!--  Gallery  -->
+                    <CollectionView HorizontalScrollBarVisibility="Default" ItemsSource="{Binding SelectedImages}">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout
+                                HorizontalItemSpacing="10"
+                                Orientation="Vertical"
+                                Span="{OnIdiom Phone='2',
+                                               Tablet='3',
+                                               Desktop='3'}"
+                                VerticalItemSpacing="10" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <controls:RoundedCornerImage
+                                    HeightRequest="200"
+                                    HorizontalOptions="Fill"
+                                    Source="{Binding ImagePath}"
+                                    Stroke="{DynamicResource FrameBorder}"
+                                    StrokeShape="{RoundRectangle CornerRadius=20}"
+                                    VerticalOptions="Fill" />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+
+                <Grid
+                    Grid.Row="{OnPlatform iOS='1',
+                                          Default='2'}"
+                    Padding="20,10"
+                    ColumnDefinitions="2*, 2*"
+                    ColumnSpacing="15">
+                    <!--  Add Gallery Button  -->
+                    <Button
+                        Command="{Binding PickImagesCommand}"
+                        CornerRadius="10"
+                        FontSize="15"
+                        HeightRequest="44"
+                        HorizontalOptions="Fill"
+                        Style="{StaticResource OutlinePrimaryButtonStyle}"
+                        Text="{localization:Translate ButtonAddImage}"
+                        VerticalOptions="Center" />
+
+                    <!--  Create Article Button  -->
+                    <Button
+                        Grid.Column="1"
+                        CornerRadius="10"
+                        FontSize="15"
+                        HeightRequest="44"
+                        HorizontalOptions="Fill"
+                        Style="{StaticResource PrimaryButtonStyle}"
+                        Text="{localization:Translate ButtonAddArticle}"
+                        VerticalOptions="Center" />
+
+                </Grid>
+            </Grid>
+        </ScrollView>
+    </views:BasePage.PageContent>
+</views:BasePage>

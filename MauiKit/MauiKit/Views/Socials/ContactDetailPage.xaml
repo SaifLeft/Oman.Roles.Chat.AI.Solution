@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Socials.ContactDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:templates="clr-namespace:MauiKit.Views.Socials.Templates"
+    xmlns:viewBase="clr-namespace:MauiKit.Views"
+    xmlns:viewModels="clr-namespace:MauiKit.ViewModels.Socials"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    NavigationPage.HasNavigationBar="False">
+
+    <views:BasePage.PageContent>
+        <Grid>
+            <Border Margin="20,100,20,20" StrokeShape="{RoundRectangle CornerRadius=20}">
+                <Grid Padding="0,0,0,20" RowDefinitions="Auto, *">
+
+                    <!--  BUTTONS  -->
+                    <Grid
+                        Grid.Row="0"
+                        Margin="0,50,0,0"
+                        Padding="20"
+                        ColumnDefinitions="*, *, *"
+                        ColumnSpacing="20"
+                        HorizontalOptions="Center"
+                        RowDefinitions="Auto,Auto,Auto">
+
+                        <!--  EMAIL  -->
+                        <Button
+                            Padding="0"
+                            FontFamily="MaterialDesign"
+                            HorizontalOptions="Center"
+                            Style="{StaticResource OutlinePrimaryIconButtonStyle}"
+                            Text="{x:Static views:MaterialDesignIcons.Email}" />
+                        <!--  Text  -->
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            FontSize="14"
+                            HorizontalOptions="Center"
+                            Text="{localization:Translate StringEmail}"
+                            TextColor="{DynamicResource BaseTextColor}"
+                            VerticalOptions="Center" />
+
+                        <!--  MOBILE  -->
+                        <Button
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Padding="0"
+                            FontFamily="MaterialDesign"
+                            HorizontalOptions="Center"
+                            Style="{StaticResource OutlinePrimaryIconButtonStyle}"
+                            Text="{x:Static views:MaterialDesignIcons.Smartphone}" />
+                        <!--  Text  -->
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            FontSize="14"
+                            HorizontalOptions="Center"
+                            Text="{localization:Translate StringMobile}"
+                            TextColor="{DynamicResource BaseTextColor}"
+                            VerticalOptions="Center" />
+
+                        <!--  SMS  -->
+                        <Button
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Padding="0"
+                            FontFamily="MaterialDesign"
+                            HorizontalOptions="Center"
+                            Style="{StaticResource OutlinePrimaryIconButtonStyle}"
+                            Text="{x:Static views:MaterialDesignIcons.Message}" />
+                        <!--  Text  -->
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            FontSize="14"
+                            HorizontalOptions="Center"
+                            Text="{localization:Translate StringSMS}"
+                            TextColor="{DynamicResource BaseTextColor}"
+                            VerticalOptions="Center" />
+
+                        <!--  Follow button  -->
+                        <Button
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Margin="0,10,0,0"
+                            CornerRadius="10"
+                            FontSize="14"
+                            HeightRequest="40"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            Text="Follow"
+                            WidthRequest="120" />
+
+                    </Grid>
+
+                    <!--  LIST  -->
+                    <!--<ListView Grid.Row="1"
+                        Margin="0,70,0,0"
+                        BackgroundColor="{DynamicResource BasePageColor}"
+                        CachingStrategy="RecycleElement"
+                        HasUnevenRows="True"
+                        ItemsSource="{Binding ContactFields}"
+                        RowHeight="50"
+                        SelectionMode="None"
+                        VerticalScrollBarVisibility="Default">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <templates:ContactDetailItemTemplate />
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>-->
+                    <CollectionView
+                        Grid.Row="1"
+                        Margin="0,10,0,0"
+                        BackgroundColor="{DynamicResource BasePageColor}"
+                        ItemsSource="{Binding ContactFields}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="0" Orientation="Vertical" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <templates:ContactDetailItemTemplate />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                </Grid>
+            </Border>
+
+            <!--  AVATAR  -->
+            <Grid
+                Margin="0,50,0,0"
+                HeightRequest="100"
+                HorizontalOptions="Center"
+                VerticalOptions="Start">
+                <!--  AVATAR  -->
+                <controls:RoundedCornerImage
+                    HeightRequest="100"
+                    HorizontalOptions="Start"
+                    Source="{Binding Avatar}"
+                    Stroke="{DynamicResource White}"
+                    StrokeThickness="5"
+                    VerticalOptions="Start"
+                    WidthRequest="100">
+                    <controls:RoundedCornerImage.StrokeShape>
+                        <RoundRectangle CornerRadius="20" />
+                    </controls:RoundedCornerImage.StrokeShape>
+                    <controls:RoundedCornerImage.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnEdit" />
+                    </controls:RoundedCornerImage.GestureRecognizers>
+                </controls:RoundedCornerImage>
+
+                <!--  EDIT BUTTON  -->
+                <Button
+                    Padding="0"
+                    BackgroundColor="{DynamicResource PrimaryColor}"
+                    BorderColor="{DynamicResource White}"
+                    BorderWidth="2"
+                    CornerRadius="15"
+                    FontFamily="MaterialDesign"
+                    FontSize="16"
+                    HeightRequest="30"
+                    HorizontalOptions="End"
+                    Text="{x:Static views:MaterialDesignIcons.Edit}"
+                    TextColor="{DynamicResource White}"
+                    TranslationX="5"
+                    TranslationY="2"
+                    VerticalOptions="End"
+                    WidthRequest="30">
+                    <Button.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnEdit" />
+                    </Button.GestureRecognizers>
+                </Button>
+            </Grid>
+
+            <!--  CLOSE ICON  -->
+            <Label
+                Margin="20"
+                HorizontalOptions="End"
+                Style="{StaticResource IconCloseLabelStyle}"
+                VerticalOptions="Start">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnClose" />
+                </Label.GestureRecognizers>
+            </Label>
+        </Grid>
+    </views:BasePage.PageContent>
+</views:BasePage>

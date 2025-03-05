@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="MauiKit.Views.Articles.Templates.ArticleCommentItemTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiKit.Controls">
+    <Grid
+        Padding="20,5,20,0"
+        ColumnSpacing="15"
+        RowSpacing="0"
+        VerticalOptions="Center">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!--  AVATAR  -->
+        <controls:RoundedCornerImage
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Grid.Column="0"
+            HeightRequest="50"
+            HorizontalOptions="Center"
+            Source="{Binding From.Avatar}"
+            Stroke="{DynamicResource White}"
+            StrokeShape="{RoundRectangle CornerRadius=25}"
+            StrokeThickness="2"
+            VerticalOptions="Center"
+            WidthRequest="50" />
+
+        <!--  NAME  -->
+        <Label
+            Grid.Row="0"
+            Grid.Column="1"
+            FontAttributes="Bold"
+            Text="{Binding From.Name}"
+            VerticalOptions="Center" />
+
+        <!--  MESSAGE  -->
+        <Label
+            Grid.Row="1"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            Text="{Binding Body}"
+            VerticalOptions="Start" />
+
+        <!--  TIME  -->
+        <Label
+            Grid.Row="0"
+            Grid.Column="2"
+            HorizontalOptions="Center"
+            Opacity=".5"
+            Text="{Binding When}"
+            VerticalOptions="Center" />
+
+    </Grid>
+</ContentView>

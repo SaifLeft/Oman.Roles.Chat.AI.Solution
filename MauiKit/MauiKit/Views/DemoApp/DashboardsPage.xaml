@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.DashboardsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:templates="clr-namespace:MauiKit.Views.Templates"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    Title="">
+
+    <views:BasePage.PageContent>
+        <Grid RowDefinitions="Auto,*" RowSpacing="15">
+            <controls:HeaderTemplate
+                Margin="25,30,25,0"
+                IconColor="#FF3E8EED"
+                IconFontFamily="IonIcons"
+                IconSize="35"
+                IconText="{x:Static views:IonIcons.IosSpeedometer}"
+                Text="{localization:Translate LabelNavigation}"
+                TextSize="25" />
+
+            <ScrollView Grid.Row="1">
+                <VerticalStackLayout Padding="25,0,25,30" Spacing="18">
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:LineAwesome.Dashboard}"
+                        HeaderIconFontFamily="LineAwesome"
+                        ItemDescription="{localization:Translate LabelDashboardTasksDescription}"
+                        ItemTitle="{localization:Translate LabelDashboardTasks}"
+                        TagLabel="New">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="DashboardTasks_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:MaterialDesignIcons.ViewCarousel}"
+                        HeaderIconFontFamily="MaterialDesign"
+                        ItemDescription="{localization:Translate LabelDashboardCoverFlowDescription}"
+                        ItemTitle="{localization:Translate LabelDashboardCoverFlow}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="DashboardCoverFlow_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:MauiKitIcons.ViewDashboardVariant}"
+                        HeaderIconFontFamily="MauiKitIcons"
+                        ItemDescription="{localization:Translate LabelDashboardArticleDescription}"
+                        ItemTitle="{localization:Translate LabelDashboardArticle}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="DashboardArticle_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:MauiKitIcons.ViewDashboard}"
+                        HeaderIconFontFamily="MauiKitIcons"
+                        ItemDescription="{localization:Translate LabelDashboardCardDescription}"
+                        ItemTitle="{localization:Translate LabelDashboardCard}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="DashboardCard_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:MauiKitIcons.CalendarOutline}"
+                        HeaderIconFontFamily="MauiKitIcons"
+                        ItemDescription="{localization:Translate LabelDashboardEventDescription}"
+                        ItemTitle="{localization:Translate LabelDashboardEvent}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="DashboardEvent_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:MauiKitIcons.TimelineTextOutline}"
+                        HeaderIconFontFamily="MauiKitIcons"
+                        ItemDescription="{localization:Translate LabelDashboardTimelineDescription}"
+                        ItemTitle="{localization:Translate LabelDashboardTimeline}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="DashboardTimeline_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:MauiKitIcons.MonitorDashboard}"
+                        HeaderIconFontFamily="MauiKitIcons"
+                        ItemDescription="{localization:Translate LabelDashboardVisualDescription}"
+                        ItemTitle="{localization:Translate LabelDashboardVisual}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="DashboardVisual_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:MaterialDesignIcons.Dashboard}"
+                        HeaderIconFontFamily="MaterialDesign"
+                        ItemDescription="{localization:Translate LabelDashboardGridDescription}"
+                        ItemTitle="{localization:Translate LabelDashboardGrid}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="DashboardGrid_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:MaterialDesignIcons.Dashboard}"
+                        HeaderIconFontFamily="MaterialDesign"
+                        ItemDescription="{localization:Translate LabelDashboardGridInverseDescription}"
+                        ItemTitle="{localization:Translate LabelDashboardGridInverse}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="DashboardGridInverse_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:MaterialDesignIcons.ViewCarousel}"
+                        HeaderIconFontFamily="MaterialDesign"
+                        ItemDescription="{localization:Translate LabelDashboardWithCarouselDescription}"
+                        ItemTitle="{localization:Translate LabelDashboardWithCarousel}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="DashboardCarousel_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:IonIcons.IosSpeedometer}"
+                        HeaderIconFontFamily="IonIcons"
+                        ItemDescription="{localization:Translate LabelDashboardVariantDescription}"
+                        ItemTitle="{localization:Translate LabelDashboardVariant}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="DashboardVariant_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:IonIcons.Filing}"
+                        HeaderIconFontFamily="IonIcons"
+                        ItemDescription="{localization:Translate LabelTabbedPageDescription}"
+                        ItemTitle="{localization:Translate LabelTabbedPage}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="DefaultTabbedPage_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:IonIcons.AndroidFolder}"
+                        HeaderIconFontFamily="IonIcons"
+                        ItemDescription="{localization:Translate LabelAndroidBottomTabbedPageDescription}"
+                        ItemTitle="{localization:Translate LabelAndroidBottomTabbedPage}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="AndroidBottomTabbedPage_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

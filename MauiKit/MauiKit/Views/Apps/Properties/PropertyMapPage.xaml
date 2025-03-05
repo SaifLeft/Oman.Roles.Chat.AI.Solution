@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Properties.PropertyMapPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:handlers="clr-namespace:MauiKit.Handlers"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
+    xmlns:models="clr-namespace:MauiKit.Models"
+    xmlns:templates="clr-namespace:MauiKit.Views.Properties.Templates"
+    xmlns:viewModels="clr-namespace:MauiKit.ViewModels.Properties"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    x:DataType="viewModels:PropertyMapViewModel"
+    BaseTitle="{localization:Translate PageTitleMapView}"
+    BaseTitleColor="{DynamicResource BaseTextColor}">
+
+    <views:BasePage.PageContent>
+        <ScrollView>
+            <Grid Margin="0,20" RowSpacing="15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="500" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Border
+                    Margin="20,0,20,15"
+                    Padding="20,0"
+                    HeightRequest="50"
+                    StrokeShape="RoundRectangle 12"
+                    StrokeThickness="0">
+
+                    <Grid ColumnDefinitions="Auto, *" ColumnSpacing="8">
+                        <Label
+                            FontFamily="MaterialDesign"
+                            FontSize="22"
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            Text="{x:Static views:MaterialDesignIcons.Search}"
+                            TextColor="{DynamicResource BaseIconColor}"
+                            VerticalOptions="CenterAndExpand" />
+                        <handlers:BorderlessEntry
+                            x:Name="searchLocation"
+                            Grid.Column="1"
+                            FontFamily="RegularFont"
+                            HeightRequest="46"
+                            Placeholder="{localization:Translate StringSearchHouse}"
+                            PlaceholderColor="{DynamicResource BaseLightTextColor}"
+                            Text=""
+                            VerticalOptions="Center" />
+
+                    </Grid>
+                </Border>
+
+                <!--  Maps  -->
+                <Border
+                    Grid.Row="1"
+                    Margin="20,0,20,20"
+                    Padding="0"
+                    Stroke="{DynamicResource FrameBorder}"
+                    StrokeShape="RoundRectangle 36"
+                    StrokeThickness="1">
+
+                    <maps:Map x:Name="map" />
+                </Border>
+
+                <!--  Search result  -->
+                <Grid
+                    x:Name="searchResult"
+                    Grid.Row="2"
+                    RowDefinitions="Auto,Auto"
+                    RowSpacing="6">
+                    <Grid.Triggers>
+                        <DataTrigger
+                            Binding="{Binding Source={x:Reference searchLocation}, Path=Text.Length}"
+                            TargetType="Grid"
+                            Value="0">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </Grid.Triggers>
+
+                    <Grid ColumnDefinitions="Auto,*">
+                        <Label
+                            Margin="20,0"
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            Text="Filter"
+                            VerticalOptions="Center" />
+
+                        <Label
+                            Grid.Column="1"
+                            Margin="20,0"
+                            FontFamily="RegularFont"
+                            HorizontalOptions="End"
+                            HorizontalTextAlignment="End"
+                            VerticalOptions="Center">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span
+                                        FontAttributes="Bold"
+                                        FontFamily="RegularFont"
+                                        FontSize="16"
+                                        Text="120" />
+                                    <Span Text=" " />
+                                    <Span
+                                        FontFamily="RegularFont"
+                                        FontSize="16"
+                                        Text="{localization:Translate StringHouseSearchResult}"
+                                        TextColor="{DynamicResource BaseLightTextColor}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </Grid>
+
+                    <CollectionView
+                        x:Name="NewListings"
+                        Grid.Row="1"
+                        Margin="20,0,0,0"
+                        ItemsSource="{Binding Recommendations}"
+                        SelectionChanged="CollectionView_OnSelectionChanged"
+                        SelectionMode="Single">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="4" Orientation="Horizontal" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <templates:NewListingTemplate Margin="0,0,10,0" WidthRequest="290" />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+
+            </Grid>
+        </ScrollView>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rg:PopupPage
+    x:Class="MauiKit.Views.Actions.ActionPaymentFailedPopupPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animation="clr-namespace:RGPopup.Maui.Animations;assembly=RGPopup.Maui"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:handlers="clr-namespace:MauiKit.Handlers"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:rg="clr-namespace:RGPopup.Maui.Pages;assembly=RGPopup.Maui"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    CloseWhenBackgroundIsClicked="False">
+
+    <rg:PopupPage.Animation>
+        <animation:MoveAnimation PositionIn="Bottom" PositionOut="Bottom" />
+    </rg:PopupPage.Animation>
+
+    <Border
+        Margin="20"
+        Background="{DynamicResource MainWrapperBackgroundColor}"
+        HorizontalOptions="{OnIdiom Desktop='Center',
+                                    Tablet='Center',
+                                    Phone='Fill'}"
+        VerticalOptions="Center">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="20" />
+        </Border.StrokeShape>
+        <StackLayout
+            Padding="20,30"
+            Spacing="16"
+            VerticalOptions="Center">
+
+            <Image
+                HeightRequest="100"
+                HorizontalOptions="Center"
+                Source="ic_payment_failed.png" />
+
+            <Label
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                Style="{StaticResource Title2}"
+                Text="{localization:Translate LabelPaymentFailed}"
+                TextColor="{DynamicResource Red}" />
+
+            <Label
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
+                Text="{localization:Translate LabelPaymentFailedDetails}" />
+
+            <Button
+                BackgroundColor="{DynamicResource PrimaryColor}"
+                Clicked="Button_Clicked"
+                CornerRadius="25"
+                HeightRequest="50"
+                Text="{localization:Translate ButtonTryAgain}"
+                TextColor="{DynamicResource White}"
+                WidthRequest="200" />
+        </StackLayout>
+    </Border>
+</rg:PopupPage>

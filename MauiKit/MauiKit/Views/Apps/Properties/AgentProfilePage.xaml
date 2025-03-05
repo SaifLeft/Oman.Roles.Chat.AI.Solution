@@ -1,0 +1,248 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Properties.AgentProfilePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:templates="clr-namespace:MauiKit.Views.Properties.Templates"
+    xmlns:viewModels="clr-namespace:MauiKit.ViewModels.Properties"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    x:DataType="viewModels:AgentProfileViewModel"
+    NavigationPage.HasNavigationBar="False">
+
+    <views:BasePage.PageContent>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <StackLayout Padding="16" Spacing="30">
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                    <!--  Navigation Button  -->
+                    <Border
+                        Padding="5"
+                        HeightRequest="42"
+                        HorizontalOptions="Start"
+                        StrokeThickness="1.2"
+                        VerticalOptions="Center"
+                        WidthRequest="42">
+                        <Border.Shadow>
+                            <Shadow Opacity="0.1" Offset="0,1" />
+                        </Border.Shadow>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="BackButton_Tapped" />
+                        </Border.GestureRecognizers>
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
+
+                        <Image HeightRequest="20" VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="IonIcons"
+                                    Glyph="{x:Static views:IonIcons.AndroidArrowBack}"
+                                    Size="40"
+                                    Color="{DynamicResource BaseTextColor}" />
+                            </Image.Source>
+                        </Image>
+                    </Border>
+
+                    <!--  Page Title  -->
+                    <Label
+                        Grid.Column="1"
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="{localization:Translate PageTitleAgentProfile}"
+                        VerticalOptions="Center" />
+
+                    <!--  Action Button  -->
+                    <Border
+                        Grid.Column="2"
+                        Padding="5"
+                        HeightRequest="42"
+                        HorizontalOptions="Start"
+                        StrokeShape="RoundRectangle 10"
+                        StrokeThickness="1.2"
+                        VerticalOptions="Center"
+                        WidthRequest="42">
+                        <Border.Shadow>
+                            <Shadow Opacity="0.1" Offset="0,1" />
+                        </Border.Shadow>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer />
+                        </Border.GestureRecognizers>
+
+                        <Image HeightRequest="20" VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="IonIcons"
+                                    Glyph="{x:Static views:IonIcons.GearB}"
+                                    Size="40"
+                                    Color="{DynamicResource BaseTextColor}" />
+                            </Image.Source>
+                        </Image>
+                    </Border>
+                </Grid>
+
+                <!--  Profile Info Card  -->
+                <Border
+                    Margin="0"
+                    Padding="0"
+                    HeightRequest="120"
+                    StrokeShape="RoundRectangle 20">
+                    <Border.Shadow>
+                        <Shadow Opacity="0.1" Offset="0,1" />
+                    </Border.Shadow>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="0">
+                        <Border
+                            Padding="0"
+                            HeightRequest="120"
+                            StrokeShape="RoundRectangle 20"
+                            WidthRequest="110">
+                            <Image Aspect="AspectFill" Source="https://raw.githubusercontent.com/tlssoftware/raw-material/master/maui-kit/ecommerce/users/150-26.jpg" />
+                        </Border>
+
+                        <StackLayout
+                            Grid.Column="1"
+                            Padding="15"
+                            VerticalOptions="Fill">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                Text="Robin Aleson"
+                                VerticalTextAlignment="Center" />
+                            <Label
+                                FontSize="13"
+                                Text="robin.aleson@mauikit.com"
+                                TextColor="{DynamicResource BaseLightTextColor}" />
+
+                            <Button
+                                Margin="0,10,0,0"
+                                Padding="8,3"
+                                BackgroundColor="{DynamicResource PrimaryColor}"
+                                CornerRadius="8"
+                                FontFamily="RegularFont"
+                                FontSize="14"
+                                HeightRequest="26"
+                                HorizontalOptions="Start"
+                                Text="{localization:Translate ButtonEdit}"
+                                TextColor="{DynamicResource White}"
+                                VerticalOptions="End" />
+                        </StackLayout>
+                    </Grid>
+                </Border>
+
+                <!--  Action Buttons  -->
+                <Grid ColumnDefinitions="0.3*, 0.3*, 0.3*">
+                    <Border
+                        Padding="10,5"
+                        Background="{DynamicResource PrimaryColor}"
+                        HeightRequest="40"
+                        HorizontalOptions="Center"
+                        StrokeShape="RoundRectangle 10"
+                        WidthRequest="40">
+                        <Image HeightRequest="22">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="MaterialDesign"
+                                    Glyph="{x:Static views:MaterialDesignIcons.Favorite}"
+                                    Color="{DynamicResource White}" />
+                            </Image.Source>
+                        </Image>
+                    </Border>
+
+                    <Border
+                        Grid.Column="1"
+                        Padding="10,5"
+                        Background="{DynamicResource BasePageColor}"
+                        HeightRequest="40"
+                        HorizontalOptions="Center"
+                        StrokeShape="RoundRectangle 10"
+                        WidthRequest="40">
+                        <Image HeightRequest="22">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="MaterialDesign"
+                                    Glyph="{x:Static views:MaterialDesignIcons.ChatBubble}"
+                                    Color="{DynamicResource BaseIconColor}" />
+                            </Image.Source>
+                        </Image>
+                    </Border>
+
+                    <Border
+                        Grid.Column="2"
+                        Padding="10,5"
+                        Background="{DynamicResource Orange}"
+                        HeightRequest="40"
+                        HorizontalOptions="Center"
+                        StrokeShape="RoundRectangle 10"
+                        WidthRequest="40">
+                        <Image HeightRequest="22" VerticalOptions="CenterAndExpand">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="MaterialDesign"
+                                    Glyph="{x:Static views:MaterialDesignIcons.Call}"
+                                    Color="{DynamicResource BaseIconColor}" />
+                            </Image.Source>
+                        </Image>
+                    </Border>
+                </Grid>
+            </StackLayout>
+
+            <ScrollView Grid.Row="1">
+                <StackLayout Padding="20,10,0,20" Spacing="6">
+
+                    <!--  Popular Listings  -->
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        Text="{localization:Translate LabelPopular}" />
+                    <CollectionView
+                        x:Name="AgentPopularListings"
+                        HeightRequest="200"
+                        ItemsSource="{Binding AgentListings}"
+                        SelectionChanged="CollectionView_OnSelectionChanged"
+                        SelectionMode="Single">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="2" Orientation="Horizontal" />
+                        </CollectionView.ItemsLayout>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <templates:AgentListingMinimalItemTemplate />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <!--  My Favorite  -->
+                    <Label
+                        Margin="0,20,0,0"
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        Text="{localization:Translate LabelMyFavorite}" />
+                    <CollectionView
+                        x:Name="AgentFavoriteListings"
+                        HeightRequest="200"
+                        ItemsSource="{Binding FavoriteListings}"
+                        SelectionChanged="CollectionView_OnSelectionChanged"
+                        SelectionMode="Single">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="2" Orientation="Horizontal" />
+                        </CollectionView.ItemsLayout>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <templates:AgentListingMinimalItemTemplate />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </ScrollView>
+
+        </Grid>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

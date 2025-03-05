@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Ewallet.TransferMoneyPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:handlers="clr-namespace:MauiKit.Handlers"
+    xmlns:helpers="clr-namespace:MauiKit.Helpers"
+    xmlns:local="clr-namespace:MauiKit"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:models="clr-namespace:MauiKit.Models"
+    xmlns:viewmodels="clr-namespace:MauiKit.ViewModels"
+    xmlns:views="clr-namespace:MauiKit.Views">
+
+    <views:BasePage.PageContent>
+        <Grid
+            Padding="20"
+            BackgroundColor="{DynamicResource BasePageColor}"
+            RowDefinitions="*, 60">
+
+            <ScrollView VerticalScrollBarVisibility="Never">
+                <VerticalStackLayout Spacing="10" VerticalOptions="StartAndExpand">
+                    <controls:RoundedCornerImage
+                        HeightRequest="100"
+                        Source="https://raw.githubusercontent.com/tlssoftware/raw-material/master/maui-kit/ecommerce/users/150-2.jpg"
+                        StrokeShape="{RoundRectangle CornerRadius='50'}"
+                        WidthRequest="100" />
+
+                    <Label
+                        FontFamily="BoldFont"
+                        FontSize="19"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="Alieen Fullbright"
+                        TextColor="{DynamicResource BaseTextColor}"
+                        VerticalOptions="Center" />
+
+                    <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Spacing="10">
+                        <Label HorizontalOptions="Center" Text="Bank" />
+                        <Rectangle
+                            Fill="{DynamicResource BaseSeparatorColor}"
+                            HeightRequest="20"
+                            VerticalOptions="Center"
+                            WidthRequest="1" />
+                        <Label HorizontalOptions="Center" Text="346054765" />
+                    </HorizontalStackLayout>
+
+                    <Rectangle Fill="{DynamicResource BaseSeparatorColor}" HeightRequest="1" />
+
+                    <Border
+                        Padding="20,10"
+                        Background="{DynamicResource BasePageColor}"
+                        HeightRequest="80"
+                        HorizontalOptions="Fill"
+                        Stroke="{DynamicResource PrimaryColor}"
+                        StrokeShape="{RoundRectangle CornerRadius='16'}"
+                        StrokeThickness="1.5">
+                        <Grid
+                            ColumnDefinitions="Auto, *"
+                            ColumnSpacing="12"
+                            HorizontalOptions="Fill">
+
+                            <HorizontalStackLayout Spacing="10">
+                                <Label
+                                    FontFamily="FaPro"
+                                    FontSize="20"
+                                    HorizontalOptions="CenterAndExpand"
+                                    HorizontalTextAlignment="Center"
+                                    Opacity="1"
+                                    Text="{x:Static views:FaPro.MoneyBill}"
+                                    TextColor="{DynamicResource PrimaryColor}"
+                                    VerticalOptions="CenterAndExpand" />
+                                <Label
+                                    FontFamily="MediumFont"
+                                    Text="Amount"
+                                    TextColor="{DynamicResource BaseLightTextColor}"
+                                    VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+
+                            <handlers:BorderlessEntry
+                                Grid.Column="1"
+                                FontFamily="BoldFont"
+                                FontSize="25"
+                                HorizontalOptions="EndAndExpand"
+                                HorizontalTextAlignment="End"
+                                Placeholder=""
+                                Text="$129.50"
+                                TextColor="{DynamicResource BaseTextColor}"
+                                VerticalOptions="Center" />
+                        </Grid>
+                    </Border>
+
+                    <Grid ColumnDefinitions="2*, 2*" ColumnSpacing="15">
+                        <VerticalStackLayout>
+                            <Label
+                                FontAttributes="Bold"
+                                Text="Schedule"
+                                TextColor="{DynamicResource BaseTextColor}"
+                                VerticalOptions="Center" />
+                            <Border Padding="0,5" BackgroundColor="{DynamicResource BasePageColor}">
+                                <DatePicker HorizontalOptions="FillAndExpand" />
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Grid.Column="1">
+                            <Label
+                                FontAttributes="Bold"
+                                Text="Time"
+                                TextColor="{DynamicResource BaseTextColor}"
+                                VerticalOptions="Center" />
+                            <Border Padding="0,5" BackgroundColor="{DynamicResource BasePageColor}">
+                                <TimePicker HorizontalOptions="FillAndExpand" />
+                            </Border>
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <Label
+                        FontAttributes="Bold"
+                        Text="Select Category"
+                        TextColor="{DynamicResource BaseTextColor}"
+                        VerticalOptions="Center" />
+
+                    <Border Padding="0,5" Background="{DynamicResource BasePageColor}">
+                        <Picker Title="Category">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Salary</x:String>
+                                    <x:String>Freelance work</x:String>
+                                    <x:String>Others</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </Border>
+
+
+                    <Label
+                        FontAttributes="Bold"
+                        Text="Notes"
+                        TextColor="{DynamicResource BaseTextColor}"
+                        VerticalOptions="Center" />
+
+                    <Border
+                        Padding="15,5"
+                        Background="{DynamicResource BasePageColor}"
+                        Stroke="{DynamicResource DefaultBorder}"
+                        StrokeThickness="1">
+                        <handlers:BorderlessEntry
+                            HeightRequest="36"
+                            HorizontalOptions="StartAndExpand"
+                            Keyboard="Numeric"
+                            Placeholder="Thanks for your hard word :)"
+                            PlaceholderColor="{DynamicResource BaseLightTextColor}" />
+                    </Border>
+
+                </VerticalStackLayout>
+            </ScrollView>
+
+
+            <Button
+                Grid.Row="1"
+                Command="{Binding TransferCommand}"
+                HeightRequest="50"
+                Style="{StaticResource PrimaryButtonStyle}"
+                Text="Transfer"
+                VerticalOptions="End" />
+        </Grid>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

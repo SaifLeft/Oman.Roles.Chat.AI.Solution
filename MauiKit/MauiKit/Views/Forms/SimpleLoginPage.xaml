@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiKit.Views.Forms.SimpleLoginPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:handlers="clr-namespace:MauiKit.Handlers"
+    xmlns:local="clr-namespace:MauiKit"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:skia="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    BackgroundColor="{DynamicResource BasePageColor}"
+    NavigationPage.HasBackButton="False"
+    NavigationPage.HasNavigationBar="False">
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="Transparent" StatusBarStyle="DarkContent" />
+    </ContentPage.Behaviors>
+
+    <ScrollView>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="300" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+
+            <Border Margin="-3,0" Background="Transparent">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="0,0,60,60" />
+                </Border.StrokeShape>
+                <Grid>
+                    <Image Aspect="AspectFill" Source="bg_trans.png" />
+
+                    <Grid BackgroundColor="{DynamicResource Primary}" Opacity=".6" />
+
+                    <VerticalStackLayout
+                        Margin="0,30,0,0"
+                        HorizontalOptions="CenterAndExpand"
+                        Spacing="12"
+                        VerticalOptions="StartAndExpand">
+
+                        <controls:RoundedCornerImage
+                            Background="{DynamicResource White}"
+                            HeightRequest="80"
+                            HorizontalOptions="Center"
+                            Source="logo.png"
+                            Stroke="Transparent"
+                            StrokeShape="{RoundRectangle CornerRadius=40}"
+                            VerticalOptions="Center"
+                            WidthRequest="80" />
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="Medium"
+                            HorizontalOptions="Center"
+                            Text="{localization:Translate StringWelcomeToMauiKit}"
+                            TextColor="{DynamicResource White}" />
+                        <Label
+                            HorizontalOptions="Center"
+                            Text="{localization:Translate StringUseYourCredentials}"
+                            TextColor="{DynamicResource White}" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <Grid Grid.Row="1" ColumnDefinitions="{OnIdiom Desktop='2*, 6*, 2*', Phone='Auto, *, Auto', Tablet='2*, 6*, 2*', Default='Auto, *, Auto'}">
+                <Border
+                    Grid.Column="1"
+                    Margin="20"
+                    Padding="{OnIdiom Desktop='50,30', Default='30,20'}"
+                    Background="{DynamicResource MainWrapperBackgroundColor}"
+                    StrokeShape="{RoundRectangle CornerRadius='20'}"
+                    TranslationY="-100"
+                    VerticalOptions="Center">
+                    <VerticalStackLayout Padding="0,20,0,0" Spacing="20">
+
+                        <Border Padding="20,5" Background="{DynamicResource EntryAndEditorsBackgroundColor}">
+                            <handlers:BorderlessEntry
+                                HeightRequest="42"
+                                Keyboard="Email"
+                                Placeholder="{localization:Translate StringEmail}"
+                                PlaceholderColor="{DynamicResource BaseTextColor}">
+                                <handlers:BorderlessEntry.Behaviors>
+                                    <toolkit:EmailValidationBehavior
+                                        Flags="ValidateOnValueChanged"
+                                        InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                        ValidStyle="{StaticResource ValidEntryStyle}" />
+                                </handlers:BorderlessEntry.Behaviors>
+                            </handlers:BorderlessEntry>
+                        </Border>
+
+                        <Border Padding="20,5" Background="{DynamicResource EntryAndEditorsBackgroundColor}">
+                            <handlers:BorderlessEntry
+                                HeightRequest="42"
+                                IsPassword="True"
+                                Keyboard="Default"
+                                Placeholder="{localization:Translate StringPassword}"
+                                PlaceholderColor="{DynamicResource BaseTextColor}" />
+                        </Border>
+
+                        <Button
+                            x:Name="Login"
+                            BackgroundColor="{DynamicResource PrimaryColor}"
+                            Clicked="LoginButtonClicked"
+                            CornerRadius="14"
+                            HeightRequest="50"
+                            Text="{localization:Translate ButtonLogin}"
+                            TextColor="{DynamicResource White}" />
+
+                        <Label HorizontalOptions="Center" Text="{localization:Translate StringLoginWith}" />
+
+                        <Button
+                            BackgroundColor="{StaticResource FacebookBlue}"
+                            Clicked="FacebookButtonClicked"
+                            CornerRadius="14"
+                            HeightRequest="50"
+                            Text="{localization:Translate ButtonFacebook}"
+                            TextColor="{DynamicResource White}" />
+
+                        <Button
+                            BackgroundColor="{StaticResource TwitterBlue}"
+                            Clicked="TwiterButtonClicked"
+                            CornerRadius="14"
+                            HeightRequest="50"
+                            Text="{localization:Translate ButtonTwitter}"
+                            TextColor="{DynamicResource White}" />
+
+                        <Label
+                            HeightRequest="50"
+                            HorizontalOptions="Center"
+                            Text="{localization:Translate StringForgotPassword}"
+                            TextColor="{DynamicResource BaseTextColor}" />
+
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+
+
+            <!--  CLOSE ICON  -->
+            <Label
+                Margin="20"
+                HorizontalOptions="End"
+                HorizontalTextAlignment="End"
+                Style="{StaticResource IconCloseLabelStyle}"
+                TextColor="{DynamicResource OverImageTextColor}"
+                VerticalOptions="Start">
+
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="GoBack_Tapped" />
+                </Label.GestureRecognizers>
+            </Label>
+        </Grid>
+    </ScrollView>
+
+</ContentPage>

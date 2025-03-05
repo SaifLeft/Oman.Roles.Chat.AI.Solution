@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:DashboardBaseItemTemplate
+    x:Class="MauiKit.Views.Dashboards.Templates.DashboardCarouselItemTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:MauiKit.Views.Dashboards.Templates">
+    <Border
+        Margin="3"
+        Padding="0"
+        Background="{DynamicResource BasePageColor}"
+        StrokeShape="RoundRectangle 20"
+        Style="{StaticResource FeatureBorder}">
+
+        <Grid
+            Padding="10,20"
+            RowDefinitions="30,30"
+            RowSpacing="5">
+            <Image Aspect="AspectFit" HeightRequest="35">
+                <Image.Source>
+                    <FontImageSource
+                        FontFamily="IonIcons"
+                        Glyph="{Binding FontImageIcon.Icon}"
+                        Color="{Binding FontImageIcon.IconColor}" />
+                </Image.Source>
+            </Image>
+            <Label
+                Grid.Row="1"
+                FontSize="13"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
+                Text="{Binding Title}"
+                VerticalOptions="End" />
+        </Grid>
+    </Border>
+
+</base:DashboardBaseItemTemplate>

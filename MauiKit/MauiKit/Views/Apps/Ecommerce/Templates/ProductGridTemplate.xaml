@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="MauiKit.Views.AppFlows.Ecommerce.Templates.ProductGridTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui">
+    <Border HeightRequest="280" StrokeShape="{RoundRectangle CornerRadius='20'}">
+
+        <Grid
+            Margin="0"
+            Background="{DynamicResource BasePageColor}"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="Fill">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="160" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Border BackgroundColor="{DynamicResource BasePageColor}" StrokeThickness="1">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20" />
+                </Border.StrokeShape>
+                <ffimageloading:CachedImage
+                    Aspect="{OnIdiom Phone='AspectFill',
+                                     Desktop='Center',
+                                     Tablet='AspectFill'}"
+                    HeightRequest="{OnIdiom Desktop='250',
+                                            Tablet='200',
+                                            Phone='160'}"
+                    Source="{Binding FeaturedImage}" />
+            </Border>
+
+            <StackLayout Grid.Row="1" Margin="15,10">
+                <Label
+                    FontSize="17"
+                    HorizontalOptions="Start"
+                    Style="{StaticResource Title2}"
+                    Text="{Binding Name}"
+                    VerticalOptions="Start" />
+
+                <Label
+                    HorizontalOptions="Start"
+                    Style="{StaticResource SubTitle}"
+                    Text="{Binding BrandName}"
+                    VerticalOptions="Start" />
+            </StackLayout>
+
+            <Label
+                Grid.Row="2"
+                Margin="15,0,15,10"
+                FontAttributes="Bold"
+                FontSize="17"
+                HorizontalOptions="Start"
+                Text="{Binding Price}"
+                TextColor="{DynamicResource OkColor}"
+                VerticalOptions="End" />
+
+        </Grid>
+    </Border>
+</ContentView>

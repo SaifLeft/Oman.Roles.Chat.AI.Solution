@@ -34,7 +34,7 @@ namespace API.Controllers
         /// <summary>
         /// تسجيل مستخدم جديد
         /// </summary>
-        [HttpPost("register")]
+        [HttpPost]
         [ProducesDefaultResponseType(typeof(BaseResponse<UserDTO>))]
         public async Task<IActionResult> Register([FromBody] RegisterUserRequestDTO request)
         {
@@ -52,7 +52,7 @@ namespace API.Controllers
         /// <summary>
         /// تسجيل الدخول باستخدام اسم المستخدم وكلمة المرور
         /// </summary>
-        [HttpPost("login")]
+        [HttpPost]
         [ProducesDefaultResponseType(typeof(BaseResponse<LoginResponse>))]
 
         public async Task<IActionResult> Login([FromBody] LoginRequestDTO request)
@@ -71,7 +71,7 @@ namespace API.Controllers
         /// <summary>
         /// تسجيل الدخول باستخدام رقم الهاتف وكلمة المرور
         /// </summary>
-        [HttpPost("login-with-phone")]
+        [HttpPost]
         [ProducesDefaultResponseType(typeof(BaseResponse<LoginResponse>))]
         public async Task<IActionResult> LoginWithPhone([FromBody] LoginWithPhoneRequestDTO request)
         {
@@ -89,7 +89,7 @@ namespace API.Controllers
         /// <summary>
         /// تحديث رمز JWT باستخدام رمز التحديث
         /// </summary>
-        [HttpPost("refresh-token")]
+        [HttpPost]
         [ProducesDefaultResponseType(typeof(BaseResponse<LoginResponse>))]
 
         public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
@@ -112,7 +112,7 @@ namespace API.Controllers
         /// الحصول على الملف الشخصي للمستخدم الحالي
         /// </summary>
         [Authorize]
-        [HttpGet("profile")]
+        [HttpGet]
         [ProducesDefaultResponseType(typeof(BaseResponse<UserDTO>))]
 
         public async Task<IActionResult> GetProfile()
@@ -136,7 +136,7 @@ namespace API.Controllers
         /// تحديث الملف الشخصي للمستخدم الحالي
         /// </summary>
         [Authorize]
-        [HttpPut("profile")]
+        [HttpPut]
         [ProducesDefaultResponseType(typeof(BaseResponse<UserDTO>))]
 
         public async Task<IActionResult> UpdateProfile([FromBody] UpdateUserProfileRequestDTO request)
@@ -164,7 +164,7 @@ namespace API.Controllers
         /// تغيير كلمة المرور للمستخدم الحالي
         /// </summary>
         [Authorize]
-        [HttpPost("change-password")]
+        [HttpPost]
         [ProducesDefaultResponseType(typeof(BaseResponse<bool>))]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequestDTO request)
         {
@@ -190,7 +190,7 @@ namespace API.Controllers
         /// <summary>
         /// إعادة تعيين كلمة المرور (نسيان كلمة المرور)
         /// </summary>
-        [HttpPost("reset-password")]
+        [HttpPost]
         [ProducesDefaultResponseType(typeof(BaseResponse<bool>))]
 
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequestDTO request)
@@ -210,7 +210,7 @@ namespace API.Controllers
         /// تفعيل حساب المستخدم (للمسؤولين فقط)
         /// </summary>
         [Authorize(Roles = "Admin")]
-        [HttpPost("activate/{userId}")]
+        [HttpPost("{userId}")]
         [ProducesDefaultResponseType(typeof(BaseResponse<bool>))]
 
         public async Task<IActionResult> ActivateUser(long userId)
@@ -226,9 +226,8 @@ namespace API.Controllers
         /// تعطيل حساب المستخدم (للمسؤولين فقط)
         /// </summary>
         [Authorize(Roles = "Admin")]
-        [HttpPost("deactivate/{userId}")]
+        [HttpPost("{userId}")]
         [ProducesDefaultResponseType(typeof(BaseResponse<bool>))]
-
         public async Task<IActionResult> DeactivateUser(long userId)
         {
             // استخراج اللغة المفضلة من رأس الطلب

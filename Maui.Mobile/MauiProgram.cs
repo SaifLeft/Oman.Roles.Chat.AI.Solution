@@ -1,4 +1,4 @@
-﻿using API.Client;
+using API.Client;
 using Maui.Mobile.ViewModels;
 using Maui.Mobile.Views;
 using Maui.Service;
@@ -18,6 +18,9 @@ namespace Maui.Mobile
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    fonts.AddFont("Roboto-Medium.ttf", "Roboto-Medium");
+                    fonts.AddFont("Roboto-Regular.ttf", "Roboto-Regular");
+                    fonts.AddFont("UIFontIcons.ttf", "FontIcons");
                 });
 
             // Register services

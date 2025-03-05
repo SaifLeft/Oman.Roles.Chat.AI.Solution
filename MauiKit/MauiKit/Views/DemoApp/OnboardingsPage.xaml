@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.OnboardingsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:local="clr-namespace:MauiKit"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:templates="clr-namespace:MauiKit.Views.Templates"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    Title="">
+
+    <views:BasePage.PageContent>
+        <Grid RowDefinitions="Auto,*" RowSpacing="15">
+            <controls:HeaderTemplate
+                Margin="25,30,25,0"
+                IconColor="#FFCD195E"
+                IconFontFamily="MaterialDesign"
+                IconSize="35"
+                IconText="{x:Static views:MaterialDesignIcons.ViewCarousel}"
+                Text="{localization:Translate LabelOnboarding}"
+                TextSize="25" />
+
+            <ScrollView Grid.Row="1">
+                <StackLayout Padding="25,0,25,30" Spacing="18">
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:IonIcons.IosPaperplane}"
+                        HeaderIconFontFamily="IonIcons"
+                        ItemDescription="{localization:Translate LabelWelcomePageDescription}"
+                        ItemTitle="{localization:Translate LabelWelcomePage}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="WelcomePage_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:IonIcons.Plane}"
+                        HeaderIconFontFamily="IonIcons"
+                        ItemDescription="{localization:Translate LabelWelcomeVariantPageDescription}"
+                        ItemTitle="{localization:Translate LabelWelcomeVariantPage}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="WelcomeVariantPage_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:IonIcons.IosPaperplaneOutline}"
+                        HeaderIconFontFamily="IonIcons"
+                        ItemDescription="{localization:Translate LabelWelcomeBackgroundPageDescription}"
+                        ItemTitle="{localization:Translate LabelWelcomeBackgroundPage}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="WelcomeBackgroundPage_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:IonIcons.PaperAirplane}"
+                        HeaderIconFontFamily="IonIcons"
+                        ItemDescription="{localization:Translate LabelWalkthroughAnimationDescription}"
+                        ItemTitle="{localization:Translate LabelWalkthroughAnimation}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="WalkthroughAnimation_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:IonIcons.AndroidLocate}"
+                        HeaderIconFontFamily="IonIcons"
+                        ItemDescription="{localization:Translate LabelWalkthroughGradientDescription}"
+                        ItemTitle="{localization:Translate LabelWalkthroughGradient}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="WalkthroughGradient_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:IonIcons.AndroidLocate}"
+                        HeaderIconFontFamily="IonIcons"
+                        ItemDescription="{localization:Translate LabelWalkthroughIllustrationDescription}"
+                        ItemTitle="{localization:Translate LabelWalkthroughIllustration}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="WalkthroughIllustration_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:IonIcons.AndroidLocate}"
+                        HeaderIconFontFamily="IonIcons"
+                        ItemDescription="{localization:Translate LabelWalkthroughImage1Description}"
+                        ItemTitle="{localization:Translate LabelWalkthroughImage1}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="WalkthroughImage1_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:IonIcons.AndroidLocate}"
+                        HeaderIconFontFamily="IonIcons"
+                        ItemDescription="{localization:Translate LabelWalkthroughImage2Description}"
+                        ItemTitle="{localization:Translate LabelWalkthroughImage2}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="WalkthroughImage2_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:IonIcons.Plane}"
+                        HeaderIconFontFamily="IonIcons"
+                        ItemDescription="{localization:Translate LabelWalkthroughStyle1Description}"
+                        ItemTitle="{localization:Translate LabelWalkthroughStyle1}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="WalkthroughStyle1_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:IonIcons.PaperAirplane}"
+                        HeaderIconFontFamily="IonIcons"
+                        ItemDescription="{localization:Translate LabelWalkthroughStyle2Description}"
+                        ItemTitle="{localization:Translate LabelWalkthroughStyle2}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="WalkthroughStyle2_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                </StackLayout>
+            </ScrollView>
+        </Grid>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

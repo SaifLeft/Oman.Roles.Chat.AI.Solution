@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiKit.Views.Onboardings.WalkthroughPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:MauiKit.Behaviors"
+    xmlns:cardcontrols="clr-namespace:PanCardView.Controls;assembly=PanCardView"
+    xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:MauiKit.ViewModels"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    BackgroundColor="{DynamicResource BasePageColor}"
+    NavigationPage.HasBackButton="False"
+    NavigationPage.HasNavigationBar="False">
+
+    <ScrollView VerticalScrollBarVisibility="Never">
+        <Grid>
+            <!--  Walkthrough Steps  -->
+            <cards:CarouselView
+                HorizontalOptions="Center"
+                IndicatorView="indicatorView"
+                IsPanInteractionEnabled="False"
+                IsPanSwipeEnabled="False"
+                IsUserInteractionEnabled="False"
+                ItemsSource="{Binding Boardings}"
+                SelectedIndex="{Binding Position}">
+                <cards:CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout
+                            Padding="30,0"
+                            HorizontalOptions="CenterAndExpand"
+                            Spacing="10"
+                            VerticalOptions="CenterAndExpand">
+
+                            <Grid
+                                Margin="0,0,0,20"
+                                HeightRequest="300"
+                                WidthRequest="300">
+                                <Border
+                                    Padding="0"
+                                    BackgroundColor="{DynamicResource Primary40Color}"
+                                    HeightRequest="300"
+                                    HorizontalOptions="CenterAndExpand"
+                                    Stroke="{DynamicResource Primary10Color}"
+                                    StrokeShape="{RoundRectangle CornerRadius=150}"
+                                    StrokeThickness="70"
+                                    VerticalOptions="CenterAndExpand"
+                                    WidthRequest="300" />
+
+                                <Border
+                                    BackgroundColor="{DynamicResource Primary35Color}"
+                                    HeightRequest="230"
+                                    HorizontalOptions="CenterAndExpand"
+                                    Stroke="{DynamicResource Primary50Color}"
+                                    StrokeShape="{RoundRectangle CornerRadius=115}"
+                                    StrokeThickness="70"
+                                    VerticalOptions="CenterAndExpand"
+                                    WidthRequest="230">
+
+                                    <Image
+                                        Margin="15"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center">
+                                        <Image.Source>
+                                            <FontImageSource
+                                                FontAutoScalingEnabled="True"
+                                                FontFamily="MauiKitIcons"
+                                                Glyph="{Binding ImagePath}"
+                                                Size="70"
+                                                Color="{DynamicResource White}" />
+                                        </Image.Source>
+                                    </Image>
+
+                                </Border>
+
+                            </Grid>
+
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="19"
+                                HorizontalOptions="Center"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding Title}" />
+
+                            <Label
+                                HorizontalOptions="Center"
+                                HorizontalTextAlignment="Center"
+                                Style="{StaticResource Body}"
+                                Text="{Binding Subtitle}" />
+                        </StackLayout>
+                    </DataTemplate>
+                </cards:CarouselView.ItemTemplate>
+            </cards:CarouselView>
+
+            <!--  Skip Button  -->
+            <Button
+                Margin="20"
+                Padding="10,5"
+                BackgroundColor="{DynamicResource White}"
+                BorderColor="{DynamicResource Black}"
+                BorderWidth="1"
+                Command="{Binding SkipCommand}"
+                FontSize="12"
+                HeightRequest="26"
+                HorizontalOptions="End"
+                IsVisible="{Binding IsSkipButtonVisible, Mode=TwoWay}"
+                Text="{localization:Translate ButtonSkip}"
+                TextColor="{DynamicResource Black}"
+                VerticalOptions="StartAndExpand" />
+
+            <StackLayout VerticalOptions="End">
+                <!--  Step Indicator  -->
+                <IndicatorView
+                    x:Name="indicatorView"
+                    HorizontalOptions="Center"
+                    IndicatorColor="{DynamicResource BaseLightTextColor}"
+                    IndicatorsShape="Circle"
+                    SelectedIndicatorColor="{DynamicResource PrimaryColor}">
+                    <IndicatorView.IndicatorTemplate>
+                        <DataTemplate>
+                            <Border HeightRequest="8" StrokeShape="{RoundRectangle CornerRadius='4'}">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroupList>
+                                        <VisualStateGroup>
+                                            <VisualState Name="Normal">
+                                                <VisualState.Setters>
+                                                    <Setter Property="WidthRequest" Value="8" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                            <VisualState Name="Selected">
+                                                <VisualState.Setters>
+                                                    <Setter Property="WidthRequest" Value="10" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateGroupList>
+                                </VisualStateManager.VisualStateGroups>
+                            </Border>
+                        </DataTemplate>
+                    </IndicatorView.IndicatorTemplate>
+                </IndicatorView>
+
+                <!--  Next button  -->
+                <Button
+                    Margin="30,20"
+                    BackgroundColor="{DynamicResource PrimaryColor}"
+                    Command="{Binding NextCommand}"
+                    CornerRadius="16"
+                    FontSize="14"
+                    HeightRequest="50"
+                    Text="{Binding NextButtonText, Mode=TwoWay}"
+                    TextColor="{DynamicResource White}"
+                    VerticalOptions="End" />
+            </StackLayout>
+
+        </Grid>
+    </ScrollView>
+
+</ContentPage>

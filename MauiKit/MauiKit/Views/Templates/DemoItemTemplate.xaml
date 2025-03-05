@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="MauiKit.Views.Templates.DemoItemTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:MauiKit.Converters"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    x:Name="Root">
+
+    <Border Style="{StaticResource FeatureBorder}">
+
+        <Grid
+            ColumnDefinitions="Auto, Auto, *, Auto"
+            RowDefinitions="Auto, *"
+            RowSpacing="5"
+            VerticalOptions="Center">
+
+            <Image
+                Grid.RowSpan="2"
+                Aspect="AspectFit"
+                HeightRequest="50"
+                IsVisible="{Binding HeaderImage, Source={x:Reference Root}, Converter={StaticResource IsNotEmptyStringConverter}}"
+                Source="{Binding Source={x:Reference Root}, Path=HeaderImage}"
+                VerticalOptions="Center"
+                WidthRequest="50" />
+
+            <BoxView
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                HeightRequest="10"
+                IsVisible="{Binding HeaderImage, Source={x:Reference Root}, Converter={StaticResource IsNotEmptyStringConverter}}"
+                VerticalOptions="Center"
+                WidthRequest="10"
+                Color="Transparent" />
+
+            <Grid Grid.Column="2" ColumnDefinitions="Auto, Auto, *">
+
+                <Image HeightRequest="25" IsVisible="{Binding HeaderIcon, Source={x:Reference Root}, Converter={StaticResource IsNotEmptyStringConverter}}">
+                    <Image.Source>
+                        <FontImageSource
+                            FontFamily="{Binding Source={x:Reference Root}, Path=HeaderIconFontFamily}"
+                            Glyph="{Binding Source={x:Reference Root}, Path=HeaderIcon}"
+                            Size="20"
+                            Color="{DynamicResource BaseIconColor}" />
+                    </Image.Source>
+                </Image>
+
+                <BoxView
+                    Grid.Column="1"
+                    HeightRequest="10"
+                    IsVisible="{Binding HeaderIcon, Source={x:Reference Root}, Converter={StaticResource IsNotEmptyStringConverter}}"
+                    VerticalOptions="Center"
+                    WidthRequest="10"
+                    Color="Transparent" />
+
+                <Label
+                    Grid.Column="2"
+                    Style="{StaticResource Title2}"
+                    Text="{Binding Source={x:Reference Root}, Path=ItemTitle}" />
+            </Grid>
+
+            <Label
+                Grid.Row="1"
+                Grid.Column="2"
+                Grid.ColumnSpan="2"
+                Style="{StaticResource Footnote}"
+                Text="{Binding Source={x:Reference Root}, Path=ItemDescription}" />
+
+            <Frame
+                Grid.Column="3"
+                Padding="8,3"
+                BackgroundColor="{StaticResource Red}"
+                BorderColor="Transparent"
+                CornerRadius="8"
+                HorizontalOptions="EndAndExpand"
+                IsVisible="{Binding TagLabel, Source={x:Reference Root}, Converter={StaticResource IsNotEmptyStringConverter}}"
+                VerticalOptions="Center">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="11"
+                    HorizontalOptions="Center"
+                    Text="{Binding Source={x:Reference Root}, Path=TagLabel}"
+                    TextColor="{DynamicResource White}"
+                    VerticalOptions="Center" />
+            </Frame>
+        </Grid>
+    </Border>
+</ContentView>

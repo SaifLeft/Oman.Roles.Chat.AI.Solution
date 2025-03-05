@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.GeoMapPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:charts="clr-namespace:MauiKit.Controls.Charts"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
+    xmlns:viewmodels="clr-namespace:MauiKit.ViewModels"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    BaseTitle="{localization:Translate LabelGeoMap}"
+    BaseTitleColor="{DynamicResource BaseTextColor}">
+
+    <views:BasePage.PageContent>
+        <ScrollView>
+            <Grid
+                Padding="12,20"
+                RowDefinitions="Auto, Auto"
+                RowSpacing="15"
+                VerticalOptions="Center">
+
+                <!--  Basic  -->
+                <Border Style="{StaticResource FeatureBorder}">
+                    <Grid RowDefinitions="Auto, 300" RowSpacing="10">
+                        <Label
+                            Margin="20"
+                            Style="{StaticResource CardTitleLabelStyle}"
+                            Text="{localization:Translate LabelBasicGeoMap}" />
+
+                        <lvc:GeoMap
+                            Grid.Row="1"
+                            HandlerProperties.DisconnectPolicy="Manual"
+                            MapProjection="Default"
+                            Series="{Binding BasicGeoMapSeries}" />
+                    </Grid>
+                </Border>
+
+                <!--  Word Heat  -->
+                <Border Grid.Row="1" Style="{StaticResource FeatureBorder}">
+                    <Grid RowDefinitions="Auto, 300" RowSpacing="10">
+                        <Label
+                            Margin="20"
+                            Style="{StaticResource CardTitleLabelStyle}"
+                            Text="{localization:Translate LabelWorldHeatGeoMap}" />
+
+                        <Button
+                            Margin="10,0"
+                            Command="{Binding ToggleBrazilCommand}"
+                            CornerRadius="10"
+                            FontSize="12"
+                            HeightRequest="36"
+                            HorizontalOptions="End"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            Text="{localization:Translate CommandToggleBrazil}" />
+
+                        <lvc:GeoMap
+                            Grid.Row="1"
+                            HandlerProperties.DisconnectPolicy="Manual"
+                            MapProjection="Mercator"
+                            Series="{Binding WorldHeatGeoMapSeries}" />
+                    </Grid>
+                </Border>
+            </Grid>
+        </ScrollView>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

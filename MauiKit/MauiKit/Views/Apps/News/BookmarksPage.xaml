@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.News.BookmarksPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:models="clr-namespace:MauiKit.Models.News"
+    xmlns:viewBase="clr-namespace:MauiKit.Views"
+    xmlns:viewmodels="clr-namespace:MauiKit.ViewModels.News"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    BaseTitle="{localization:Translate PageTitleNewsBookmark}"
+    BaseTitleColor="{DynamicResource BaseTextColor}">
+
+    <views:BasePage.PageContent>
+        <CollectionView
+            Margin="20"
+            ItemsSource="{Binding Articles}"
+            VerticalScrollBarVisibility="Default">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout
+                    HorizontalItemSpacing="15"
+                    Orientation="Vertical"
+                    Span="{OnIdiom Desktop='2',
+                                   Phone='1',
+                                   Tablet='2'}"
+                    VerticalItemSpacing="15" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Article">
+                    <Border
+                        Padding="10"
+                        StrokeShape="RoundRectangle 12"
+                        StrokeThickness="1">
+                        <Grid ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="2*" />
+                                <RowDefinition Height="30" />
+                            </Grid.RowDefinitions>
+
+                            <Frame
+                                Grid.RowSpan="3"
+                                Grid.Column="0"
+                                Padding="0"
+                                CornerRadius="10"
+                                HeightRequest="110"
+                                IsClippedToBounds="True"
+                                WidthRequest="100">
+                                <Image Aspect="AspectFill" Source="{Binding ImageURL}" />
+                            </Frame>
+
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                HorizontalOptions="FillAndExpand"
+                                Text="{Binding Category}"
+                                TextColor="{DynamicResource PrimaryColor}" />
+
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                HorizontalOptions="FillAndExpand"
+                                Style="{StaticResource Title2}"
+                                Text="{Binding Title}" />
+
+                            <StackLayout
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Orientation="Horizontal"
+                                Spacing="5"
+                                VerticalOptions="Center">
+                                <Label
+                                    Text="{Binding Time}"
+                                    TextColor="{StaticResource Gray400}"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    FontAttributes="Bold"
+                                    Text="-"
+                                    TextColor="{StaticResource Gray200}"
+                                    VerticalOptions="Center" />
+
+                                <Label
+                                    Margin="15,0,0,0"
+                                    FontFamily="MaterialDesign"
+                                    FontSize="16"
+                                    Text="{x:Static views:MaterialDesignIcons.ChatBubble}"
+                                    TextColor="{StaticResource Gray400}"
+                                    VerticalOptions="Center" />
+                                <Label Text="{Binding CommentCount}" TextColor="{StaticResource Gray400}" />
+
+                                <Label
+                                    Margin="15,0,0,0"
+                                    FontFamily="MaterialDesign"
+                                    FontSize="16"
+                                    Text="{x:Static views:MaterialDesignIcons.ThumbUp}"
+                                    TextColor="{StaticResource Gray400}"
+                                    VerticalOptions="Center" />
+                                <Label Text="{Binding LikeCount}" TextColor="{StaticResource Gray400}" />
+                            </StackLayout>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <!--  For some reason, last item is hidden behind bottom bar. Add blank footer to compensate.  -->
+            <CollectionView.Footer>
+                <BoxView HeightRequest="10" Color="Transparent" />
+            </CollectionView.Footer>
+        </CollectionView>
+    </views:BasePage.PageContent>
+</views:BasePage>

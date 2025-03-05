@@ -1,0 +1,432 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.News.NewsHomePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:handlers="clr-namespace:MauiKit.Handlers"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:models="clr-namespace:MauiKit.Models.News"
+    xmlns:viewBase="clr-namespace:MauiKit.Views"
+    xmlns:viewmodels="clr-namespace:MauiKit.ViewModels.News"
+    xmlns:views="clr-namespace:MauiKit.Views">
+
+    <views:BasePage.Resources>
+
+        <Style x:Key="HeaderStack" TargetType="StackLayout">
+            <Setter Property="Margin" Value="20,16,20,14" />
+            <Setter Property="Orientation" Value="Horizontal" />
+            <Setter Property="Padding" Value="20,0" />
+        </Style>
+
+        <Style x:Key="SectionHeading" TargetType="Label">
+            <Setter Property="FontSize" Value="26" />
+            <Setter Property="FontFamily" Value="MediumFont" />
+            <Setter Property="HorizontalOptions" Value="StartAndExpand" />
+        </Style>
+
+        <Style x:Key="ShowAll" TargetType="Label">
+            <Setter Property="HorizontalOptions" Value="End" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="TextColor" Value="{DynamicResource PrimaryColor}" />
+            <Setter Property="VerticalOptions" Value="End" />
+        </Style>
+
+        <Style TargetType="BoxView">
+            <Setter Property="HeightRequest" Value="1" />
+            <Setter Property="Color" Value="{DynamicResource FrameBorder}" />
+            <Setter Property="Margin" Value="0,10,0,0" />
+        </Style>
+
+        <DataTemplate x:Key="ArticleTemplate" x:DataType="models:Article">
+            <StackLayout
+                Margin="0,0,15,0"
+                HeightRequest="260"
+                Orientation="Vertical"
+                WidthRequest="300">
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:NewsHomeViewModel}}, Path=ArticleDetailCommand}" CommandParameter="{Binding .}" />
+                </StackLayout.GestureRecognizers>
+                <Frame
+                    Padding="0"
+                    BorderColor="Transparent"
+                    CornerRadius="12"
+                    IsClippedToBounds="True">
+                    <Image
+                        Aspect="AspectFill"
+                        HeightRequest="180"
+                        Source="{Binding ImageURL}"
+                        WidthRequest="300" />
+                </Frame>
+                <Label
+                    Margin="0,8,0,0"
+                    MaxLines="2"
+                    Style="{StaticResource Title2}"
+                    Text="{Binding Title}" />
+                <StackLayout Orientation="Horizontal" Spacing="5">
+                    <Label Text="{Binding Category}" TextColor="{DynamicResource PrimaryColor}" />
+
+                    <Label
+                        FontAttributes="Bold"
+                        Text="·"
+                        TextColor="{DynamicResource BaseLightTextColor}" />
+
+                    <Label Text="{Binding Time}" TextColor="{DynamicResource BaseLightTextColor}" />
+
+                    <Label
+                        Margin="15,0,0,0"
+                        FontFamily="MaterialDesign"
+                        FontSize="16"
+                        Text="{x:Static views:MaterialDesignIcons.ChatBubble}"
+                        TextColor="{DynamicResource BaseIconColor}"
+                        VerticalOptions="Center" />
+                    <Label Text="{Binding CommentCount}" TextColor="{DynamicResource BaseLightTextColor}" />
+
+                    <Label
+                        Margin="15,0,0,0"
+                        FontFamily="MaterialDesign"
+                        FontSize="16"
+                        Text="{x:Static views:MaterialDesignIcons.ThumbUp}"
+                        TextColor="{DynamicResource BaseIconColor}"
+                        VerticalOptions="Center" />
+                    <Label Text="{Binding LikeCount}" TextColor="{DynamicResource BaseLightTextColor}" />
+                </StackLayout>
+            </StackLayout>
+        </DataTemplate>
+
+        <DataTemplate x:Key="RecentArticleTemplate" x:DataType="models:Article">
+            <StackLayout HeightRequest="260" Orientation="Vertical">
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:NewsHomeViewModel}}, Path=ArticleDetailCommand}" CommandParameter="{Binding .}" />
+                </StackLayout.GestureRecognizers>
+                <Frame
+                    Padding="0"
+                    BorderColor="Transparent"
+                    CornerRadius="12"
+                    IsClippedToBounds="True">
+                    <Image
+                        Aspect="AspectFill"
+                        HeightRequest="160"
+                        Source="{Binding ImageURL}" />
+                </Frame>
+                <Label
+                    Margin="0,8,0,0"
+                    MaxLines="2"
+                    Style="{StaticResource Title2}"
+                    Text="{Binding Title}" />
+                <StackLayout
+                    HorizontalOptions="FillAndExpand"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <Label Text="{Binding Category}" TextColor="{DynamicResource PrimaryColor}" />
+
+                    <Label
+                        HorizontalOptions="EndAndExpand"
+                        HorizontalTextAlignment="End"
+                        Text="{Binding Time}"
+                        TextColor="{DynamicResource BaseLightTextColor}" />
+                </StackLayout>
+            </StackLayout>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ChannelTemplate" x:DataType="models:Channel">
+            <StackLayout Spacing="5">
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="15">
+                    <!--<Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:NewsHomeViewModel}}, Path=ArticleDetailCommand}" CommandParameter="{Binding .}" />
+                    </Grid.GestureRecognizers>-->
+                    <Frame
+                        Padding="0"
+                        BorderColor="Transparent"
+                        CornerRadius="10"
+                        HeightRequest="90"
+                        IsClippedToBounds="True"
+                        WidthRequest="90">
+                        <Image
+                            Aspect="AspectFill"
+                            HeightRequest="90"
+                            Source="{Binding ImageIcon}"
+                            WidthRequest="90" />
+                    </Frame>
+
+                    <StackLayout
+                        Grid.Column="1"
+                        HorizontalOptions="FillAndExpand"
+                        Spacing="5"
+                        VerticalOptions="CenterAndExpand">
+                        <Label
+                            MaxLines="2"
+                            Style="{StaticResource Title2}"
+                            Text="{Binding Name}" />
+                        <Label
+                            LineBreakMode="TailTruncation"
+                            MaxLines="1"
+                            Text="{Binding Tagline}"
+                            TextColor="{DynamicResource BaseLightTextColor}" />
+
+                        <StackLayout Orientation="Horizontal" Spacing="8">
+                            <Label
+                                FontFamily="LineAwesome"
+                                FontSize="20"
+                                Text="{x:Static views:LineAwesome.Globe}"
+                                TextColor="{DynamicResource BaseIconColor}" />
+                            <Label Text="{Binding Language}" VerticalOptions="Center" />
+                        </StackLayout>
+                    </StackLayout>
+
+                    <Label
+                        Grid.Column="2"
+                        FontFamily="MaterialDesign"
+                        FontSize="20"
+                        HorizontalOptions="EndAndExpand"
+                        HorizontalTextAlignment="End"
+                        Text="{x:Static views:MaterialDesignIcons.MoreVert}"
+                        TextColor="{DynamicResource BaseIconColor}" />
+                </Grid>
+
+                <BoxView />
+            </StackLayout>
+        </DataTemplate>
+
+        <Style TargetType="StackLayout">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="Transparent" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+
+    </views:BasePage.Resources>
+
+    <views:BasePage.PageContent>
+        <ScrollView>
+            <VerticalStackLayout>
+                <!--  Search bar  -->
+                <Grid
+                    Margin="20"
+                    ColumnDefinitions="*, Auto"
+                    ColumnSpacing="25">
+
+                    <Border
+                        Margin="0"
+                        Padding="0"
+                        Background="{DynamicResource Primary10Color}"
+                        HeightRequest="46"
+                        HorizontalOptions="FillAndExpand"
+                        StrokeShape="RoundRectangle 10"
+                        StrokeThickness="0">
+                        <Grid
+                            Margin="12,2"
+                            ColumnDefinitions="Auto, *, Auto"
+                            VerticalOptions="CenterAndExpand">
+                            <Label
+                                FontFamily="LineAwesome"
+                                FontSize="24"
+                                HorizontalOptions="Center"
+                                HorizontalTextAlignment="Center"
+                                Text="{x:Static views:LineAwesome.Search}"
+                                TextColor="{DynamicResource BaseIconColor}"
+                                VerticalOptions="CenterAndExpand" />
+
+                            <handlers:BorderlessEntry
+                                Grid.Column="1"
+                                Margin="8,0"
+                                HorizontalOptions="FillAndExpand"
+                                Placeholder="{localization:Translate StringSearchNews}"
+                                PlaceholderColor="{DynamicResource PlaceholderColor}"
+                                TextColor="{DynamicResource BaseTextColor}" />
+
+                            <Label
+                                Grid.Column="2"
+                                FontFamily="MaterialDesign"
+                                FontSize="24"
+                                HorizontalOptions="End"
+                                HorizontalTextAlignment="Center"
+                                Text="{x:Static views:MaterialDesignIcons.KeyboardVoice}"
+                                TextColor="{DynamicResource PrimaryColor}"
+                                VerticalOptions="CenterAndExpand" />
+                        </Grid>
+                    </Border>
+
+                    <Image
+                        Grid.Column="1"
+                        HeightRequest="30"
+                        VerticalOptions="Center"
+                        WidthRequest="30">
+                        <Image.Source>
+                            <FontImageSource
+                                FontFamily="FaPro"
+                                Glyph="{x:Static views:FaPro.Moon}"
+                                Color="{DynamicResource BaseTextColor}" />
+                        </Image.Source>
+                    </Image>
+                </Grid>
+
+                <!--  Trendings  -->
+                <Label
+                    Margin="20,15,20,5"
+                    Style="{StaticResource SectionHeading}"
+                    Text="{localization:Translate LabelTrendingNews}" />
+                <Label
+                    Margin="20,0,20,10"
+                    Style="{StaticResource Headline}"
+                    Text="{localization:Translate LabelTrendingNewsHeadline}"
+                    TextColor="{DynamicResource BaseLightTextColor}" />
+
+                <CollectionView
+                    Margin="20,5,0,10"
+                    HeightRequest="100"
+                    ItemsSource="{Binding TrendingCategories}"
+                    SelectionMode="Single"
+                    VerticalScrollBarVisibility="Never">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="2" Orientation="Horizontal" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout
+                                Margin="0,0,10,0"
+                                HorizontalOptions="StartAndExpand"
+                                Spacing="0">
+                                <Border
+                                    Margin="0,4"
+                                    Padding="0"
+                                    HeightRequest="70"
+                                    HorizontalOptions="Center"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 35"
+                                    VerticalOptions="Center"
+                                    WidthRequest="70">
+                                    <Image Aspect="AspectFill" Source="{Binding Thumbnail}" />
+                                </Border>
+
+                                <Label
+                                    FontFamily="MediumFont"
+                                    FontSize="15"
+                                    HorizontalOptions="CenterAndExpand"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding CategoryName}"
+                                    VerticalOptions="EndAndExpand" />
+
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Label
+                    Margin="20,15,20,10"
+                    Style="{StaticResource SectionHeading}"
+                    Text="{localization:Translate LabelPopularNewsTags}" />
+                <ScrollView
+                    Margin="20,0,0,0"
+                    HorizontalScrollBarVisibility="Never"
+                    Orientation="Horizontal">
+                    <StackLayout
+                        BindableLayout.ItemsSource="{Binding Tags}"
+                        Orientation="Horizontal"
+                        Spacing="0">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Frame
+                                    Margin="0,0,10,10"
+                                    Padding="10,5"
+                                    BackgroundColor="{DynamicResource Primary10Color}"
+                                    BorderColor="Transparent"
+                                    CornerRadius="6">
+                                    <Label
+                                        FontSize="15"
+                                        Text="{Binding .}"
+                                        VerticalOptions="Center" />
+                                </Frame>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </StackLayout>
+                </ScrollView>
+
+                <BoxView />
+
+                <Label
+                    Margin="20,15,20,10"
+                    Style="{StaticResource SectionHeading}"
+                    Text="{localization:Translate LabelLatestNews}" />
+                <ScrollView
+                    Margin="20,0,0,0"
+                    HorizontalScrollBarVisibility="Never"
+                    Orientation="Horizontal">
+                    <StackLayout
+                        BindableLayout.ItemTemplate="{StaticResource ArticleTemplate}"
+                        BindableLayout.ItemsSource="{Binding LatestArticles}"
+                        Orientation="Horizontal"
+                        Spacing="0" />
+                </ScrollView>
+
+                <BoxView />
+
+                <Label
+                    Margin="20,15,20,10"
+                    Style="{StaticResource SectionHeading}"
+                    Text="{localization:Translate LabelRecentPosts}" />
+                <CollectionView
+                    Margin="20,0"
+                    ItemTemplate="{StaticResource RecentArticleTemplate}"
+                    ItemsSource="{Binding RecentArticles}">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout
+                            HorizontalItemSpacing="12"
+                            Orientation="Vertical"
+                            Span="2"
+                            VerticalItemSpacing="12" />
+                    </CollectionView.ItemsLayout>
+                </CollectionView>
+
+                <Button
+                    Margin="20,10"
+                    Style="{StaticResource PrimaryButtonStyle}"
+                    Text="{localization:Translate ButtonSeeMore}" />
+                <!--<ScrollView HorizontalScrollBarVisibility="Never" Orientation="Horizontal">
+                        <StackLayout
+                            BindableLayout.ItemTemplate="{StaticResource ArticleTemplate}"
+                            BindableLayout.ItemsSource="{Binding RecommendedArticles}"
+                            Orientation="Horizontal"
+                            Spacing="10" />
+                    </ScrollView>-->
+
+                <BoxView />
+
+                <Label
+                    Margin="20,15,20,10"
+                    Style="{StaticResource SectionHeading}"
+                    Text="{localization:Translate LabelTopChannels}" />
+                <CollectionView
+                    Margin="20,0"
+                    ItemTemplate="{StaticResource ChannelTemplate}"
+                    ItemsSource="{Binding TopChannels}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="10" Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+                </CollectionView>
+
+                <Button
+                    Margin="20,10,20,30"
+                    Style="{StaticResource PrimaryButtonStyle}"
+                    Text="{localization:Translate ButtonSeeMore}" />
+                <!--<ScrollView HorizontalScrollBarVisibility="Never" Orientation="Horizontal">
+                        <StackLayout
+                            BindableLayout.ItemTemplate="{StaticResource ArticleTemplate}"
+                            BindableLayout.ItemsSource="{Binding TopChannels}"
+                            Orientation="Horizontal"
+                            Spacing="0" />
+                    </ScrollView>-->
+            </VerticalStackLayout>
+        </ScrollView>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

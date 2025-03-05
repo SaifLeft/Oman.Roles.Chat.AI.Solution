@@ -32,7 +32,7 @@ namespace API.Controllers
         /// <summary>
         /// ≈‰‘«¡ €—›… œ—œ‘… ÃœÌœ…
         /// </summary>
-        [HttpPost("rooms")]
+        [HttpPost]
         public async Task<IActionResult> CreateChatRoom([FromBody] CreateChatRoomRequest request)
         {
             // «” Œ—«Ã «··€… «·„›÷·… „‰ —√” «·ÿ·»
@@ -62,7 +62,7 @@ namespace API.Controllers
         /// <summary>
         /// «·Õ’Ê· ⁄·Ï €—›… œ—œ‘… »Ê«”ÿ… «·„⁄—›
         /// </summary>
-        [HttpGet("rooms/{roomId}")]
+        [HttpGet("{roomId}")]
         public async Task<IActionResult> GetChatRoom(string roomId)
         {
             // «” Œ—«Ã «··€… «·„›÷·… „‰ —√” «·ÿ·»
@@ -91,7 +91,7 @@ namespace API.Controllers
         /// <summary>
         /// «·Õ’Ê· ⁄·Ï ﬁ«∆„… €—› «·œ—œ‘… ··„” Œœ„ «·Õ«·Ì
         /// </summary>
-        [HttpGet("rooms")]
+        [HttpGet]
         public async Task<IActionResult> GetUserChatRooms()
         {
             // «” Œ—«Ã «··€… «·„›÷·… „‰ —√” «·ÿ·»
@@ -121,7 +121,7 @@ namespace API.Controllers
         /// <summary>
         /// ≈—”«· —”«·… ›Ì €—›… œ—œ‘…
         /// </summary>
-        [HttpPost("messages")]
+        [HttpPost]
         public async Task<IActionResult> SendMessage([FromBody] SendMessageRequest request)
         {
             // «” Œ—«Ã «··€… «·„›÷·… „‰ —√” «·ÿ·»
@@ -151,7 +151,7 @@ namespace API.Controllers
         /// <summary>
         /// Õ–› €—›… œ—œ‘…
         /// </summary>
-        [HttpDelete("rooms/{roomId}")]
+        [HttpDelete("{roomId}")]
         public async Task<IActionResult> DeleteChatRoom(string roomId)
         {
             // «” Œ—«Ã «··€… «·„›÷·… „‰ —√” «·ÿ·»

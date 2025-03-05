@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="MauiKit.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:ecommerce="clr-namespace:MauiKit.Views.Ecommerce"
+    xmlns:extensions="clr-namespace:MauiKit.Extensions"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:properties="clr-namespace:MauiKit.Views.Properties"
+    xmlns:sys="clr-namespace:System;assembly=netstandard"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    FlyoutBackgroundColor="{DynamicResource PrimaryColor}"
+    FlyoutBackgroundImageAspect="AspectFill"
+    FlyoutBehavior="Flyout"
+    FlyoutHeaderBehavior="Fixed"
+    FlyoutWidth="300">
+
+    <Shell.FlyoutHeader>
+        <controls:FlyoutHeader />
+    </Shell.FlyoutHeader>
+
+    <Shell.FlyoutFooter>
+        <controls:FlyoutFooter />
+    </Shell.FlyoutFooter>
+
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <Grid
+                Padding="30,10"
+                ColumnDefinitions="Auto,*"
+                ColumnSpacing="20">
+                <Image
+                    HeightRequest="25"
+                    HorizontalOptions="Start"
+                    Source="{Binding FlyoutIcon}"
+                    VerticalOptions="Center" />
+                <Label
+                    Grid.Column="1"
+                    Style="{StaticResource Title2}"
+                    Text="{Binding Title}"
+                    TextColor="{StaticResource White}"
+                    VerticalTextAlignment="Center" />
+            </Grid>
+        </DataTemplate>
+    </Shell.ItemTemplate>
+
+    <Shell.MenuItemTemplate>
+        <DataTemplate>
+            <Grid
+                Padding="30,10"
+                ColumnDefinitions="Auto,*"
+                ColumnSpacing="20">
+                <Image
+                    HeightRequest="25"
+                    HorizontalOptions="Start"
+                    Source="{Binding FlyoutIcon}"
+                    VerticalOptions="Center" />
+                <Label
+                    Grid.Column="1"
+                    Style="{StaticResource Title2}"
+                    Text="{Binding Title}"
+                    TextColor="{StaticResource White}"
+                    VerticalTextAlignment="Center" />
+            </Grid>
+        </DataTemplate>
+    </Shell.MenuItemTemplate>
+
+    <FlyoutItem Title="{localization:Translate MenuExplore}" Icon="{FontImage FontFamily=MaterialDesign, Glyph={x:Static views:MaterialDesignIcons.Explore}, Size=50, Color={StaticResource White}}">
+        <ShellContent
+            Title="{localization:Translate MenuExplore}"
+            ContentTemplate="{DataTemplate views:MainPage}"
+            Route="MainPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="{localization:Translate MenuMainDashboard}" Icon="{FontImage FontFamily=MaterialDesign, Glyph={x:Static views:MaterialDesignIcons.Dashboard}, Size=50, Color={StaticResource White}}">
+        <Tab Title="{localization:Translate BottomTabbedHome}">
+            <Tab.Icon>
+                <FontImageSource
+                    FontFamily="MaterialDesign"
+                    Glyph="{x:Static views:MaterialDesignIcons.Home}"
+                    Color="{DynamicResource BaseIconColor}" />
+            </Tab.Icon>
+            <ShellContent
+                Title=""
+                ContentTemplate="{DataTemplate views:HomePage}"
+                Route="HomePage" />
+        </Tab>
+
+        <Tab Title="{localization:Translate BottomTabbedStats}">
+            <Tab.Icon>
+                <FontImageSource
+                    FontFamily="MaterialDesign"
+                    Glyph="{x:Static views:MaterialDesignIcons.Dashboard}"
+                    Color="{DynamicResource BaseIconColor}" />
+            </Tab.Icon>
+            <ShellContent
+                Title=""
+                ContentTemplate="{DataTemplate views:StatisticPage}"
+                Route="StatisticPage" />
+        </Tab>
+
+        <Tab Title="{localization:Translate BottomTabbedRemarks}">
+            <Tab.Icon>
+                <FontImageSource
+                    FontFamily="MaterialDesign"
+                    Glyph="{x:Static views:MaterialDesignIcons.Favorite}"
+                    Color="{DynamicResource BaseIconColor}" />
+            </Tab.Icon>
+            <ShellContent
+                Title=""
+                ContentTemplate="{DataTemplate views:RemarkPage}"
+                Route="RemarkPage" />
+        </Tab>
+
+        <Tab Title="{localization:Translate BottomTabbedProfile}">
+            <Tab.Icon>
+                <FontImageSource
+                    FontFamily="MaterialDesign"
+                    Glyph="{x:Static views:MaterialDesignIcons.AccountCircle}"
+                    Color="{DynamicResource BaseIconColor}" />
+            </Tab.Icon>
+            <ShellContent
+                Title=""
+                ContentTemplate="{DataTemplate views:ProfilePage}"
+                Route="ProfilePage" />
+        </Tab>
+    </FlyoutItem>
+
+    <FlyoutItem Title="{localization:Translate MenuApp}" Icon="{FontImage FontFamily=MaterialDesign, Glyph={x:Static views:MaterialDesignIcons.Tablet}, Size=50, Color={StaticResource White}}">
+        <ShellContent
+            Title=""
+            ContentTemplate="{DataTemplate views:AppIndexPage}"
+            Route="AppIndexPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="{localization:Translate MenuOnboarding}" Icon="{FontImage FontFamily=MaterialDesign, Glyph={x:Static views:MaterialDesignIcons.ViewCarousel}, Size=50, Color={StaticResource White}}">
+        <ShellContent
+            Title=""
+            ContentTemplate="{DataTemplate views:OnboardingsPage}"
+            Route="OnboardingsPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="{localization:Translate MenuIcon}" Icon="{FontImage FontFamily=MaterialDesign, Glyph={x:Static views:MaterialDesignIcons.InsertEmoticon}, Size=50, Color={StaticResource White}}">
+        <ShellContent
+            Title=""
+            ContentTemplate="{DataTemplate views:FontIconsPage}"
+            Route="FontIconsPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="{localization:Translate MenuAbout}" Icon="{FontImage FontFamily=MaterialDesign, Glyph={x:Static views:MaterialDesignIcons.Business}, Size=50, Color={StaticResource White}}">
+        <ShellContent
+            Title=""
+            ContentTemplate="{DataTemplate views:AboutPage}"
+            Route="AboutPage" />
+    </FlyoutItem>
+
+    <ShellContent
+        Title="{localization:Translate MenuPrivacy}"
+        ContentTemplate="{DataTemplate views:PrivacyPolicyPage}"
+        Icon="{FontImage FontFamily=MaterialDesign,
+                         Glyph={x:Static views:MaterialDesignIcons.Security},
+                         Size=50,
+                         Color={StaticResource White}}"
+        Route="about" />
+
+    <MenuItem
+        Command="{Binding ShareCommand}"
+        CommandParameter="https://docs.microsoft.com/dotnet/maui/fundamentals/shell"
+        IconImageSource="{FontImage FontFamily=MaterialDesign,
+                                    Glyph={x:Static views:MaterialDesignIcons.Share},
+                                    Size=50,
+                                    Color={StaticResource White}}"
+        Text="Share" />
+</Shell>

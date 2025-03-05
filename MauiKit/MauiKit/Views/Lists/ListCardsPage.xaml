@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.ListCardsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:templates="clr-namespace:MauiKit.Views.Lists.Templates"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    BaseTitle="{localization:Translate LabelListCards}"
+    BaseTitleColor="{DynamicResource BaseTextColor}">
+
+    <views:BasePage.Resources>
+        <Style TargetType="Border">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="Background" Value="Transparent" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </views:BasePage.Resources>
+
+    <views:BasePage.PageContent>
+        <CollectionView
+            Margin="{OnIdiom Phone='20',
+                             Tablet='30,20',
+                             Desktop='100,20'}"
+            ItemsSource="{Binding ListItems}"
+            SelectionMode="None">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout
+                    HorizontalItemSpacing="10"
+                    Orientation="Vertical"
+                    Span="{OnIdiom Phone=1,
+                                   Tablet=1,
+                                   Desktop=1}"
+                    VerticalItemSpacing="15" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <templates:ListCardsItemTemplate />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

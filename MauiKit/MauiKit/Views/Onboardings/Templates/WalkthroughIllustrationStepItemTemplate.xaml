@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<onboardings:WalkthroughBaseStepItemTemplate
+    x:Class="MauiKit.Views.Onboardings.WalkthroughIllustrationStepItemTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animations="clr-namespace:AlohaKit.Animations;assembly=AlohaKit.Animations"
+    xmlns:helpers="clr-namespace:MauiKit.Helpers"
+    xmlns:onboardings="clr-namespace:MauiKit.Views.Onboardings"
+    xmlns:templates="clr-namespace:MauiKit.Views"
+    x:Name="Root">
+
+    <onboardings:WalkthroughBaseStepItemTemplate.Resources>
+        <!--  ANIM IN  -->
+        <animations:StoryBoard x:Key="AnimIn">
+
+            <animations:FadeToAnimation
+                Opacity="1"
+                Target="{x:Reference image}"
+                Duration="350" />
+
+            <animations:ScaleToAnimation
+                Scale="1"
+                Target="{x:Reference image}"
+                Duration="100" />
+
+            <animations:FadeInAnimation Target="{x:Reference headerLabel}" Duration="500" />
+
+            <animations:FadeInAnimation Target="{x:Reference descriptionLabel}" Duration="400" />
+
+            <animations:TranslateToAnimation
+                Target="{x:Reference descriptionLabel}"
+                TranslateY="-10"
+                Duration="400" />
+        </animations:StoryBoard>
+
+        <!--  ANIM RESET  -->
+        <animations:StoryBoard x:Key="AnimReset">
+
+            <helpers:Reset
+                Opacity="0"
+                Scale="2"
+                Target="{x:Reference image}"
+                TranslateY="-40" />
+
+            <helpers:Reset
+                Opacity="0"
+                Target="{x:Reference headerLabel}"
+                TranslateX="0"
+                TranslateY="-30" />
+
+            <helpers:Reset
+                Opacity="0"
+                Target="{x:Reference descriptionLabel}"
+                TranslateX="0"
+                TranslateY="-30" />
+
+            <helpers:Reset Opacity="0" Target="{x:Reference descriptionLabel}" />
+        </animations:StoryBoard>
+    </onboardings:WalkthroughBaseStepItemTemplate.Resources>
+
+    <onboardings:WalkthroughBaseStepItemTemplate.Triggers>
+        <EventTrigger Event="ItemInitialized">
+            <animations:BeginAnimation Animation="{StaticResource AnimIn}" />
+            <!--<animations:BeginAnimation Animation="{StaticResource AnimReset}" />-->
+        </EventTrigger>
+
+        <EventTrigger Event="ItemDisappearing">
+            <animations:BeginAnimation Animation="{StaticResource AnimReset}" />
+        </EventTrigger>
+
+        <EventTrigger Event="ItemAppearing">
+            <animations:BeginAnimation Animation="{StaticResource AnimReset}" />
+            <animations:BeginAnimation Animation="{StaticResource AnimIn}" />
+        </EventTrigger>
+    </onboardings:WalkthroughBaseStepItemTemplate.Triggers>
+
+    <onboardings:WalkthroughBaseStepItemTemplate.Content>
+        <Grid>
+            <FlexLayout
+                AlignContent="Center"
+                AlignItems="Stretch"
+                Direction="Column">
+
+                <!--  Image for display svg image  -->
+                <Image
+                    x:Name="image"
+                    Aspect="AspectFit"
+                    FlexLayout.Basis="75%"
+                    Source="{Binding Source={x:Reference Root}, Path=StepImage}" />
+
+                <VerticalStackLayout FlexLayout.Basis="25%" Spacing="10">
+                    <!--  Label to display header  -->
+                    <Label
+                        x:Name="headerLabel"
+                        FontAttributes="Bold"
+                        FontSize="24"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding Source={x:Reference Root}, Path=Header}" />
+
+                    <!--  Label to display content  -->
+                    <Label
+                        x:Name="descriptionLabel"
+                        FontSize="16"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding Source={x:Reference Root}, Path=Text}" />
+                </VerticalStackLayout>
+
+            </FlexLayout>
+        </Grid>
+    </onboardings:WalkthroughBaseStepItemTemplate.Content>
+</onboardings:WalkthroughBaseStepItemTemplate>

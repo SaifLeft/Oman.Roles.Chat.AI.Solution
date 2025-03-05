@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="MauiKit.Views.Socials.Templates.SuggestedItemTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Style x:Key="SuggestedContainerStyle" TargetType="Border">
+                <Setter Property="HeightRequest" Value="52" />
+                <Setter Property="WidthRequest" Value="52" />
+                <Setter Property="StrokeThickness" Value="1" />
+                <Setter Property="Margin" Value="0,0,10,0" />
+                <Setter Property="Padding" Value="2" />
+            </Style>
+
+            <Style x:Key="SuggestedImageStyle" TargetType="Image">
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="Margin" Value="0" />
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ContentView.Content>
+        <Border
+            Background="Transparent"
+            Stroke="{Binding Color}"
+            StrokeShape="{RoundRectangle CornerRadius='10'}"
+            Style="{StaticResource SuggestedContainerStyle}">
+            <Frame
+                Padding="0"
+                BackgroundColor="Transparent"
+                CornerRadius="10"
+                HasShadow="False"
+                IsClippedToBounds="True">
+                <Image Aspect="AspectFit" Source="{Binding Image}" />
+            </Frame>
+        </Border>
+    </ContentView.Content>
+</ContentView>

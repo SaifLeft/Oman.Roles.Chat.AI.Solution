@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<base:DashboardBaseItemTemplate
+    x:Class="MauiKit.Views.Dashboards.Templates.DashboardGridInverseItemTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:MauiKit.Views.Dashboards.Templates">
+    <Border
+        Background="{DynamicResource BasePageColor}"
+        HeightRequest="150"
+        Stroke="Transparent"
+        StrokeShape="{RoundRectangle CornerRadius=20}">
+        <Grid ColumnSpacing="10" RowSpacing="0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Border
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                Grid.Column="0"
+                Margin="-2,0,0,0"
+                Background="{Binding BackgroundColor}"
+                HeightRequest="60"
+                HorizontalOptions="Start"
+                Stroke="Transparent"
+                VerticalOptions="FillAndExpand"
+                WidthRequest="60">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="0,12,0,12" />
+                </Border.StrokeShape>
+                <Label
+                    FontFamily="IonIcons"
+                    FontSize="30"
+                    HorizontalOptions="Center"
+                    Text="{Binding Icon}"
+                    TextColor="{DynamicResource White}"
+                    VerticalOptions="Center" />
+
+            </Border>
+
+            <Label
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="0,0,10,0"
+                FontFamily="SemiBoldFont"
+                FontSize="15"
+                HorizontalOptions="Start"
+                Text="{Binding Title}"
+                TextColor="{DynamicResource BaseTextColor}"
+                VerticalTextAlignment="End" />
+
+            <Label
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="0,0,10,0"
+                FontFamily="RegularFont"
+                FontSize="14"
+                HorizontalOptions="Start"
+                Opacity="1"
+                Text="{Binding ItemCount, StringFormat='{}{0:F0} items'}"
+                TextColor="{DynamicResource BaseLightTextColor}"
+                VerticalTextAlignment="Start" />
+        </Grid>
+    </Border>
+
+</base:DashboardBaseItemTemplate>

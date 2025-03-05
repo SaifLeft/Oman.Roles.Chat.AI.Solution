@@ -1,0 +1,296 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Ecommerce.CheckoutPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    BaseTitle="{localization:Translate PageTitleCheckout}"
+    BaseTitleColor="{DynamicResource BaseTextColor}">
+
+    <views:BasePage.Resources>
+        <Style TargetType="RadioButton">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CheckedStates">
+                        <VisualState x:Name="Checked">
+                            <VisualState.Setters>
+                                <Setter Property="TextColor" Value="{DynamicResource BaseTextColor}" />
+                                <Setter Property="Opacity" Value="1" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Unchecked">
+                            <VisualState.Setters>
+                                <Setter Property="TextColor" Value="{DynamicResource BaseLightTextColor}" />
+                                <Setter Property="Opacity" Value="1" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </views:BasePage.Resources>
+
+    <views:BasePage.PageContent>
+        <Grid RowDefinitions="*,80">
+            <ScrollView VerticalScrollBarVisibility="Never">
+                <VerticalStackLayout Padding="20" Spacing="15">
+                    <ScrollView>
+                        <StackLayout BindableLayout.ItemsSource="{Binding Carts}" Spacing="10">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <Border
+                                        Padding="0"
+                                        HeightRequest="120"
+                                        HorizontalOptions="FillAndExpand"
+                                        StrokeShape="RoundRectangle 22"
+                                        StrokeThickness="0">
+                                        <Grid ColumnDefinitions="100,*,Auto">
+                                            <Image
+                                                Aspect="AspectFit"
+                                                HeightRequest="80"
+                                                Source="{Binding ProductImage}"
+                                                VerticalOptions="Center" />
+
+                                            <StackLayout
+                                                Grid.Column="1"
+                                                Margin="8"
+                                                Spacing="5"
+                                                VerticalOptions="CenterAndExpand">
+
+                                                <Label
+                                                    HorizontalOptions="Start"
+                                                    Style="{StaticResource Body}"
+                                                    Text="{Binding BrandName}"
+                                                    VerticalOptions="Start" />
+
+                                                <Label
+                                                    HorizontalOptions="Start"
+                                                    Style="{StaticResource Title2}"
+                                                    Text="{Binding ProductName}"
+                                                    VerticalOptions="Start" />
+
+                                                <Label
+                                                    HorizontalOptions="Start"
+                                                    Style="{StaticResource Title1}"
+                                                    Text="{Binding Price, StringFormat='${0:F2}'}"
+                                                    TextColor="{DynamicResource OkColor}"
+                                                    VerticalOptions="Start" />
+                                            </StackLayout>
+
+                                            <StackLayout
+                                                Grid.Column="2"
+                                                Margin="8,8,15,8"
+                                                Spacing="10"
+                                                VerticalOptions="CenterAndExpand">
+
+                                                <!--  QUANTITY  -->
+                                                <controls:NumericUpDown
+                                                    Maximum="100"
+                                                    Minimum="1"
+                                                    OnValueChanged="NumericUpDown_OnValueChanged"
+                                                    Value="{Binding Quantity}" />
+
+                                                <!--  REMOVE BUTTON  -->
+                                                <Border
+                                                    Padding="0"
+                                                    Background="{DynamicResource Red}"
+                                                    HeightRequest="30"
+                                                    HorizontalOptions="EndAndExpand"
+                                                    StrokeShape="RoundRectangle 15,15,15,15"
+                                                    StrokeThickness="0"
+                                                    WidthRequest="30">
+
+                                                    <Label
+                                                        FontFamily="MaterialDesign"
+                                                        FontSize="20"
+                                                        HorizontalOptions="Center"
+                                                        Text="{x:Static views:MaterialDesignIcons.Delete}"
+                                                        TextColor="{DynamicResource White}"
+                                                        VerticalOptions="Center" />
+                                                </Border>
+                                            </StackLayout>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </StackLayout>
+                    </ScrollView>
+
+                    <!--  Shipping Method  -->
+                    <Border
+                        Padding="0"
+                        HorizontalOptions="FillAndExpand"
+                        StrokeShape="RoundRectangle 22"
+                        StrokeThickness="0">
+                        <VerticalStackLayout Padding="15,20">
+                            <Label Style="{StaticResource Title2}" Text="{localization:Translate LabelShippingAddress}" />
+
+                            <Grid
+                                Margin="0,10,0,0"
+                                ColumnDefinitions="Auto,*"
+                                RowDefinitions="Auto,Auto,Auto"
+                                RowSpacing="10"
+                                VerticalOptions="CenterAndExpand">
+                                <RadioButton
+                                    Content="{localization:Translate LabelFreeShip}"
+                                    GroupName="ShippingMethod"
+                                    IsChecked="true" />
+                                <RadioButton
+                                    Grid.Row="1"
+                                    Content="{localization:Translate LabelStandard}"
+                                    GroupName="ShippingMethod" />
+                                <RadioButton
+                                    Grid.Row="2"
+                                    Content="{localization:Translate LabelExpress}"
+                                    GroupName="ShippingMethod" />
+
+                                <Label
+                                    Grid.Column="1"
+                                    HorizontalOptions="EndAndExpand"
+                                    HorizontalTextAlignment="End"
+                                    Style="{StaticResource Footnote}"
+                                    Text="{localization:Translate LabelFreeShipDetail}"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    HorizontalOptions="EndAndExpand"
+                                    HorizontalTextAlignment="End"
+                                    Style="{StaticResource Footnote}"
+                                    Text="{localization:Translate LabelStandardDetail}"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    HorizontalOptions="EndAndExpand"
+                                    HorizontalTextAlignment="End"
+                                    Style="{StaticResource Footnote}"
+                                    Text="{localization:Translate LabelExpressDetail}"
+                                    VerticalOptions="Center" />
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!--  Shipping Address  -->
+                    <Border
+                        Padding="0"
+                        HorizontalOptions="FillAndExpand"
+                        StrokeShape="RoundRectangle 22"
+                        StrokeThickness="0">
+                        <Grid
+                            Padding="20,15"
+                            ColumnDefinitions="Auto,*,Auto"
+                            ColumnSpacing="10"
+                            HeightRequest="90">
+                            <Label
+                                FontFamily="MaterialDesign"
+                                FontSize="25"
+                                HorizontalOptions="Center"
+                                Text="{x:Static views:MaterialDesignIcons.LocalShipping}"
+                                TextColor="{DynamicResource BaseIconColor}"
+                                VerticalOptions="Center" />
+
+                            <StackLayout
+                                Grid.Column="1"
+                                Spacing="8"
+                                VerticalOptions="StartAndExpand">
+                                <Label Style="{StaticResource Title2}" Text="{localization:Translate LabelShippingAddress}" />
+                                <Label
+                                    Style="{StaticResource Footnote}"
+                                    Text="1205 Burberry Ave, Sydney 756000"
+                                    TextColor="{DynamicResource PrimaryColor}" />
+                            </StackLayout>
+
+                            <Label
+                                Grid.Column="2"
+                                FontFamily="MaterialDesign"
+                                FontSize="20"
+                                HorizontalOptions="Center"
+                                Text="{x:Static views:MaterialDesignIcons.ChevronRight}"
+                                TextColor="{DynamicResource PrimaryColor}"
+                                VerticalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="ShippingInfo_Tapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Grid>
+                    </Border>
+
+                    <!--  Payment Method  -->
+                    <Border
+                        Padding="0"
+                        HorizontalOptions="FillAndExpand"
+                        StrokeShape="RoundRectangle 22"
+                        StrokeThickness="0">
+                        <Grid
+                            Padding="20,15"
+                            ColumnDefinitions="Auto,*,Auto"
+                            ColumnSpacing="10"
+                            HeightRequest="90">
+                            <Label
+                                FontFamily="MaterialDesign"
+                                FontSize="25"
+                                HorizontalOptions="Center"
+                                Text="{x:Static views:MaterialDesignIcons.CreditCard}"
+                                TextColor="{DynamicResource BaseIconColor}"
+                                VerticalOptions="Center" />
+
+                            <StackLayout
+                                Grid.Column="1"
+                                Spacing="8"
+                                VerticalOptions="StartAndExpand">
+                                <Label Style="{StaticResource Title2}" Text="{localization:Translate LabelPaymentMethod}" />
+                                <Label
+                                    Style="{StaticResource Footnote}"
+                                    Text="MAUI-Pay"
+                                    TextColor="{DynamicResource PrimaryColor}" />
+                            </StackLayout>
+
+                            <Label
+                                Grid.Column="2"
+                                FontFamily="MaterialDesign"
+                                FontSize="20"
+                                HorizontalOptions="Center"
+                                Text="{x:Static views:MaterialDesignIcons.ChevronRight}"
+                                TextColor="{DynamicResource PrimaryColor}"
+                                VerticalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="PaymentMethod_Tapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Grid>
+                    </Border>
+
+                </VerticalStackLayout>
+            </ScrollView>
+
+            <Grid
+                Grid.Row="1"
+                Padding="20,10"
+                BackgroundColor="{StaticResource BasePageColor}"
+                ColumnDefinitions="0.4*, 0.6*"
+                ColumnSpacing="15">
+                <Label
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Start"
+                    HorizontalTextAlignment="Start"
+                    Style="{StaticResource Title1}"
+                    Text="{Binding Total, StringFormat='${0:F2}'}"
+                    TextColor="{DynamicResource OkColor}"
+                    VerticalOptions="Center" />
+
+                <Button
+                    Grid.Column="1"
+                    BackgroundColor="{DynamicResource PrimaryColor}"
+                    CornerRadius="14"
+                    HeightRequest="50"
+                    Text="{localization:Translate ButtonConfirmOrder}"
+                    TextColor="{DynamicResource White}" />
+            </Grid>
+        </Grid>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

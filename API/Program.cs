@@ -179,7 +179,9 @@ if (!File.Exists(Path.Combine(resourcesPath, "en.json")))
     ""RulesetDeleteError"": ""Error deleting ruleset"",
     ""PdfFilesRetrievalError"": ""Error retrieving PDF files"",
     ""PdfFileInfoRetrievalError"": ""Error retrieving PDF file information"",
-    ""PdfFileInfoUpdateError"": ""Error updating PDF file information""
+    ""PdfFileInfoUpdateError"": ""Error updating PDF file information"",
+    ""GenericError"": ""ÕœÀ Œÿ√ √À‰«¡ „⁄«·Ã… ÿ·»ﬂ"",
+
   },
   ""Messages"": {
     ""ProcessingRequest"": ""Processing your request"",

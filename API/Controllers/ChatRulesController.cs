@@ -31,7 +31,7 @@ namespace API.Controllers
         /// <summary>
         /// الحصول على القواعد الافتراضية
         /// </summary>
-        [HttpGet("default")]
+        [HttpGet]
         public IActionResult GetDefaultRules()
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
@@ -52,7 +52,7 @@ namespace API.Controllers
         /// <summary>
         /// تحديث القواعد الافتراضية
         /// </summary>
-        [HttpPut("default")]
+        [HttpPut]
         public IActionResult UpdateDefaultRules([FromBody] UpdateRulesRequest request)
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);

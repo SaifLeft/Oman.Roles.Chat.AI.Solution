@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<rg:PopupPage
+    x:Class="MauiKit.Views.NewCardPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animation="clr-namespace:RGPopup.Maui.Animations;assembly=RGPopup.Maui"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:handlers="clr-namespace:MauiKit.Handlers"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:rg="clr-namespace:RGPopup.Maui.Pages;assembly=RGPopup.Maui"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:views="clr-namespace:MauiKit.Views">
+
+    <rg:PopupPage.Animation>
+        <animation:MoveAnimation PositionIn="Bottom" PositionOut="Bottom" />
+    </rg:PopupPage.Animation>
+
+    <Border
+        Margin="5"
+        Background="{DynamicResource MainWrapperBackgroundColor}"
+        HorizontalOptions="{OnIdiom Phone='Fill',
+                                    Tablet='Fill',
+                                    Desktop='Fill'}"
+        VerticalOptions="{OnIdiom Phone='End',
+                                  Tablet='End',
+                                  Desktop='End'}">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="26,26,26,26" />
+        </Border.StrokeShape>
+
+        <StackLayout
+            Padding="20,25"
+            Spacing="16"
+            VerticalOptions="Center">
+            <Label
+                FontAttributes="Bold"
+                FontSize="19"
+                HorizontalOptions="Center"
+                Style="{StaticResource Title2}"
+                Text="{localization:Translate StringAddNewCard}" />
+
+            <Grid
+                Margin="0"
+                ColumnDefinitions="0.5*, 0.5*"
+                ColumnSpacing="12"
+                RowDefinitions="Auto,Auto,Auto,Auto"
+                RowSpacing="16">
+
+                <Border
+                    Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    Padding="20,5"
+                    Background="{DynamicResource EntryAndEditorsBackgroundColor}">
+                    <handlers:BorderlessEntry
+                        HeightRequest="42"
+                        Keyboard="Numeric"
+                        Placeholder="{localization:Translate StringInputCardNumber}"
+                        PlaceholderColor="{DynamicResource BaseLightTextColor}"
+                        TextColor="{DynamicResource BaseTextColor}">
+                        <handlers:BorderlessEntry.Behaviors>
+                            <toolkit:MaskedBehavior Mask="0000-0000-0000-0000" UnmaskedCharacter="0" />
+                        </handlers:BorderlessEntry.Behaviors>
+                    </handlers:BorderlessEntry>
+                </Border>
+
+                <Border
+                    Grid.Row="1"
+                    Padding="20,5"
+                    Background="{DynamicResource EntryAndEditorsBackgroundColor}">
+                    <handlers:BorderlessEntry
+                        HeightRequest="42"
+                        Placeholder="{localization:Translate StringCardExpiry}"
+                        PlaceholderColor="{DynamicResource BaseLightTextColor}"
+                        TextColor="{DynamicResource BaseTextColor}" />
+                </Border>
+
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Padding="20,5"
+                    Background="{DynamicResource EntryAndEditorsBackgroundColor}">
+                    <handlers:BorderlessEntry
+                        HeightRequest="42"
+                        Placeholder="{localization:Translate StringInputCardCvv}"
+                        PlaceholderColor="{DynamicResource BaseLightTextColor}"
+                        TextColor="{DynamicResource BaseTextColor}" />
+                </Border>
+
+                <Border
+                    Grid.Row="2"
+                    Grid.ColumnSpan="2"
+                    Padding="20,5"
+                    Background="{DynamicResource EntryAndEditorsBackgroundColor}">
+                    <handlers:BorderlessEntry
+                        HeightRequest="42"
+                        Placeholder="{localization:Translate StringInputCardHolder}"
+                        PlaceholderColor="{DynamicResource BaseLightTextColor}"
+                        TextColor="{DynamicResource BaseTextColor}" />
+                </Border>
+
+                <HorizontalStackLayout
+                    Grid.Row="3"
+                    Grid.ColumnSpan="2"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center">
+                    <CheckBox />
+                    <Label
+                        FontAttributes="Bold"
+                        Text="{localization:Translate StringSetDefaultCard}"
+                        TextColor="{DynamicResource BaseIconColor}"
+                        VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Grid>
+
+            <Button
+                Margin="0,0,0,20"
+                BackgroundColor="{DynamicResource PrimaryColor}"
+                Clicked="AddButton_Clicked"
+                CornerRadius="14"
+                FontAttributes="Bold"
+                HeightRequest="50"
+                Text="{localization:Translate ButtonAddCard}"
+                TextColor="{DynamicResource White}" />
+        </StackLayout>
+    </Border>
+</rg:PopupPage>

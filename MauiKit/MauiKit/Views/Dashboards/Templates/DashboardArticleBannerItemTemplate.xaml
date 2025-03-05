@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="MauiKit.Views.Dashboards.Templates.DashboardArticleBannerItemTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:MauiKit.Views">
+    <Border
+        Margin="20,10"
+        HeightRequest="{OnIdiom Phone='240',
+                                Tablet='340',
+                                Desktop='440'}"
+        HorizontalOptions="{OnIdiom Phone='FillAndExpand',
+                                    Tablet='CenterAndExpand',
+                                    Desktop='FillAndExpand'}"
+        StrokeShape="{RoundRectangle CornerRadius=20}"
+        VerticalOptions="FillAndExpand">
+
+        <Grid>
+            <Image Aspect="{OnIdiom Phone='AspectFill', Desktop='Fill', Tablet='AspectFill'}" Source="{Binding BackgroundImage}" />
+
+            <Border
+                HeightRequest="{OnIdiom Phone='120',
+                                        Tablet='150',
+                                        Desktop='200'}"
+                StrokeShape="{RoundRectangle CornerRadius='20'}"
+                VerticalOptions="End">
+                <Border.Background>
+                    <LinearGradientBrush>
+                        <GradientStop Offset="0.1" Color="#77000000" />
+                        <GradientStop Offset="1.0" Color="#77000000" />
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+
+            <Grid
+                Padding="20"
+                ColumnSpacing="0"
+                RowSpacing="6">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    LineBreakMode="WordWrap"
+                    Text="{Binding Title}"
+                    TextColor="{DynamicResource OverImageTextColor}"
+                    VerticalOptions="EndAndExpand" />
+
+                <!--  HEADER INFO  -->
+                <Grid
+                    Grid.Row="1"
+                    ColumnSpacing="6"
+                    VerticalOptions="End">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackLayout Grid.Column="0">
+                        <Label
+                            Text="{Binding Section}"
+                            TextColor="{DynamicResource OverImageTextColor}"
+                            VerticalOptions="End" />
+
+                        <StackLayout
+                            BackgroundColor="{Binding SectionColor}"
+                            HeightRequest="2"
+                            HorizontalOptions="StartAndExpand"
+                            VerticalOptions="End"
+                            WidthRequest="50" />
+                    </StackLayout>
+
+
+                    <Label
+                        Grid.Column="1"
+                        Text="{Binding When}"
+                        TextColor="{DynamicResource OverImageTextColor}" />
+
+                    <Label
+                        Grid.Column="2"
+                        FontFamily="MaterialDesign"
+                        FontSize="15"
+                        Text="{x:Static views:MaterialDesignIcons.People}"
+                        TextColor="{DynamicResource OverImageTextColor}"
+                        TranslationY="3" />
+
+                    <Label
+                        Grid.Column="3"
+                        FontSize="15"
+                        Text="77"
+                        TextColor="{DynamicResource OverImageTextColor}" />
+
+                    <Label
+                        Grid.Column="4"
+                        FontFamily="MaterialDesign"
+                        FontSize="15"
+                        Text="{x:Static views:MaterialDesignIcons.Favorite}"
+                        TextColor="{DynamicResource OverImageTextColor}"
+                        TranslationY="3" />
+
+                    <Label
+                        Grid.Column="5"
+                        FontSize="15"
+                        Text="22"
+                        TextColor="{DynamicResource OverImageTextColor}" />
+                </Grid>
+
+            </Grid>
+        </Grid>
+    </Border>
+</ContentView>

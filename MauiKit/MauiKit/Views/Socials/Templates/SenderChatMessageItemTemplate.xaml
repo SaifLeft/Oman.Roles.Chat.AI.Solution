@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="MauiKit.Views.Socials.Templates.SenderChatMessageItemTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <ContentView.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="MessageContainerStyle" TargetType="Grid">
+                <Setter Property="Margin" Value="8,15,8,5" />
+                <Setter Property="ColumnSpacing" Value="10" />
+            </Style>
+
+            <Style x:Key="SenderContainerStyle" TargetType="Grid">
+                <Setter Property="HeightRequest" Value="44" />
+                <Setter Property="WidthRequest" Value="44" />
+                <Setter Property="VerticalOptions" Value="End" />
+            </Style>
+
+            <Style x:Key="SenderBorderStyle" TargetType="Frame">
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HeightRequest" Value="44" />
+                <Setter Property="WidthRequest" Value="44" />
+                <Setter Property="CornerRadius" Value="10" />
+            </Style>
+
+            <Style x:Key="SenderImageStyle" TargetType="Image">
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="WidthRequest" Value="40" />
+                <Setter Property="HeightRequest" Value="40" />
+                <Setter Property="Margin" Value="0" />
+            </Style>
+
+            <Style x:Key="MessageShapeStyle" TargetType="Border">
+                <Setter Property="Background" Value="{DynamicResource PrimaryColor}" />
+                <Setter Property="StrokeShape" Value="{RoundRectangle CornerRadius='12, 12, 0, 12'}" />
+                <!--<Setter Property="CornerRadius" Value="24, 24, 0, 24" />-->
+            </Style>
+
+            <Style x:Key="MessageTextStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="TextColor" Value="{DynamicResource White}" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="Margin" Value="15, 15" />
+            </Style>
+
+            <Style x:Key="TimeTextStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="11" />
+                <Setter Property="TextColor" Value="{DynamicResource BaseLightTextColor}" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="Margin" Value="10, 0, 10, 0" />
+            </Style>
+
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <Grid
+            ColumnDefinitions="Auto, *, Auto"
+            RowDefinitions="*"
+            Style="{StaticResource MessageContainerStyle}">
+            <Grid Style="{StaticResource SenderContainerStyle}">
+                <Frame
+                    Padding="0"
+                    BorderColor="{Binding Sender.Color}"
+                    IsClippedToBounds="True"
+                    Style="{StaticResource SenderBorderStyle}">
+                    <Image Source="{Binding Sender.Image}" Style="{StaticResource SenderImageStyle}" />
+                </Frame>
+            </Grid>
+
+            <Grid Grid.Column="1" RowDefinitions="Auto">
+                <Border Style="{StaticResource MessageShapeStyle}" />
+                <Label Style="{StaticResource MessageTextStyle}" Text="{Binding Text}" />
+            </Grid>
+
+            <Label
+                Grid.Column="2"
+                Style="{StaticResource TimeTextStyle}"
+                Text="{Binding Time}" />
+        </Grid>
+    </ContentView.Content>
+</ContentView>

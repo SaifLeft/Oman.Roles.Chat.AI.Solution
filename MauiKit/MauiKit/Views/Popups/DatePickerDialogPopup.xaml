@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<mct:Popup
+    x:Class="MauiKit.Views.Popups.DatePickerDialogPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Popups="clr-namespace:MauiKit.Views.Popups"
+    xmlns:System="clr-namespace:System;assembly=mscorlib"
+    xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:xc="clr-namespace:XCalendar.Maui.Views;assembly=XCalendar.Maui"
+    xmlns:xcConverters="clr-namespace:XCalendar.Maui.Converters;assembly=XCalendar.Maui"
+    xmlns:xcModels="clr-namespace:XCalendar.Core.Models;assembly=XCalendar.Core"
+    x:Name="This"
+    x:DataType="{x:Type Popups:DatePickerDialogPopup}"
+    Size="320, 475">
+
+    <Grid BackgroundColor="{DynamicResource BasePageColor}">
+
+        <Grid.Resources>
+            <xcConverters:LocalizeDayOfWeekAndCharLimitConverter x:Key="LocalizeDayOfWeekAndCharLimitConverter" />
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Label
+            Grid.Row="0"
+            Padding="15,20,15,20"
+            BackgroundColor="{DynamicResource PrimaryColor}"
+            FontAttributes="Bold"
+            FontSize="34"
+            Text="{Binding SelectedDate, StringFormat='{0:ddd, dd MMM}', Source={x:Reference This}}"
+            TextColor="White">
+
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ResetNavigatedDateCommand, Source={x:Reference This}}" />
+            </Label.GestureRecognizers>
+
+        </Label>
+
+        <xc:CalendarView
+            x:Name="MainCalendarView"
+            Grid.Row="1"
+            Margin="0,5,0,0"
+            Padding="20,0,20,0"
+            Days="{Binding Calendar.Days, Source={x:Reference This}}"
+            DaysOfWeek="{Binding Calendar.DayNamesOrder, Source={x:Reference This}}"
+            DaysViewHeightRequest="246"
+            LeftArrowCommand="{Binding NavigateCalendarCommand, Source={x:Reference This}}"
+            NavigatedDate="{Binding Calendar.NavigatedDate, Source={x:Reference This}}"
+            RightArrowCommand="{Binding NavigateCalendarCommand, Source={x:Reference This}}">
+
+            <xc:CalendarView.RightArrowCommandParameter>
+                <x:Int32>1</x:Int32>
+            </xc:CalendarView.RightArrowCommandParameter>
+
+            <xc:CalendarView.LeftArrowCommandParameter>
+                <x:Int32>-1</x:Int32>
+            </xc:CalendarView.LeftArrowCommandParameter>
+
+            <xc:CalendarView.NavigationViewTemplate>
+                <ControlTemplate>
+                    <xc:NavigationView
+                        ArrowColor="{DynamicResource BaseTextColor}"
+                        BackgroundColor="Transparent"
+                        LeftArrowCommand="{Binding LeftArrowCommand, Source={x:RelativeSource TemplatedParent}}"
+                        LeftArrowCommandParameter="{Binding LeftArrowCommandParameter, Source={RelativeSource TemplatedParent}}"
+                        RightArrowCommand="{Binding RightArrowCommand, Source={x:RelativeSource TemplatedParent}}"
+                        RightArrowCommandParameter="{Binding RightArrowCommandParameter, Source={RelativeSource TemplatedParent}}"
+                        Style="{StaticResource DefaultNavigationViewStyle}"
+                        Text="{Binding Text, Source={RelativeSource TemplatedParent}}"
+                        TextColor="{DynamicResource BaseTextColor}" />
+                </ControlTemplate>
+            </xc:CalendarView.NavigationViewTemplate>
+
+            <xc:CalendarView.DayNameTemplate>
+                <DataTemplate x:DataType="{x:Type System:DayOfWeek}">
+                    <Label
+                        FontSize="12"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding ., Converter={StaticResource DayOfWeekToStringAndCharLimitConverter}, ConverterParameter=1}"
+                        TextColor="#707070"
+                        VerticalTextAlignment="Center" />
+                </DataTemplate>
+            </xc:CalendarView.DayNameTemplate>
+
+            <xc:CalendarView.DayTemplate>
+                <DataTemplate x:DataType="{x:Type xcModels:CalendarDay}">
+                    <Border
+                        Background="Transparent"
+                        HeightRequest="41"
+                        WidthRequest="41">
+
+                        <Border.StrokeShape>
+                            <Ellipse />
+                        </Border.StrokeShape>
+
+                        <xc:DayView
+                            DateTime="{Binding DateTime}"
+                            FontSize="12"
+                            IsCurrentMonth="{Binding IsCurrentMonth}"
+                            IsInvalid="{Binding IsInvalid}"
+                            IsSelected="{Binding IsSelected}"
+                            IsToday="{Binding IsToday}">
+
+                            <xc:DayView.CurrentMonthStyle>
+                                <Style TargetType="xc:DayView">
+                                    <Setter Property="BackgroundColor" Value="Transparent" />
+                                    <Setter Property="TextColor" Value="Black" />
+                                    <Setter Property="Command" Value="{Binding ChangeDateSelectionCommand, Source={x:Reference This}}" />
+                                    <Setter Property="CommandParameter" Value="{Binding DateTime}" />
+                                </Style>
+                            </xc:DayView.CurrentMonthStyle>
+
+                            <xc:DayView.OtherMonthStyle>
+                                <Style TargetType="xc:DayView">
+                                    <Setter Property="TextColor" Value="Transparent" />
+                                </Style>
+                            </xc:DayView.OtherMonthStyle>
+
+                            <xc:DayView.TodayStyle>
+                                <Style TargetType="xc:DayView">
+                                    <Setter Property="BackgroundColor" Value="Transparent" />
+                                    <Setter Property="TextColor" Value="{DynamicResource PrimaryColor}" />
+                                    <Setter Property="Command" Value="{Binding ChangeDateSelectionCommand, Source={x:Reference This}}" />
+                                    <Setter Property="CommandParameter" Value="{Binding DateTime}" />
+                                </Style>
+                            </xc:DayView.TodayStyle>
+
+                            <xc:DayView.SelectedStyle>
+                                <Style TargetType="xc:DayView">
+                                    <Setter Property="BackgroundColor" Value="{DynamicResource PrimaryColor}" />
+                                    <Setter Property="TextColor" Value="White" />
+                                    <Setter Property="Command" Value="{Binding ChangeDateSelectionCommand, Source={x:Reference This}}" />
+                                    <Setter Property="CommandParameter" Value="{Binding DateTime}" />
+                                </Style>
+                            </xc:DayView.SelectedStyle>
+
+                            <xc:DayView.InvalidStyle>
+                                <Style TargetType="xc:DayView">
+                                    <Setter Property="BackgroundColor" Value="Transparent" />
+                                </Style>
+                            </xc:DayView.InvalidStyle>
+
+                        </xc:DayView>
+
+                    </Border>
+                </DataTemplate>
+            </xc:CalendarView.DayTemplate>
+
+        </xc:CalendarView>
+
+        <HorizontalStackLayout
+            Grid.Row="2"
+            Margin="0,0,15,10"
+            HorizontalOptions="End">
+            <Border
+                Padding="15,10,15,10"
+                BackgroundColor="Transparent"
+                HorizontalOptions="EndAndExpand">
+
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="2.5" />
+                </Border.StrokeShape>
+
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    HorizontalTextAlignment="Center"
+                    Text="CANCEL"
+                    TextColor="{DynamicResource PrimaryColor}"
+                    VerticalTextAlignment="Center" />
+
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ReturnInitialDateCommand, Source={x:Reference This}}" />
+                </Border.GestureRecognizers>
+
+            </Border>
+            <Border
+                Margin="15,0,0,0"
+                Padding="15,10,15,10"
+                BackgroundColor="Transparent">
+
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="2.5" />
+                </Border.StrokeShape>
+
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    HorizontalTextAlignment="Center"
+                    Text="OK"
+                    TextColor="{DynamicResource PrimaryColor}"
+                    VerticalTextAlignment="Center" />
+
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ReturnSelectedDateCommand, Source={x:Reference This}}" />
+                </Border.GestureRecognizers>
+
+            </Border>
+        </HorizontalStackLayout>
+
+    </Grid>
+</mct:Popup>

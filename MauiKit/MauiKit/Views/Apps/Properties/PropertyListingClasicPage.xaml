@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Properties.PropertyListingClasicPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:handlers="clr-namespace:MauiKit.Handlers"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:models="clr-namespace:MauiKit.Models"
+    xmlns:templates="clr-namespace:MauiKit.Views.Properties.Templates"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewModels="clr-namespace:MauiKit.ViewModels.Properties"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    NavigationPage.HasNavigationBar="False">
+
+    <views:BasePage.PageContent>
+        <ScrollView>
+            <StackLayout Padding="0,20" Spacing="20">
+
+                <Border
+                    Margin="20,0"
+                    Padding="5"
+                    HeightRequest="40"
+                    HorizontalOptions="Start"
+                    StrokeThickness="1"
+                    VerticalOptions="Start"
+                    WidthRequest="40">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="GoBack_Tapped" />
+                    </Border.GestureRecognizers>
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10" />
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Opacity="0.1" />
+                    </Border.Shadow>
+                    <Image VerticalOptions="Center">
+                        <Image.Source>
+                            <FontImageSource
+                                FontFamily="MaterialDesign"
+                                Glyph="{x:Static views:MaterialDesignIcons.ArrowBack}"
+                                Size="22"
+                                Color="{DynamicResource BaseTextColor}" />
+                        </Image.Source>
+                    </Image>
+                </Border>
+
+                <!--  Search and filter  -->
+                <Grid
+                    Padding="20,0"
+                    ColumnDefinitions="*,Auto"
+                    ColumnSpacing="20">
+                    <Border Padding="20,0" StrokeThickness="1.5">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="13" />
+                        </Border.StrokeShape>
+                        <Grid ColumnDefinitions="Auto, *" ColumnSpacing="8">
+                            <Label
+                                FontFamily="MaterialDesign"
+                                FontSize="22"
+                                HorizontalOptions="Center"
+                                HorizontalTextAlignment="Center"
+                                Text="{x:Static views:MaterialDesignIcons.Search}"
+                                TextColor="{DynamicResource BaseIconColor}"
+                                VerticalOptions="CenterAndExpand" />
+                            <handlers:BorderlessEntry
+                                Grid.Column="1"
+                                FontFamily="RegularFont"
+                                HeightRequest="46"
+                                Placeholder="{localization:Translate StringSearchHouse}"
+                                PlaceholderColor="{DynamicResource BaseLightTextColor}"
+                                VerticalOptions="Center" />
+
+                        </Grid>
+                    </Border>
+
+                    <Border
+                        Grid.Column="1"
+                        Padding="8"
+                        HeightRequest="48"
+                        StrokeThickness="1.5"
+                        WidthRequest="48">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="11" />
+                        </Border.StrokeShape>
+                        <Image HeightRequest="25" VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="IonIcons"
+                                    Glyph="{x:Static views:IonIcons.AndroidOptions}"
+                                    Color="{DynamicResource PrimaryColor}" />
+                            </Image.Source>
+                        </Image>
+                    </Border>
+                </Grid>
+
+                <!--  Categories  -->
+                <Grid Padding="20,0,0,0">
+                    <CollectionView HeightRequest="42" ItemsSource="{Binding Categories}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="10" Orientation="Horizontal" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Category">
+                                <Border
+                                    Margin="0"
+                                    Padding="16,2"
+                                    HeightRequest="40"
+                                    Stroke="{DynamicResource FrameBorder}"
+                                    StrokeThickness="1"
+                                    WidthRequest="120">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="10" />
+                                    </Border.StrokeShape>
+                                    <Label
+                                        Grid.Column="1"
+                                        FontSize="14"
+                                        HorizontalOptions="Center"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding Name}"
+                                        TextColor="{DynamicResource BaseLightTextColor}"
+                                        VerticalOptions="Center" />
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+
+                <CollectionView
+                    x:Name="NewListings"
+                    Margin="20,0"
+                    ItemsSource="{Binding Recommendations}"
+                    SelectionChanged="CollectionView_OnSelectionChanged"
+                    SelectionMode="Single">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout
+                            HorizontalItemSpacing="15"
+                            Orientation="Vertical"
+                            Span="{OnIdiom Desktop='2',
+                                           Phone='1',
+                                           Tablet='2'}"
+                            VerticalItemSpacing="15" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <templates:NewListingTemplate />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+        </ScrollView>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

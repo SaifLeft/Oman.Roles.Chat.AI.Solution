@@ -1,0 +1,319 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.News.AuthorsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:control="clr-namespace:MauiKit.Controls"
+    xmlns:handlers="clr-namespace:MauiKit.Handlers"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:models="clr-namespace:MauiKit.Models.News"
+    xmlns:triggers="clr-namespace:MauiKit.Triggers"
+    xmlns:viewBase="clr-namespace:MauiKit.Views"
+    xmlns:viewmodels="clr-namespace:MauiKit.ViewModels.News"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    BaseTitle="{localization:Translate PageTitleNewsAuthor}"
+    BaseTitleColor="{DynamicResource BaseTextColor}">
+
+    <views:BasePage.Resources>
+
+        <Style x:Key="SectionHeading" TargetType="Label">
+            <Setter Property="FontSize" Value="26" />
+            <Setter Property="FontFamily" Value="MediumFont" />
+            <Setter Property="HorizontalOptions" Value="StartAndExpand" />
+        </Style>
+
+        <Style TargetType="BoxView">
+            <Setter Property="HeightRequest" Value="1" />
+            <Setter Property="Color" Value="{DynamicResource FrameBorder}" />
+        </Style>
+
+        <DataTemplate x:Key="VerticalAuthorTemplate" x:DataType="models:Author">
+            <Border StrokeShape="RoundRectangle 12" StrokeThickness="1">
+                <VerticalStackLayout Padding="20,16" HorizontalOptions="FillAndExpand">
+                    <Border
+                        Padding="0"
+                        Background="{DynamicResource White}"
+                        HeightRequest="66"
+                        HorizontalOptions="Center"
+                        Stroke="Transparent"
+                        StrokeShape="RoundRectangle 33"
+                        VerticalOptions="Center"
+                        WidthRequest="66">
+                        <Image Aspect="Fill" Source="{Binding Avatar}" />
+                    </Border>
+
+                    <Label
+                        Margin="0,10,0,0"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource Title2}"
+                        Text="{Binding Name}" />
+
+                    <Label HorizontalOptions="Center" HorizontalTextAlignment="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{Binding ArticleCount}" />
+                                <Span Text=" " />
+                                <Span Text="Articles" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                    <StackLayout
+                        Margin="0,5,0,0"
+                        HorizontalOptions="Center"
+                        Orientation="Horizontal"
+                        Spacing="5">
+                        <Label
+                            FontFamily="MaterialDesign"
+                            FontSize="16"
+                            Text="{x:Static views:MaterialDesignIcons.Star}"
+                            TextColor="{DynamicResource Orange}"
+                            VerticalOptions="Center" />
+                        <!--<control:Rating
+                            Max="5"
+                            Scale=".75"
+                            Value="{Binding Rating}" />-->
+                        <Label
+                            HorizontalOptions="Start"
+                            HorizontalTextAlignment="Start"
+                            VerticalOptions="Center">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="" />
+                                    <Span Text=" " />
+                                    <Span Text="{Binding Rating, StringFormat='({0:F1})'}" TextColor="{DynamicResource BaseLightTextColor}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </StackLayout>
+
+                    <Button
+                        x:Name="followBtn"
+                        Margin="0,10,0,0"
+                        Padding="10,0"
+                        BorderWidth="1.2"
+                        Clicked="FollowBtn_Clicked"
+                        CornerRadius="10"
+                        FontFamily="PoppinsSemiBold"
+                        HeightRequest="35"
+                        HorizontalOptions="Center"
+                        MinimumWidthRequest="120"
+                        Style="{StaticResource OutlinePrimaryButtonStyle}"
+                        Text="{localization:Translate ButtonFollow}">
+                        <Button.Triggers>
+                            <EventTrigger Event="Clicked">
+                                <triggers:ButtonTextTriggerAction />
+                            </EventTrigger>
+                        </Button.Triggers>
+                    </Button>
+                </VerticalStackLayout>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="HorizontalAuthorTemplate" x:DataType="models:Author">
+            <VerticalStackLayout>
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                    <Border
+                        Padding="0"
+                        Background="{DynamicResource White}"
+                        HeightRequest="70"
+                        HorizontalOptions="Start"
+                        Stroke="Transparent"
+                        StrokeShape="RoundRectangle 35"
+                        VerticalOptions="Center"
+                        WidthRequest="70">
+                        <Image Aspect="Fill" Source="{Binding Avatar}" />
+                    </Border>
+
+                    <VerticalStackLayout
+                        Grid.Column="1"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Fill">
+                        <Label
+                            Margin="0,10,0,0"
+                            FontSize="16"
+                            HorizontalOptions="Start"
+                            HorizontalTextAlignment="Start"
+                            Style="{StaticResource Title2}"
+                            Text="{Binding Name}" />
+
+                        <Label HorizontalOptions="Start" HorizontalTextAlignment="Start">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding ArticleCount}" />
+                                    <Span Text=" " />
+                                    <Span Text="{localization:Translate LabelArticleCount}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+
+                        <StackLayout
+                            Margin="0,5,0,0"
+                            HorizontalOptions="Start"
+                            Orientation="Horizontal"
+                            Spacing="0">
+                            <Label
+                                FontFamily="MaterialDesign"
+                                FontSize="16"
+                                Text="{x:Static views:MaterialDesignIcons.Star}"
+                                TextColor="{DynamicResource Orange}"
+                                VerticalOptions="Center" />
+                            <!--<control:Rating
+                                BackgroundColor="Aqua"
+                                HorizontalOptions="Start"
+                                Max="5"
+                                Scale=".75"
+                                Value="{Binding Rating}" />-->
+                            <Label
+                                HorizontalOptions="Start"
+                                HorizontalTextAlignment="Start"
+                                VerticalOptions="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="" />
+                                        <Span Text=" " />
+                                        <Span Text="{Binding Rating, StringFormat='({0:F1})'}" TextColor="{DynamicResource BaseLightTextColor}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </StackLayout>
+                    </VerticalStackLayout>
+
+                    <Button
+                        Grid.Column="2"
+                        Margin="0,10,0,0"
+                        Padding="10,0"
+                        BorderWidth="1.2"
+                        CornerRadius="10"
+                        HeightRequest="35"
+                        HorizontalOptions="End"
+                        MinimumWidthRequest="120"
+                        Style="{StaticResource OutlinePrimaryButtonStyle}"
+                        Text="{localization:Translate ButtonFollow}"
+                        VerticalOptions="Start">
+                        <Button.Triggers>
+                            <EventTrigger Event="Clicked">
+                                <triggers:ButtonTextTriggerAction />
+                            </EventTrigger>
+                        </Button.Triggers>
+                    </Button>
+                </Grid>
+                <BoxView Margin="82,10,0,0" />
+            </VerticalStackLayout>
+        </DataTemplate>
+    </views:BasePage.Resources>
+
+    <views:BasePage.PageContent>
+        <ScrollView>
+            <VerticalStackLayout>
+                <!--  Search bar  -->
+                <Grid
+                    Margin="20"
+                    ColumnDefinitions="*, Auto"
+                    ColumnSpacing="25">
+
+                    <Border
+                        Margin="0"
+                        Padding="0"
+                        Background="{DynamicResource Primary10Color}"
+                        HeightRequest="46"
+                        HorizontalOptions="FillAndExpand"
+                        StrokeShape="RoundRectangle 10"
+                        StrokeThickness="0">
+                        <Grid
+                            Margin="12,2"
+                            ColumnDefinitions="Auto, *, Auto"
+                            VerticalOptions="CenterAndExpand">
+                            <Label
+                                FontFamily="LineAwesome"
+                                FontSize="24"
+                                HorizontalOptions="Center"
+                                HorizontalTextAlignment="Center"
+                                Text="{x:Static views:LineAwesome.Search}"
+                                TextColor="{DynamicResource BaseIconColor}"
+                                VerticalOptions="CenterAndExpand" />
+
+                            <handlers:BorderlessEntry
+                                Grid.Column="1"
+                                Margin="8,0"
+                                HorizontalOptions="FillAndExpand"
+                                Placeholder="{localization:Translate StringSearchNews}"
+                                PlaceholderColor="{DynamicResource PlaceholderColor}"
+                                TextColor="{DynamicResource BaseTextColor}" />
+
+                            <Label
+                                Grid.Column="2"
+                                FontFamily="MaterialDesign"
+                                FontSize="24"
+                                HorizontalOptions="End"
+                                HorizontalTextAlignment="Center"
+                                Text="{x:Static views:MaterialDesignIcons.KeyboardVoice}"
+                                TextColor="{DynamicResource PrimaryColor}"
+                                VerticalOptions="CenterAndExpand" />
+                        </Grid>
+                    </Border>
+
+                    <Image
+                        Grid.Column="1"
+                        HeightRequest="30"
+                        VerticalOptions="Center"
+                        WidthRequest="30">
+                        <Image.Source>
+                            <FontImageSource
+                                FontFamily="FaPro"
+                                Glyph="{x:Static views:FaPro.Moon}"
+                                Color="{DynamicResource BaseTextColor}" />
+                        </Image.Source>
+                    </Image>
+                </Grid>
+
+                <!--  Top Authors  -->
+                <Label
+                    Margin="20,15,20,5"
+                    Style="{StaticResource SectionHeading}"
+                    Text="{localization:Translate LabelTopAuthors}" />
+                <CollectionView
+                    Margin="20,5,20,10"
+                    ItemTemplate="{StaticResource VerticalAuthorTemplate}"
+                    ItemsSource="{Binding TopAuthors}"
+                    SelectionMode="None"
+                    VerticalScrollBarVisibility="Never">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout
+                            HorizontalItemSpacing="15"
+                            Orientation="Vertical"
+                            Span="2"
+                            VerticalItemSpacing="15" />
+                    </CollectionView.ItemsLayout>
+                </CollectionView>
+
+                <!--  All Authors  -->
+                <Label
+                    Margin="20,20,20,5"
+                    Style="{StaticResource SectionHeading}"
+                    Text="{localization:Translate LabelAllAuthors}" />
+                <CollectionView
+                    Margin="20,5,20,10"
+                    ItemTemplate="{StaticResource HorizontalAuthorTemplate}"
+                    ItemsSource="{Binding AllAuthors}"
+                    SelectionMode="None"
+                    VerticalScrollBarVisibility="Never">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="12" Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+                </CollectionView>
+
+                <Button
+                    Margin="20,10,20,30"
+                    BorderWidth="1.2"
+                    CornerRadius="10"
+                    FontSize="16"
+                    HeightRequest="50"
+                    Style="{StaticResource OutlinePrimaryButtonStyle}"
+                    Text="{localization:Translate ButtonSeeMore}" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

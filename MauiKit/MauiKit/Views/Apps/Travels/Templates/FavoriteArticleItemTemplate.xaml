@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="MauiKit.Views.Travels.Templates.FavoriteArticleItemTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MauiKit"
+    xmlns:models="clr-namespace:MauiKit.Models"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    x:DataType="models:TravelArticle">
+    <Border
+        Margin="0"
+        Padding="12"
+        Stroke="{DynamicResource T_Accent}"
+        StrokeThickness="0.6">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="14" />
+        </Border.StrokeShape>
+
+        <Border Margin="0" StrokeThickness="0">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12" />
+            </Border.StrokeShape>
+
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!--  Featured Image  -->
+                <Image
+                    Grid.Column="0"
+                    Aspect="AspectFill"
+                    HeightRequest="120"
+                    Source="{Binding FeaturedImage}" />
+                <Grid Grid.Column="0">
+                    <Grid.Background>
+                        <LinearGradientBrush EndPoint="0,1">
+                            <GradientStop Offset="0.1" Color="#30000000" />
+                            <GradientStop Offset="1.0" Color="#80000000" />
+                        </LinearGradientBrush>
+                    </Grid.Background>
+                </Grid>
+
+                <!--  Add Favorite Button  -->
+                <Border
+                    Grid.Column="0"
+                    Margin="10"
+                    Padding="5"
+                    Background="#50000000"
+                    HeightRequest="32"
+                    HorizontalOptions="End"
+                    Stroke="{DynamicResource White}"
+                    StrokeThickness="1"
+                    VerticalOptions="Start"
+                    WidthRequest="32">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8" />
+                    </Border.StrokeShape>
+                    <Image VerticalOptions="Center">
+                        <Image.Source>
+                            <FontImageSource
+                                FontFamily="MaterialDesign"
+                                Glyph="{x:Static views:MaterialDesignIcons.Favorite}"
+                                Color="{DynamicResource T_Primary}" />
+                        </Image.Source>
+                    </Image>
+                </Border>
+
+                <!--  Header Info  -->
+                <Grid
+                    Grid.Column="1"
+                    ColumnSpacing="6"
+                    HeightRequest="120">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!--  Title  -->
+                    <Label
+                        Style="{StaticResource Title2}"
+                        Text="{Binding Title}"
+                        TextColor="{DynamicResource BaseTextColor}"
+                        VerticalOptions="End" />
+
+                    <!--  Description  -->
+                    <Label
+                        Grid.Row="1"
+                        Text="{Binding Excerp}"
+                        TextColor="{DynamicResource BaseTextColor}"
+                        VerticalOptions="StartAndExpand" />
+
+                    <Grid
+                        Grid.Row="2"
+                        ColumnSpacing="3"
+                        VerticalOptions="EndAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="12" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            FontFamily="MaterialDesign"
+                            FontSize="15"
+                            Text="{x:Static views:MaterialDesignIcons.Favorite}"
+                            TextColor="{DynamicResource BaseTextColor}"
+                            TranslationY="3" />
+
+                        <Label
+                            Grid.Column="1"
+                            FontSize="13"
+                            Text="{Binding LikeCount}"
+                            TextColor="{DynamicResource BaseTextColor}" />
+
+                        <Label
+                            Grid.Column="3"
+                            FontFamily="MaterialDesign"
+                            FontSize="15"
+                            Text="{x:Static views:MaterialDesignIcons.Comment}"
+                            TextColor="{DynamicResource BaseTextColor}"
+                            TranslationY="3" />
+
+                        <Label
+                            Grid.Column="4"
+                            FontSize="13"
+                            Text="{Binding CommentCount}"
+                            TextColor="{DynamicResource BaseTextColor}" />
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Border>
+    </Border>
+</ContentView>

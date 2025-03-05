@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Articles.ArticleParallaxHeaderPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animations="clr-namespace:AlohaKit.Animations;assembly=AlohaKit.Animations"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:templates="clr-namespace:MauiKit.Views.Articles.Templates"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    NavigationPage.HasNavigationBar="False">
+
+    <views:BasePage.PageContent>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!--  Header Image  -->
+            <Grid>
+                <Image
+                    x:Name="headerImg"
+                    Aspect="AspectFill"
+                    HeightRequest="{OnIdiom Phone=360,
+                                            Tablet=420,
+                                            Desktop=450}"
+                    InputTransparent="true"
+                    Opacity="1"
+                    Source="{Binding Article.BackgroundImage}"
+                    VerticalOptions="Start" />
+
+                <VisualElement.Behaviors>
+                    <animations:AnimateProgressDouble
+                        Maximum="{OnIdiom Phone=360,
+                                          Tablet=420,
+                                          Desktop=450}"
+                        Minimum="0"
+                        Progress="{Binding ScrollY, Source={x:Reference ScrollBehavior}}"
+                        TargetProperty="VisualElement.TranslationY"
+                        From="0"
+                        To="-200" />
+
+                    <animations:AnimateProgressDouble
+                        Maximum="{OnIdiom Phone=360,
+                                          Tablet=420,
+                                          Desktop=450}"
+                        Minimum="100"
+                        Progress="{Binding ScrollY, Source={x:Reference ScrollBehavior}}"
+                        TargetProperty="VisualElement.Opacity"
+                        From="1"
+                        To="0" />
+
+                    <animations:AnimateProgressDouble
+                        Maximum="{OnIdiom Phone=360,
+                                          Tablet=420,
+                                          Desktop=450}"
+                        Minimum="0"
+                        Progress="{Binding ScrollY, Source={x:Reference ScrollBehavior}}"
+                        TargetProperty="VisualElement.Scale"
+                        From="1"
+                        To="1.35" />
+                </VisualElement.Behaviors>
+            </Grid>
+
+            <!--  ScrollView  -->
+            <ScrollView Grid.RowSpan="2" Scrolled="ScrollView_Scrolled">
+                <VisualElement.Behaviors>
+                    <animations:ScrollViewScrollBehavior x:Name="ScrollBehavior" />
+                </VisualElement.Behaviors>
+
+                <Grid>
+                    <StackLayout Margin="{OnIdiom Phone='0,300,0,0', Tablet='0,370,0,0', Desktop='0,400,0,0'}" Padding="20">
+
+                        <!--  CARD  -->
+                        <Border
+                            Padding="20,16"
+                            Stroke="{DynamicResource FrameBorder}"
+                            StrokeShape="{RoundRectangle CornerRadius=20}">
+                            <StackLayout Spacing="10">
+                                <!--  Category  -->
+                                <Label
+                                    FontSize="12"
+                                    Text="{Binding Article.Section}"
+                                    TextColor="{DynamicResource PrimaryColor}"
+                                    VerticalOptions="Center" />
+
+
+                                <!--  Title  -->
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="20"
+                                    Text="{Binding Article.Title}"
+                                    VerticalOptions="Center" />
+
+                                <Grid>
+                                    <!--  Date  -->
+                                    <Label
+                                        FontSize="15"
+                                        Opacity="0.5"
+                                        Text="{Binding Article.When}"
+                                        VerticalOptions="Center" />
+
+                                    <StackLayout
+                                        HorizontalOptions="End"
+                                        Orientation="Horizontal"
+                                        Spacing="3"
+                                        VerticalOptions="Center">
+
+                                        <!--  Value  -->
+                                        <Label
+                                            FontSize="16"
+                                            HorizontalTextAlignment="Center"
+                                            Text="2K"
+                                            TextColor="{DynamicResource Primary}"
+                                            VerticalTextAlignment="Center" />
+
+                                        <!--  Icon  -->
+                                        <Label
+                                            FontFamily="MaterialDesign"
+                                            FontSize="20"
+                                            HorizontalTextAlignment="Center"
+                                            Text="{x:Static views:MaterialDesignIcons.Favorite}"
+                                            TextColor="{DynamicResource PrimaryColor}"
+                                            VerticalTextAlignment="Center" />
+
+                                        <!--  Spacing  -->
+                                        <Label WidthRequest="10" />
+
+                                        <!--  Value 2  -->
+                                        <Label
+                                            FontSize="16"
+                                            HorizontalTextAlignment="Center"
+                                            Text="15"
+                                            TextColor="{DynamicResource PrimaryColor}"
+                                            VerticalTextAlignment="Center" />
+
+                                        <!--  Icon 2  -->
+                                        <Label
+                                            FontFamily="MaterialDesign"
+                                            FontSize="20"
+                                            HorizontalTextAlignment="Center"
+                                            Text="{x:Static views:MaterialDesignIcons.Message}"
+                                            TextColor="{DynamicResource PrimaryColor}"
+                                            VerticalTextAlignment="Center" />
+
+                                    </StackLayout>
+                                </Grid>
+
+                                <!--  Text block 1  -->
+                                <Label Text="{Binding Article.Body}" />
+
+                                <Grid Margin="0,0">
+                                    <!--  Gallery  -->
+                                    <CollectionView
+                                        HeightRequest="320"
+                                        HorizontalScrollBarVisibility="Never"
+                                        ItemsSource="{Binding Gallery}">
+                                        <CollectionView.ItemsLayout>
+                                            <GridItemsLayout
+                                                HorizontalItemSpacing="5"
+                                                Orientation="Vertical"
+                                                Span="2"
+                                                VerticalItemSpacing="5" />
+                                        </CollectionView.ItemsLayout>
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate>
+                                                <templates:HeaderArticleGalleryItemTemplate />
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+                                </Grid>
+
+                                <!--  Text block 2  -->
+                                <Label Text="{Binding Article.Body}" />
+
+                            </StackLayout>
+                        </Border>
+
+                        <Grid
+                            Padding="0,20,0,20"
+                            RowDefinitions="1,Auto,Auto,1"
+                            RowSpacing="0">
+
+                            <!--  Related title  -->
+                            <Label
+                                Grid.Row="1"
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="{localization:Translate LabelRelatedNews}"
+                                VerticalOptions="Center" />
+
+                            <CollectionView
+                                Grid.Row="2"
+                                Margin="0,10"
+                                HeightRequest="200"
+                                ItemsSource="{Binding RelatedArticles}">
+                                <CollectionView.ItemsLayout>
+                                    <LinearItemsLayout ItemSpacing="15" Orientation="Horizontal" />
+                                </CollectionView.ItemsLayout>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <templates:RelatedArticlesCarouselItemTemplate HorizontalOptions="Start" WidthRequest="260" />
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+
+                        </Grid>
+
+                        <!--  Comments title  -->
+                        <Label
+                            FontAttributes="Bold"
+                            Text="{Binding Article.Comments.Count, StringFormat='{}{0:F0} Comments'}"
+                            VerticalOptions="Center" />
+
+                        <!--  COMMENTS  -->
+                        <CollectionView
+                            BackgroundColor="{DynamicResource MainWrapperBackgroundColor}"
+                            ItemsSource="{Binding Article.Comments}"
+                            MaximumHeightRequest="250">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout ItemSpacing="5" Orientation="Vertical" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <templates:ArticleCommentItemTemplate Padding="10,10" />
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                        <!--  BUTTON ROW  -->
+                        <Button
+                            BackgroundColor="{DynamicResource PrimaryColor}"
+                            Clicked="OnAddComment_Clicked"
+                            CornerRadius="14"
+                            FontSize="13"
+                            HeightRequest="44"
+                            HorizontalOptions="Fill"
+                            Text="{localization:Translate ButtonAddComment}"
+                            TextColor="{DynamicResource White}"
+                            VerticalOptions="Center" />
+                    </StackLayout>
+                </Grid>
+            </ScrollView>
+
+            <!--  Navigation Bar  -->
+            <StackLayout
+                x:Name="navBarStack"
+                Padding="16"
+                BackgroundColor="Transparent"
+                HeightRequest="60"
+                Orientation="Horizontal"
+                Spacing="30"
+                VerticalOptions="Start">
+
+                <!--  BACK ICON  -->
+                <Label
+                    x:Name="navBackIcon"
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource IconBackLabelStyle}"
+                    TextColor="{DynamicResource OverImageTextColor}"
+                    VerticalOptions="Center">
+
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="GoBack_Tapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <Label
+                    x:Name="navPageTitle"
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    HorizontalOptions="Start"
+                    Text="{localization:Translate PageTitleArticleParallaxHeader}"
+                    TextColor="{DynamicResource OverImageTextColor}"
+                    VerticalOptions="Center" />
+            </StackLayout>
+        </Grid>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

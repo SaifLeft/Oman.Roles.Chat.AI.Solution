@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<rg:PopupPage
+    x:Class="MauiKit.Views.ThemeSettingsPopupPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animation="clr-namespace:RGPopup.Maui.Animations;assembly=RGPopup.Maui"
+    xmlns:behaviors="clr-namespace:MauiKit.Behaviors"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:converters="clr-namespace:MauiKit.Converters"
+    xmlns:handlers="clr-namespace:MauiKit.Handlers"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:rg="clr-namespace:RGPopup.Maui.Pages;assembly=RGPopup.Maui"
+    xmlns:settings="clr-namespace:MauiKit.Settings"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    ios:Page.UseSafeArea="True"
+    BackgroundInputTransparent="True"
+    CloseWhenBackgroundIsClicked="False"
+    FlowDirection="{Binding LanguageSelected.IsRTL, Converter={StaticResource FlowDirectionConverter}}">
+
+    <rg:PopupPage.Animation>
+        <animation:MoveAnimation PositionIn="Bottom" PositionOut="Bottom" />
+    </rg:PopupPage.Animation>
+
+    <rg:PopupPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="HeaderStyle" TargetType="Label">
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="VerticalTextAlignment" Value="Center" />
+                <Setter Property="TextColor" Value="{DynamicResource BaseTextColor}" />
+                <Setter Property="HorizontalOptions" Value="Start" />
+            </Style>
+        </ResourceDictionary>
+    </rg:PopupPage.Resources>
+
+    <Border
+        x:Name="MainContent"
+        Margin="{OnIdiom Phone='0',
+                         Tablet='0',
+                         Desktop='200,10,10,10'}"
+        Background="{DynamicResource BasePageColor}"
+        HorizontalOptions="{OnIdiom Phone='Fill',
+                                    Tablet='Fill',
+                                    Desktop='EndAndExpand'}"
+        Opacity="1"
+        Stroke="{DynamicResource BasePageColor}"
+        StrokeShape="{RoundRectangle CornerRadius={OnIdiom Phone='20,20,0,0',
+                                                           Tablet='20,20,0,0',
+                                                           Desktop='20'}}"
+        VerticalOptions="{OnIdiom Phone='End',
+                                  Tablet='End',
+                                  Desktop='Fill'}">
+
+        <Grid
+            Padding="20,0"
+            RowDefinitions="50, Auto, Auto, Auto, Auto, 40"
+            RowSpacing="15">
+
+            <!--  Close Icon  -->
+            <Grid
+                HorizontalOptions="EndAndExpand"
+                VerticalOptions="Center"
+                WidthRequest="60">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnCloseSetting_Tapped" />
+                </Grid.GestureRecognizers>
+                <Label
+                    FontFamily="IonIcons"
+                    FontSize="25"
+                    HorizontalOptions="End"
+                    Text="{x:Static views:IonIcons.AndroidClose}"
+                    TextColor="{DynamicResource BaseTextColor}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnCloseSetting_Tapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
+
+            <Label
+                HorizontalOptions="Start"
+                Style="{StaticResource Title2}"
+                Text="{localization:Translate PageTitleSettings}"
+                VerticalOptions="End" />
+
+            <!--  Primary Color Options  -->
+            <Grid Grid.Row="1" RowDefinitions="Auto, Auto">
+                <Label
+                    x:Name="pickColorText"
+                    Style="{StaticResource HeaderStyle}"
+                    Text="{localization:Translate LabelPickColor}" />
+
+                <CollectionView
+                    x:Name="colorPaletteCollectionView"
+                    Grid.Row="1"
+                    Margin="10,0,10,10"
+                    HeightRequest="{OnIdiom Phone='50',
+                                            Desktop='70',
+                                            Default='60'}"
+                    HorizontalOptions="{OnPlatform iOS='CenterAndExpand',
+                                                   Android='CenterAndExpand',
+                                                   WinUI='CenterAndExpand',
+                                                   MacCatalyst='CenterAndExpand'}"
+                    ItemsSource="{Binding PrimaryColorItems}"
+                    SelectedItem="{Binding SelectedPrimaryColorItem}"
+                    SelectionMode="Single">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="10" Orientation="Horizontal" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Margin="2"
+                                Padding="2"
+                                HeightRequest="40"
+                                HorizontalOptions="CenterAndExpand"
+                                StrokeThickness="2"
+                                WidthRequest="40">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10" />
+                                </Border.StrokeShape>
+
+                                <RoundRectangle
+                                    CornerRadius="8"
+                                    Fill="{Binding Color}"
+                                    HeightRequest="30"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    WidthRequest="35" />
+
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroupList>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="Normal">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="Transparent" />
+                                                    <Setter Property="Stroke" Value="Transparent" />
+                                                    <Setter Property="HeightRequest" Value="40" />
+                                                    <Setter Property="WidthRequest" Value="40" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                            <VisualState x:Name="Selected">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="{DynamicResource BasePageColor}" />
+                                                    <Setter Property="Stroke" Value="{Binding Color}" />
+                                                    <Setter Property="HeightRequest" Value="40" />
+                                                    <Setter Property="WidthRequest" Value="45" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateGroupList>
+                                </VisualStateManager.VisualStateGroups>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+
+            <!--  Dark Mode  -->
+            <Grid
+                Grid.Row="2"
+                ColumnDefinitions="*, Auto"
+                ColumnSpacing="10">
+                <Label Style="{StaticResource HeaderStyle}" Text="{localization:Translate LabelDarkmode}" />
+
+                <Switch
+                    Grid.Column="1"
+                    HorizontalOptions="EndAndExpand"
+                    IsToggled="{Binding DarkModeSwitchToggled}"
+                    VerticalOptions="Center" />
+            </Grid>
+
+            <!--  Menu Grid Style  -->
+            <Grid
+                Grid.Row="3"
+                ColumnDefinitions="*, Auto"
+                ColumnSpacing="10">
+                <Label Style="{StaticResource HeaderStyle}" Text="{localization:Translate LabelMenuGridStyle}" />
+
+                <Switch
+                    x:Name="gridMenuSwitch"
+                    Grid.Column="1"
+                    HorizontalOptions="EndAndExpand"
+                    IsToggled="{Binding IsGridMenuSwitchToggled}"
+                    VerticalOptions="Center" />
+            </Grid>
+
+            <!--  Language Options  -->
+            <VerticalStackLayout
+                Grid.Row="4"
+                HorizontalOptions="Fill"
+                Spacing="10"
+                VerticalOptions="Center">
+
+                <Label Style="{StaticResource HeaderStyle}" Text="{localization:Translate LabelAppLanguage}" />
+
+                <Border
+                    Padding="15,0"
+                    Stroke="{DynamicResource DefaultBorder}"
+                    StrokeShape="{RoundRectangle CornerRadius=8}"
+                    StrokeThickness="1">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <controls:LanguageItemTemplate Name="{Binding LanguageSelected.Name}" Flag="{Binding LanguageSelected.Flag}">
+                            <controls:LanguageItemTemplate.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding LanguageItemTappedCommand}" />
+                            </controls:LanguageItemTemplate.GestureRecognizers>
+                        </controls:LanguageItemTemplate>
+
+                        <Label
+                            Grid.Column="1"
+                            FontFamily="MauiKitIcons"
+                            FontSize="20"
+                            Text="{x:Static views:MauiKitIcons.ChevronDown}"
+                            VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+
+            </VerticalStackLayout>
+
+        </Grid>
+    </Border>
+
+</rg:PopupPage>

@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Dashboards.DashboardCardPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:menuItems="clr-namespace:MauiKit.Models"
+    xmlns:templates="clr-namespace:MauiKit.Views.Dashboards.Templates"
+    xmlns:viewmodels="clr-namespace:MauiKit.ViewModels.Dashboards"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    BackgroundColor="{DynamicResource MainWrapperBackgroundColor}"
+    BaseTitle="{localization:Translate LabelDashboardCard}"
+    BaseTitleColor="{DynamicResource BaseTextColor}">
+
+    <views:BasePage.BindingContext>
+        <viewmodels:DashboardCardViewModel />
+    </views:BasePage.BindingContext>
+
+    <views:BasePage.Resources>
+        <Style TargetType="templates:DashboardCardItemTemplate">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="Transparent" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </views:BasePage.Resources>
+
+    <CollectionView
+        Margin="15"
+        ItemsSource="{Binding DashboardItems}"
+        SelectionMode="Single">
+
+        <CollectionView.ItemsLayout>
+            <GridItemsLayout
+                HorizontalItemSpacing="7"
+                Orientation="Vertical"
+                Span="{OnIdiom Phone=2,
+                               Tablet=2,
+                               Desktop=3}"
+                VerticalItemSpacing="7" />
+        </CollectionView.ItemsLayout>
+
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <templates:DashboardCardItemTemplate />
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</views:BasePage>

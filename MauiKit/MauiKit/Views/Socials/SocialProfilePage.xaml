@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiKit.Views.Socials.SocialProfilePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    Title=""
+    NavigationPage.HasNavigationBar="False">
+
+    <AbsoluteLayout Padding="0">
+        <!--  MAIN IMAGE  -->
+        <Image
+            x:Name="img"
+            AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+            AbsoluteLayout.LayoutFlags="All"
+            AnchorX="0.5"
+            AnchorY="0.5"
+            Aspect="AspectFill"
+            Source="{Binding Image}">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="OnImagePreviewDoubleTapped" />
+            </Image.GestureRecognizers>
+        </Image>
+
+        <Grid
+            AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+            AbsoluteLayout.LayoutFlags="All"
+            RowDefinitions="*,40*"
+            RowSpacing="0">
+            <!--  TOP ROW  -->
+            <StackLayout
+                Grid.Row="0"
+                Padding="10"
+                Orientation="Vertical"
+                Spacing="0"
+                VerticalOptions="FillAndExpand" />
+
+            <!--  BOTTOM ROW  -->
+            <StackLayout
+                Grid.Row="1"
+                Padding="0"
+                AbsoluteLayout.LayoutBounds="0, 1, 1, 1"
+                Orientation="Vertical"
+                Spacing="0"
+                VerticalOptions="End">
+
+                <StackLayout Padding="0" Spacing="0">
+
+                    <!--  HEADERS  -->
+                    <StackLayout Padding="20,0,20,20">
+
+                        <Label
+                            FontSize="25"
+                            HorizontalOptions="Center"
+                            LineBreakMode="WordWrap"
+                            Text="{Binding Name}"
+                            TextColor="{DynamicResource OverImageTextColor}"
+                            VerticalOptions="End" />
+
+                        <Label
+                            Margin="0,0,0,10"
+                            FontAttributes="None"
+                            FontSize="14"
+                            HorizontalOptions="Center"
+                            LineBreakMode="WordWrap"
+                            Text="{Binding Description}"
+                            TextColor="{DynamicResource BaseLightTextColor}"
+                            VerticalOptions="End" />
+
+                        <StackLayout
+                            BackgroundColor="{DynamicResource PrimaryColor}"
+                            HeightRequest="2"
+                            HorizontalOptions="Center"
+                            VerticalOptions="End"
+                            WidthRequest="80" />
+                    </StackLayout>
+
+                    <!--  TOOLBAR  -->
+                    <Grid
+                        BackgroundColor="{DynamicResource TranslucidBlack}"
+                        ColumnDefinitions="3*,3*,3*"
+                        ColumnSpacing="0"
+                        HeightRequest="60">
+
+                        <StackLayout
+                            Grid.Column="0"
+                            HorizontalOptions="Center"
+                            Orientation="Horizontal"
+                            Spacing="0"
+                            VerticalOptions="Center">
+                            <Label
+                                FontFamily="IonIcons"
+                                HorizontalTextAlignment="Center"
+                                Text="{x:Static views:IonIcons.Heart}"
+                                TextColor="{DynamicResource OverImageTextColor}"
+                                VerticalTextAlignment="Center">
+                                <Label.FontSize>
+                                    <OnIdiom
+                                        x:TypeArguments="x:Double"
+                                        Phone="15"
+                                        Tablet="20" />
+                                </Label.FontSize>
+                            </Label>
+
+                            <Label
+                                Margin="6,0"
+                                HorizontalTextAlignment="Center"
+                                Text="465"
+                                TextColor="{DynamicResource OverImageTextColor}"
+                                VerticalTextAlignment="Center">
+                                <Label.FontSize>
+                                    <OnIdiom
+                                        x:TypeArguments="x:Double"
+                                        Phone="15"
+                                        Tablet="20" />
+                                </Label.FontSize>
+                            </Label>
+                        </StackLayout>
+
+                        <StackLayout
+                            Grid.Column="1"
+                            HorizontalOptions="Center"
+                            Orientation="Horizontal"
+                            Spacing="0"
+                            VerticalOptions="Center">
+                            <Label
+                                FontFamily="IonIcons"
+                                HorizontalTextAlignment="Center"
+                                Text="{x:Static views:IonIcons.AndroidChat}"
+                                TextColor="{DynamicResource OverImageTextColor}"
+                                VerticalTextAlignment="Center">
+                                <Label.FontSize>
+                                    <OnIdiom
+                                        x:TypeArguments="x:Double"
+                                        Phone="15"
+                                        Tablet="20" />
+                                </Label.FontSize>
+                            </Label>
+
+                            <Label
+                                Margin="6,0"
+                                HorizontalTextAlignment="Center"
+                                Text="334"
+                                TextColor="{DynamicResource White}"
+                                VerticalTextAlignment="Center">
+                                <Label.FontSize>
+                                    <OnIdiom
+                                        x:TypeArguments="x:Double"
+                                        Phone="15"
+                                        Tablet="20" />
+                                </Label.FontSize>
+                            </Label>
+                        </StackLayout>
+
+                        <StackLayout
+                            Grid.Column="2"
+                            HorizontalOptions="Center"
+                            Orientation="Horizontal"
+                            Spacing="0"
+                            VerticalOptions="Center">
+                            <Label
+                                FontFamily="IonIcons"
+                                HorizontalTextAlignment="Center"
+                                Text="{x:Static views:IonIcons.IosPeople}"
+                                TextColor="{DynamicResource OverImageTextColor}"
+                                VerticalTextAlignment="Center">
+                                <Label.FontSize>
+                                    <OnIdiom
+                                        x:TypeArguments="x:Double"
+                                        Phone="15"
+                                        Tablet="20" />
+                                </Label.FontSize>
+                            </Label>
+
+                            <Label
+                                Margin="6,0"
+                                HorizontalTextAlignment="Center"
+                                Text="4565"
+                                TextColor="{DynamicResource OverImageTextColor}"
+                                VerticalTextAlignment="Center">
+                                <Label.FontSize>
+                                    <OnIdiom
+                                        x:TypeArguments="x:Double"
+                                        Phone="15"
+                                        Tablet="20" />
+                                </Label.FontSize>
+                            </Label>
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+            </StackLayout>
+        </Grid>
+
+        <!--  CLOSE ICON  -->
+        <Label
+            Margin="20"
+            AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+            AbsoluteLayout.LayoutFlags="All"
+            HorizontalOptions="End"
+            HorizontalTextAlignment="End"
+            Style="{StaticResource IconCloseLabelStyle}"
+            TextColor="{DynamicResource White}"
+            VerticalOptions="Start">
+
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnCloseButtonTapped" />
+            </Label.GestureRecognizers>
+        </Label>
+    </AbsoluteLayout>
+</ContentPage>

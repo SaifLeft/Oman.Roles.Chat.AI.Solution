@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="MauiKit.Views.AppFlows.Ecommerce.Templates.ProductListTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Maui">
+
+    <Border
+        Padding="0"
+        Background="{DynamicResource BasePageColor}"
+        HeightRequest="{OnIdiom Phone='120',
+                                Tablet='150',
+                                Desktop='170'}"
+        Stroke="Transparent"
+        StrokeShape="{RoundRectangle CornerRadius=20}">
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="{OnIdiom Phone='100', Tablet='120', Desktop='140'}" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!--  Product Image  -->
+            <ffimageloading:CachedImage
+                Grid.Column="0"
+                HeightRequest="{OnIdiom Phone='100',
+                                        Tablet='120',
+                                        Desktop='140'}"
+                Source="{Binding FeaturedImage}">
+                <ffimageloading:CachedImage.Transformations>
+                    <fftransformations:CornersTransformation
+                        BottomLeftCornerSize="12"
+                        BottomRightCornerSize="12"
+                        CornersTransformType="AllRounded"
+                        TopLeftCornerSize="12"
+                        TopRightCornerSize="12" />
+                </ffimageloading:CachedImage.Transformations>
+            </ffimageloading:CachedImage>
+
+            <Grid
+                Grid.Column="1"
+                Padding="{OnIdiom Phone='20,15',
+                                  Tablet='25,20',
+                                  Desktop='30'}"
+                RowDefinitions="Auto, Auto, *"
+                RowSpacing="5">
+                <!--  Product Name  -->
+                <Label
+                    Grid.Row="0"
+                    FontFamily="MediumFont"
+                    FontSize="16"
+                    HorizontalOptions="Start"
+                    Text="{Binding Name}"
+                    TextColor="{DynamicResource BaseTextColor}"
+                    VerticalOptions="End" />
+
+                <!--  Descriptions  -->
+                <Label
+                    Grid.Row="1"
+                    LineBreakMode="TailTruncation"
+                    MaxLines="1"
+                    Text="{Binding Details}"
+                    TextColor="{DynamicResource BaseLightTextColor}" />
+
+                <Grid Grid.Row="2" ColumnDefinitions="Auto, *">
+                    <!--  Brand Name  -->
+                    <Label
+                        Grid.Column="0"
+                        FontSize="14"
+                        HorizontalOptions="Start"
+                        Text="{Binding BrandName}"
+                        TextColor="{DynamicResource PrimaryColor}"
+                        VerticalOptions="Start" />
+
+                    <!--  Price  -->
+                    <Label
+                        Grid.Column="1"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        HorizontalOptions="End"
+                        Text="{Binding Price}"
+                        TextColor="{DynamicResource Green}"
+                        VerticalOptions="End" />
+                </Grid>
+            </Grid>
+
+        </Grid>
+    </Border>
+</ContentView>

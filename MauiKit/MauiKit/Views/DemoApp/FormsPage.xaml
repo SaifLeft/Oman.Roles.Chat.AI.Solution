@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.FormsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:local="clr-namespace:MauiKit"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:templates="clr-namespace:MauiKit.Views.Templates"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    Title="">
+
+    <views:BasePage.PageContent>
+        <Grid RowDefinitions="Auto,*" RowSpacing="15">
+            <controls:HeaderTemplate
+                Margin="25,30,25,0"
+                IconColor="{StaticResource Green}"
+                IconFontFamily="IonIcons"
+                IconSize="35"
+                IconText="{x:Static views:IonIcons.Filing}"
+                Text="{localization:Translate LabelForm}"
+                TextSize="25" />
+
+            <ScrollView Grid.Row="1">
+                <StackLayout Padding="25,0,25,30" Spacing="18">
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:IonIcons.Play}"
+                        HeaderIconFontFamily="IonIcons"
+                        ItemDescription="{localization:Translate LabelFormVideoBackgroundLoginDescription}"
+                        ItemTitle="{localization:Translate LabelFormVideoBackgroundLogin}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="VideoBackgroundLogin_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:IonIcons.Play}"
+                        HeaderIconFontFamily="IonIcons"
+                        ItemDescription="{localization:Translate LabelFormVideoBackgroundSignUpDescription}"
+                        ItemTitle="{localization:Translate LabelFormVideoBackgroundSignUp}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="VideoBackgroundSignUp_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:IonIcons.Locked}"
+                        HeaderIconFontFamily="IonIcons"
+                        ItemDescription="{localization:Translate LabelFormBackgroundGradientLoginDescription}"
+                        ItemTitle="{localization:Translate LabelFormBackgroundGradientLogin}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="BackgroundGradientLogin_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:IonIcons.AndroidCheckboxOutline}"
+                        HeaderIconFontFamily="IonIcons"
+                        ItemDescription="{localization:Translate LabelFormBackgroundGradientSignupDescription}"
+                        ItemTitle="{localization:Translate LabelFormBackgroundGradientSignup}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="BackgroundGradientSignUp_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:IonIcons.Locked}"
+                        HeaderIconFontFamily="IonIcons"
+                        ItemDescription="{localization:Translate LabelFormFullBackgroundLoginDescription}"
+                        ItemTitle="{localization:Translate LabelFormFullBackgroundLogin}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="FullBackgroundLogin_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:IonIcons.AndroidCheckboxOutline}"
+                        HeaderIconFontFamily="IonIcons"
+                        ItemDescription="{localization:Translate LabelFormFullBackgroundSignupDescription}"
+                        ItemTitle="{localization:Translate LabelFormFullBackgroundSignup}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="FullBackgroundSignUp_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:IonIcons.Locked}"
+                        HeaderIconFontFamily="IonIcons"
+                        ItemDescription="{localization:Translate LabelFormLoginDescription}"
+                        ItemTitle="{localization:Translate LabelFormLogin}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Login_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:IonIcons.IosCheckmarkOutline}"
+                        HeaderIconFontFamily="IonIcons"
+                        ItemDescription="{localization:Translate LabelFormSignupDescription}"
+                        ItemTitle="{localization:Translate LabelFormSignup}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="SignUp_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:IonIcons.Locked}"
+                        HeaderIconFontFamily="IonIcons"
+                        ItemDescription="{localization:Translate LabelFormSimpleLoginDescription}"
+                        ItemTitle="{localization:Translate LabelFormSimpleLogin}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="SimpleLogin_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:IonIcons.CheckmarkRound}"
+                        HeaderIconFontFamily="IonIcons"
+                        ItemDescription="{localization:Translate LabelFormSimpleSignupDescription}"
+                        ItemTitle="{localization:Translate LabelFormSimpleSignup}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="SimpleSignup_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:MaterialDesignIcons.VerifiedUser}"
+                        HeaderIconFontFamily="MaterialDesign"
+                        ItemDescription="{localization:Translate LabelFormResetPasswordDescription}"
+                        ItemTitle="{localization:Translate LabelFormResetPassword}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ForgotPassword_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:MaterialDesignIcons.Security}"
+                        HeaderIconFontFamily="MaterialDesign"
+                        ItemDescription="{localization:Translate LabelFormPasswordVerificationDescription}"
+                        ItemTitle="{localization:Translate LabelFormPasswordVerification}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="PasswordVerification_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:MaterialDesignIcons.LockOpen}"
+                        HeaderIconFontFamily="MaterialDesign"
+                        ItemDescription="{localization:Translate LabelFormChangePasswordDescription}"
+                        ItemTitle="{localization:Translate LabelFormChangePassword}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ChangePassword_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                </StackLayout>
+            </ScrollView>
+        </Grid>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

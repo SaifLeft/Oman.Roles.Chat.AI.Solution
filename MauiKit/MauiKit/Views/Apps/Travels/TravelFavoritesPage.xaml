@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Travels.TravelFavoritesPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:handlers="clr-namespace:MauiKit.Handlers"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:templates="clr-namespace:MauiKit.Views.Travels.Templates"
+    xmlns:viewModels="clr-namespace:MauiKit.ViewModels.Travels"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    BackgroundColor="{DynamicResource BasePageColor}"
+    NavigationPage.HasNavigationBar="False">
+
+    <views:BasePage.PageContent>
+        <Grid RowDefinitions="Auto, Auto, *, Auto">
+
+            <Grid
+                Padding="16"
+                ColumnDefinitions="Auto,*,Auto"
+                VerticalOptions="Center">
+                <!--  Navigation Button  -->
+                <Border
+                    HeightRequest="42"
+                    HorizontalOptions="Start"
+                    Stroke="{DynamicResource T_Primary}"
+                    StrokeThickness="1"
+                    VerticalOptions="Center"
+                    WidthRequest="42">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="GoBack_Tapped" />
+                    </Border.GestureRecognizers>
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10" />
+                    </Border.StrokeShape>
+
+                    <Image
+                        HeightRequest="26"
+                        HorizontalOptions="Center"
+                        Source="{DynamicResource MenuIcon}"
+                        VerticalOptions="Center"
+                        WidthRequest="26" />
+                </Border>
+
+                <!--  Page Title  -->
+                <VerticalStackLayout
+                    Grid.Column="1"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        HorizontalOptions="Center"
+                        Text="{localization:Translate PageTitleFavorites}"
+                        TextColor="{DynamicResource BaseTextColor}" />
+                </VerticalStackLayout>
+
+                <!--  Filter Button Icon  -->
+                <Border
+                    Grid.Column="2"
+                    Padding="8"
+                    HeightRequest="42"
+                    Stroke="{DynamicResource T_Primary}"
+                    StrokeThickness="1"
+                    WidthRequest="42">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <Image
+                        Aspect="AspectFit"
+                        HeightRequest="25"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center">
+                        <Image.Source>
+                            <FontImageSource
+                                FontFamily="MauiKitIcons"
+                                Glyph="{x:Static views:MauiKitIcons.Sort}"
+                                Color="{DynamicResource BaseTextColor}" />
+                        </Image.Source>
+                    </Image>
+                </Border>
+            </Grid>
+
+            <!--  Search Bar  -->
+            <Border
+                Grid.Row="1"
+                Margin="16,5"
+                Padding="20,0"
+                Stroke="{DynamicResource T_Accent}"
+                StrokeThickness="0.8">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="13" />
+                </Border.StrokeShape>
+                <Grid ColumnDefinitions="Auto, *" ColumnSpacing="8">
+                    <Label
+                        FontFamily="MaterialDesign"
+                        FontSize="22"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="{x:Static views:MaterialDesignIcons.Search}"
+                        TextColor="{DynamicResource BaseIconColor}"
+                        VerticalOptions="CenterAndExpand" />
+                    <handlers:BorderlessEntry
+                        Grid.Column="1"
+                        HeightRequest="46"
+                        Placeholder="{localization:Translate StringSearch}"
+                        PlaceholderColor="{DynamicResource PlaceholderColor}"
+                        TextColor="{DynamicResource BaseTextColor}"
+                        VerticalOptions="Center" />
+
+                </Grid>
+            </Border>
+
+            <!--  Articles List  -->
+            <Grid
+                Grid.Row="2"
+                Padding="16,15"
+                RowDefinitions="Auto,*"
+                RowSpacing="5">
+                <Label
+                    FontFamily="BoldFont"
+                    FontSize="18"
+                    Text="{localization:Translate LabelArticle}" />
+
+                <CollectionView
+                    x:Name="travelArticleList"
+                    Grid.Row="1"
+                    ItemsSource="{Binding TravelArticles}"
+                    SelectionMode="Single">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout
+                            HorizontalItemSpacing="10"
+                            Orientation="Vertical"
+                            Span="{OnIdiom Phone='1',
+                                           Desktop='2',
+                                           Tablet='2'}"
+                            VerticalItemSpacing="15" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <templates:FavoriteArticleItemTemplate>
+                                <templates:FavoriteArticleItemTemplate.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:TravelFavoritesViewModel}}, Path=ArticleDetailCommand}" CommandParameter="{Binding .}" />
+                                </templates:FavoriteArticleItemTemplate.GestureRecognizers>
+                            </templates:FavoriteArticleItemTemplate>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                    <CollectionView.Footer>
+                        <Label Text="" />
+                    </CollectionView.Footer>
+                </CollectionView>
+            </Grid>
+        </Grid>
+    </views:BasePage.PageContent>
+</views:BasePage>

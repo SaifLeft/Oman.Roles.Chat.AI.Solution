@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="MauiKit.Views.Travels.Templates.ExploreArticleItemTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MauiKit"
+    xmlns:models="clr-namespace:MauiKit.Models"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    x:DataType="models:TravelArticle">
+    <Border
+        Margin="0"
+        Padding="12"
+        Stroke="{DynamicResource T_Accent}"
+        StrokeShape="RoundRectangle 14"
+        StrokeThickness="0.6">
+        <Border
+            Margin="0"
+            Padding="0"
+            HeightRequest="180"
+            StrokeShape="RoundRectangle 12">
+            <Grid>
+                <!--  Featured Image  -->
+                <Image Aspect="AspectFill" Source="{Binding FeaturedImage}" />
+                <Grid>
+                    <Grid.Background>
+                        <LinearGradientBrush EndPoint="0,1">
+                            <GradientStop Offset="0.1" Color="#30000000" />
+                            <GradientStop Offset="1.0" Color="#80000000" />
+                        </LinearGradientBrush>
+                    </Grid.Background>
+                </Grid>
+
+                <!--  Add Favorite Button  -->
+                <Border
+                    Margin="10"
+                    Padding="5"
+                    Background="#30000000"
+                    HeightRequest="32"
+                    HorizontalOptions="End"
+                    Stroke="{DynamicResource White}"
+                    StrokeShape="RoundRectangle 10"
+                    StrokeThickness="1"
+                    VerticalOptions="Start"
+                    WidthRequest="32">
+
+                    <Image VerticalOptions="Center">
+                        <Image.Source>
+                            <FontImageSource
+                                FontFamily="MaterialDesign"
+                                Glyph="{x:Static views:MaterialDesignIcons.FavoriteBorder}"
+                                Color="{DynamicResource White}" />
+                        </Image.Source>
+                    </Image>
+                </Border>
+
+                <!--  Header Info  -->
+                <Grid
+                    Padding="12"
+                    ColumnSpacing="6"
+                    VerticalOptions="End">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Label
+                        Style="{StaticResource Title2}"
+                        Text="{Binding Title}"
+                        TextColor="{DynamicResource OverImageTextColor}"
+                        VerticalOptions="End" />
+
+                    <Grid Grid.Row="1" ColumnSpacing="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="12" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            FontFamily="MaterialDesign"
+                            FontSize="15"
+                            Text="{x:Static views:MaterialDesignIcons.Favorite}"
+                            TextColor="{DynamicResource OverImageTextColor}"
+                            TranslationY="3" />
+
+                        <Label
+                            Grid.Column="1"
+                            FontSize="13"
+                            Text="{Binding LikeCount}"
+                            TextColor="{DynamicResource OverImageTextColor}" />
+
+                        <Label
+                            Grid.Column="3"
+                            FontFamily="MaterialDesign"
+                            FontSize="15"
+                            Text="{x:Static views:MaterialDesignIcons.Comment}"
+                            TextColor="{DynamicResource OverImageTextColor}"
+                            TranslationY="3" />
+
+                        <Label
+                            Grid.Column="4"
+                            FontSize="13"
+                            Text="{Binding CommentCount}"
+                            TextColor="{DynamicResource OverImageTextColor}" />
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Border>
+    </Border>
+</ContentView>

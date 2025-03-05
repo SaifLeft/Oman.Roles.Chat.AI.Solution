@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiKit.Views.Onboardings.StartBackgroundPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    Title=""
+    BackgroundImageSource="bg_blue.png"
+    NavigationPage.HasBackButton="False"
+    NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="Transparent" StatusBarStyle="{OnPlatform Android='DarkContent', Default='LightContent'}" />
+    </ContentPage.Behaviors>
+
+    <ScrollView VerticalScrollBarVisibility="Never">
+        <Grid RowDefinitions="*,Auto">
+
+            <Grid
+                Padding="30,50,30,20"
+                HorizontalOptions="Center"
+                RowDefinitions="Auto, Auto, Auto, Auto, Auto"
+                RowSpacing="20"
+                VerticalOptions="Center">
+
+                <!--  Logo  -->
+                <Border
+                    Padding="0"
+                    Background="{DynamicResource White}"
+                    HeightRequest="90"
+                    HorizontalOptions="Center"
+                    Stroke="{DynamicResource White}"
+                    StrokeShape="{RoundRectangle CornerRadius=18}"
+                    StrokeThickness="3"
+                    WidthRequest="90">
+                    <controls:RoundedCornerImage
+                        Background="{DynamicResource White}"
+                        HeightRequest="60"
+                        HorizontalOptions="Center"
+                        Source="logo.png"
+                        Stroke="Transparent"
+                        StrokeShape="{RoundRectangle CornerRadius=50}"
+                        VerticalOptions="Center"
+                        WidthRequest="60" />
+                </Border>
+
+                <!--  App Name  -->
+                <Label
+                    Grid.Row="1"
+                    FontAttributes="Bold"
+                    FontSize="22"
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource Title2}"
+                    Text="MAUI Kit"
+                    TextColor="{DynamicResource White}" />
+
+                <!--  Welcome Title  -->
+                <Label
+                    Grid.Row="2"
+                    Margin="0,15,0,0"
+                    FontAttributes="Bold"
+                    FontSize="20"
+                    HorizontalOptions="CenterAndExpand"
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource Title2}"
+                    Text="{localization:Translate StringAppWelcomeTitle}"
+                    TextColor="{DynamicResource White}" />
+
+                <!--  Welcome Subtitle  -->
+                <Label
+                    Grid.Row="3"
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource PrimaryLabel}"
+                    Text="{localization:Translate StringAppWelcomeSubtitle}"
+                    TextColor="{DynamicResource White}" />
+
+                <!--  Version Tag  -->
+                <Border
+                    Grid.Row="4"
+                    Padding="15,5"
+                    Background="{DynamicResource White}"
+                    HorizontalOptions="Center"
+                    Stroke="Transparent"
+                    StrokeShape="{RoundRectangle CornerRadius='8'}">
+                    <Label
+                        FontSize="12"
+                        HorizontalOptions="Center"
+                        Text="Version 2.0"
+                        TextColor="{DynamicResource PrimaryColor}"
+                        VerticalOptions="Center" />
+                </Border>
+            </Grid>
+
+            <VerticalStackLayout
+                Grid.Row="1"
+                Padding="30,0,30,50"
+                HorizontalOptions="Fill"
+                Spacing="15"
+                VerticalOptions="End">
+                <Button
+                    BackgroundColor="{DynamicResource White}"
+                    BorderColor="{DynamicResource White}"
+                    BorderWidth="1"
+                    Clicked="TakeTour_Clicked"
+                    CornerRadius="14"
+                    FontAttributes="Bold"
+                    HeightRequest="50"
+                    Text="{localization:Translate ButtonTakeTour}"
+                    TextColor="{DynamicResource PrimaryColor}" />
+
+                <Button
+                    BackgroundColor="Transparent"
+                    BorderColor="{DynamicResource White}"
+                    BorderWidth="1"
+                    Clicked="Skip_Clicked"
+                    CornerRadius="14"
+                    HeightRequest="50"
+                    Text="{localization:Translate ButtonSkip}"
+                    TextColor="{DynamicResource White}" />
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
+
+</ContentPage>

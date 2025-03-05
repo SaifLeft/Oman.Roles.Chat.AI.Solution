@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:DashboardBaseItemTemplate
+    x:Class="MauiKit.Views.Dashboards.Templates.DashboardNotificationItemTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:MauiKit.Views.Dashboards.Templates"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    x:Name="Root">
+    <Border
+        Background="{Binding BackgroundColor}"
+        HeightRequest="150"
+        Stroke="Transparent"
+        StrokeShape="{RoundRectangle CornerRadius=20}">
+        <Grid
+            Padding="0"
+            ColumnSpacing="0"
+            RowSpacing="0">
+
+            <!--  BACKGROUND  -->
+            <StackLayout
+                Grid.Row="0"
+                Grid.Column="0"
+                BackgroundColor="{Binding BackgroundColor}">
+                <StackLayout.Background>
+                    <LinearGradientBrush>
+                        <GradientStop Offset="0.1" Color="#801A73E8" />
+                        <GradientStop Offset="1.0" Color="#801A73E8" />
+                    </LinearGradientBrush>
+                </StackLayout.Background>
+            </StackLayout>
+
+            <!--  CONTENT  -->
+            <Grid
+                Grid.Row="0"
+                Grid.Column="0"
+                Padding="10"
+                VerticalOptions="FillAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!--  AVATAR  -->
+                <controls:RoundedCornerImage
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    HeightRequest="45"
+                    HorizontalOptions="Start"
+                    Source="{Binding Avatar}"
+                    Stroke="{Binding BackgroundColor}"
+                    StrokeShape="{RoundRectangle CornerRadius=25}"
+                    TranslationX="0"
+                    TranslationY="0"
+                    VerticalOptions="Start"
+                    WidthRequest="45" />
+
+                <!--  CONTENT  -->
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Margin="0,10"
+                    FontSize="14"
+                    HorizontalOptions="Start"
+                    HorizontalTextAlignment="Start"
+                    Text="{Binding Content}"
+                    TextColor="{Binding Source={x:Reference Root}, Path=TextColor}"
+                    VerticalOptions="Center" />
+
+                <!--  TITLE  -->
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    FontSize="16"
+                    HorizontalOptions="End"
+                    HorizontalTextAlignment="End"
+                    Text="{Binding Title}"
+                    TextColor="{Binding Source={x:Reference Root}, Path=TextColor}"
+                    VerticalOptions="End"
+                    VerticalTextAlignment="Center" />
+
+                <!--  ICON  -->
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    FontFamily="IonIcons"
+                    FontSize="20"
+                    HorizontalTextAlignment="End"
+                    Text="{Binding Icon}"
+                    TextColor="{Binding Source={x:Reference Root}, Path=TextColor}"
+                    VerticalOptions="Start"
+                    VerticalTextAlignment="Center" />
+            </Grid>
+        </Grid>
+    </Border>
+
+</base:DashboardBaseItemTemplate>

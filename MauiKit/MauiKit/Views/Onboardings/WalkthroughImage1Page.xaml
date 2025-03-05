@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiKit.Views.Onboardings.WalkthroughImage1Page"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:cardcontrols="clr-namespace:PanCardView.Controls;assembly=PanCardView"
+    xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:MauiKit.ViewModels"
+    BackgroundColor="{DynamicResource Black}"
+    NavigationPage.HasBackButton="False"
+    NavigationPage.HasNavigationBar="False">
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="Transparent" StatusBarStyle="{OnPlatform Android='DarkContent', Default='LightContent'}" />
+    </ContentPage.Behaviors>
+
+    <ScrollView VerticalScrollBarVisibility="Never">
+        <Grid RowDefinitions="*, Auto">
+
+            <cards:CarouselView
+                Grid.RowSpan="2"
+                IndicatorView="indicatorView"
+                IsPanInteractionEnabled="False"
+                IsPanSwipeEnabled="False"
+                IsUserInteractionEnabled="False"
+                ItemsSource="{Binding Boardings}"
+                SelectedIndex="{Binding Position}">
+                <cards:CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid RowDefinitions="*, Auto">
+                            <Image
+                                Aspect="AspectFit"
+                                Opacity="0.9"
+                                Source="{Binding ImagePath}" />
+
+                            <Border
+                                Grid.Row="1"
+                                Margin="-1,-30,-1,0"
+                                HeightRequest="250"
+                                VerticalOptions="EndAndExpand">
+                                <Border.Shadow>
+                                    <Shadow Opacity="0.3" />
+                                </Border.Shadow>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="30,30,0,0" />
+                                </Border.StrokeShape>
+
+                                <StackLayout Margin="30,20" Spacing="15">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="24"
+                                        HorizontalOptions="Center"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding Title}"
+                                        VerticalOptions="Center" />
+
+                                    <Label
+                                        FontSize="16"
+                                        HorizontalOptions="CenterAndExpand"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding Subtitle}" />
+                                </StackLayout>
+                            </Border>
+
+                        </Grid>
+                    </DataTemplate>
+                </cards:CarouselView.ItemTemplate>
+            </cards:CarouselView>
+
+            <StackLayout
+                Grid.Row="1"
+                Spacing="10"
+                VerticalOptions="EndAndExpand">
+                <IndicatorView
+                    x:Name="indicatorView"
+                    Margin="0"
+                    HorizontalOptions="Center"
+                    IndicatorColor="{DynamicResource BaseLightTextColor}"
+                    IndicatorsShape="Circle"
+                    SelectedIndicatorColor="{DynamicResource PrimaryColor}" />
+
+                <!--  Next button  -->
+                <Button
+                    Margin="30,20"
+                    Command="{Binding NextCommand}"
+                    CornerRadius="12"
+                    FontAttributes="Bold"
+                    HeightRequest="50"
+                    Style="{StaticResource PrimaryButtonStyle}"
+                    Text="{Binding NextButtonText, Mode=TwoWay}" />
+            </StackLayout>
+
+            <!--  Skip button  -->
+            <Button
+                Grid.RowSpan="2"
+                Margin="20"
+                Padding="10,5"
+                BackgroundColor="{DynamicResource BasePageColor}"
+                Command="{Binding SkipCommand}"
+                FontSize="12"
+                HeightRequest="26"
+                HorizontalOptions="End"
+                IsVisible="{Binding IsSkipButtonVisible, Mode=TwoWay}"
+                Text="{localization:Translate ButtonSkip}"
+                TextColor="{DynamicResource BaseTextColor}"
+                VerticalOptions="StartAndExpand" />
+        </Grid>
+    </ScrollView>
+
+</ContentPage>

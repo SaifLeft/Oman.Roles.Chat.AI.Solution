@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Articles.ArticlesVideoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:templates="clr-namespace:MauiKit.Views.Articles.Templates"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    BaseTitle="{localization:Translate PageTitleArticleVideos}">
+
+    <views:BasePage.PageContent>
+        <!--<ListView
+            x:Name="articlesList"
+            Margin="0,10"
+            android:ListView.IsFastScrollEnabled="true"
+            CachingStrategy="RecycleElement"
+            HasUnevenRows="false"
+            ItemsSource="{Binding ArticleLists}"
+            RowHeight="260"
+            SelectionMode="None"
+            SeparatorColor="{DynamicResource BaseSeparatorColor}"
+            SeparatorVisibility="Default">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <templates:ArticleVideoItemTemplate>
+                            <templates:ArticleVideoItemTemplate.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={x:Reference articlesList}, Path=BindingContext.ItemTappedCommand}" CommandParameter="{Binding .}" />
+                            </templates:ArticleVideoItemTemplate.GestureRecognizers>
+                        </templates:ArticleVideoItemTemplate>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>-->
+        <CollectionView
+            Margin="0,10"
+            BackgroundColor="{DynamicResource MainWrapperBackgroundColor}"
+            ItemsSource="{Binding ArticleLists}">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout
+                    HorizontalItemSpacing="10"
+                    Orientation="Vertical"
+                    Span="{OnIdiom Phone=1,
+                                   Tablet=2,
+                                   Desktop=2}"
+                    VerticalItemSpacing="0" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <templates:ArticleVideoItemTemplate />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </views:BasePage.PageContent>
+</views:BasePage>

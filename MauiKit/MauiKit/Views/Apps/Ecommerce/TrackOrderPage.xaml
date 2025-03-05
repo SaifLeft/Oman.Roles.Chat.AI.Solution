@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Ecommerce.TrackOrderPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:views="clr-namespace:MauiKit.Views">
+
+    <views:BasePage.PageContent>
+        <Grid RowDefinitions="Auto, *">
+
+            <!--  Header  -->
+            <Grid Padding="15,10" HeightRequest="60">
+
+                <controls:HeaderTemplate
+                    IconFontFamily="MauiKitIcons"
+                    IconText="{x:Static views:MauiKitIcons.TruckDelivery}"
+                    Text="Track Your Order"
+                    TextSize="18" />
+
+            </Grid>
+
+            <!--  Order Progress  -->
+            <CollectionView
+                Grid.Row="1"
+                Margin="20"
+                ItemsSource="{Binding TrackStatusData}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="80,50,*">
+                            <StackLayout VerticalOptions="Start">
+                                <Label
+                                    FontSize="15"
+                                    Text="{Binding DateMonth}"
+                                    TextColor="{DynamicResource BaseLightTextColor}" />
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="13"
+                                    Text="{Binding Time}" />
+                            </StackLayout>
+
+                            <StackLayout
+                                Grid.Column="1"
+                                Margin="10,0"
+                                HorizontalOptions="Start"
+                                Spacing="0">
+                                <Border
+                                    Padding="4"
+                                    Background="Transparent"
+                                    Stroke="{StaticResource Gray700}"
+                                    StrokeShape="RoundRectangle 16"
+                                    StrokeThickness="1">
+
+                                    <Border
+                                        Padding="4"
+                                        Background="{Binding StatusColor}"
+                                        HeightRequest="12"
+                                        Stroke="{Binding StatusColor}"
+                                        StrokeShape="RoundRectangle 6"
+                                        StrokeThickness="1"
+                                        WidthRequest="12" />
+                                </Border>
+
+                                <Border
+                                    Background="{Binding StatusColor}"
+                                    HeightRequest="50"
+                                    HorizontalOptions="CenterAndExpand"
+                                    IsVisible="{Binding IsLineVisible}"
+                                    Stroke="{Binding StatusColor}"
+                                    StrokeShape="RoundRectangle 16"
+                                    StrokeThickness="1"
+                                    VerticalOptions="FillAndExpand"
+                                    WidthRequest="2" />
+                            </StackLayout>
+
+                            <StackLayout Grid.Column="2" Margin="10,0">
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="15"
+                                    Text="{Binding Name}" />
+                                <Label
+                                    FontAttributes="None"
+                                    FontSize="12"
+                                    Text="{Binding Location}" />
+                            </StackLayout>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

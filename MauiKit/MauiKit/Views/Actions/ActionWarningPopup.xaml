@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rg:PopupPage
+    x:Class="MauiKit.Views.Actions.ActionWarningPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animation="clr-namespace:RGPopup.Maui.Animations;assembly=RGPopup.Maui"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:handlers="clr-namespace:MauiKit.Handlers"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:rg="clr-namespace:RGPopup.Maui.Pages;assembly=RGPopup.Maui"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    CloseWhenBackgroundIsClicked="False">
+
+    <rg:PopupPage.Animation>
+        <animation:MoveAnimation PositionIn="Bottom" PositionOut="Bottom" />
+    </rg:PopupPage.Animation>
+
+    <Border
+        Background="{DynamicResource MainWrapperBackgroundColor}"
+        HorizontalOptions="{OnIdiom Phone='Fill',
+                                    Default='Center'}"
+        VerticalOptions="{OnIdiom Phone='End',
+                                  Tablet='End',
+                                  Desktop='End'}">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="20,20,0,0" />
+        </Border.StrokeShape>
+        <StackLayout
+            Padding="20,30"
+            Spacing="16"
+            VerticalOptions="Center">
+            <Label
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                Style="{StaticResource Title1}"
+                Text="{localization:Translate LabelFailed}" />
+
+            <Label
+                FontFamily="MaterialDesign"
+                FontSize="60"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
+                Text="{x:Static views:MaterialDesignIcons.Warning}"
+                TextColor="{DynamicResource Red}"
+                VerticalOptions="Center" />
+
+            <Label
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
+                Text="{localization:Translate LabelFailedDetails}" />
+
+            <Button
+                BackgroundColor="{DynamicResource Red}"
+                Clicked="GoBack_Clicked"
+                CornerRadius="14"
+                FontAttributes="Bold"
+                HeightRequest="50"
+                Text="{localization:Translate ButtonGoBack}"
+                TextColor="{DynamicResource White}"
+                WidthRequest="200" />
+        </StackLayout>
+    </Border>
+</rg:PopupPage>

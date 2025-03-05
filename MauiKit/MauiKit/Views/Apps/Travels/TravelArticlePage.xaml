@@ -1,0 +1,421 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Travels.TravelArticlePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animations="clr-namespace:AlohaKit.Animations;assembly=AlohaKit.Animations"
+    xmlns:behaviors="clr-namespace:MauiKit.Behaviors"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:handlers="clr-namespace:MauiKit.Handlers"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:models="clr-namespace:MauiKit.Models"
+    xmlns:viewBase="clr-namespace:MauiKit.Views"
+    xmlns:viewmodels="clr-namespace:MauiKit.ViewModels.Travels"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    BackgroundColor="{DynamicResource BasePageColor}"
+    NavigationPage.HasNavigationBar="False">
+
+    <views:BasePage.Resources>
+        <DataTemplate x:Key="RelatedGuideTemplate">
+            <StackLayout
+                Margin="0,0,10,0"
+                Orientation="Vertical"
+                WidthRequest="230">
+                <Border Padding="0" StrokeShape="RoundRectangle 12">
+                    <Image
+                        Aspect="AspectFill"
+                        HeightRequest="115"
+                        Source="{Binding FeaturedImage}"
+                        WidthRequest="230" />
+                </Border>
+                <Label
+                    Margin="0,8,0,0"
+                    FontSize="15"
+                    MaxLines="3"
+                    Style="{StaticResource Title2}"
+                    Text="{Binding Title}" />
+            </StackLayout>
+        </DataTemplate>
+    </views:BasePage.Resources>
+
+    <views:BasePage.PageContent>
+        <Grid RowDefinitions="*,Auto">
+
+            <ScrollView Scrolled="ScrollView_Scrolled" VerticalScrollBarVisibility="Default">
+                <VisualElement.Behaviors>
+                    <animations:ScrollViewScrollBehavior x:Name="scroll" />
+                </VisualElement.Behaviors>
+
+                <Grid RowDefinitions="350, *">
+
+                    <Border
+                        Margin="-3"
+                        Background="Transparent"
+                        StrokeShape="RoundRectangle 0,0,36,36"
+                        StrokeThickness="0">
+
+                        <!--  Featured Image  -->
+                        <Image
+                            Aspect="AspectFill"
+                            HeightRequest="350"
+                            Source="{Binding ArticleDetail.FeaturedImage}" />
+
+                        <VisualElement.Behaviors>
+                            <animations:AnimateProgressDouble
+                                Easing="Linear"
+                                Maximum="350"
+                                Minimum="0"
+                                MultiplyValue="0.5"
+                                Progress="{Binding ScrollY, Source={x:Reference scroll}}"
+                                TargetProperty="VisualElement.TranslationY"
+                                From="0"
+                                To="350" />
+
+                            <animations:AnimateProgressDouble
+                                Easing="SinIn"
+                                Maximum="350"
+                                Minimum="0"
+                                Progress="{Binding ScrollY, Source={x:Reference scroll}}"
+                                TargetProperty="VisualElement.Opacity"
+                                From="1"
+                                To="0" />
+
+                            <animations:AnimateProgressDouble
+                                Maximum="350"
+                                Minimum="0"
+                                Progress="{Binding ScrollY, Source={x:Reference scroll}}"
+                                TargetProperty="VisualElement.Scale"
+                                From="1"
+                                To="1.35" />
+                        </VisualElement.Behaviors>
+                    </Border>
+
+                    <VerticalStackLayout
+                        Grid.Row="1"
+                        Spacing="10"
+                        VerticalOptions="Fill">
+                        <!--  Title  -->
+                        <Label
+                            Margin="16,15,16,0"
+                            FontFamily="BoldFont"
+                            FontSize="19"
+                            Text="{Binding ArticleDetail.Title}" />
+
+                        <!--  Author Info  -->
+                        <Grid
+                            Margin="16,10,16,0"
+                            ColumnDefinitions="Auto,*,Auto"
+                            ColumnSpacing="10">
+
+                            <!--  Author Avatar  -->
+                            <Border
+                                Padding="0"
+                                HeightRequest="42"
+                                Stroke="Transparent"
+                                StrokeShape="RoundRectangle 12"
+                                StrokeThickness="0.8"
+                                WidthRequest="42">
+
+                                <Image Aspect="AspectFill" Source="{Binding ArticleDetail.Author.Avatar}" />
+                            </Border>
+
+                            <StackLayout
+                                Grid.Column="1"
+                                Spacing="0"
+                                VerticalOptions="Center">
+                                <Label
+                                    FontFamily="MediumFont"
+                                    FontSize="15"
+                                    Text="{Binding ArticleDetail.Author.FullName}" />
+                                <Label
+                                    FontSize="13"
+                                    Text="{Binding ArticleDetail.Author.NickName}"
+                                    TextColor="{DynamicResource T_Primary}" />
+                            </StackLayout>
+
+                            <Button
+                                Grid.Column="2"
+                                Padding="20,0"
+                                BackgroundColor="Transparent"
+                                BorderColor="{DynamicResource T_Accent}"
+                                BorderWidth="1"
+                                CornerRadius="10"
+                                FontFamily="MediumFont"
+                                FontSize="14"
+                                HeightRequest="36"
+                                HorizontalOptions="End"
+                                Text="{localization:Translate ButtonFollow}"
+                                TextColor="{DynamicResource BaseTextColor}"
+                                VerticalOptions="Center" />
+                        </Grid>
+
+                        <Label
+                            Margin="16,10,16,0"
+                            Style="{StaticResource Title2}"
+                            Text="{localization:Translate LabelTravelAboutTrip}"
+                            TextColor="{DynamicResource BaseTextColor}" />
+
+                        <!--  Body  -->
+                        <Label
+                            Margin="16,0,16,10"
+                            FontSize="14"
+                            Text="{Binding ArticleDetail.Body}"
+                            TextColor="{DynamicResource BaseTextColor}" />
+
+                        <!--  Gallery  -->
+                        <CollectionView Margin="16,10" ItemsSource="{Binding ArticleDetail.Gallery}">
+                            <CollectionView.ItemsLayout>
+                                <GridItemsLayout
+                                    HorizontalItemSpacing="8"
+                                    Orientation="Vertical"
+                                    Span="3"
+                                    VerticalItemSpacing="8" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <controls:GalleryImage Image="{Binding Image}" />
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                        <Rectangle
+                            Margin="16,10"
+                            Fill="{DynamicResource T_Accent}"
+                            HeightRequest="1.5" />
+
+                        <!--  Comments  -->
+                        <StackLayout
+                            Margin="16,0,16,10"
+                            HorizontalOptions="FillAndExpand"
+                            Orientation="Horizontal">
+                            <Label
+                                Style="{StaticResource Title2}"
+                                Text="{localization:Translate LabelComments}"
+                                VerticalOptions="Center" />
+                            <Label Text="(230)" VerticalOptions="Center" />
+                        </StackLayout>
+
+                        <!--  Comments  -->
+                        <StackLayout
+                            Margin="0,5"
+                            BindableLayout.ItemsSource="{Binding ArticleDetail.Comments}"
+                            Orientation="Vertical"
+                            Spacing="0">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid
+                                        Margin="0,0,0,5"
+                                        Padding="0"
+                                        RowDefinitions="*,1"
+                                        RowSpacing="10">
+                                        <Grid
+                                            Padding="16,0"
+                                            ColumnDefinitions="Auto,*,Auto"
+                                            ColumnSpacing="10"
+                                            RowDefinitions="Auto,*,Auto"
+                                            RowSpacing="10">
+
+                                            <Border
+                                                Grid.RowSpan="3"
+                                                Padding="0"
+                                                HeightRequest="42"
+                                                Stroke="Transparent"
+                                                StrokeShape="RoundRectangle 12"
+                                                StrokeThickness="0.8"
+                                                VerticalOptions="Start"
+                                                WidthRequest="42">
+
+                                                <Image
+                                                    Aspect="AspectFill"
+                                                    HeightRequest="40"
+                                                    Source="{Binding User.Avatar}"
+                                                    WidthRequest="40" />
+                                            </Border>
+
+                                            <StackLayout Grid.Column="1">
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="14"
+                                                    Text="{Binding User.FullName}"
+                                                    TextColor="{DynamicResource BaseTextColor}" />
+
+                                                <Label
+                                                    FontSize="13"
+                                                    Text="{Binding Time}"
+                                                    TextColor="{DynamicResource BaseLightTextColor}" />
+                                            </StackLayout>
+
+                                            <Label
+                                                Grid.Row="1"
+                                                Grid.Column="1"
+                                                Grid.ColumnSpan="2"
+                                                FontSize="14"
+                                                LineBreakMode="WordWrap"
+                                                Text="{Binding Content}"
+                                                VerticalOptions="StartAndExpand"
+                                                VerticalTextAlignment="Start" />
+
+                                            <StackLayout
+                                                Grid.Row="2"
+                                                Grid.Column="1"
+                                                Orientation="Horizontal"
+                                                Spacing="5"
+                                                VerticalOptions="End">
+                                                <Label Text="Reply" TextColor="{DynamicResource T_Secondary}" />
+                                                <Label
+                                                    FontFamily="MaterialDesign"
+                                                    FontSize="18"
+                                                    Text="{x:Static views:MaterialDesignIcons.ChatBubble}"
+                                                    TextColor="{DynamicResource BaseLightTextColor}" />
+                                            </StackLayout>
+
+                                            <Border
+                                                Grid.Row="2"
+                                                Grid.Column="2"
+                                                Padding="10,5"
+                                                Background="{DynamicResource Primary10Color}"
+                                                HorizontalOptions="End"
+                                                StrokeShape="RoundRectangle 6">
+                                                <StackLayout
+                                                    HorizontalOptions="End"
+                                                    Orientation="Horizontal"
+                                                    Spacing="5">
+                                                    <Label HorizontalOptions="End" Text="{Binding LikeCount}" />
+                                                    <Label
+                                                        FontFamily="MaterialDesign"
+                                                        FontSize="22"
+                                                        HorizontalOptions="End"
+                                                        Text="{x:Static views:MaterialDesignIcons.ThumbUp}" />
+                                                </StackLayout>
+                                            </Border>
+
+                                        </Grid>
+
+                                        <Rectangle
+                                            Grid.Row="1"
+                                            Margin="16,0,16,5"
+                                            Fill="{DynamicResource BaseSeparatorColor}"
+                                            HeightRequest="0.8" />
+                                    </Grid>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </StackLayout>
+
+                        <!--  Post New Comment  -->
+                        <StackLayout
+                            Margin="16,0,16,20"
+                            HorizontalOptions="FillAndExpand"
+                            Orientation="Horizontal"
+                            Spacing="12">
+                            <Border
+                                Margin="0,5,0,0"
+                                Padding="10"
+                                Background="{DynamicResource T_Primary}"
+                                HorizontalOptions="FillAndExpand"
+                                StrokeShape="RoundRectangle 10"
+                                StrokeThickness="0">
+                                <Label
+                                    HorizontalOptions="Center"
+                                    Text="{localization:Translate ButtonPostComment}"
+                                    TextColor="{DynamicResource OverImageTextColor}" />
+                            </Border>
+                        </StackLayout>
+
+                        <Rectangle
+                            Margin="16,0"
+                            Fill="{DynamicResource T_Accent}"
+                            HeightRequest="1.5" />
+
+                        <!--  Related Articles  -->
+                        <StackLayout
+                            Margin="16,10,16,0"
+                            HorizontalOptions="FillAndExpand"
+                            Orientation="Horizontal">
+
+                            <Label
+                                Style="{StaticResource Title2}"
+                                Text="{localization:Translate LabelRelateds}"
+                                VerticalOptions="Center" />
+
+                        </StackLayout>
+                        <CollectionView
+                            Margin="16,0,0,20"
+                            ItemTemplate="{StaticResource RelatedGuideTemplate}"
+                            ItemsSource="{Binding RelatedGuides}">
+                            <CollectionView.Behaviors>
+                                <behaviors:IOSFixInfiniteHeightCollectionView />
+                            </CollectionView.Behaviors>
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout ItemSpacing="0" Orientation="Horizontal" />
+                            </CollectionView.ItemsLayout>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Grid>
+
+            </ScrollView>
+
+            <!--  Navigation Bar  -->
+            <StackLayout
+                x:Name="navBarStack"
+                HeightRequest="60"
+                Orientation="Horizontal"
+                VerticalOptions="Start">
+                <!--  Back Button  -->
+                <Border
+                    x:Name="backButton"
+                    Margin="16,10"
+                    Padding="0"
+                    Background="#10000000"
+                    HeightRequest="40"
+                    HorizontalOptions="Start"
+                    Stroke="{DynamicResource White}"
+                    StrokeShape="RoundRectangle 12"
+                    StrokeThickness="0.8"
+                    VerticalOptions="Start"
+                    WidthRequest="40">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="GoBack_Tapped" />
+                    </Border.GestureRecognizers>
+
+                    <Image HeightRequest="26" VerticalOptions="Center">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="GoBack_Tapped" />
+                        </Image.GestureRecognizers>
+                        <Image.Source>
+                            <FontImageSource
+                                FontFamily="IonIcons"
+                                Glyph="{x:Static views:IonIcons.AndroidArrowBack}"
+                                Color="{DynamicResource OverImageTextColor}" />
+                        </Image.Source>
+                    </Image>
+                </Border>
+
+                <!--  Favorite Button  -->
+                <Border
+                    x:Name="favButton"
+                    Margin="16,10"
+                    Padding="0"
+                    Background="#10000000"
+                    HeightRequest="40"
+                    HorizontalOptions="EndAndExpand"
+                    Stroke="{DynamicResource White}"
+                    StrokeThickness="0.8"
+                    VerticalOptions="Start"
+                    WidthRequest="40">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <Image HeightRequest="26" VerticalOptions="Center">
+                        <Image.Source>
+                            <FontImageSource
+                                FontFamily="MaterialDesign"
+                                Glyph="{x:Static views:MaterialDesignIcons.FavoriteBorder}"
+                                Color="{DynamicResource OverImageTextColor}" />
+                        </Image.Source>
+                    </Image>
+                </Border>
+            </StackLayout>
+
+        </Grid>
+    </views:BasePage.PageContent>
+</views:BasePage>

@@ -1,0 +1,562 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiKit.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animations="clr-namespace:AlohaKit.Animations;assembly=AlohaKit.Animations"
+    xmlns:cardcontrols="clr-namespace:PanCardView.Controls;assembly=PanCardView"
+    xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:converters="clr-namespace:MauiKit.Converters"
+    xmlns:extensions="clr-namespace:MauiKit.Extensions"
+    xmlns:helpers="clr-namespace:MauiKit.Helpers"
+    xmlns:local="clr-namespace:MauiKit"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:models="clr-namespace:MauiKit.Models"
+    xmlns:proc="clr-namespace:PanCardView.Processors;assembly=PanCardView"
+    xmlns:templates="clr-namespace:MauiKit.Views.Templates"
+    xmlns:tint="clr-namespace:MauiKit.Controls.TintMask"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:MauiKit.ViewModels"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    x:Name="mainPage"
+    FlowDirection="{Binding IsRTLLanguage, Converter={StaticResource FlowDirectionConverter}}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Clicked="OnSettingsToolbarItemClicked"
+            Order="Primary"
+            Priority="0">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource
+                    FontFamily="MaterialDesign"
+                    Glyph="{x:Static views:MaterialDesignIcons.Settings}"
+                    Size="{OnPlatform Android='25',
+                                      iOS='30',
+                                      WinUI='45',
+                                      MacCatalyst='40'}"
+                    Color="{DynamicResource BaseTextColor}" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.BindingContext>
+        <viewmodels:MainViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ScrollView VerticalScrollBarVisibility="Never">
+            <VisualElement.Behaviors>
+                <animations:ScrollViewScrollBehavior x:Name="ScrollBehavior" />
+            </VisualElement.Behaviors>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Border
+                    Margin="0"
+                    Padding="{OnIdiom Phone='0,0,0,30',
+                                      Tablet='30,0,30,30',
+                                      Desktop='30,0,30,30'}"
+                    Stroke="Transparent"
+                    StrokeShape="{RoundRectangle CornerRadius='1'}">
+
+                    <Grid RowDefinitions="Auto, Auto">
+
+                        <cards:CoverFlowView
+                            x:Name="bannerView"
+                            HeightRequest="{OnIdiom Phone=230,
+                                                    Tablet=380,
+                                                    Desktop=440}"
+                            IndicatorView="indicatorView"
+                            IsAutoNavigatingAnimationEnabled="True"
+                            IsCyclical="True"
+                            IsPanSwipeEnabled="True"
+                            IsRightToLeftFlowDirectionEnabled="{Binding IsRTLLanguage}"
+                            IsUserInteractionEnabled="True"
+                            IsViewReusingEnabled="True"
+                            ItemsSource="{Binding BannerItems}"
+                            PositionShiftValue="45"
+                            SlideShowDuration="5000">
+
+                            <x:Arguments>
+                                <proc:CoverFlowProcessor OpacityFactor="0.55" ScaleFactor="{OnIdiom Phone='0.85', Tablet='0.9', Desktop='1'}" />
+                            </x:Arguments>
+
+                            <cards:CoverFlowView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border
+                                        Margin="30,15,30,5"
+                                        Padding="0"
+                                        HeightRequest="{OnIdiom Phone=220,
+                                                                Tablet=370,
+                                                                Desktop=410}"
+                                        StrokeShape="{RoundRectangle CornerRadius=25}">
+
+                                        <Grid Padding="0" RowSpacing="{OnIdiom Phone=0, Tablet=5, Desktop=10}">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="50" />
+                                                <RowDefinition Height="{OnIdiom Phone=54, Tablet=60, Default=70}" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+
+                                            <!--  Background gradient  -->
+                                            <Grid
+                                                Grid.RowSpan="4"
+                                                Background="{Binding BackgroundGradient}"
+                                                HorizontalOptions="Fill"
+                                                VerticalOptions="Fill">
+                                                <!--  Bug: crash issue in iOS  -->
+                                                <!--<Grid.Background>
+                                                    <LinearGradientBrush>
+                                                        <GradientStop Offset="0.1" Color="{Binding BackgroundGradientEnd}" />
+                                                        <GradientStop Offset="1.0" Color="{Binding BackgroundGradientStart}" />
+                                                    </LinearGradientBrush>
+                                                </Grid.Background>-->
+                                            </Grid>
+
+                                            <!--  Background Image  -->
+                                            <Image
+                                                Grid.RowSpan="4"
+                                                Aspect="AspectFill"
+                                                IsVisible="False"
+                                                Opacity="0.5"
+                                                Source="{OnIdiom Phone='main_bg.png',
+                                                                 Tablet='main_bg.png',
+                                                                 Desktop='main_bg_desktop.png'}" />
+
+                                            <Image
+                                                Grid.RowSpan="4"
+                                                Aspect="Fill"
+                                                Opacity="0.3"
+                                                Source="{Binding BackgroundImage}" />
+
+                                            <!--  Icons  -->
+                                            <Border
+                                                Grid.Row="1"
+                                                Margin="{OnIdiom Phone='20,0',
+                                                                 Tablet='20,0',
+                                                                 Desktop='30,0'}"
+                                                Padding="0"
+                                                Background="#60131313"
+                                                HeightRequest="{OnIdiom Phone=54,
+                                                                        Tablet=60,
+                                                                        Default=70}"
+                                                HorizontalOptions="Start"
+                                                Stroke="Transparent"
+                                                StrokeShape="{RoundRectangle CornerRadius='12'}"
+                                                TranslationY="0"
+                                                VerticalOptions="Center"
+                                                WidthRequest="{OnIdiom Phone=54,
+                                                                       Tablet=60,
+                                                                       Default=70}">
+                                                <Label
+                                                    FontFamily="IonIcons"
+                                                    FontSize="{OnIdiom Phone='35',
+                                                                       Tablet='40',
+                                                                       Desktop='45'}"
+                                                    HorizontalOptions="CenterAndExpand"
+                                                    HorizontalTextAlignment="Center"
+                                                    Opacity="1"
+                                                    Text="{Binding Icon}"
+                                                    TextColor="{DynamicResource OverImageTextColor}"
+                                                    VerticalOptions="CenterAndExpand" />
+                                            </Border>
+
+                                            <!--  Title  -->
+                                            <Label
+                                                Grid.Row="2"
+                                                Margin="{OnIdiom Phone='20,10,20,0',
+                                                                 Tablet='25,10,25,0',
+                                                                 Desktop='30,10,30,0'}"
+                                                FontFamily="BoldFont"
+                                                FontSize="{OnIdiom Phone='19',
+                                                                   Tablet='21',
+                                                                   Desktop='23'}"
+                                                LineBreakMode="TailTruncation"
+                                                MaxLines="2"
+                                                Text="{Binding Title}"
+                                                TextColor="{DynamicResource OverImageTextColor}"
+                                                VerticalOptions="End" />
+
+                                            <!--  Subtitle  -->
+                                            <Label
+                                                Grid.Row="3"
+                                                Margin="{OnIdiom Phone='20,0,20,20',
+                                                                 Tablet='25,0,25,20',
+                                                                 Desktop='30,0,30,30'}"
+                                                FontSize="{OnIdiom Phone='13',
+                                                                   Tablet='15',
+                                                                   Desktop='17'}"
+                                                LineBreakMode="TailTruncation"
+                                                MaxLines="2"
+                                                Text="{Binding Body}"
+                                                TextColor="{DynamicResource OverImageTextColor}"
+                                                VerticalOptions="Start" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </cards:CoverFlowView.ItemTemplate>
+                        </cards:CoverFlowView>
+
+                        <IndicatorView
+                            x:Name="indicatorView"
+                            Grid.Row="1"
+                            Margin="{OnIdiom Phone='0,15',
+                                             Tablet='0,10,0,0',
+                                             Desktop='0,10,0,10'}"
+                            HorizontalOptions="Center"
+                            IndicatorColor="Transparent"
+                            IndicatorsShape="Circle"
+                            MaximumVisible="5"
+                            SelectedIndicatorColor="Transparent">
+                            <IndicatorView.IndicatorTemplate>
+                                <DataTemplate>
+                                    <Label
+                                        FontFamily="MauiKitIcons"
+                                        HorizontalOptions="CenterAndExpand"
+                                        Style="{StaticResource IndicatorLabelStyle}"
+                                        VerticalOptions="Center" />
+                                </DataTemplate>
+                            </IndicatorView.IndicatorTemplate>
+                        </IndicatorView>
+
+                    </Grid>
+
+                    <VisualElement.Behaviors>
+                        <animations:AnimateProgressDouble
+                            Maximum="280"
+                            Minimum="0"
+                            Progress="{Binding ScrollY, Source={x:Reference ScrollBehavior}}"
+                            TargetProperty="VisualElement.TranslationY"
+                            From="0"
+                            To="140" />
+                        <animations:AnimateProgressDouble
+                            Maximum="280"
+                            Minimum="50"
+                            Progress="{Binding ScrollY, Source={x:Reference ScrollBehavior}}"
+                            TargetProperty="VisualElement.Opacity"
+                            From="1"
+                            To="0" />
+                    </VisualElement.Behaviors>
+                </Border>
+
+                <Border
+                    Grid.Row="1"
+                    Padding="{OnIdiom Phone='15,5,15,10',
+                                      Tablet='15,10',
+                                      Desktop='30,10'}"
+                    Background="{DynamicResource MainWrapperBackgroundColor}"
+                    TranslationY="-30">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="30,30,0,0" />
+                    </Border.StrokeShape>
+
+                    <VerticalStackLayout
+                        Margin="{OnIdiom Phone='10,15,10,10',
+                                         Tablet='15,10',
+                                         Desktop='30,10'}"
+                        Padding="5,5"
+                        Spacing="15"
+                        VerticalOptions="Center">
+                        <VisualElement.Behaviors>
+                            <animations:AnimateProgressDouble
+                                Maximum="280"
+                                Minimum="0"
+                                Progress="{Binding ScrollY, Source={x:Reference ScrollBehavior}}"
+                                TargetProperty="VerticalStackLayout.Spacing"
+                                From="15"
+                                To="5" />
+                        </VisualElement.Behaviors>
+
+                        <Grid
+                            ColumnDefinitions="0.5*, 0.5*"
+                            ColumnSpacing="15"
+                            RowDefinitions="Auto, Auto"
+                            RowSpacing="15">
+                            <VisualElement.Behaviors>
+                                <animations:AnimateProgressDouble
+                                    Maximum="280"
+                                    Minimum="0"
+                                    Progress="{Binding ScrollY, Source={x:Reference ScrollBehavior}}"
+                                    TargetProperty="Grid.RowSpacing"
+                                    From="15"
+                                    To="5" />
+                                <animations:AnimateProgressDouble
+                                    Maximum="280"
+                                    Minimum="0"
+                                    Progress="{Binding ScrollY, Source={x:Reference ScrollBehavior}}"
+                                    TargetProperty="Grid.ColumnSpacing"
+                                    From="15"
+                                    To="5" />
+                            </VisualElement.Behaviors>
+
+                            <!--  Apps  -->
+                            <Border Style="{StaticResource FeatureBorder}">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="AppFlowTapGestureRecognizer_Tapped" />
+                                </Border.GestureRecognizers>
+                                <VerticalStackLayout Spacing="20" VerticalOptions="Center">
+                                    <Border
+                                        Padding="0"
+                                        Background="{DynamicResource PrimaryColor}"
+                                        HeightRequest="52"
+                                        HorizontalOptions="Center"
+                                        Stroke="{DynamicResource DefaultBorder}"
+                                        StrokeShape="{RoundRectangle CornerRadius=12}"
+                                        StrokeThickness="0"
+                                        WidthRequest="52">
+                                        <controls:RoundedCornerImage
+                                            Background="{DynamicResource White}"
+                                            HeightRequest="40"
+                                            HorizontalOptions="Center"
+                                            Source="logo.png"
+                                            Stroke="Transparent"
+                                            StrokeShape="{RoundRectangle CornerRadius=20}"
+                                            VerticalOptions="Center"
+                                            WidthRequest="40" />
+                                    </Border>
+                                    <VerticalStackLayout Spacing="3" VerticalOptions="Center">
+                                        <Label
+                                            HorizontalOptions="Center"
+                                            HorizontalTextAlignment="Center"
+                                            Style="{StaticResource Title2}"
+                                            Text="{localization:Translate LabelApp}" />
+                                        <Label
+                                            HorizontalOptions="Center"
+                                            HorizontalTextAlignment="Center"
+                                            Style="{StaticResource Footnote}"
+                                            Text="{localization:Translate LabelAppDescription}" />
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <!--  Onboardings  -->
+                            <Border Grid.Column="1" Style="{StaticResource FeatureBorder}">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnboardingTapGestureRecognizer_Tapped" />
+                                </Border.GestureRecognizers>
+                                <VerticalStackLayout Spacing="20" VerticalOptions="Center">
+                                    <Image
+                                        Aspect="AspectFit"
+                                        HeightRequest="50"
+                                        Source="send.png"
+                                        VerticalOptions="Center" />
+                                    <VerticalStackLayout Spacing="3" VerticalOptions="Center">
+                                        <Label
+                                            HorizontalOptions="Center"
+                                            Style="{StaticResource Title2}"
+                                            Text="{localization:Translate LabelOnboarding}" />
+                                        <Label
+                                            HorizontalOptions="Center"
+                                            HorizontalTextAlignment="Center"
+                                            Style="{StaticResource Footnote}"
+                                            Text="{localization:Translate LabelOnboardingDescription}" />
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <!--  Forms  -->
+                            <Border Grid.Row="1" Style="{StaticResource FeatureBorder}">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="FormsTapGestureRecognizer_Tapped" />
+                                </Border.GestureRecognizers>
+                                <VerticalStackLayout Spacing="20" VerticalOptions="Center">
+                                    <Image
+                                        Aspect="AspectFit"
+                                        HeightRequest="50"
+                                        Source="tasks.png"
+                                        VerticalOptions="Center" />
+                                    <VerticalStackLayout Spacing="3" VerticalOptions="Center">
+                                        <Label
+                                            HorizontalOptions="Center"
+                                            Style="{StaticResource Title2}"
+                                            Text="{localization:Translate LabelForm}" />
+                                        <Label
+                                            HorizontalOptions="Center"
+                                            HorizontalTextAlignment="Center"
+                                            Style="{StaticResource Footnote}"
+                                            Text="{localization:Translate LabelFormDescription}" />
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <!--  Actions  -->
+                            <Border
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Style="{StaticResource FeatureBorder}">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="ActionsTapGestureRecognizer_Tapped" />
+                                </Border.GestureRecognizers>
+                                <VerticalStackLayout Spacing="20" VerticalOptions="Center">
+                                    <Image
+                                        Aspect="AspectFit"
+                                        HeightRequest="50"
+                                        Source="navigation.png"
+                                        VerticalOptions="Center" />
+                                    <VerticalStackLayout Spacing="3" VerticalOptions="Center">
+                                        <Label
+                                            HorizontalOptions="Center"
+                                            Style="{StaticResource Title2}"
+                                            Text="{localization:Translate LabelAction}" />
+                                        <Label
+                                            HorizontalOptions="Center"
+                                            HorizontalTextAlignment="Center"
+                                            Style="{StaticResource Footnote}"
+                                            Text="{localization:Translate LabelActionDescription}" />
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+                            </Border>
+                        </Grid>
+
+                        <!--  Controls  -->
+                        <templates:DemoItemTemplate
+                            HeaderImage="equalizer.png"
+                            ItemDescription="{localization:Translate LabelControlsOverviewDescription}"
+                            ItemTitle="{localization:Translate LabelControlsOverview}">
+                            <templates:DemoItemTemplate.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ControlsTapGestureRecognizer_Tapped" />
+                            </templates:DemoItemTemplate.GestureRecognizers>
+                        </templates:DemoItemTemplate>
+
+                        <!--  Articles  -->
+                        <templates:DemoItemTemplate
+                            HeaderImage="browser.png"
+                            ItemDescription="{localization:Translate LabelArticleDescription}"
+                            ItemTitle="{localization:Translate LabelArticle}">
+                            <templates:DemoItemTemplate.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ArticleTapGestureRecognizer_Tapped" />
+                            </templates:DemoItemTemplate.GestureRecognizers>
+                        </templates:DemoItemTemplate>
+
+                        <!--  Charts  -->
+                        <templates:DemoItemTemplate
+                            HeaderImage="volume.png"
+                            ItemDescription="{localization:Translate LabelChartsDescription}"
+                            ItemTitle="{localization:Translate LabelCharts}"
+                            TagLabel="{localization:Translate LabelPreview}">
+                            <templates:DemoItemTemplate.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ChartTapGestureRecognizer_Tapped" />
+                            </templates:DemoItemTemplate.GestureRecognizers>
+                        </templates:DemoItemTemplate>
+
+                        <!--  Dashboards  -->
+                        <templates:DemoItemTemplate
+                            HeaderImage="compass.png"
+                            ItemDescription="{localization:Translate LabelDashboardDescription}"
+                            ItemTitle="{localization:Translate LabelDashboard}"
+                            TagLabel="{localization:Translate LabelUpdated}">
+                            <templates:DemoItemTemplate.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="DashboardTapGestureRecognizer_Tapped" />
+                            </templates:DemoItemTemplate.GestureRecognizers>
+                        </templates:DemoItemTemplate>
+
+                        <!--  Font Icons  -->
+                        <templates:DemoItemTemplate
+                            HeaderImage="star.png"
+                            ItemDescription="{localization:Translate LabelIconDescription}"
+                            ItemTitle="{localization:Translate LabelIcon}">
+                            <templates:DemoItemTemplate.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="FontIcons_Tapped" />
+                            </templates:DemoItemTemplate.GestureRecognizers>
+                        </templates:DemoItemTemplate>
+
+                        <!--  Lists  -->
+                        <templates:DemoItemTemplate
+                            HeaderImage="wallet.png"
+                            ItemDescription="{localization:Translate LabelListsDescription}"
+                            ItemTitle="{localization:Translate LabelLists}">
+                            <templates:DemoItemTemplate.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ListsTapGestureRecognizer_Tapped" />
+                            </templates:DemoItemTemplate.GestureRecognizers>
+                        </templates:DemoItemTemplate>
+
+                        <!--  Socials  -->
+                        <templates:DemoItemTemplate
+                            HeaderImage="chat.png"
+                            ItemDescription="{localization:Translate LabelSocialDescription}"
+                            ItemTitle="{localization:Translate LabelSocial}">
+                            <templates:DemoItemTemplate.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="SocialTapGestureRecognizer_Tapped" />
+                            </templates:DemoItemTemplate.GestureRecognizers>
+                        </templates:DemoItemTemplate>
+
+                        <!--  About  -->
+                        <templates:DemoItemTemplate
+                            HeaderImage="protection.png"
+                            ItemDescription="{localization:Translate LabelAboutUsDescription}"
+                            ItemTitle="{localization:Translate LabelAboutUs}">
+                            <templates:DemoItemTemplate.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="AboutUs_Tapped" />
+                            </templates:DemoItemTemplate.GestureRecognizers>
+                        </templates:DemoItemTemplate>
+
+                    </VerticalStackLayout>
+                </Border>
+
+            </Grid>
+        </ScrollView>
+
+        <VerticalStackLayout
+            x:Name="fabBtnsContainer"
+            Margin="0,0,-120,75"
+            Padding="15,0"
+            HorizontalOptions="End"
+            Spacing="8"
+            VerticalOptions="End">
+            <Button
+                BackgroundColor="{DynamicResource LightGreen}"
+                BorderColor="{DynamicResource LightGreen}"
+                BorderWidth="1.2"
+                Command="{Binding BuyNowCommand}"
+                CommandParameter="{Binding Source={RelativeSource Self}}"
+                FontFamily="MauiKitIcons"
+                FontSize="22"
+                HeightRequest="40"
+                HorizontalOptions="End"
+                Text="{x:Static views:MauiKitIcons.Shopping}"
+                TextColor="{DynamicResource White}" />
+
+            <Button
+                BackgroundColor="{DynamicResource Red}"
+                BorderColor="{DynamicResource Red}"
+                BorderWidth="1.2"
+                Command="{Binding ShareCommand}"
+                CommandParameter="{Binding Source={RelativeSource Self}}"
+                FontFamily="MauiKitIcons"
+                FontSize="22"
+                HeightRequest="40"
+                HorizontalOptions="End"
+                Text="{x:Static views:MauiKitIcons.ShareVariant}"
+                TextColor="{DynamicResource White}" />
+        </VerticalStackLayout>
+
+        <Button
+            x:Name="fabBtn"
+            Margin="15"
+            Padding="0"
+            BackgroundColor="{DynamicResource PrimaryColor}"
+            BorderColor="{DynamicResource Primary20Color}"
+            BorderWidth="7"
+            Clicked="fabBtn_Clicked"
+            CornerRadius="14"
+            FontFamily="MauiKitIcons"
+            FontSize="25"
+            HeightRequest="56"
+            HorizontalOptions="End"
+            Text="{x:Static views:MauiKitIcons.HandPointingRight}"
+            TextColor="{DynamicResource White}"
+            VerticalOptions="End"
+            WidthRequest="56" />
+    </Grid>
+</ContentPage>

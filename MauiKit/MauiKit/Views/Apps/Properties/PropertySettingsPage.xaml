@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Properties.PropertySettingsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    x:Name="profilePage"
+    BaseTitle="{localization:Translate PageTitleSettings}"
+    BaseTitleColor="{DynamicResource BaseTextColor}"
+    NavigationPage.HasNavigationBar="False">
+
+    <views:BasePage.Resources>
+        <Style TargetType="BoxView">
+            <Setter Property="HeightRequest" Value="1" />
+            <Setter Property="Color" Value="{DynamicResource FrameBorder}" />
+            <Setter Property="Margin" Value="0,10,0,0" />
+        </Style>
+    </views:BasePage.Resources>
+    <Grid Padding="0" RowDefinitions="*, Auto">
+
+        <Grid RowDefinitions="Auto, Auto, *">
+            <!--  NAVIGATION BAR  -->
+            <Grid Padding="16" ColumnDefinitions="Auto,*,Auto">
+                <!--  Navigation Button  -->
+                <Border
+                    Padding="5"
+                    HeightRequest="42"
+                    HorizontalOptions="Start"
+                    StrokeShape="RoundRectangle 10"
+                    StrokeThickness="1.2"
+                    VerticalOptions="Center"
+                    WidthRequest="42">
+                    <Border.Shadow>
+                        <Shadow Opacity="0.1" Offset="0,1" />
+                    </Border.Shadow>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="BackButton_Tapped" />
+                    </Border.GestureRecognizers>
+
+                    <!--<Image HeightRequest="20" Source="chevron_back.png" />-->
+                    <Image HeightRequest="20" VerticalOptions="Center">
+                        <Image.Source>
+                            <FontImageSource
+                                FontFamily="IonIcons"
+                                Glyph="{x:Static views:IonIcons.AndroidArrowBack}"
+                                Size="40"
+                                Color="{DynamicResource BaseTextColor}" />
+                        </Image.Source>
+                    </Image>
+                </Border>
+
+                <!--  Page Title  -->
+                <Label
+                    Grid.Column="1"
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    HorizontalOptions="CenterAndExpand"
+                    Text="Settings"
+                    VerticalOptions="Center" />
+
+                <!--  Action Button  -->
+                <Border
+                    Grid.Column="2"
+                    Padding="5"
+                    HeightRequest="42"
+                    HorizontalOptions="Start"
+                    StrokeShape="RoundRectangle 10"
+                    StrokeThickness="1.2"
+                    VerticalOptions="Center"
+                    WidthRequest="42">
+                    <Border.Shadow>
+                        <Shadow Opacity="0.1" Offset="0,1" />
+                    </Border.Shadow>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer />
+                    </Border.GestureRecognizers>
+
+                    <Image HeightRequest="20" VerticalOptions="Center">
+                        <Image.Source>
+                            <FontImageSource
+                                FontFamily="IonIcons"
+                                Glyph="{x:Static views:IonIcons.More}"
+                                Size="40"
+                                Color="{DynamicResource BaseTextColor}" />
+                        </Image.Source>
+                    </Image>
+                </Border>
+            </Grid>
+
+            <!--  ACCOUNT CARD  -->
+            <Border
+                Grid.Row="1"
+                Margin="20"
+                Padding="15"
+                HeightRequest="120"
+                Stroke="{StaticResource FrameBorder}"
+                StrokeShape="RoundRectangle 20"
+                StrokeThickness="1">
+                <Border.Shadow>
+                    <Shadow Opacity="0.1" Offset="0,1" />
+                </Border.Shadow>
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="15">
+                    <Border Padding="0" StrokeShape="RoundRectangle 14">
+                        <Image
+                            Aspect="AspectFill"
+                            HeightRequest="90"
+                            Source="{Binding ImageUrl}"
+                            WidthRequest="90" />
+                    </Border>
+
+                    <StackLayout Grid.Column="1" VerticalOptions="Fill">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            Text="Robin Aleson"
+                            VerticalTextAlignment="Center" />
+                        <Label
+                            FontSize="13"
+                            Text="rb.aleson@mauikit.com"
+                            TextColor="{DynamicResource BaseLightTextColor}" />
+
+                        <Button
+                            Margin="0,10,0,0"
+                            Padding="8,3"
+                            BackgroundColor="{DynamicResource PrimaryColor}"
+                            CornerRadius="8"
+                            FontFamily="RegularFont"
+                            FontSize="14"
+                            HeightRequest="26"
+                            HorizontalOptions="Start"
+                            Text="{localization:Translate ButtonEditProfile}"
+                            TextColor="{DynamicResource White}"
+                            VerticalOptions="End" />
+                    </StackLayout>
+
+                    <Border
+                        Grid.Column="2"
+                        Padding="5"
+                        HeightRequest="32"
+                        HorizontalOptions="End"
+                        Stroke="{StaticResource FrameBorder}"
+                        StrokeShape="RoundRectangle 7"
+                        StrokeThickness="1"
+                        VerticalOptions="Center"
+                        WidthRequest="32">
+
+                        <Image Aspect="AspectFit" VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="MaterialDesign"
+                                    Glyph="{x:Static views:MaterialDesignIcons.ChevronRight}"
+                                    Color="{DynamicResource BaseTextColor}" />
+                            </Image.Source>
+                        </Image>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!--  OPTIONS  -->
+            <Border
+                Grid.Row="2"
+                Margin="20,5,20,10"
+                Padding="0,10"
+                Stroke="{StaticResource FrameBorder}"
+                StrokeShape="RoundRectangle 20"
+                StrokeThickness="1"
+                VerticalOptions="Start">
+                <Border.Shadow>
+                    <Shadow Opacity="0.1" Offset="0,1" />
+                </Border.Shadow>
+                <ListView
+                    Margin="10"
+                    CachingStrategy="RecycleElement"
+                    HasUnevenRows="False"
+                    ItemsSource="{Binding MenuItems}"
+                    RowHeight="50"
+                    SeparatorColor="Transparent"
+                    SeparatorVisibility="None">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={x:Reference profilePage}, Path=BindingContext.TapCommand}" CommandParameter="{Binding .}" />
+                                    </Grid.GestureRecognizers>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="60" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="40" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border
+                                        Grid.Column="0"
+                                        Margin="5"
+                                        Padding="5"
+                                        HeightRequest="40"
+                                        StrokeShape="RoundRectangle 8"
+                                        StrokeThickness="0"
+                                        WidthRequest="40">
+                                        <Border.Background>
+                                            <LinearGradientBrush EndPoint="0,1">
+                                                <GradientStop Offset="0.1" Color="#dee8ff" />
+                                                <GradientStop Offset="1.0" Color="#dee8ff" />
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                        <Image
+                                            Margin="3"
+                                            Aspect="AspectFit"
+                                            VerticalOptions="Center">
+                                            <Image.Source>
+                                                <FontImageSource
+                                                    FontFamily="MauiKitIcons"
+                                                    Glyph="{Binding Body}"
+                                                    Color="{DynamicResource PrimaryColor}" />
+                                            </Image.Source>
+                                        </Image>
+                                    </Border>
+
+                                    <Label
+                                        Grid.Column="1"
+                                        Margin="18,0"
+                                        FontAttributes="Bold"
+                                        FontSize="15"
+                                        HorizontalOptions="Start"
+                                        Text="{Binding Title}"
+                                        VerticalOptions="Center"
+                                        VerticalTextAlignment="Center" />
+
+                                    <Border
+                                        Grid.Column="2"
+                                        Padding="5"
+                                        HeightRequest="32"
+                                        HorizontalOptions="End"
+                                        Stroke="{DynamicResource FrameBorder}"
+                                        StrokeShape="RoundRectangle 7"
+                                        StrokeThickness="1"
+                                        VerticalOptions="Center"
+                                        WidthRequest="32">
+
+                                        <Image Aspect="AspectFit" VerticalOptions="Center">
+                                            <Image.Source>
+                                                <FontImageSource
+                                                    FontFamily="MaterialDesign"
+                                                    Glyph="{x:Static views:MaterialDesignIcons.ChevronRight}"
+                                                    Color="{DynamicResource BaseTextColor}" />
+                                            </Image.Source>
+                                        </Image>
+                                    </Border>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Border>
+        </Grid>
+
+        <!--  LOGOUT  -->
+        <Border
+            Grid.Row="1"
+            Margin="50,20"
+            Padding="50,0"
+            Background="{DynamicResource PrimaryColor}"
+            HeightRequest="46"
+            HorizontalOptions="Center"
+            StrokeShape="RoundRectangle 5"
+            StrokeThickness="0"
+            VerticalOptions="End">
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="Logout_Tapped" />
+            </Border.GestureRecognizers>
+
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="12">
+                <Border
+                    Grid.Column="0"
+                    Background="{DynamicResource White}"
+                    HeightRequest="28"
+                    StrokeShape="RoundRectangle 8"
+                    StrokeThickness="0"
+                    WidthRequest="28">
+                    <Label
+                        FontFamily="MaterialDesign"
+                        FontSize="18"
+                        HorizontalOptions="Center"
+                        Text="{x:Static views:MaterialDesignIcons.ExitToApp}"
+                        TextColor="{DynamicResource PrimaryColor}"
+                        VerticalOptions="Center" />
+                </Border>
+
+                <Label
+                    FontSize="15"
+                    HorizontalOptions="Start"
+                    Text="{localization:Translate LabelLogOut}"
+                    TextColor="{DynamicResource White}"
+                    VerticalOptions="Center"
+                    VerticalTextAlignment="Center" />
+            </HorizontalStackLayout>
+        </Border>
+    </Grid>
+    <views:BasePage.PageContent />
+
+</views:BasePage>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:DashboardBaseItemTemplate
+    x:Class="MauiKit.Views.Dashboards.Templates.DashboardVariantItemTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:MauiKit.Views.Dashboards.Templates"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    x:Name="Root">
+    <Border
+        HeightRequest="150"
+        Stroke="Transparent"
+        StrokeShape="{RoundRectangle CornerRadius=20}">
+        <Grid Padding="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="40" />
+            </Grid.RowDefinitions>
+
+            <Image
+                Grid.RowSpan="2"
+                Aspect="AspectFill"
+                HorizontalOptions="Fill"
+                IsVisible="{Binding Source={x:Reference Root}, Path=ShowBackgroundImage}"
+                Source="{Binding BackgroundImage}"
+                VerticalOptions="Fill" />
+
+            <StackLayout
+                Grid.RowSpan="2"
+                Background="{Binding BackgroundColor}"
+                HorizontalOptions="FillAndExpand"
+                InputTransparent="true"
+                IsVisible="{Binding Source={x:Reference Root}, Path=ShowBackgroundColor}"
+                Opacity="0.5"
+                VerticalOptions="FillAndExpand" />
+
+            <Label
+                Grid.RowSpan="2"
+                FontFamily="IonIcons"
+                FontSize="70"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
+                Opacity="1"
+                Text="{Binding Icon}"
+                TextColor="{DynamicResource White}"
+                VerticalOptions="Center" />
+
+            <controls:BadgeView
+                Grid.RowSpan="2"
+                AutoHide="true"
+                BackgroundColor="{DynamicResource OkColor}"
+                HorizontalOptions="Center"
+                Text="{Binding BadgeCount}"
+                TextColor="{DynamicResource White}"
+                TranslationX="20"
+                TranslationY="-20"
+                VerticalOptions="Center">
+                <controls:BadgeView.Scale>
+                    <OnIdiom
+                        x:TypeArguments="x:Double"
+                        Phone=".9"
+                        Tablet="1.2" />
+                </controls:BadgeView.Scale>
+                <controls:BadgeView.Shadow>
+                    <Shadow
+                        Brush="#33000000"
+                        Opacity="0.5"
+                        Offset="0,2" />
+                </controls:BadgeView.Shadow>
+            </controls:BadgeView>
+
+            <Label
+                Grid.Row="1"
+                Margin="15,0,15,0"
+                FontSize="16"
+                HorizontalOptions="Center"
+                Text="{Binding Title}"
+                TextColor="{Binding Source={x:Reference Root}, Path=TextColor}"
+                VerticalOptions="Center" />
+        </Grid>
+    </Border>
+
+</base:DashboardBaseItemTemplate>

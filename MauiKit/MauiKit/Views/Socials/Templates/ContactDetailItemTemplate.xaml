@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="MauiKit.Views.Socials.Templates.ContactDetailItemTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Grid
+        Padding="26,0"
+        HeightRequest="60"
+        VerticalOptions="CenterAndExpand">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="1.5" />
+        </Grid.RowDefinitions>
+
+        <Label
+            Grid.Row="0"
+            Margin="0,3,0,0"
+            FontSize="13"
+            Text="{Binding Label}"
+            TextColor="{DynamicResource BaseLightTextColor}"
+            VerticalOptions="End" />
+
+        <Label
+            Grid.Row="1"
+            FontAttributes="Bold"
+            FontSize="14"
+            Text="{Binding Value}"
+            TextColor="{DynamicResource BaseTextColor}"
+            VerticalOptions="CenterAndExpand" />
+
+        <!--<Rectangle
+            Grid.Row="2"
+            Fill="{DynamicResource BaseSeparatorColor}"
+            HeightRequest="1.5"
+            VerticalOptions="Center" />-->
+    </Grid>
+</ContentView>

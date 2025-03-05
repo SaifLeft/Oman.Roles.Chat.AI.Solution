@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage
+    x:Class="MauiKit.Views.Dashboards.AndroidBottomTabbedPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:pages="clr-namespace:MauiKit.Views.Samples;assembly=MauiKit"
+    xmlns:views="clr-namespace:MauiKit.Views;assembly=MauiKit"
+    android:TabbedPage.IsSmoothScrollEnabled="True"
+    android:TabbedPage.IsSwipePagingEnabled="False"
+    android:TabbedPage.ToolbarPlacement="Bottom"
+    BarBackgroundColor="{DynamicResource BaseTabbedPageColor}"
+    BarTextColor="{DynamicResource BaseTextColor}"
+    SelectedTabColor="{DynamicResource PrimaryColor}"
+    UnselectedTabColor="{DynamicResource BaseIconColor}">
+
+    <pages:SamplePageOne Title="Page 1">
+        <pages:SamplePageOne.IconImageSource>
+            <FontImageSource
+                FontFamily="MauiKitIcons"
+                Glyph="{x:Static views:MauiKitIcons.Dice1}"
+                Color="{DynamicResource BaseIconColor}" />
+        </pages:SamplePageOne.IconImageSource>
+    </pages:SamplePageOne>
+
+    <pages:SamplePageTwo Title="Page 2">
+        <pages:SamplePageTwo.IconImageSource>
+            <FontImageSource
+                FontFamily="MauiKitIcons"
+                Glyph="{x:Static views:MauiKitIcons.Dice2}"
+                Color="{DynamicResource BaseIconColor}" />
+        </pages:SamplePageTwo.IconImageSource>
+    </pages:SamplePageTwo>
+
+    <pages:SamplePageThree Title="Page 3">
+        <pages:SamplePageThree.IconImageSource>
+            <FontImageSource
+                FontFamily="MauiKitIcons"
+                Glyph="{x:Static views:MauiKitIcons.Dice3}"
+                Color="{DynamicResource BaseIconColor}" />
+        </pages:SamplePageThree.IconImageSource>
+    </pages:SamplePageThree>
+
+</TabbedPage>

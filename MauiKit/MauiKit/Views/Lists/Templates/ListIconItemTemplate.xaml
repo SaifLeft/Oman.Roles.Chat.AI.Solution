@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="MauiKit.Views.Lists.Templates.ListIconItemTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:views="clr-namespace:MauiKit.Views">
+
+    <Grid
+        Padding="10,0"
+        ColumnSpacing="20"
+        HeightRequest="{OnIdiom Phone='100',
+                                Tablet='120',
+                                Desktop='140'}"
+        RowSpacing="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="65" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="1" />
+        </Grid.RowDefinitions>
+
+        <!--  BACKGROUND CIRCLE  -->
+        <BoxView
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Grid.Column="0"
+            Margin="0"
+            CornerRadius="14"
+            HeightRequest="{OnIdiom Phone='80',
+                                    Tablet='100',
+                                    Desktop='120'}"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            WidthRequest="{OnIdiom Phone='80',
+                                   Tablet='100',
+                                   Desktop='120'}"
+            Color="{DynamicResource BasePageColor}" />
+
+        <!--  ICON  -->
+        <Label
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Grid.Column="0"
+            FontFamily="IonIcons"
+            FontSize="40"
+            HorizontalOptions="Center"
+            Text="{Binding Icon}"
+            TextColor="{Binding BackgroundColor}"
+            VerticalOptions="Center" />
+
+        <!--  BADGE  -->
+        <controls:BadgeView
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Grid.Column="0"
+            Margin="0"
+            BackgroundColor="{DynamicResource ErrorColor}"
+            HorizontalOptions="Center"
+            Text="{Binding ItemCount}"
+            TextColor="#FFF"
+            TranslationX="16"
+            TranslationY="-16"
+            VerticalOptions="Center" />
+
+        <!--  CATEGORY  -->
+        <Label
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Grid.Column="1"
+            FontFamily="MediumFont"
+            FontSize="16"
+            HorizontalOptions="Start"
+            Text="{Binding Title}"
+            TextColor="{DynamicResource BaseTextColor}"
+            VerticalOptions="Center"
+            VerticalTextAlignment="Center" />
+
+        <!--  CHEVRON  -->
+        <Label
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Grid.Column="2"
+            Margin="15,0"
+            Style="{StaticResource ChevronIconStyle}" />
+
+        <!--  BOTTOM SEPARATOR LINE  -->
+        <BoxView
+            Grid.Row="1"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            HeightRequest="1"
+            Opacity=".6"
+            VerticalOptions="EndAndExpand"
+            Color="{DynamicResource ListViewSeparatorColor}" />
+    </Grid>
+</ContentView>

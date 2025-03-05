@@ -1,0 +1,324 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiKit.Views.RemarkPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animations="clr-namespace:AlohaKit.Animations;assembly=AlohaKit.Animations"
+    xmlns:circular="clr-namespace:MauiKit.Controls.CircularProgress"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:helpers="clr-namespace:MauiKit.Helpers"
+    xmlns:local="clr-namespace:MauiKit"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
+    xmlns:models="clr-namespace:MauiKit.Models"
+    xmlns:templates="clr-namespace:MauiKit.Views.Templates"
+    xmlns:tint="clr-namespace:MauiKit.Controls.TintMask"
+    xmlns:viewmodels="clr-namespace:MauiKit.ViewModels"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    Title="">
+
+    <ContentPage.BindingContext>
+        <viewmodels:RemarkViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="15,10" Spacing="15">
+
+            <Grid Padding="0,20" ColumnDefinitions="3*, 3*, 3*">
+                <VerticalStackLayout Spacing="15" VerticalOptions="Center">
+                    <circular:CircularProgressBar
+                        Progress="80"
+                        ProgressColor="{DynamicResource PrimaryColor}"
+                        ProgressLeftColor="{DynamicResource DisabledColor}"
+                        Size="90"
+                        TextColor="{DynamicResource PrimaryColor}"
+                        Thickness="8" />
+
+                    <VerticalStackLayout Spacing="0" VerticalOptions="Center">
+                        <Label
+                            HorizontalOptions="Center"
+                            Style="{StaticResource Title2}"
+                            Text="3425" />
+                        <Label
+                            HorizontalOptions="Center"
+                            Style="{StaticResource Footnote}"
+                            Text="New" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout
+                    Grid.Column="1"
+                    Spacing="15"
+                    VerticalOptions="Center">
+                    <circular:CircularProgressBar
+                        Progress="75"
+                        ProgressColor="{DynamicResource Green}"
+                        ProgressLeftColor="{DynamicResource DisabledColor}"
+                        Size="90"
+                        TextColor="{DynamicResource Green}"
+                        Thickness="8" />
+                    <VerticalStackLayout Spacing="0" VerticalOptions="Center">
+                        <Label
+                            HorizontalOptions="Center"
+                            Style="{StaticResource Title2}"
+                            Text="2678" />
+                        <Label
+                            HorizontalOptions="Center"
+                            Style="{StaticResource Footnote}"
+                            Text="Requested" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout
+                    Grid.Column="2"
+                    Spacing="15"
+                    VerticalOptions="Center">
+                    <circular:CircularProgressBar
+                        Progress="33"
+                        ProgressColor="{DynamicResource Red}"
+                        ProgressLeftColor="{DynamicResource DisabledColor}"
+                        Size="90"
+                        TextColor="{DynamicResource Red}"
+                        Thickness="8" />
+                    <VerticalStackLayout Spacing="0" VerticalOptions="Center">
+                        <Label
+                            HorizontalOptions="Center"
+                            Style="{StaticResource Title2}"
+                            Text="1678" />
+                        <Label
+                            HorizontalOptions="Center"
+                            Style="{StaticResource Footnote}"
+                            Text="Pending" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+            </Grid>
+
+            <ScrollView HorizontalScrollBarVisibility="Never" Orientation="Horizontal">
+                <HorizontalStackLayout Spacing="15">
+
+                    <!--  Products Sold  -->
+                    <Border
+                        Padding="10"
+                        Background="{DynamicResource BasePageColor}"
+                        StrokeShape="{RoundRectangle CornerRadius='8'}"
+                        Style="{StaticResource FeatureBorder}"
+                        WidthRequest="170">
+                        <Grid ColumnDefinitions="Auto, *" ColumnSpacing="12">
+                            <Border
+                                Background="#e6f0ff"
+                                HeightRequest="50"
+                                HorizontalOptions="Start"
+                                Stroke="#e6f0ff"
+                                StrokeShape="{RoundRectangle CornerRadius=25}"
+                                WidthRequest="50">
+                                <Label
+                                    FontFamily="MauiKitIcons"
+                                    FontSize="26"
+                                    HorizontalOptions="Center"
+                                    Text="{x:Static views:MauiKitIcons.CartOutline}"
+                                    TextColor="#1b55e2"
+                                    VerticalOptions="Center" />
+                            </Border>
+                            <StackLayout
+                                Grid.Column="1"
+                                Spacing="0"
+                                VerticalOptions="Center">
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="20"
+                                    Text="+218" />
+                                <Label
+                                    Style="{StaticResource CardDescriptionLabelStyle}"
+                                    Text="Products"
+                                    TextColor="#b01616" />
+                            </StackLayout>
+                        </Grid>
+                    </Border>
+
+                    <!--  New Orders  -->
+                    <Border
+                        Padding="10"
+                        Background="{DynamicResource BasePageColor}"
+                        StrokeShape="{RoundRectangle CornerRadius='8'}"
+                        Style="{StaticResource FeatureBorder}"
+                        WidthRequest="170">
+                        <Grid ColumnDefinitions="Auto, *" ColumnSpacing="12">
+                            <Border
+                                Background="#ffebd2"
+                                HeightRequest="50"
+                                HorizontalOptions="Start"
+                                Stroke="#ffebd2"
+                                StrokeShape="{RoundRectangle CornerRadius=25}"
+                                WidthRequest="50">
+                                <Label
+                                    FontFamily="MauiKitIcons"
+                                    FontSize="26"
+                                    HorizontalOptions="Center"
+                                    Text="{x:Static views:MauiKitIcons.PackageVariantClosed}"
+                                    TextColor="#e2a03f"
+                                    VerticalOptions="Center" />
+                            </Border>
+                            <StackLayout
+                                Grid.Column="1"
+                                Spacing="0"
+                                VerticalOptions="Center">
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="20"
+                                    Text="+450" />
+                                <Label
+                                    Style="{StaticResource CardDescriptionLabelStyle}"
+                                    Text="Orders"
+                                    TextColor="#e2a03f" />
+                            </StackLayout>
+                        </Grid>
+                    </Border>
+
+                    <!--  Monthly Sales  -->
+                    <Border
+                        Padding="10"
+                        Background="{DynamicResource BasePageColor}"
+                        StrokeShape="{RoundRectangle CornerRadius='8'}"
+                        Style="{StaticResource FeatureBorder}"
+                        WidthRequest="170">
+                        <Grid ColumnDefinitions="Auto, *" ColumnSpacing="12">
+                            <Border
+                                Background="#dbc4ff"
+                                HeightRequest="50"
+                                HorizontalOptions="Start"
+                                Stroke="#dbc4ff"
+                                StrokeShape="{RoundRectangle CornerRadius=25}"
+                                WidthRequest="50">
+                                <Label
+                                    FontFamily="MauiKitIcons"
+                                    FontSize="26"
+                                    HorizontalOptions="Center"
+                                    Text="{x:Static views:MauiKitIcons.CashUsd}"
+                                    TextColor="#5c1ac3"
+                                    VerticalOptions="Center" />
+                            </Border>
+                            <StackLayout
+                                Grid.Column="1"
+                                Spacing="0"
+                                VerticalOptions="Center">
+
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="20"
+                                    Text="$3465" />
+                                <Label
+                                    Style="{StaticResource CardDescriptionLabelStyle}"
+                                    Text="Sales"
+                                    TextColor="#5c1ac3" />
+                            </StackLayout>
+                        </Grid>
+                    </Border>
+
+                    <!--  New Users  -->
+                    <Border
+                        Padding="10"
+                        Background="{DynamicResource BasePageColor}"
+                        StrokeShape="{RoundRectangle CornerRadius='8'}"
+                        Style="{StaticResource FeatureBorder}"
+                        WidthRequest="170">
+                        <Grid ColumnDefinitions="Auto, *" ColumnSpacing="12">
+                            <Border
+                                Background="#acfff7"
+                                HeightRequest="50"
+                                HorizontalOptions="Start"
+                                Stroke="#acfff7"
+                                StrokeShape="{RoundRectangle CornerRadius=25}"
+                                WidthRequest="50">
+                                <Label
+                                    FontFamily="MauiKitIcons"
+                                    FontSize="26"
+                                    HorizontalOptions="Center"
+                                    Text="{x:Static views:MauiKitIcons.AccountPlusOutline}"
+                                    TextColor="#009688"
+                                    VerticalOptions="Center" />
+                            </Border>
+
+                            <StackLayout
+                                Grid.Column="1"
+                                Spacing="0"
+                                VerticalOptions="Center">
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="20"
+                                    Text="+35" />
+                                <Label
+                                    Style="{StaticResource CardDescriptionLabelStyle}"
+                                    Text="Customers"
+                                    TextColor="#009688" />
+                            </StackLayout>
+                        </Grid>
+                    </Border>
+                </HorizontalStackLayout>
+            </ScrollView>
+
+            <StackLayout
+                Margin="0,10,0,10"
+                HeightRequest="300"
+                Spacing="6">
+
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    Text="Trendings" />
+
+                <CollectionView
+                    x:Name="RecommendationCollectionView"
+                    ItemsSource="{Binding Recommendations}"
+                    SelectionMode="None">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="0" Orientation="Horizontal" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <templates:RecommendationsTemplate />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+
+            <!--  Button  -->
+            <Button
+                Margin="0,15"
+                BackgroundColor="{DynamicResource PrimaryColor}"
+                CornerRadius="10"
+                FontSize="16"
+                HeightRequest="46"
+                HorizontalOptions="Fill"
+                Text="Go to Shop"
+                TextColor="{DynamicResource White}" />
+
+            <StackLayout Spacing="15">
+                <!--  News and announcement  -->
+                <Grid>
+                    <Label
+                        Style="{StaticResource Title1}"
+                        Text="Recently Joined"
+                        TextColor="{DynamicResource BaseTextColor}" />
+                    <Label
+                        FontSize="14"
+                        HorizontalOptions="End"
+                        Text="View all"
+                        TextColor="{DynamicResource PrimaryColor}"
+                        VerticalOptions="Center" />
+                </Grid>
+
+                <CollectionView ItemsSource="{Binding RecentlyJoinedMembers}" SelectionMode="None">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="10" Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <templates:RecentlyJoinedUserItemTemplate />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="MauiKit.Views.Travels.Templates.PopularTravelGuideItemTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MauiKit"
+    xmlns:models="clr-namespace:MauiKit.Models"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    x:DataType="models:TravelArticle">
+    <VerticalStackLayout>
+        <Border
+            Margin="0,0,15,0"
+            Padding="0"
+            Stroke="{DynamicResource T_Accent}"
+            StrokeThickness="0.8"
+            WidthRequest="{OnIdiom Phone='250',
+                                   Tablet='250',
+                                   Desktop='270'}">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="14" />
+            </Border.StrokeShape>
+
+            <VerticalStackLayout Spacing="0">
+                <Grid Padding="12,14">
+                    <Frame
+                        Margin="0"
+                        Padding="0"
+                        CornerRadius="10"
+                        HasShadow="False"
+                        HeightRequest="160"
+                        IsClippedToBounds="True">
+                        <Image Aspect="AspectFill" Source="{Binding FeaturedImage}" />
+                    </Frame>
+                </Grid>
+
+                <Grid
+                    Padding="12,0,12,12"
+                    ColumnDefinitions="*,Auto"
+                    RowDefinitions="Auto, Auto"
+                    RowSpacing="3">
+
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HorizontalOptions="Start"
+                        LineBreakMode="TailTruncation"
+                        Text="{Binding Title}"
+                        VerticalOptions="Center" />
+
+                    <Label
+                        Grid.Row="1"
+                        FontSize="13"
+                        HorizontalOptions="Start"
+                        Text="{Binding Place.CategoryName}"
+                        TextColor="{DynamicResource T_Primary}"
+                        VerticalOptions="Center" />
+
+                    <Border
+                        Grid.RowSpan="2"
+                        Grid.Column="1"
+                        Padding="5"
+                        HeightRequest="30"
+                        HorizontalOptions="End"
+                        Stroke="{DynamicResource T_Primary}"
+                        StrokeThickness="0.8"
+                        VerticalOptions="End"
+                        WidthRequest="30">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
+                        <Image Aspect="AspectFit" VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="MaterialDesign"
+                                    Glyph="{x:Static views:MaterialDesignIcons.FavoriteBorder}"
+                                    Color="{DynamicResource T_Primary}" />
+                            </Image.Source>
+                        </Image>
+                    </Border>
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+    </VerticalStackLayout>
+</ContentView>

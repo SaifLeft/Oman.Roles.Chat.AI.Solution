@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rg:PopupPage
+    x:Class="MauiKit.Views.Actions.ActionShareListPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animation="clr-namespace:RGPopup.Maui.Animations;assembly=RGPopup.Maui"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:rg="clr-namespace:RGPopup.Maui.Pages;assembly=RGPopup.Maui"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    CloseWhenBackgroundIsClicked="False">
+
+    <rg:PopupPage.Animation>
+        <animation:MoveAnimation PositionIn="Bottom" PositionOut="Bottom" />
+    </rg:PopupPage.Animation>
+
+    <rg:PopupPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="ListContainer" TargetType="Grid">
+                <Setter Property="ColumnSpacing" Value="15" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HeightRequest" Value="40" />
+            </Style>
+
+            <Style x:Key="ListIcon" TargetType="Label">
+                <Setter Property="FontSize" Value="22" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="FontFamily" Value="MauiKitIcons" />
+            </Style>
+
+            <Style x:Key="ListArrowIcon" TargetType="Label">
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HorizontalOptions" Value="End" />
+                <Setter Property="HorizontalTextAlignment" Value="End" />
+                <Setter Property="Text" Value="{x:Static views:MaterialDesignIcons.ChevronRight}" />
+                <Setter Property="TextColor" Value="{DynamicResource BaseIconColor}" />
+                <Setter Property="FontFamily" Value="MaterialDesign" />
+            </Style>
+        </ResourceDictionary>
+    </rg:PopupPage.Resources>
+
+    <Border
+        Margin="5"
+        Background="{DynamicResource BasePageColor}"
+        HorizontalOptions="{OnIdiom Phone='Fill',
+                                    Default='Center'}"
+        StrokeShape="{RoundRectangle CornerRadius='20'}"
+        VerticalOptions="{OnIdiom Phone='End',
+                                  Tablet='End',
+                                  Desktop='End'}">
+
+        <Grid RowDefinitions="40, *">
+
+            <Grid
+                Margin="0,10"
+                Padding="20,0"
+                HorizontalOptions="EndAndExpand"
+                VerticalOptions="Center"
+                WidthRequest="60">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="CloseButton_Tapped" />
+                </Grid.GestureRecognizers>
+                <Label
+                    FontFamily="IonIcons"
+                    FontSize="25"
+                    HorizontalOptions="Center"
+                    Text="{x:Static views:IonIcons.AndroidClose}"
+                    TextColor="{DynamicResource BaseIconColor}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="CloseButton_Tapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
+
+            <StackLayout
+                Grid.Row="1"
+                Padding="20,10,20,30"
+                Spacing="5"
+                VerticalOptions="Center">
+                <Label
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"
+                    Style="{StaticResource Title2}"
+                    Text="{localization:Translate LabelShareApp}" />
+
+                <Label
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center"
+                    Text="{localization:Translate LabelShareAppDetails}" />
+
+                <BoxView HeightRequest="10" Color="Transparent" />
+
+                <Grid ColumnDefinitions="30, *, Auto" Style="{StaticResource ListContainer}">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="CloseButton_Tapped" />
+                    </Grid.GestureRecognizers>
+
+                    <Label
+                        Style="{StaticResource ListIcon}"
+                        Text="{x:Static views:MauiKitIcons.FacebookBox}"
+                        TextColor="{DynamicResource FacebookBlue}" />
+
+                    <Label
+                        Grid.Column="1"
+                        FontSize="16"
+                        Style="{StaticResource Title2}"
+                        Text="Facebook"
+                        VerticalOptions="Center" />
+
+                    <Label Grid.Column="2" Style="{StaticResource ListArrowIcon}" />
+                </Grid>
+
+                <Rectangle Fill="{DynamicResource ListViewSeparatorColor}" HeightRequest="1.5" />
+
+                <Grid ColumnDefinitions="30, *, Auto" Style="{StaticResource ListContainer}">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="CloseButton_Tapped" />
+                    </Grid.GestureRecognizers>
+
+                    <Label
+                        Style="{StaticResource ListIcon}"
+                        Text="{x:Static views:MauiKitIcons.TwitterBox}"
+                        TextColor="{DynamicResource TwitterBlue}" />
+
+                    <Label
+                        Grid.Column="1"
+                        FontSize="16"
+                        Style="{StaticResource Title2}"
+                        Text="Twitter"
+                        VerticalOptions="Center" />
+
+                    <Label Grid.Column="2" Style="{StaticResource ListArrowIcon}" />
+                </Grid>
+
+                <Rectangle Fill="{DynamicResource ListViewSeparatorColor}" HeightRequest="1.5" />
+
+                <Grid ColumnDefinitions="30, *, Auto" Style="{StaticResource ListContainer}">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="CloseButton_Tapped" />
+                    </Grid.GestureRecognizers>
+
+                    <Label
+                        Style="{StaticResource ListIcon}"
+                        Text="{x:Static views:MauiKitIcons.LinkedinBox}"
+                        TextColor="{DynamicResource HyperLink}" />
+
+                    <Label
+                        Grid.Column="1"
+                        FontSize="16"
+                        Style="{StaticResource Title2}"
+                        Text="LinkedIn"
+                        VerticalOptions="Center" />
+
+                    <Label Grid.Column="2" Style="{StaticResource ListArrowIcon}" />
+                </Grid>
+
+                <Rectangle Fill="{DynamicResource ListViewSeparatorColor}" HeightRequest="1.5" />
+
+                <Grid ColumnDefinitions="30, *, Auto" Style="{StaticResource ListContainer}">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="CloseButton_Tapped" />
+                    </Grid.GestureRecognizers>
+
+                    <Label
+                        Style="{StaticResource ListIcon}"
+                        Text="{x:Static views:MauiKitIcons.Whatsapp}"
+                        TextColor="{DynamicResource Green}" />
+
+                    <Label
+                        Grid.Column="1"
+                        FontSize="16"
+                        Style="{StaticResource Title2}"
+                        Text="WhatsApp"
+                        VerticalOptions="Center" />
+
+                    <Label Grid.Column="2" Style="{StaticResource ListArrowIcon}" />
+                </Grid>
+
+                <Rectangle Fill="{DynamicResource ListViewSeparatorColor}" HeightRequest="1.5" />
+
+                <Grid ColumnDefinitions="30, *, Auto" Style="{StaticResource ListContainer}">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="CloseButton_Tapped" />
+                    </Grid.GestureRecognizers>
+
+                    <Label
+                        Style="{StaticResource ListIcon}"
+                        Text="{x:Static views:MauiKitIcons.Gmail}"
+                        TextColor="{DynamicResource Red}" />
+
+                    <Label
+                        Grid.Column="1"
+                        FontSize="16"
+                        Style="{StaticResource Title2}"
+                        Text="Email"
+                        VerticalOptions="Center" />
+
+                    <Label Grid.Column="2" Style="{StaticResource ListArrowIcon}" />
+                </Grid>
+
+            </StackLayout>
+        </Grid>
+
+    </Border>
+</rg:PopupPage>

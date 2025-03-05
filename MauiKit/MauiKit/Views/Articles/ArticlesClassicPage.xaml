@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Articles.ArticlesClassicPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:templates="clr-namespace:MauiKit.Views.Articles.Templates"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    x:Name="articlesList"
+    BaseTitle="{localization:Translate PageTitleArticleClassic}">
+
+    <views:BasePage.PageContent>
+        <ListView
+            Margin="0,10"
+            android:ListView.IsFastScrollEnabled="true"
+            CachingStrategy="RecycleElement"
+            HasUnevenRows="false"
+            ItemsSource="{Binding ArticleLists}"
+            RowHeight="130"
+            SelectionMode="None"
+            SeparatorColor="{DynamicResource ListViewSeparatorColor}"
+            SeparatorVisibility="Default">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <templates:ArticleClassicViewItemTemplate Padding="20,10">
+                            <templates:ArticleClassicViewItemTemplate.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={x:Reference articlesList}, Path=BindingContext.ItemTappedCommand}" CommandParameter="{Binding .}" />
+                            </templates:ArticleClassicViewItemTemplate.GestureRecognizers>
+                        </templates:ArticleClassicViewItemTemplate>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

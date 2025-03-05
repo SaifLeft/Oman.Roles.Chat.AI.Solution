@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Ecommerce.CategoryDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:templates="clr-namespace:MauiKit.Views.AppFlows.Ecommerce.Templates"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    x:Name="categoryDetail"
+    BaseTitle="{localization:Translate PageTitleCategoryDetail}"
+    BaseTitleColor="{DynamicResource BaseTextColor}">
+
+    <views:BasePage.PageContent>
+        <Grid RowDefinitions="60, *">
+
+            <!--  Header  -->
+            <Grid
+                Padding="6"
+                ColumnDefinitions="*, Auto"
+                HeightRequest="60">
+
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    Text="{localization:Translate PageTitleCategoryDetail}"
+                    TextColor="{DynamicResource BaseTextColor}"
+                    VerticalOptions="Center" />
+
+                <Border
+                    Grid.Column="1"
+                    Margin="10,0"
+                    Padding="0"
+                    Background="{DynamicResource PrimaryColor}"
+                    HeightRequest="40"
+                    HorizontalOptions="Center"
+                    StrokeShape="RoundRectangle 20"
+                    StrokeThickness="0"
+                    VerticalOptions="Center"
+                    WidthRequest="40">
+                    <Label
+                        FontFamily="IonIcons"
+                        FontSize="25"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="{x:Static views:IonIcons.Camera}"
+                        TextColor="{DynamicResource White}"
+                        VerticalOptions="CenterAndExpand" />
+                </Border>
+
+            </Grid>
+
+            <ScrollView Grid.Row="1">
+                <Grid
+                    Margin="16,20"
+                    RowDefinitions="Auto,80,*"
+                    RowSpacing="10">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        HorizontalOptions="Start"
+                        HorizontalTextAlignment="Start"
+                        Text="{localization:Translate LabelTopBrands}"
+                        TextColor="{DynamicResource BaseTextColor}" />
+
+                    <CollectionView Grid.Row="1" ItemsSource="{Binding BrandsList}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="12" Orientation="Horizontal" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                    Padding="16,8"
+                                    BackgroundColor="{DynamicResource BasePageColor}"
+                                    HorizontalOptions="CenterAndExpand"
+                                    Stroke="{DynamicResource FrameBorder}"
+                                    StrokeShape="RoundRectangle 10"
+                                    VerticalOptions="CenterAndExpand">
+
+                                    <StackLayout Orientation="Horizontal">
+                                        <Frame
+                                            Padding="0"
+                                            CornerRadius="20"
+                                            HasShadow="False"
+                                            HeightRequest="40"
+                                            Opacity="10"
+                                            WidthRequest="40">
+                                            <Image
+                                                Aspect="AspectFit"
+                                                HeightRequest="40"
+                                                HorizontalOptions="CenterAndExpand"
+                                                Source="{Binding ImageUrl}"
+                                                VerticalOptions="CenterAndExpand"
+                                                WidthRequest="40" />
+                                        </Frame>
+
+                                        <StackLayout Margin="6,0">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="16"
+                                                HorizontalOptions="Center"
+                                                Text="{Binding BrandName}"
+                                                TextColor="{DynamicResource BaseTextColor}" />
+
+                                            <Label
+                                                FontSize="12"
+                                                HorizontalOptions="Center"
+                                                Text="{Binding Details}"
+                                                TextColor="{DynamicResource BaseLightTextColor}" />
+                                        </StackLayout>
+                                    </StackLayout>
+
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <CollectionView Grid.Row="2" ItemsSource="{Binding ProductsList}">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout
+                                HorizontalItemSpacing="12"
+                                Orientation="Vertical"
+                                Span="2"
+                                VerticalItemSpacing="12" />
+                        </CollectionView.ItemsLayout>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <templates:ProductGridTemplate />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+            </ScrollView>
+        </Grid>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

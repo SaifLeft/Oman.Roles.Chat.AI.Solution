@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiKit.Views.Onboardings.WalkthroughGradientPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animations="clr-namespace:AlohaKit.Animations;assembly=AlohaKit.Animations"
+    xmlns:behaviors="clr-namespace:MauiKit.Behaviors"
+    xmlns:cardcontrols="clr-namespace:PanCardView.Controls;assembly=PanCardView"
+    xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+    xmlns:helpers="clr-namespace:MauiKit.Helpers"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:MauiKit.ViewModels.Onboardings"
+    NavigationPage.HasBackButton="False"
+    NavigationPage.HasNavigationBar="False">
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="Transparent" StatusBarStyle="DarkContent" />
+    </ContentPage.Behaviors>
+
+    <ContentPage.Resources>
+        <ResourceDictionary />
+    </ContentPage.Resources>
+
+    <ScrollView VerticalScrollBarVisibility="Never">
+        <Grid RowDefinitions="*, Auto">
+
+            <cards:CarouselView
+                x:Name="carouselView"
+                Grid.RowSpan="2"
+                IsPanInteractionEnabled="False"
+                IsPanSwipeEnabled="False"
+                IsUserInteractionEnabled="False"
+                ItemsSource="{Binding Boardings}"
+                SelectedIndex="{Binding Position}">
+                <cards:CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid Background="{Binding BackgroundGradient}">
+                                <!--  Bug: crash issue in iOS  -->
+                                <!--<Grid.Background>
+                                <RadialGradientBrush Center="0.5,0.5">
+                                    <GradientStop Offset="0.1" Color="{Binding BackgroundColor1}" />
+                                    <GradientStop Offset="1.0" Color="{Binding BackgroundColor2}" />
+                                </RadialGradientBrush>
+                            </Grid.Background>-->
+                            </Grid>
+
+                            <Grid RowDefinitions="0.75*, 0.25*">
+
+                                <!--  HERO IMAGE  -->
+                                <Border
+                                    Margin="-3"
+                                    BackgroundColor="Transparent"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center">
+                                    <Image
+                                        Aspect="{OnIdiom Phone='AspectFit',
+                                                         Tablet='AspectFit',
+                                                         Desktop='Center'}"
+                                        HorizontalOptions="Center"
+                                        Source="{Binding ImagePath}"
+                                        VerticalOptions="Center" />
+                                </Border>
+
+                                <VerticalStackLayout
+                                    Grid.Row="1"
+                                    Padding="50,0"
+                                    Spacing="10"
+                                    VerticalOptions="Start">
+
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="24"
+                                        HorizontalOptions="Center"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding Title}"
+                                        TextColor="{DynamicResource White}" />
+
+                                    <Label
+                                        FontSize="16"
+                                        HorizontalOptions="Center"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding Subtitle}"
+                                        TextColor="{DynamicResource White}" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </cards:CarouselView.ItemTemplate>
+            </cards:CarouselView>
+
+            <!--  CLOSE BUTTON  -->
+            <Button
+                Margin="20"
+                Padding="10,0"
+                BackgroundColor="Transparent"
+                Command="{Binding SkipCommand}"
+                HorizontalOptions="End"
+                IsVisible="{Binding IsSkipButtonVisible}"
+                Text="{localization:Translate ButtonSkip}"
+                TextColor="{DynamicResource White}"
+                VerticalOptions="Start" />
+
+            <!--  BUTTON  -->
+            <Button
+                Grid.Row="1"
+                Margin="30"
+                BackgroundColor="Transparent"
+                BorderColor="{DynamicResource White}"
+                BorderWidth="1.2"
+                Command="{Binding NextCommand}"
+                CornerRadius="14"
+                FontAttributes="Bold"
+                HeightRequest="50"
+                Text="{Binding NextButtonText}"
+                TextColor="{DynamicResource White}"
+                VerticalOptions="End" />
+        </Grid>
+    </ScrollView>
+
+</ContentPage>

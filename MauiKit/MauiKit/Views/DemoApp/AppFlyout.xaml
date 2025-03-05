@@ -1,0 +1,13 @@
+<FlyoutPage
+    x:Class="MauiKit.AppFlyout"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:MauiKit.Converters"
+    xmlns:extensions="clr-namespace:MauiKit.Extensions"
+    xmlns:local="clr-namespace:MauiKit"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    BackgroundColor="{DynamicResource BasePageColor}"
+    FlyoutLayoutBehavior="{OnIdiom Phone='Popover',
+                                   Desktop='Split',
+                                   Tablet='SplitOnLandscape',
+                                   Default='Popover'}" />

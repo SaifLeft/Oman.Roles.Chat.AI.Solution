@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.News.VideoNewsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:animations="clr-namespace:AlohaKit.Animations;assembly=AlohaKit.Animations"
+    xmlns:behaviors="clr-namespace:MauiKit.Behaviors"
+    xmlns:handlers="clr-namespace:MauiKit.Handlers"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:models="clr-namespace:MauiKit.Models.News"
+    xmlns:templates="clr-namespace:MauiKit.Views.News.Templates"
+    xmlns:viewBase="clr-namespace:MauiKit.Views"
+    xmlns:viewmodels="clr-namespace:MauiKit.ViewModels.News"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    x:Name="newsList"
+    BaseTitle="{localization:Translate PageTitleVideoNews}"
+    BaseTitleColor="{DynamicResource BaseTextColor}">
+
+    <views:BasePage.Resources>
+
+        <Style x:Key="SectionHeading" TargetType="Label">
+            <Setter Property="FontSize" Value="26" />
+            <Setter Property="FontFamily" Value="MediumFont" />
+            <Setter Property="TextColor" Value="{DynamicResource BaseTextColor}" />
+            <Setter Property="HorizontalOptions" Value="StartAndExpand" />
+        </Style>
+
+        <Style TargetType="BoxView">
+            <Setter Property="HeightRequest" Value="1" />
+            <Setter Property="Color" Value="{StaticResource FrameBorder}" />
+        </Style>
+
+    </views:BasePage.Resources>
+
+    <views:BasePage.PageContent>
+        <ScrollView VerticalScrollBarVisibility="Never">
+
+            <Grid RowDefinitions="Auto, Auto, *">
+                <!--  Search bar  -->
+                <Grid
+                    Margin="20"
+                    ColumnDefinitions="*, Auto"
+                    ColumnSpacing="25">
+
+                    <Border
+                        Margin="0"
+                        Padding="0"
+                        Background="{DynamicResource Primary10Color}"
+                        HeightRequest="46"
+                        HorizontalOptions="FillAndExpand"
+                        StrokeShape="RoundRectangle 10"
+                        StrokeThickness="0">
+                        <Grid
+                            Margin="12,2"
+                            ColumnDefinitions="Auto, *, Auto"
+                            VerticalOptions="CenterAndExpand">
+                            <Label
+                                FontFamily="LineAwesome"
+                                FontSize="24"
+                                HorizontalOptions="Center"
+                                HorizontalTextAlignment="Center"
+                                Text="{x:Static views:LineAwesome.Search}"
+                                TextColor="{DynamicResource BaseIconColor}"
+                                VerticalOptions="CenterAndExpand" />
+
+                            <handlers:BorderlessEntry
+                                Grid.Column="1"
+                                Margin="8,0"
+                                HorizontalOptions="FillAndExpand"
+                                Placeholder="{localization:Translate StringSearchNews}"
+                                PlaceholderColor="{DynamicResource PlaceholderColor}"
+                                TextColor="{DynamicResource BaseTextColor}" />
+
+                            <Label
+                                Grid.Column="2"
+                                FontFamily="MaterialDesign"
+                                FontSize="24"
+                                HorizontalOptions="End"
+                                HorizontalTextAlignment="Center"
+                                Text="{x:Static views:MaterialDesignIcons.KeyboardVoice}"
+                                TextColor="{DynamicResource PrimaryColor}"
+                                VerticalOptions="CenterAndExpand" />
+                        </Grid>
+                    </Border>
+
+                    <Image
+                        Grid.Column="1"
+                        HeightRequest="30"
+                        VerticalOptions="Center"
+                        WidthRequest="30">
+                        <Image.Source>
+                            <FontImageSource
+                                FontFamily="FaPro"
+                                Glyph="{x:Static views:FaPro.Moon}"
+                                Color="{DynamicResource BaseTextColor}" />
+                        </Image.Source>
+                    </Image>
+                </Grid>
+
+                <!--  Categories  -->
+                <VerticalStackLayout Grid.Row="1">
+                    <Label
+                        Margin="20,5"
+                        Style="{StaticResource SectionHeading}"
+                        Text="{localization:Translate LabelCategories}" />
+
+                    <CollectionView
+                        Margin="20,0,0,0"
+                        HeightRequest="60"
+                        HorizontalScrollBarVisibility="Never"
+                        ItemsSource="{Binding Categories}"
+                        SelectionMode="Single">
+                        <CollectionView.Behaviors>
+                            <behaviors:IOSFixInfiniteHeightCollectionView />
+                        </CollectionView.Behaviors>
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="10" Orientation="Horizontal" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                    Margin="0,0,0,10"
+                                    Padding="12,5"
+                                    Background="{DynamicResource Primary10Color}"
+                                    HeightRequest="50"
+                                    MinimumWidthRequest="80"
+                                    Stroke="Transparent"
+                                    StrokeShape="{RoundRectangle CornerRadius='6'}">
+                                    <Label
+                                        FontSize="15"
+                                        HorizontalOptions="CenterAndExpand"
+                                        Text="{Binding Name}"
+                                        VerticalOptions="Center" />
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+
+                <ListView
+                    Grid.Row="2"
+                    Margin="0,10,0,20"
+                    android:ListView.IsFastScrollEnabled="true"
+                    CachingStrategy="RecycleElement"
+                    HasUnevenRows="false"
+                    ItemsSource="{Binding ArticleLists}"
+                    RowHeight="240"
+                    SeparatorColor="{DynamicResource Gray300}"
+                    SeparatorVisibility="None">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <templates:VideoNewsItemTemplate />
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </ScrollView>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

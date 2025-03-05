@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Articles.ArticleDetailCardPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:templates="clr-namespace:MauiKit.Views.Articles.Templates"
+    xmlns:views="clr-namespace:MauiKit.Views">
+
+    <views:BasePage.PageContent>
+        <ScrollView>
+            <StackLayout Padding="0" Spacing="0">
+
+                <!--  ARTICLE IMAGE  -->
+                <Image
+                    Aspect="AspectFill"
+                    HeightRequest="367"
+                    HorizontalOptions="Center"
+                    Source="{Binding Article.BackgroundImage}"
+                    VerticalOptions="Start" />
+
+                <!--  CARD  -->
+                <Border
+                    Margin="20,-50,20,0"
+                    Padding="20,16"
+                    Stroke="{DynamicResource FrameBorder}"
+                    StrokeShape="{RoundRectangle CornerRadius=20}">
+                    <StackLayout Spacing="10">
+                        <!--  Category  -->
+                        <Label
+                            FontSize="12"
+                            Text="{Binding Article.Section}"
+                            TextColor="{DynamicResource PrimaryColor}"
+                            VerticalOptions="Center" />
+
+                        <!--  Title  -->
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="20"
+                            Text="{Binding Article.Title}"
+                            VerticalOptions="Center" />
+
+                        <Grid>
+                            <!--  Date  -->
+                            <Label
+                                FontSize="15"
+                                Text="{Binding Article.When}"
+                                TextColor="{DynamicResource BaseLightTextColor}"
+                                VerticalOptions="Center" />
+
+                            <StackLayout
+                                HorizontalOptions="End"
+                                Orientation="Horizontal"
+                                Spacing="3"
+                                VerticalOptions="Center">
+
+                                <!--  Value  -->
+                                <Label
+                                    FontSize="16"
+                                    HorizontalTextAlignment="Center"
+                                    Text="2K"
+                                    TextColor="{DynamicResource PrimaryColor}"
+                                    VerticalTextAlignment="Center" />
+
+                                <!--  Icon  -->
+                                <Label
+                                    FontFamily="MaterialDesign"
+                                    FontSize="20"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{x:Static views:MaterialDesignIcons.Favorite}"
+                                    TextColor="{DynamicResource PrimaryColor}"
+                                    VerticalTextAlignment="Center" />
+
+                                <!--  Spacing  -->
+                                <Label WidthRequest="10" />
+
+                                <!--  Value 2  -->
+                                <Label
+                                    FontSize="16"
+                                    HorizontalTextAlignment="Center"
+                                    Text="15"
+                                    TextColor="{DynamicResource PrimaryColor}"
+                                    VerticalTextAlignment="Center" />
+
+                                <!--  Icon 2  -->
+                                <Label
+                                    FontFamily="MaterialDesign"
+                                    FontSize="20"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{x:Static views:MaterialDesignIcons.Message}"
+                                    TextColor="{DynamicResource PrimaryColor}"
+                                    VerticalTextAlignment="Center" />
+
+                            </StackLayout>
+                        </Grid>
+
+                        <!--  Text block 1  -->
+                        <Label Text="{Binding Article.Body}" />
+
+                        <StackLayout Margin="0,0">
+                            <!--  Gallery  -->
+                            <CollectionView
+                                HeightRequest="320"
+                                HorizontalScrollBarVisibility="Default"
+                                ItemsSource="{Binding Gallery}"
+                                VerticalOptions="Start">
+                                <CollectionView.ItemsLayout>
+                                    <GridItemsLayout
+                                        HorizontalItemSpacing="5"
+                                        Orientation="Vertical"
+                                        Span="2"
+                                        VerticalItemSpacing="5" />
+                                </CollectionView.ItemsLayout>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <templates:HeaderArticleGalleryItemTemplate />
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </StackLayout>
+
+                        <!--  Text block 2  -->
+                        <Label Text="{Binding Article.Body}" />
+
+                    </StackLayout>
+                </Border>
+
+                <Grid
+                    Padding="20"
+                    RowDefinitions="1,Auto,Auto,1"
+                    RowSpacing="0">
+
+                    <!--  Related title  -->
+                    <Label
+                        Grid.Row="1"
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        Text="{localization:Translate LabelRelatedNews}"
+                        VerticalOptions="Center" />
+
+                    <CollectionView
+                        Grid.Row="2"
+                        Margin="0,10"
+                        HeightRequest="200"
+                        ItemsSource="{Binding RelatedArticles}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="15" Orientation="Horizontal" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <templates:RelatedArticlesCarouselItemTemplate HorizontalOptions="Start" WidthRequest="260" />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+
+                <!--  Comments title  -->
+                <Label
+                    Margin="20,0"
+                    FontAttributes="Bold"
+                    Text="{Binding Article.Comments.Count, StringFormat='{}{0:F0} Comments'}"
+                    VerticalOptions="Center" />
+
+                <!--  COMMENTS  -->
+                <!--<ListView
+                    Grid.Row="4"
+                    Margin="-20,0,-20,0"
+                    BackgroundColor="{DynamicResource MainWrapperBackgroundColor}"
+                    CachingStrategy="RecycleElement"
+                    HasUnevenRows="true"
+                    ItemsSource="{Binding Article.Comments}"
+                    RowHeight="100"
+                    SeparatorVisibility="None"
+                    TranslationY="-2">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <templates:ArticleCommentItemTemplate Padding="10,10" />
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>-->
+                <StackLayout MaximumHeightRequest="250">
+                    <CollectionView BackgroundColor="{DynamicResource MainWrapperBackgroundColor}" ItemsSource="{Binding Article.Comments}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="5" Orientation="Vertical" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <templates:ArticleCommentItemTemplate Padding="10,10" />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+
+                <!--  BUTTON ROW  -->
+                <Button
+                    Margin="20,0"
+                    BackgroundColor="{DynamicResource PrimaryColor}"
+                    Clicked="OnAddComment_Clicked"
+                    CornerRadius="14"
+                    FontSize="13"
+                    HeightRequest="44"
+                    HorizontalOptions="Fill"
+                    Text="{localization:Translate ButtonAddComment}"
+                    TextColor="{DynamicResource White}"
+                    VerticalOptions="Center" />
+            </StackLayout>
+        </ScrollView>
+    </views:BasePage.PageContent>
+</views:BasePage>

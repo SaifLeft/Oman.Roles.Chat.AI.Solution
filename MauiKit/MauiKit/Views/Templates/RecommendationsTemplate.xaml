@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="MauiKit.Views.Templates.RecommendationsTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MauiKit"
+    xmlns:models="clr-namespace:MauiKit.Models"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    x:DataType="models:RealEstateProperty">
+    <VerticalStackLayout>
+        <Border
+            Margin="0,0,18,0"
+            Padding="0"
+            StrokeShape="{RoundRectangle CornerRadius='8'}"
+            StrokeThickness="1"
+            WidthRequest="250">
+
+            <Border.Shadow>
+                <Shadow Opacity="0.1" />
+            </Border.Shadow>
+            <VerticalStackLayout Spacing="10">
+                <Grid>
+                    <Border
+                        Margin="0"
+                        StrokeShape="{RoundRectangle CornerRadius='8'}"
+                        StrokeThickness="0">
+                        <Image
+                            Aspect="AspectFill"
+                            HeightRequest="160"
+                            Source="{Binding PrincipalImage}" />
+                    </Border>
+
+                    <Border
+                        Margin="15"
+                        Padding="5"
+                        Background="{DynamicResource Red}"
+                        HeightRequest="32"
+                        HorizontalOptions="End"
+                        StrokeThickness="0"
+                        VerticalOptions="Start"
+                        WidthRequest="32">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="8" />
+                        </Border.StrokeShape>
+                        <Image Aspect="AspectFit" VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="MaterialDesign"
+                                    Glyph="{x:Static views:MaterialDesignIcons.Favorite}"
+                                    Color="{DynamicResource White}" />
+                            </Image.Source>
+                        </Image>
+                    </Border>
+                </Grid>
+
+                <StackLayout Padding="15,0,15,18" Spacing="3">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="17"
+                        HorizontalOptions="Start"
+                        LineBreakMode="TailTruncation"
+                        MaxLines="1"
+                        Text="{Binding Title}"
+                        VerticalOptions="Center" />
+
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+
+                        <StackLayout
+                            Orientation="Horizontal"
+                            Spacing="2"
+                            VerticalOptions="Center">
+                            <Label
+                                Margin="-3,0,0,0"
+                                FontFamily="MaterialDesign"
+                                FontSize="20"
+                                HorizontalOptions="Start"
+                                Text="{x:Static views:MaterialDesignIcons.Place}"
+                                TextColor="{DynamicResource PrimaryColor}"
+                                VerticalOptions="Start" />
+                            <Label
+                                FontSize="13"
+                                HorizontalOptions="Start"
+                                LineBreakMode="TailTruncation"
+                                MaxLines="1"
+                                Text="{Binding Address}"
+                                TextColor="{DynamicResource BaseLightTextColor}"
+                                VerticalOptions="Center" />
+                        </StackLayout>
+
+                        <StackLayout
+                            Grid.Column="1"
+                            HorizontalOptions="End"
+                            Orientation="Horizontal"
+                            Spacing="2"
+                            VerticalOptions="Center">
+                            <Label
+                                FontFamily="MaterialDesign"
+                                FontSize="20"
+                                HorizontalOptions="Start"
+                                Text="{x:Static views:MaterialDesignIcons.Star}"
+                                TextColor="{DynamicResource Orange}"
+                                VerticalOptions="Start" />
+                            <Label
+                                FontSize="13"
+                                HorizontalOptions="Start"
+                                LineBreakMode="TailTruncation"
+                                MaxLines="1"
+                                Text="4.9"
+                                VerticalOptions="Center" />
+                        </StackLayout>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                        <StackLayout Orientation="Horizontal" Spacing="1">
+                            <Label
+                                FontAttributes="Bold"
+                                FontFamily="MediumFont"
+                                FontSize="18"
+                                HorizontalOptions="Start"
+                                Text="{Binding Price, StringFormat='{}{0:c0}'}"
+                                TextColor="{DynamicResource PrimaryColor}"
+                                VerticalOptions="End" />
+                            <Label
+                                FontFamily="RegularFont"
+                                FontSize="14"
+                                HorizontalOptions="Start"
+                                Text="/mo"
+                                TextColor="{DynamicResource BaseLightTextColor}"
+                                VerticalOptions="End" />
+                        </StackLayout>
+
+                        <Border
+                            Grid.Column="1"
+                            Padding="6"
+                            Background="{DynamicResource TranslucidWhite}"
+                            HeightRequest="26"
+                            HorizontalOptions="End"
+                            StrokeThickness="0"
+                            VerticalOptions="Center"
+                            WidthRequest="26">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="13" />
+                            </Border.StrokeShape>
+                            <Image Aspect="AspectFit" VerticalOptions="Center">
+                                <Image.Source>
+                                    <FontImageSource
+                                        FontFamily="MaterialDesign"
+                                        Glyph="{x:Static views:MaterialDesignIcons.Favorite}"
+                                        Color="{DynamicResource White}" />
+                                </Image.Source>
+                            </Image>
+                        </Border>
+
+                    </Grid>
+                </StackLayout>
+
+            </VerticalStackLayout>
+
+        </Border>
+
+    </VerticalStackLayout>
+</ContentView>

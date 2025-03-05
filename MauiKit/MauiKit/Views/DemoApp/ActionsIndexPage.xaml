@@ -1,0 +1,513 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.ActionsIndexPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:extensions="clr-namespace:MauiKit.Extensions"
+    xmlns:handlers="clr-namespace:MauiKit.Handlers"
+    xmlns:local="clr-namespace:MauiKit"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:settings="clr-namespace:MauiKit.Settings"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    Title="">
+
+    <views:BasePage.Resources>
+        <Style x:Key="ActionIconContainerStyle" TargetType="Border">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Background" Value="{DynamicResource Primary10Color}" />
+            <Setter Property="WidthRequest" Value="50" />
+            <Setter Property="HeightRequest" Value="50" />
+            <Setter Property="Stroke" Value="{DynamicResource DefaultBorder}" />
+            <Setter Property="StrokeThickness" Value="1" />
+        </Style>
+
+        <Style x:Key="ActionIconStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="26" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+
+        <Style x:Key="ChevronIconContainerStyle" TargetType="Border">
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="Background" Value="{DynamicResource MainWrapperBackgroundColor}" />
+            <Setter Property="WidthRequest" Value="30" />
+            <Setter Property="HeightRequest" Value="30" />
+            <Setter Property="StrokeShape" Value="{RoundRectangle CornerRadius=15}" />
+        </Style>
+
+    </views:BasePage.Resources>
+
+    <views:BasePage.PageContent>
+        <Grid RowDefinitions="Auto,*" RowSpacing="15">
+            <controls:HeaderTemplate
+                Margin="30,30,30,0"
+                IconColor="#FFFF392B"
+                IconFontFamily="MaterialDesign"
+                IconSize="35"
+                IconText="{x:Static views:MaterialDesignIcons.TouchApp}"
+                Text="{localization:Translate LabelActions}"
+                TextSize="25" />
+
+            <!--  Actions Trigger  -->
+            <Grid Grid.Row="1">
+                <ScrollView>
+                    <StackLayout Padding="30,0,30,30" Spacing="18">
+
+                        <!--  Welcome Back  -->
+                        <Border Padding="20,22" Style="{StaticResource FeatureBorder}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ActionWelcomeBack_Tapped" />
+                            </Border.GestureRecognizers>
+                            <Grid
+                                ColumnDefinitions="Auto,*,Auto"
+                                ColumnSpacing="20"
+                                VerticalOptions="Center">
+                                <Border Style="{StaticResource ActionIconContainerStyle}">
+                                    <Label
+                                        FontFamily="FaPro"
+                                        Style="{StaticResource ActionIconStyle}"
+                                        Text="{x:Static views:FaPro.Smile}"
+                                        TextColor="{DynamicResource PrimaryColor}" />
+                                </Border>
+
+                                <Label
+                                    Grid.Column="1"
+                                    FontSize="16"
+                                    Style="{StaticResource Title2}"
+                                    Text="{localization:Translate LabelActionWelcomeBack}"
+                                    VerticalOptions="Center" />
+
+                                <Border Grid.Column="2" Style="{StaticResource ChevronIconContainerStyle}">
+                                    <Label Style="{StaticResource ChevronIconStyle}" />
+                                </Border>
+                            </Grid>
+                        </Border>
+
+                        <!--  Password Reset Successful  -->
+                        <Border Padding="20,22" Style="{StaticResource FeatureBorder}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ActionPasswordReset_Tapped" />
+                            </Border.GestureRecognizers>
+                            <Grid
+                                ColumnDefinitions="Auto,*,Auto"
+                                ColumnSpacing="20"
+                                VerticalOptions="Center">
+                                <Border Style="{StaticResource ActionIconContainerStyle}">
+                                    <Label
+                                        FontFamily="MaterialDesign"
+                                        Style="{StaticResource ActionIconStyle}"
+                                        Text="{x:Static views:MaterialDesignIcons.Security}"
+                                        TextColor="{DynamicResource PrimaryColor}" />
+                                </Border>
+
+                                <Label
+                                    Grid.Column="1"
+                                    FontSize="16"
+                                    Style="{StaticResource Title2}"
+                                    Text="{localization:Translate LabelActionPasswordResetSuccessful}"
+                                    VerticalOptions="Center" />
+
+                                <Border Grid.Column="2" Style="{StaticResource ChevronIconContainerStyle}">
+                                    <Label Style="{StaticResource ChevronIconStyle}" />
+                                </Border>
+                            </Grid>
+                        </Border>
+
+                        <!--  Congratulation Confirmation  -->
+                        <Border Padding="20,22" Style="{StaticResource FeatureBorder}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ActionCongratulation_Tapped" />
+                            </Border.GestureRecognizers>
+                            <Grid
+                                ColumnDefinitions="Auto,*,Auto"
+                                ColumnSpacing="20"
+                                VerticalOptions="Center">
+                                <Border Style="{StaticResource ActionIconContainerStyle}">
+                                    <Label
+                                        FontFamily="MaterialDesign"
+                                        Style="{StaticResource ActionIconStyle}"
+                                        Text="{x:Static views:MaterialDesignIcons.Notifications}"
+                                        TextColor="{DynamicResource PrimaryColor}" />
+                                </Border>
+
+                                <Label
+                                    Grid.Column="1"
+                                    FontSize="16"
+                                    Style="{StaticResource Title2}"
+                                    Text="{localization:Translate LabelActionCongratulation}"
+                                    VerticalOptions="Center" />
+
+                                <Border Grid.Column="2" Style="{StaticResource ChevronIconContainerStyle}">
+                                    <Label Style="{StaticResource ChevronIconStyle}" />
+                                </Border>
+                            </Grid>
+                        </Border>
+
+                        <!--  Payment Failed  -->
+                        <Border Padding="20,22" Style="{StaticResource FeatureBorder}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ActionPaymentFailed_Tapped" />
+                            </Border.GestureRecognizers>
+                            <Grid
+                                ColumnDefinitions="Auto,*,Auto"
+                                ColumnSpacing="20"
+                                VerticalOptions="Center">
+                                <Border Style="{StaticResource ActionIconContainerStyle}">
+                                    <Label
+                                        FontFamily="MaterialDesign"
+                                        Style="{StaticResource ActionIconStyle}"
+                                        Text="{x:Static views:MaterialDesignIcons.Error}"
+                                        TextColor="{DynamicResource ErrorColor}" />
+                                </Border>
+
+                                <Label
+                                    Grid.Column="1"
+                                    FontSize="16"
+                                    Style="{StaticResource Title2}"
+                                    Text="{localization:Translate LabelActionPaymentFailed}"
+                                    VerticalOptions="Center" />
+
+                                <Border Grid.Column="2" Style="{StaticResource ChevronIconContainerStyle}">
+                                    <Label Style="{StaticResource ChevronIconStyle}" />
+                                </Border>
+                            </Grid>
+                        </Border>
+
+                        <!--  Share Grid  -->
+                        <Border Padding="20,22" Style="{StaticResource FeatureBorder}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ShareGrid_Tapped" />
+                            </Border.GestureRecognizers>
+                            <Grid
+                                ColumnDefinitions="Auto,*,Auto"
+                                ColumnSpacing="20"
+                                VerticalOptions="Center">
+                                <Border Style="{StaticResource ActionIconContainerStyle}">
+                                    <Label
+                                        FontFamily="MaterialDesign"
+                                        Style="{StaticResource ActionIconStyle}"
+                                        Text="{x:Static views:MaterialDesignIcons.GridOn}"
+                                        TextColor="{DynamicResource ErrorColor}" />
+                                </Border>
+
+                                <Label
+                                    Grid.Column="1"
+                                    FontSize="16"
+                                    Style="{StaticResource Title2}"
+                                    Text="{localization:Translate LabelShareGrid}"
+                                    VerticalOptions="Center" />
+
+                                <Border Grid.Column="2" Style="{StaticResource ChevronIconContainerStyle}">
+                                    <Label Style="{StaticResource ChevronIconStyle}" />
+                                </Border>
+                            </Grid>
+                        </Border>
+
+                        <!--  Share List  -->
+                        <Border Padding="20,22" Style="{StaticResource FeatureBorder}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ShareList_Tapped" />
+                            </Border.GestureRecognizers>
+                            <Grid
+                                ColumnDefinitions="Auto,*,Auto"
+                                ColumnSpacing="20"
+                                VerticalOptions="Center">
+                                <Border Style="{StaticResource ActionIconContainerStyle}">
+                                    <Label
+                                        FontFamily="MaterialDesign"
+                                        Style="{StaticResource ActionIconStyle}"
+                                        Text="{x:Static views:MaterialDesignIcons.Share}"
+                                        TextColor="{DynamicResource PrimaryColor}" />
+                                </Border>
+
+                                <Label
+                                    Grid.Column="1"
+                                    FontSize="16"
+                                    Style="{StaticResource Title2}"
+                                    Text="{localization:Translate LabelShareList}"
+                                    VerticalOptions="Center" />
+
+                                <Border Grid.Column="2" Style="{StaticResource ChevronIconContainerStyle}">
+                                    <Label Style="{StaticResource ChevronIconStyle}" />
+                                </Border>
+                            </Grid>
+                        </Border>
+
+                        <!--  Shipping Info  -->
+                        <Border Padding="20,22" Style="{StaticResource FeatureBorder}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ShippingInfo_Tapped" />
+                            </Border.GestureRecognizers>
+                            <Grid
+                                ColumnDefinitions="Auto,*,Auto"
+                                ColumnSpacing="20"
+                                VerticalOptions="Center">
+                                <Border Style="{StaticResource ActionIconContainerStyle}">
+                                    <Label
+                                        FontFamily="MaterialDesign"
+                                        Style="{StaticResource ActionIconStyle}"
+                                        Text="{x:Static views:MaterialDesignIcons.LocalShipping}"
+                                        TextColor="{DynamicResource ErrorColor}" />
+                                </Border>
+
+                                <Label
+                                    Grid.Column="1"
+                                    FontSize="16"
+                                    Style="{StaticResource Title2}"
+                                    Text="{localization:Translate LabelShippingInfo}"
+                                    VerticalOptions="Center" />
+
+                                <Border Grid.Column="2" Style="{StaticResource ChevronIconContainerStyle}">
+                                    <Label Style="{StaticResource ChevronIconStyle}" />
+                                </Border>
+                            </Grid>
+                        </Border>
+
+                        <!--  Payment Method  -->
+                        <Border Padding="20,22" Style="{StaticResource FeatureBorder}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="PaymentMethod_Tapped" />
+                            </Border.GestureRecognizers>
+                            <Grid
+                                ColumnDefinitions="Auto,*,Auto"
+                                ColumnSpacing="20"
+                                VerticalOptions="Center">
+                                <Border Style="{StaticResource ActionIconContainerStyle}">
+                                    <Label
+                                        FontFamily="MaterialDesign"
+                                        Style="{StaticResource ActionIconStyle}"
+                                        Text="{x:Static views:MaterialDesignIcons.CreditCard}"
+                                        TextColor="{DynamicResource PrimaryColor}" />
+                                </Border>
+
+                                <Label
+                                    Grid.Column="1"
+                                    FontSize="16"
+                                    Style="{StaticResource Title2}"
+                                    Text="{localization:Translate LabelPaymentMethod}"
+                                    VerticalOptions="Center" />
+
+                                <Border Grid.Column="2" Style="{StaticResource ChevronIconContainerStyle}">
+                                    <Label Style="{StaticResource ChevronIconStyle}" />
+                                </Border>
+                            </Grid>
+                        </Border>
+
+                        <!--  Call Button  -->
+                        <Border Padding="20,22" Style="{StaticResource FeatureBorder}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="CallButton_Tapped" />
+                            </Border.GestureRecognizers>
+                            <Grid
+                                ColumnDefinitions="Auto,*,Auto"
+                                ColumnSpacing="20"
+                                VerticalOptions="Center">
+                                <Border Style="{StaticResource ActionIconContainerStyle}">
+                                    <Label
+                                        FontFamily="MaterialDesign"
+                                        Style="{StaticResource ActionIconStyle}"
+                                        Text="{x:Static views:MaterialDesignIcons.Phone}"
+                                        TextColor="{DynamicResource OkColor}" />
+                                </Border>
+
+                                <Label
+                                    Grid.Column="1"
+                                    FontSize="16"
+                                    Style="{StaticResource Title2}"
+                                    Text="{localization:Translate LabelCallButton}"
+                                    VerticalOptions="Center" />
+
+                                <Border Grid.Column="2" Style="{StaticResource ChevronIconContainerStyle}">
+                                    <Label Style="{StaticResource ChevronIconStyle}" />
+                                </Border>
+                            </Grid>
+                        </Border>
+
+                        <!--  Confirmation  -->
+                        <Border Padding="20,22" Style="{StaticResource FeatureBorder}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Confirmation_Tapped" />
+                            </Border.GestureRecognizers>
+                            <Grid
+                                ColumnDefinitions="Auto,*,Auto"
+                                ColumnSpacing="20"
+                                VerticalOptions="Center">
+                                <Border Style="{StaticResource ActionIconContainerStyle}">
+                                    <Label
+                                        FontFamily="MaterialDesign"
+                                        Style="{StaticResource ActionIconStyle}"
+                                        Text="{x:Static views:MaterialDesignIcons.Info}"
+                                        TextColor="{DynamicResource PrimaryColor}" />
+                                </Border>
+
+                                <Label
+                                    Grid.Column="1"
+                                    FontSize="16"
+                                    Style="{StaticResource Title2}"
+                                    Text="{localization:Translate LabelConfirmation}"
+                                    VerticalOptions="Center" />
+
+                                <Border Grid.Column="2" Style="{StaticResource ChevronIconContainerStyle}">
+                                    <Label Style="{StaticResource ChevronIconStyle}" />
+                                </Border>
+                            </Grid>
+                        </Border>
+
+                        <!--  Success Box  -->
+                        <Border Padding="20,22" Style="{StaticResource FeatureBorder}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="SuccessBox_Tapped" />
+                            </Border.GestureRecognizers>
+                            <Grid
+                                ColumnDefinitions="Auto,*,Auto"
+                                ColumnSpacing="20"
+                                VerticalOptions="Center">
+                                <Border Style="{StaticResource ActionIconContainerStyle}">
+                                    <Label
+                                        FontFamily="MaterialDesign"
+                                        Style="{StaticResource ActionIconStyle}"
+                                        Text="{x:Static views:MaterialDesignIcons.CheckBox}"
+                                        TextColor="{DynamicResource OkColor}" />
+                                </Border>
+
+                                <Label
+                                    Grid.Column="1"
+                                    FontSize="16"
+                                    Style="{StaticResource Title2}"
+                                    Text="{localization:Translate LabelSuccessBox}"
+                                    VerticalOptions="Center" />
+
+                                <Border Grid.Column="2" Style="{StaticResource ChevronIconContainerStyle}">
+                                    <Label Style="{StaticResource ChevronIconStyle}" />
+                                </Border>
+                            </Grid>
+                        </Border>
+
+                        <!--  Success Box Background  -->
+                        <Border Padding="20,22" Style="{StaticResource FeatureBorder}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="SuccessBoxBackground_Tapped" />
+                            </Border.GestureRecognizers>
+                            <Grid
+                                ColumnDefinitions="Auto,*,Auto"
+                                ColumnSpacing="20"
+                                VerticalOptions="Center">
+                                <Border Style="{StaticResource ActionIconContainerStyle}">
+                                    <Label
+                                        FontFamily="FaRegular"
+                                        Style="{StaticResource ActionIconStyle}"
+                                        Text="{x:Static views:FaRegular.CheckCircle}"
+                                        TextColor="{DynamicResource OkColor}" />
+                                </Border>
+
+                                <Label
+                                    Grid.Column="1"
+                                    FontSize="16"
+                                    Style="{StaticResource Title2}"
+                                    Text="{localization:Translate LabelSuccessBoxBackground}"
+                                    VerticalOptions="Center" />
+
+                                <Border Grid.Column="2" Style="{StaticResource ChevronIconContainerStyle}">
+                                    <Label Style="{StaticResource ChevronIconStyle}" />
+                                </Border>
+                            </Grid>
+                        </Border>
+
+                        <!--  Warning Box  -->
+                        <Border Padding="20,22" Style="{StaticResource FeatureBorder}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="WarningBox_Tapped" />
+                            </Border.GestureRecognizers>
+                            <Grid
+                                ColumnDefinitions="Auto,*,Auto"
+                                ColumnSpacing="20"
+                                VerticalOptions="Center">
+                                <Border Style="{StaticResource ActionIconContainerStyle}">
+                                    <Label
+                                        FontFamily="MaterialDesign"
+                                        Style="{StaticResource ActionIconStyle}"
+                                        Text="{x:Static views:MaterialDesignIcons.Close}"
+                                        TextColor="{DynamicResource ErrorColor}" />
+                                </Border>
+
+                                <Label
+                                    Grid.Column="1"
+                                    FontSize="16"
+                                    Style="{StaticResource Title2}"
+                                    Text="{localization:Translate LabelWarningBox}"
+                                    VerticalOptions="Center" />
+
+                                <Border Grid.Column="2" Style="{StaticResource ChevronIconContainerStyle}">
+                                    <Label Style="{StaticResource ChevronIconStyle}" />
+                                </Border>
+                            </Grid>
+                        </Border>
+
+                        <!--  Warning Box Background  -->
+                        <Border Padding="20,22" Style="{StaticResource FeatureBorder}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="WarningBoxBackground_Tapped" />
+                            </Border.GestureRecognizers>
+                            <Grid
+                                ColumnDefinitions="Auto,*,Auto"
+                                ColumnSpacing="20"
+                                VerticalOptions="Center">
+                                <Border Style="{StaticResource ActionIconContainerStyle}">
+                                    <Label
+                                        FontFamily="FaRegular"
+                                        Style="{StaticResource ActionIconStyle}"
+                                        Text="{x:Static views:FaRegular.WindowClose}"
+                                        TextColor="{DynamicResource ErrorColor}" />
+                                </Border>
+
+                                <Label
+                                    Grid.Column="1"
+                                    FontSize="16"
+                                    Style="{StaticResource Title2}"
+                                    Text="{localization:Translate LabelWarningBoxBackground}"
+                                    VerticalOptions="Center" />
+
+                                <Border Grid.Column="2" Style="{StaticResource ChevronIconContainerStyle}">
+                                    <Label Style="{StaticResource ChevronIconStyle}" />
+                                </Border>
+                            </Grid>
+                        </Border>
+
+                        <!--  Survey Questions  -->
+                        <Border Padding="20,22" Style="{StaticResource FeatureBorder}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="SurveyQuestions_Tapped" />
+                            </Border.GestureRecognizers>
+                            <Grid
+                                ColumnDefinitions="Auto,*,Auto"
+                                ColumnSpacing="20"
+                                VerticalOptions="Center">
+                                <Border Style="{StaticResource ActionIconContainerStyle}">
+                                    <Label
+                                        FontFamily="FaRegular"
+                                        Style="{StaticResource ActionIconStyle}"
+                                        Text="{x:Static views:FaRegular.QuestionCircle}"
+                                        TextColor="{StaticResource Orange}" />
+                                </Border>
+
+                                <Label
+                                    Grid.Column="1"
+                                    FontSize="16"
+                                    Style="{StaticResource Title2}"
+                                    Text="{localization:Translate LabelSurveyQuestions}"
+                                    VerticalOptions="Center" />
+
+                                <Border Grid.Column="2" Style="{StaticResource ChevronIconContainerStyle}">
+                                    <Label Style="{StaticResource ChevronIconStyle}" />
+                                </Border>
+                            </Grid>
+                        </Border>
+
+                    </StackLayout>
+                </ScrollView>
+            </Grid>
+        </Grid>
+    </views:BasePage.PageContent>
+</views:BasePage>

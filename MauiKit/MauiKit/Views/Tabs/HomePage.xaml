@@ -1,0 +1,635 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiKit.Views.HomePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animations="clr-namespace:AlohaKit.Animations;assembly=AlohaKit.Animations"
+    xmlns:bar="clr-namespace:MauiKit.Controls.ProgressBar"
+    xmlns:circular="clr-namespace:MauiKit.Controls.CircularProgress"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:helpers="clr-namespace:MauiKit.Helpers"
+    xmlns:local="clr-namespace:MauiKit"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
+    xmlns:models="clr-namespace:MauiKit.Models"
+    xmlns:templates="clr-namespace:MauiKit.Views.Templates"
+    xmlns:tint="clr-namespace:MauiKit.Controls.TintMask"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:MauiKit.ViewModels"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    Title="">
+
+    <ContentPage.Resources>
+        <Color x:Key="ProgressColor">DeepSkyBlue</Color>
+        <Color x:Key="GradientColor">GreenYellow</Color>
+    </ContentPage.Resources>
+
+    <ContentPage.BindingContext>
+        <viewmodels:HomeViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="15,10" Spacing="20">
+
+            <Label
+                Margin="0,15,0,0"
+                Style="{StaticResource LargeTitle}"
+                Text="{localization:Translate StringWelcome}" />
+
+            <!--  Statistics Chart  -->
+            <Border StrokeShape="{RoundRectangle CornerRadius='8'}" Style="{StaticResource FeatureBorder}">
+                <Grid RowDefinitions="Auto, 250" RowSpacing="10">
+                    <Label
+                        Margin="0,0,0,10"
+                        Style="{StaticResource Title2}"
+                        Text="{localization:Translate StringDailyProgress}" />
+
+                    <lvc:CartesianChart
+                        Grid.Row="1"
+                        Margin="0,0,0,20"
+                        Series="{Binding BarBackgroundSeries}"
+                        YAxes="{Binding BarBackgroundYAxes}" />
+                </Grid>
+            </Border>
+
+            <Grid ColumnDefinitions="0.5*, 0.5*" ColumnSpacing="20">
+
+                <Border StrokeShape="{RoundRectangle CornerRadius='8'}" Style="{StaticResource FeatureBorder}">
+                    <VerticalStackLayout Spacing="15" VerticalOptions="Center">
+                        <circular:CircularProgressBar
+                            Progress="70"
+                            ProgressColor="{DynamicResource Green}"
+                            ProgressLeftColor="{DynamicResource DisabledColor}"
+                            Size="100"
+                            TextColor="{DynamicResource Green}"
+                            Thickness="8" />
+
+                        <VerticalStackLayout Spacing="0" VerticalOptions="Center">
+                            <Label
+                                HorizontalOptions="Center"
+                                Style="{StaticResource Title2}"
+                                Text="3425" />
+                            <Label
+                                HorizontalOptions="Center"
+                                Style="{StaticResource Footnote}"
+                                Text="Joined" />
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border
+                    Grid.Column="1"
+                    StrokeShape="{RoundRectangle CornerRadius='8'}"
+                    Style="{StaticResource FeatureBorder}">
+                    <VerticalStackLayout Spacing="15" VerticalOptions="Center">
+
+                        <circular:CircularProgressBar
+                            Progress="60"
+                            ProgressColor="{DynamicResource Red}"
+                            ProgressLeftColor="{DynamicResource DisabledColor}"
+                            Size="100"
+                            TextColor="{DynamicResource Red}"
+                            Thickness="8" />
+
+                        <VerticalStackLayout Spacing="0" VerticalOptions="Center">
+                            <Label
+                                HorizontalOptions="Center"
+                                Style="{StaticResource Title2}"
+                                Text="6789" />
+                            <Label
+                                HorizontalOptions="Center"
+                                Style="{StaticResource Footnote}"
+                                Text="Designers" />
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+            </Grid>
+
+            <StackLayout
+                Margin="0,10,0,10"
+                HeightRequest="200"
+                Spacing="6">
+
+                <CollectionView
+                    HeightRequest="200"
+                    ItemsSource="{Binding BannerItems}"
+                    SelectionMode="None">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="0" Orientation="Horizontal" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <templates:BannerHorizontalItemTemplate />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+
+            <Border
+                Padding="0"
+                StrokeShape="{RoundRectangle CornerRadius='8'}"
+                Style="{StaticResource FeatureBorder}">
+                <Grid>
+                    <Grid.Background>
+                        <LinearGradientBrush>
+                            <GradientStop Offset="0.1" Color="#7579ff" />
+                            <GradientStop Offset="1.0" Color="#b224ef" />
+                        </LinearGradientBrush>
+                    </Grid.Background>
+                    <Label
+                        FontFamily="MauiKitIcons"
+                        FontSize="130"
+                        HorizontalOptions="End"
+                        Opacity="0.6"
+                        Rotation="5"
+                        Text="{x:Static views:MauiKitIcons.EmoticonHappyOutline}"
+                        TextColor="White"
+                        TranslationX="50"
+                        TranslationY="30"
+                        VerticalOptions="End" />
+                    <StackLayout Margin="20" VerticalOptions="CenterAndExpand">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="22"
+                            Text="Excellent work"
+                            TextColor="White" />
+                        <Label Text="You are on the right place" TextColor="White" />
+                        <Label Text="You can't afford to miss this." TextColor="White" />
+                    </StackLayout>
+                </Grid>
+            </Border>
+
+            <Border
+                Padding="20"
+                StrokeShape="{RoundRectangle CornerRadius='8'}"
+                Style="{StaticResource FeatureBorder}">
+                <Grid RowDefinitions="Auto,*" RowSpacing="10">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="17"
+                        Text="Important project meeting for all" />
+
+                    <Grid Grid.Row="1" ColumnDefinitions="Auto,*">
+                        <Border
+                            Background="#b01616"
+                            HeightRequest="60"
+                            Stroke="#b01616"
+                            StrokeShape="{RoundRectangle CornerRadius=35}"
+                            WidthRequest="60">
+                            <Label
+                                FontFamily="MauiKitIcons"
+                                FontSize="40"
+                                HorizontalOptions="Center"
+                                Text="{x:Static views:MauiKitIcons.Calendar}"
+                                TextColor="{DynamicResource White}"
+                                VerticalOptions="Center" />
+                        </Border>
+                        <StackLayout
+                            Grid.Column="1"
+                            Margin="12,0,0,0"
+                            Spacing="0"
+                            VerticalOptions="Center">
+
+                            <!--  Event name label  -->
+                            <Label
+                                LineBreakMode="NoWrap"
+                                Style="{StaticResource CardTitleLabelStyle}"
+                                Text="Zoom Client" />
+
+                            <!--  Event time label  -->
+                            <Label Style="{StaticResource CardDescriptionLabelStyle}" Text="Friday, December 29, 2022" />
+                        </StackLayout>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <Border
+                Padding="0"
+                StrokeShape="{RoundRectangle CornerRadius='8'}"
+                Style="{StaticResource FeatureBorder}">
+                <Grid
+                    Padding="20"
+                    RowDefinitions="Auto,*"
+                    RowSpacing="10">
+                    <Grid.Background>
+                        <LinearGradientBrush>
+                            <GradientStop Offset="0.1" Color="#f09819" />
+                            <GradientStop Offset="1.0" Color="#ff5858" />
+                        </LinearGradientBrush>
+                    </Grid.Background>
+
+                    <HorizontalStackLayout Spacing="5">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="17"
+                            Text="Birthday Boy"
+                            TextColor="{DynamicResource White}" />
+                        <Label
+                            FontSize="20"
+                            Style="{StaticResource MauiKitIconLabelStyle}"
+                            Text="{x:Static views:MauiKitIcons.Cake}"
+                            TextColor="{DynamicResource White}" />
+                    </HorizontalStackLayout>
+
+                    <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto">
+                        <Border
+                            Background="#b01616"
+                            HeightRequest="40"
+                            StrokeShape="{RoundRectangle CornerRadius=20}"
+                            WidthRequest="40">
+                            <Image Aspect="AspectFill" Source="https://raw.githubusercontent.com/tlssoftware/raw-material/master/maui-kit/ecommerce/users/150-26.jpg" />
+                        </Border>
+                        <StackLayout
+                            Grid.Column="1"
+                            Margin="12,0,0,0"
+                            Spacing="0"
+                            VerticalOptions="Center">
+
+                            <!--  Event name label  -->
+                            <Label
+                                LineBreakMode="NoWrap"
+                                Style="{StaticResource CardTitleLabelStyle}"
+                                Text="Janthan Smith"
+                                TextColor="{DynamicResource White}" />
+
+                            <!--  Event time label  -->
+                            <Label
+                                Style="{StaticResource CardDescriptionLabelStyle}"
+                                Text="Product Designer"
+                                TextColor="{DynamicResource White}" />
+                        </StackLayout>
+                        <Button
+                            Grid.Column="2"
+                            Padding="0"
+                            BackgroundColor="{DynamicResource White}"
+                            FontSize="12"
+                            HeightRequest="32"
+                            Text="Wish Him"
+                            TextColor="#e7515a"
+                            WidthRequest="90" />
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <StackLayout
+                Margin="0,10,0,10"
+                HeightRequest="300"
+                Spacing="6">
+
+                <Label Style="{StaticResource Title1}" Text="Trendings" />
+
+                <CollectionView
+                    x:Name="RecommendationCollectionView"
+                    ItemsSource="{Binding Recommendations}"
+                    SelectionMode="Single">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="0" Orientation="Horizontal" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <templates:RecommendationsTemplate />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+
+            <Border
+                Padding="15,20"
+                StrokeShape="{RoundRectangle CornerRadius='8'}"
+                Style="{StaticResource FeatureBorder}"
+                VerticalOptions="Start">
+                <StackLayout Spacing="15">
+                    <!--  Hot Users  -->
+                    <Grid>
+                        <Label Style="{StaticResource Title1}" Text="Hot Users" />
+                        <Label
+                            FontSize="14"
+                            HorizontalOptions="End"
+                            Text="View all"
+                            TextColor="{DynamicResource PrimaryColor}" />
+                    </Grid>
+
+                    <CollectionView
+                        HeightRequest="350"
+                        ItemsSource="{Binding HotUserTransactions}"
+                        SelectionMode="None"
+                        VerticalScrollBarVisibility="Never">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="12" Orientation="Vertical" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <templates:TransactionItemTemplate />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </Border>
+
+            <StackLayout Spacing="15">
+                <!--  Event Reminder  -->
+                <Grid>
+                    <Label Style="{StaticResource Title1}" Text="Upcoming Events" />
+                    <Label
+                        FontSize="16"
+                        HorizontalOptions="End"
+                        Text="View all"
+                        TextColor="{DynamicResource PrimaryColor}"
+                        VerticalOptions="Center" />
+                </Grid>
+
+                <!--<CollectionView
+                    ItemsSource="{Binding RecentTransactions}"
+                    SelectionMode="None"
+                    VerticalScrollBarVisibility="Never">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="12" Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <templates:EventReminderItemTemplate />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>-->
+                <VerticalStackLayout>
+                    <Border
+                        Padding="0"
+                        StrokeShape="{RoundRectangle CornerRadius=8}"
+                        StrokeThickness="1">
+
+                        <Border.Shadow>
+                            <Shadow Opacity="0.1" />
+                        </Border.Shadow>
+
+                        <VerticalStackLayout Spacing="10">
+                            <!--  Header  -->
+                            <Grid
+                                Padding="15,10,15,0"
+                                ColumnDefinitions="Auto,*, Auto"
+                                ColumnSpacing="10">
+                                <Border
+                                    Background="{DynamicResource Red}"
+                                    HeightRequest="36"
+                                    StrokeShape="{RoundRectangle CornerRadius=35}"
+                                    WidthRequest="36">
+                                    <Label
+                                        FontFamily="MauiKitIcons"
+                                        FontSize="20"
+                                        HorizontalOptions="Center"
+                                        Text="{x:Static views:MauiKitIcons.Bell}"
+                                        TextColor="{DynamicResource White}"
+                                        VerticalOptions="Center" />
+                                </Border>
+
+                                <Label
+                                    Grid.Column="1"
+                                    FontFamily="MediumFont"
+                                    FontSize="17"
+                                    Text="Reminder"
+                                    VerticalOptions="Center" />
+
+                                <!--  Button  -->
+                                <Button
+                                    Grid.Column="2"
+                                    BackgroundColor="Transparent"
+                                    CornerRadius="10"
+                                    FontSize="14"
+                                    HeightRequest="40"
+                                    Text="Join Event"
+                                    TextColor="{DynamicResource PrimaryColor}" />
+                            </Grid>
+
+                            <BoxView
+                                HeightRequest="0.5"
+                                VerticalOptions="CenterAndExpand"
+                                Color="{DynamicResource DisabledColor}" />
+
+                            <!--  Body  -->
+                            <StackLayout Padding="15,5" Spacing="3">
+                                <Label
+                                    Style="{StaticResource Title2}"
+                                    Text="Great Gatsby Event"
+                                    TextColor="{DynamicResource PrimaryColor}" />
+
+                                <Label
+                                    FontSize="15"
+                                    Text="Lorem ipsum dolor sit amet, consec tetur dipisicing elit, sed eiusmod exercitation ullamco."
+                                    TextColor="{DynamicResource BaseLightTextColor}" />
+
+                            </StackLayout>
+
+                            <!--  Footer  -->
+                            <Grid Padding="15,5,15,10" ColumnDefinitions="3*, 3*, 3*">
+
+                                <!--  Location  -->
+                                <HorizontalStackLayout HorizontalOptions="StartAndExpand" Spacing="3">
+                                    <!--  Icon  -->
+                                    <Label
+                                        FontFamily="MaterialDesign"
+                                        FontSize="20"
+                                        Text="{x:Static views:MaterialDesignIcons.LocationOn}"
+                                        TextColor="{DynamicResource Green}"
+                                        VerticalTextAlignment="Center" />
+
+                                    <!--  Value  -->
+                                    <Label
+                                        Style="{StaticResource Footnote}"
+                                        Text="UXSO NY, US"
+                                        VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+
+                                <!--  Date  -->
+                                <HorizontalStackLayout
+                                    Grid.Column="1"
+                                    HorizontalOptions="CenterAndExpand"
+                                    Spacing="3">
+                                    <!--  Icon  -->
+                                    <Label
+                                        FontFamily="MaterialDesign"
+                                        FontSize="20"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{x:Static views:MaterialDesignIcons.PermContactCalendar}"
+                                        TextColor="{DynamicResource Orange}"
+                                        VerticalTextAlignment="Center" />
+
+                                    <!--  Value  -->
+                                    <Label
+                                        Style="{StaticResource Footnote}"
+                                        Text="22 Jun"
+                                        TextColor="{DynamicResource BaseTextColor}"
+                                        VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+
+                                <!--  Time  -->
+                                <HorizontalStackLayout
+                                    Grid.Column="2"
+                                    HorizontalOptions="EndAndExpand"
+                                    Spacing="3">
+                                    <!--  Icon  -->
+                                    <Image VerticalOptions="Center">
+                                        <Image.Source>
+                                            <FontImageSource
+                                                FontFamily="MaterialDesign"
+                                                Glyph="{x:Static views:MaterialDesignIcons.Timer}"
+                                                Size="20"
+                                                Color="{DynamicResource PrimaryColor}" />
+                                        </Image.Source>
+                                    </Image>
+
+
+                                    <!--  Value  -->
+                                    <Label
+                                        Style="{StaticResource Footnote}"
+                                        Text="01:30 PM"
+                                        TextColor="{DynamicResource BaseTextColor}"
+                                        VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+                            </Grid>
+                        </VerticalStackLayout>
+
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout>
+                    <Border
+                        Padding="0"
+                        StrokeShape="{RoundRectangle CornerRadius=8}"
+                        StrokeThickness="1">
+
+                        <Border.Shadow>
+                            <Shadow Opacity="0.1" />
+                        </Border.Shadow>
+
+                        <VerticalStackLayout Spacing="10">
+                            <!--  Header  -->
+                            <Grid
+                                Padding="15,10,15,0"
+                                ColumnDefinitions="Auto,*, Auto"
+                                ColumnSpacing="10">
+                                <Border
+                                    Background="{DynamicResource Red}"
+                                    HeightRequest="36"
+                                    StrokeShape="{RoundRectangle CornerRadius=35}"
+                                    WidthRequest="36">
+                                    <Label
+                                        FontFamily="MauiKitIcons"
+                                        FontSize="20"
+                                        HorizontalOptions="Center"
+                                        Text="{x:Static views:MauiKitIcons.Bell}"
+                                        TextColor="{DynamicResource White}"
+                                        VerticalOptions="Center" />
+                                </Border>
+
+                                <Label
+                                    Grid.Column="1"
+                                    FontFamily="MediumFont"
+                                    FontSize="17"
+                                    Text="Reminder"
+                                    VerticalOptions="Center" />
+
+                                <!--  Button  -->
+                                <Button
+                                    Grid.Column="2"
+                                    BackgroundColor="Transparent"
+                                    CornerRadius="10"
+                                    FontSize="14"
+                                    HeightRequest="40"
+                                    Text="Join Event"
+                                    TextColor="{DynamicResource PrimaryColor}" />
+                            </Grid>
+
+                            <BoxView
+                                HeightRequest="0.5"
+                                VerticalOptions="CenterAndExpand"
+                                Color="{DynamicResource DisabledColor}" />
+
+                            <!--  Body  -->
+                            <StackLayout Padding="15,5" Spacing="3">
+                                <Label
+                                    Style="{StaticResource Title2}"
+                                    Text="New launch event"
+                                    TextColor="{DynamicResource PrimaryColor}" />
+
+                                <Label
+                                    FontSize="15"
+                                    Text="Lorem ipsum dolor sit amet, consec tetur dipisicing elit, sed eiusmod exercitation ullamco."
+                                    TextColor="{DynamicResource BaseLightTextColor}" />
+
+                            </StackLayout>
+
+                            <!--  Footer  -->
+                            <Grid Padding="15,5,15,10" ColumnDefinitions="3*, 3*, 3*">
+
+                                <!--  Location  -->
+                                <HorizontalStackLayout HorizontalOptions="StartAndExpand" Spacing="3">
+                                    <!--  Icon  -->
+                                    <Label
+                                        FontFamily="MaterialDesign"
+                                        FontSize="20"
+                                        Text="{x:Static views:MaterialDesignIcons.LocationOn}"
+                                        TextColor="{DynamicResource Green}"
+                                        VerticalTextAlignment="Center" />
+
+                                    <!--  Value  -->
+                                    <Label
+                                        Style="{StaticResource Footnote}"
+                                        Text="UXSO NY, US"
+                                        VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+
+                                <!--  Date  -->
+                                <HorizontalStackLayout
+                                    Grid.Column="1"
+                                    HorizontalOptions="CenterAndExpand"
+                                    Spacing="3">
+                                    <!--  Icon  -->
+                                    <Label
+                                        FontFamily="MaterialDesign"
+                                        FontSize="20"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{x:Static views:MaterialDesignIcons.PermContactCalendar}"
+                                        TextColor="{DynamicResource Orange}"
+                                        VerticalTextAlignment="Center" />
+
+                                    <!--  Value  -->
+                                    <Label
+                                        Style="{StaticResource Footnote}"
+                                        Text="22 Jun"
+                                        TextColor="{DynamicResource BaseTextColor}"
+                                        VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+
+                                <!--  Time  -->
+                                <HorizontalStackLayout
+                                    Grid.Column="2"
+                                    HorizontalOptions="EndAndExpand"
+                                    Spacing="3">
+                                    <!--  Icon  -->
+                                    <Image VerticalOptions="Center">
+                                        <Image.Source>
+                                            <FontImageSource
+                                                FontFamily="MaterialDesign"
+                                                Glyph="{x:Static views:MaterialDesignIcons.Timer}"
+                                                Size="20"
+                                                Color="{DynamicResource PrimaryColor}" />
+                                        </Image.Source>
+                                    </Image>
+
+
+                                    <!--  Value  -->
+                                    <Label
+                                        Style="{StaticResource Footnote}"
+                                        Text="01:30 PM"
+                                        TextColor="{DynamicResource BaseTextColor}"
+                                        VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+                            </Grid>
+                        </VerticalStackLayout>
+
+                    </Border>
+                </VerticalStackLayout>
+            </StackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="MauiKit.Views.Dashboards.Templates.TimelineRightItemTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:MauiKit.Views">
+
+    <Grid
+        ColumnSpacing="0"
+        RowSpacing="0"
+        VerticalOptions="StartAndExpand">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid
+            Grid.Column="0"
+            Margin="0,0,40,0"
+            ColumnSpacing="0"
+            RowSpacing="0"
+            VerticalOptions="CenterAndExpand">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!--  AUTHOR  -->
+            <Label
+                Grid.Row="0"
+                FontSize="12"
+                HorizontalOptions="End"
+                FontAttributes="Bold"
+                Text="{Binding Author, StringFormat='By {0:F0}'}"
+                TextColor="{DynamicResource PrimaryColor}"
+                VerticalOptions="End" />
+
+            <!--  DATE  -->
+            <Label
+                Grid.Row="1"
+                FontSize="12"
+                HorizontalOptions="End"
+                Text="{Binding When}"
+                TextColor="{DynamicResource BaseTextColor}"
+                VerticalOptions="Start" />
+        </Grid>
+
+        <!--  BALLOON  -->
+
+        <Grid
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="6,10,10,10"
+            Padding="10"
+            ColumnSpacing="0"
+            HorizontalOptions="Start"
+            VerticalOptions="CenterAndExpand">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border
+                Grid.Column="1"
+                Padding="10"
+                Background="{DynamicResource BasePageColor}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="5" />
+                </Border.StrokeShape>
+                <Label
+                    FontSize="13"
+                    Text="{Binding Title}"
+                    TextColor="{DynamicResource BaseTextColor}"
+                    VerticalOptions="StartAndExpand" />
+            </Border>
+
+            <Label
+                Grid.Row="0"
+                Grid.Column="0"
+                FontFamily="MauiKitIcons"
+                FontSize="16"
+                HorizontalOptions="Center"
+                Rotation="-90"
+                Text="{x:Static views:MauiKitIcons.Triangle}"
+                TextColor="{DynamicResource BasePageColor}"
+                TranslationX="8"
+                VerticalOptions="Center" />
+        </Grid>
+
+        <!--  CONNECTION LINE  -->
+        <AbsoluteLayout
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2">
+            <BoxView
+                AbsoluteLayout.LayoutBounds=".5,0,3,1.09"
+                AbsoluteLayout.LayoutFlags="XProportional, HeightProportional"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="Fill"
+                WidthRequest="3"
+                Color="{DynamicResource BasePageColor}" />
+        </AbsoluteLayout>
+
+        <!--  ICON BACKGROUND  -->
+        <Border
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Padding="0"
+            Background="{Binding Color}"
+            HeightRequest="50"
+            HorizontalOptions="Center"
+            Stroke="{DynamicResource BasePageColor}"
+            StrokeThickness="3"
+            VerticalOptions="Center"
+            WidthRequest="50">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="25" />
+            </Border.StrokeShape>
+            <!--  ICON  -->
+            <Label
+                FontFamily="MauiKitIcons"
+                FontSize="20"
+                HorizontalOptions="Center"
+                Text="{Binding Icon}"
+                TextColor="{DynamicResource White}"
+                VerticalOptions="Center" />
+        </Border>
+    </Grid>
+</ContentView>

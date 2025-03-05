@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="MauiKit.Views.Articles.Templates.ArticleVideoItemTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:articlesView="clr-namespace:MauiKit.Views.Articles"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    x:Name="root">
+
+    <Grid
+        Margin="20,15"
+        HeightRequest="{OnIdiom Phone='260',
+                                Tablet='260',
+                                Desktop='360'}"
+        RowSpacing="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+
+        <Border
+            Padding="0"
+            Background="{DynamicResource Primary10Color}"
+            HorizontalOptions="FillAndExpand"
+            StrokeShape="{RoundRectangle CornerRadius='20'}">
+            <Grid>
+                <controls:RoundedCornerImage
+                    Padding="0"
+                    Source="{Binding BackgroundImage}"
+                    Stroke="{DynamicResource FrameBorder}"
+                    StrokeShape="{RoundRectangle CornerRadius=20}" />
+
+                <!--  PLAY BUTTON  -->
+                <Button
+                    Margin="0,0,0,0"
+                    Padding="0"
+                    BackgroundColor="#30000000"
+                    BorderColor="{DynamicResource OverImageTextColor}"
+                    BorderWidth="2"
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type articlesView:ArticlesVideoPage}}, Path=BindingContext.ItemTappedCommand}"
+                    CommandParameter="{Binding .}"
+                    CornerRadius="20"
+                    FontFamily="MaterialDesign"
+                    FontSize="25"
+                    HeightRequest="40"
+                    HorizontalOptions="Center"
+                    Text="{x:Static views:MaterialDesignIcons.PlayArrow}"
+                    TextColor="{DynamicResource OverImageTextColor}"
+                    VerticalOptions="Center"
+                    WidthRequest="40" />
+            </Grid>
+        </Border>
+
+        <Label
+            Grid.Row="1"
+            FontAttributes="Bold"
+            FontSize="18"
+            LineBreakMode="WordWrap"
+            Text="{Binding Title}"
+            TextColor="{DynamicResource BaseTextColor}"
+            VerticalOptions="Center" />
+
+        <!--  HEADER INFO  -->
+        <Grid
+            Grid.Row="2"
+            ColumnSpacing="6"
+            VerticalOptions="End">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="1" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="0" Text="{Binding Section}" />
+
+            <Rectangle
+                Grid.Column="1"
+                Fill="{DynamicResource BaseSeparatorColor}"
+                HeightRequest="20"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                WidthRequest="1" />
+
+            <Label Grid.Column="2" Text="{Binding When}" />
+
+            <Label
+                Grid.Column="4"
+                FontFamily="MaterialDesign"
+                FontSize="15"
+                Text="{x:Static views:MaterialDesignIcons.People}"
+                TextColor="{DynamicResource PrimaryColor}"
+                TranslationY="3" />
+
+            <Label
+                Grid.Column="5"
+                FontSize="15"
+                Text="1024"
+                TextColor="{DynamicResource PrimaryColor}" />
+
+            <Label
+                Grid.Column="6"
+                Margin="12,0,0,0"
+                FontFamily="MaterialDesign"
+                FontSize="15"
+                Text="{x:Static views:MaterialDesignIcons.Favorite}"
+                TextColor="{DynamicResource Red}"
+                TranslationY="3" />
+
+            <Label
+                Grid.Column="7"
+                FontSize="15"
+                Text="578"
+                TextColor="{DynamicResource Red}" />
+        </Grid>
+
+    </Grid>
+</ContentView>

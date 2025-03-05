@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiKit.Views.Onboardings.WalkthroughStyle1Page"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:cardcontrols="clr-namespace:PanCardView.Controls;assembly=PanCardView"
+    xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:MauiKit.ViewModels"
+    BackgroundColor="{DynamicResource BasePageColor}"
+    NavigationPage.HasBackButton="False"
+    NavigationPage.HasNavigationBar="False">
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="Transparent" StatusBarStyle="DarkContent" />
+    </ContentPage.Behaviors>
+
+    <ScrollView VerticalScrollBarVisibility="Never">
+        <Grid Margin="16">
+
+            <cards:CarouselView
+                IndicatorView="indicatorView"
+                IsPanInteractionEnabled="False"
+                IsPanSwipeEnabled="False"
+                IsUserInteractionEnabled="False"
+                ItemsSource="{Binding Boardings}"
+                SelectedIndex="{Binding Position}">
+                <cards:CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout
+                            Margin="0"
+                            Spacing="10"
+                            VerticalOptions="Center">
+
+                            <Border
+                                Margin="-3"
+                                HeightRequest="300"
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="CenterAndExpand">
+                                <Image
+                                    x:Name="image"
+                                    Margin="{OnIdiom Phone='0',
+                                                     Tablet='70',
+                                                     Desktop='70,0,70,0'}"
+                                    Aspect="{OnPlatform Android='AspectFit',
+                                                        iOS='Center',
+                                                        Default='Center'}"
+                                    HorizontalOptions="Center"
+                                    Source="{Binding ImagePath}"
+                                    VerticalOptions="Center" />
+                            </Border>
+
+                            <Label
+                                x:Name="title"
+                                FontFamily="BoldFont"
+                                FontSize="26"
+                                HorizontalOptions="Start"
+                                HorizontalTextAlignment="Start"
+                                Text="{Binding Title}" />
+
+                            <Label
+                                x:Name="subTitle"
+                                Margin="0,0,0,65"
+                                FontSize="16"
+                                HorizontalOptions="Start"
+                                HorizontalTextAlignment="Start"
+                                Text="{Binding Subtitle}" />
+                        </StackLayout>
+                    </DataTemplate>
+                </cards:CarouselView.ItemTemplate>
+            </cards:CarouselView>
+
+            <StackLayout
+                Margin="0,10"
+                HorizontalOptions="FillAndExpand"
+                Orientation="Horizontal"
+                Spacing="15"
+                VerticalOptions="End">
+
+                <IndicatorView
+                    x:Name="indicatorView"
+                    IndicatorColor="{DynamicResource BaseLightTextColor}"
+                    IndicatorsShape="Circle"
+                    SelectedIndicatorColor="{DynamicResource PrimaryColor}"
+                    VerticalOptions="Center" />
+
+                <Button
+                    x:Name="nextBtn"
+                    BackgroundColor="{DynamicResource PrimaryColor}"
+                    Command="{Binding NextCommand}"
+                    CornerRadius="12"
+                    FontAttributes="Bold"
+                    HeightRequest="46"
+                    HorizontalOptions="EndAndExpand"
+                    Text="{Binding NextButtonText, Mode=TwoWay}"
+                    TextColor="{DynamicResource White}" />
+            </StackLayout>
+
+        </Grid>
+    </ScrollView>
+
+</ContentPage>

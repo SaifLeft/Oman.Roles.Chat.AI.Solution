@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="MauiKit.Views.News.Templates.VideoNewsItemTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:MauiKit.Views">
+
+    <Border
+        Margin="20,7"
+        Stroke="Transparent"
+        StrokeShape="{RoundRectangle CornerRadius=12}">
+        <Grid>
+
+            <Image Aspect="AspectFill" Source="{Binding BackgroundImage}" />
+
+            <Grid>
+                <Grid.Background>
+                    <LinearGradientBrush EndPoint="0,1">
+                        <GradientStop Offset="0.1" Color="#30000000" />
+                        <GradientStop Offset="1.0" Color="#70000000" />
+                    </LinearGradientBrush>
+                </Grid.Background>
+            </Grid>
+
+            <Grid
+                Padding="15"
+                ColumnSpacing="0"
+                RowSpacing="6">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Image
+                    Aspect="AspectFit"
+                    HeightRequest="25"
+                    HorizontalOptions="End"
+                    VerticalOptions="Start">
+                    <Image.Source>
+                        <FontImageSource
+                            FontFamily="IonIcons"
+                            Glyph="{x:Static views:IonIcons.AndroidBookmark}"
+                            Color="{DynamicResource White}" />
+                    </Image.Source>
+                </Image>
+
+                <!--  HEADER INFO  -->
+                <Grid
+                    Grid.Row="1"
+                    ColumnSpacing="6"
+                    VerticalOptions="End">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        Grid.Column="0"
+                        Text="{Binding Section}"
+                        TextColor="{DynamicResource OverImageTextColor}"
+                        VerticalOptions="End" />
+
+                    <Label
+                        Grid.Row="1"
+                        LineBreakMode="WordWrap"
+                        Style="{StaticResource Title2}"
+                        Text="{Binding Title}"
+                        TextColor="{DynamicResource OverImageTextColor}"
+                        VerticalOptions="End" />
+
+                    <Grid
+                        Grid.Row="2"
+                        ColumnSpacing="6"
+                        VerticalOptions="End">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Column="0"
+                            Margin="0,0,15,0"
+                            FontSize="13"
+                            Text="{Binding When}"
+                            TextColor="{DynamicResource OverImageTextColor}" />
+
+                        <Label
+                            Grid.Column="1"
+                            FontFamily="MaterialDesign"
+                            FontSize="15"
+                            Text="{x:Static views:MaterialDesignIcons.Chat}"
+                            TextColor="{DynamicResource OverImageTextColor}"
+                            TranslationY="3" />
+
+                        <Label
+                            Grid.Column="2"
+                            FontSize="15"
+                            Text="77"
+                            TextColor="{DynamicResource OverImageTextColor}" />
+
+                        <Label
+                            Grid.Column="3"
+                            Margin="15,0,0,0"
+                            FontFamily="MaterialDesign"
+                            FontSize="15"
+                            Text="{x:Static views:MaterialDesignIcons.Favorite}"
+                            TextColor="{DynamicResource OverImageTextColor}"
+                            TranslationY="3" />
+
+                        <Label
+                            Grid.Column="4"
+                            FontSize="15"
+                            Text="22"
+                            TextColor="{DynamicResource OverImageTextColor}" />
+                    </Grid>
+
+                    <StackLayout
+                        Grid.Row="1"
+                        Grid.RowSpan="2"
+                        Grid.Column="5"
+                        Spacing="5">
+
+                        <!--  PLAY BUTTON  -->
+                        <Button
+                            Margin="0,0,0,0"
+                            Padding="0"
+                            BackgroundColor="#80000000"
+                            BorderColor="{DynamicResource White}"
+                            BorderWidth="1"
+                            CornerRadius="15"
+                            FontFamily="MaterialDesign"
+                            FontSize="18"
+                            HeightRequest="30"
+                            HorizontalOptions="Center"
+                            Text="{x:Static views:MaterialDesignIcons.PlayArrow}"
+                            TextColor="{DynamicResource White}"
+                            VerticalOptions="Center"
+                            WidthRequest="30" />
+
+                        <Label
+                            FontSize="13"
+                            Text="03:22"
+                            TextColor="{DynamicResource OverImageTextColor}" />
+                    </StackLayout>
+                </Grid>
+
+            </Grid>
+        </Grid>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Selected">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="Transparent" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </VisualStateManager.VisualStateGroups>
+    </Border>
+
+</ContentView>

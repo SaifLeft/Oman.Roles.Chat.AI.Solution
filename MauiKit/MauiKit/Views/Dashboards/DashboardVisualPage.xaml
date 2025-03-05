@@ -1,0 +1,709 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.DashboardVisualPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:charts="clr-namespace:MauiKit.Controls.Charts"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
+    xmlns:viewmodels="clr-namespace:MauiKit.ViewModels"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    BaseTitle="{localization:Translate PageTitleDashboardVisual}"
+    BaseTitleColor="{DynamicResource BaseTextColor}">
+
+    <views:BasePage.BindingContext>
+        <viewmodels:DashboardVisualViewModel />
+    </views:BasePage.BindingContext>
+
+    <views:BasePage.PageContent>
+        <ScrollView>
+            <VerticalStackLayout Padding="15,10" Spacing="20">
+
+                <Grid RowDefinitions="Auto,50">
+                    <charts:RadialBarChart
+                        BarBackgroundColor="#ebeafd"
+                        BarSpacing="16"
+                        BarThickness="10"
+                        Entries="{Binding ChartEntries}"
+                        FontSize="12"
+                        HeightRequest="300"
+                        MaxValue="100"
+                        ShowLabels="false" />
+
+                    <HorizontalStackLayout
+                        Grid.Row="1"
+                        BindableLayout.ItemsSource="{Binding ChartEntries}"
+                        HorizontalOptions="Center"
+                        Spacing="10">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Grid
+                                    RowDefinitions="Auto,Auto"
+                                    RowSpacing="5"
+                                    WidthRequest="80">
+                                    <Rectangle
+                                        BackgroundColor="{Binding Color}"
+                                        HeightRequest="10"
+                                        WidthRequest="10" />
+                                    <Label
+                                        Grid.Row="1"
+                                        FontSize="12"
+                                        HorizontalOptions="Center"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding Text}" />
+                                </Grid>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </HorizontalStackLayout>
+                </Grid>
+
+                <!--  TOTAL USERS  -->
+                <Border Padding="0" StrokeShape="{RoundRectangle CornerRadius='16'}">
+
+                    <Grid RowDefinitions="Auto,250, Auto" RowSpacing="20">
+                        <Label
+                            Margin="20,20,20,0"
+                            Style="{StaticResource CardTitleLabelStyle}"
+                            Text="{localization:Translate LabelTotalUsers}" />
+
+                        <lvc:CartesianChart
+                            Grid.Row="1"
+                            DrawMarginFrame="{Binding Frame}"
+                            HandlerProperties.DisconnectPolicy="Manual"
+                            Series="{Binding TotalUserSeries}"
+                            YAxes="{Binding YAxes}" />
+
+                        <Grid
+                            Grid.Row="2"
+                            Padding="20"
+                            ColumnDefinitions="5*,5*"
+                            ColumnSpacing="10"
+                            RowDefinitions="Auto,Auto"
+                            RowSpacing="10">
+                            <Border
+                                Padding="15"
+                                BackgroundColor="#e6f0ff"
+                                Stroke="Transparent"
+                                StrokeShape="{RoundRectangle CornerRadius='14'}">
+                                <Grid RowDefinitions="Auto,Auto,Auto">
+                                    <Label
+                                        FontFamily="MauiKitIcons"
+                                        FontSize="30"
+                                        Text="{x:Static views:MauiKitIcons.AccountGroup}"
+                                        TextColor="#1b55e2"
+                                        VerticalOptions="Center" />
+                                    <Label
+                                        Grid.Row="1"
+                                        Style="{StaticResource CardTitleLabelStyle}"
+                                        Text="{localization:Translate LabelGroup}"
+                                        TextColor="#1b55e2"
+                                        VerticalOptions="End"
+                                        VerticalTextAlignment="End" />
+                                    <Label
+                                        Grid.Row="2"
+                                        Style="{StaticResource Title1}"
+                                        Text="8547"
+                                        TextColor="#1b55e2"
+                                        TranslationY="10"
+                                        VerticalOptions="End"
+                                        VerticalTextAlignment="End" />
+                                </Grid>
+                            </Border>
+
+                            <Border
+                                Grid.Column="1"
+                                Padding="15"
+                                BackgroundColor="#fff3d1"
+                                Stroke="Transparent"
+                                StrokeShape="{RoundRectangle CornerRadius='14'}">
+                                <Grid RowDefinitions="Auto,Auto,Auto">
+                                    <Label
+                                        FontFamily="MauiKitIcons"
+                                        FontSize="30"
+                                        Text="{x:Static views:MauiKitIcons.AccountClock}"
+                                        TextColor="#e2840f" />
+                                    <Label
+                                        Grid.Row="1"
+                                        Style="{StaticResource CardTitleLabelStyle}"
+                                        Text="{localization:Translate LabelPending}"
+                                        TextColor="#e2840f" />
+                                    <Label
+                                        Grid.Row="2"
+                                        Style="{StaticResource Title1}"
+                                        Text="1016"
+                                        TextColor="#e2840f"
+                                        TranslationY="10" />
+                                </Grid>
+                            </Border>
+
+                            <Border
+                                Grid.Row="1"
+                                Padding="15"
+                                BackgroundColor="#e9e9ff"
+                                Stroke="Transparent"
+                                StrokeShape="{RoundRectangle CornerRadius='14'}">
+                                <Grid RowDefinitions="Auto,Auto,Auto">
+                                    <Label
+                                        FontFamily="MauiKitIcons"
+                                        FontSize="30"
+                                        Text="{x:Static views:MauiKitIcons.HumanMale}"
+                                        TextColor="#272789" />
+                                    <Label
+                                        Grid.Row="1"
+                                        Style="{StaticResource CardTitleLabelStyle}"
+                                        Text="{localization:Translate LabelMale}"
+                                        TextColor="#272789" />
+                                    <Label
+                                        Grid.Row="2"
+                                        Style="{StaticResource Title1}"
+                                        Text="18066"
+                                        TextColor="#272789"
+                                        TranslationY="10" />
+                                </Grid>
+                            </Border>
+
+                            <Border
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Padding="15"
+                                BackgroundColor="#fce1ea"
+                                Stroke="Transparent"
+                                StrokeShape="{RoundRectangle CornerRadius='14'}">
+                                <Grid RowDefinitions="Auto,Auto,Auto">
+                                    <Label
+                                        FontFamily="MauiKitIcons"
+                                        FontSize="30"
+                                        Text="{x:Static views:MauiKitIcons.HumanFemale}"
+                                        TextColor="#e91e63" />
+                                    <Label
+                                        Grid.Row="1"
+                                        Style="{StaticResource Title2}"
+                                        Text="{localization:Translate LabelFemale}"
+                                        TextColor="#e91e63" />
+                                    <Label
+                                        Grid.Row="2"
+                                        Style="{StaticResource Title1}"
+                                        Text="19001"
+                                        TextColor="#e91e63"
+                                        TranslationY="10" />
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <Border Padding="0" StrokeShape="{RoundRectangle CornerRadius='16'}">
+                    <Border.Background>
+                        <LinearGradientBrush>
+                            <GradientStop Offset="0.1" Color="#7579ff" />
+                            <GradientStop Offset="1.0" Color="#b224ef" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Grid>
+
+                        <Label
+                            FontFamily="MauiKitIcons"
+                            FontSize="130"
+                            HorizontalOptions="End"
+                            Opacity="0.6"
+                            Rotation="5"
+                            Text="{x:Static views:MauiKitIcons.EmoticonHappyOutline}"
+                            TextColor="White"
+                            TranslationX="50"
+                            TranslationY="30"
+                            VerticalOptions="End" />
+                        <StackLayout Margin="20" VerticalOptions="CenterAndExpand">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="22"
+                                Text="Flat 50% Off"
+                                TextColor="White" />
+                            <Label Text="Get your product now!" TextColor="White" />
+                            <Label Text="It's now or never." TextColor="White" />
+                            <Label Text="You can't afford to miss this." TextColor="White" />
+                        </StackLayout>
+                    </Grid>
+                </Border>
+
+                <Border
+                    Padding="20"
+                    BackgroundColor="{DynamicResource BasePageColor}"
+                    StrokeShape="{RoundRectangle CornerRadius='16'}">
+
+                    <Grid RowDefinitions="Auto,*" RowSpacing="10">
+
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="17"
+                            Text="Important project meeting for all" />
+
+                        <Grid Grid.Row="1" ColumnDefinitions="Auto,*">
+                            <Border
+                                Background="#b01616"
+                                HeightRequest="60"
+                                Stroke="#b01616"
+                                StrokeShape="{RoundRectangle CornerRadius=35}"
+                                WidthRequest="60">
+                                <Label
+                                    FontFamily="MauiKitIcons"
+                                    FontSize="40"
+                                    HorizontalOptions="Center"
+                                    Text="{x:Static views:MauiKitIcons.Calendar}"
+                                    TextColor="{DynamicResource White}"
+                                    VerticalOptions="Center" />
+                            </Border>
+                            <StackLayout
+                                Grid.Column="1"
+                                Margin="12,0,0,0"
+                                Spacing="0"
+                                VerticalOptions="Center">
+
+                                <!--  Event name label  -->
+                                <Label
+                                    LineBreakMode="NoWrap"
+                                    Style="{StaticResource CardTitleLabelStyle}"
+                                    Text="Zoom Client" />
+
+                                <!--  Event time label  -->
+                                <Label Style="{StaticResource CardDescriptionLabelStyle}" Text="Friday, December 29, 2022" />
+                            </StackLayout>
+
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <Border
+                    Padding="0"
+                    BackgroundColor="{DynamicResource BasePageColor}"
+                    StrokeShape="{RoundRectangle CornerRadius='16'}">
+
+                    <Grid
+                        Padding="20"
+                        RowDefinitions="Auto,*"
+                        RowSpacing="10">
+                        <Grid.Background>
+                            <LinearGradientBrush>
+                                <GradientStop Offset="0.1" Color="#f09819" />
+                                <GradientStop Offset="1.0" Color="#ff5858" />
+                            </LinearGradientBrush>
+                        </Grid.Background>
+
+                        <HorizontalStackLayout Spacing="5">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="17"
+                                Text="Birthday Boy"
+                                TextColor="{DynamicResource White}" />
+                            <Label
+                                FontSize="20"
+                                Style="{StaticResource MauiKitIconLabelStyle}"
+                                Text="{x:Static views:MauiKitIcons.Cake}"
+                                TextColor="{DynamicResource White}" />
+                        </HorizontalStackLayout>
+
+                        <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto">
+                            <Border
+                                Background="#b01616"
+                                HeightRequest="40"
+                                StrokeShape="{RoundRectangle CornerRadius=20}"
+                                WidthRequest="40">
+                                <Image Aspect="AspectFill" Source="https://raw.githubusercontent.com/tlssoftware/raw-material/master/maui-kit/ecommerce/users/150-26.jpg" />
+                            </Border>
+                            <StackLayout
+                                Grid.Column="1"
+                                Margin="12,0,0,0"
+                                Spacing="0"
+                                VerticalOptions="Center">
+
+                                <!--  Event name label  -->
+                                <Label
+                                    LineBreakMode="NoWrap"
+                                    Style="{StaticResource CardTitleLabelStyle}"
+                                    Text="Janthan Smith"
+                                    TextColor="{DynamicResource White}" />
+
+                                <!--  Event time label  -->
+                                <Label
+                                    Style="{StaticResource CardDescriptionLabelStyle}"
+                                    Text="Product Designer"
+                                    TextColor="{DynamicResource White}" />
+                            </StackLayout>
+                            <Button
+                                Grid.Column="2"
+                                Padding="0"
+                                BackgroundColor="{DynamicResource White}"
+                                FontSize="12"
+                                HeightRequest="32"
+                                Text="Wish Him"
+                                TextColor="#e7515a"
+                                WidthRequest="90" />
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <!--  Products Sold  -->
+                <Border
+                    Padding="20"
+                    BackgroundColor="{DynamicResource BasePageColor}"
+                    StrokeShape="{RoundRectangle CornerRadius='16'}">
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                        <Border
+                            Background="#e6f0ff"
+                            HeightRequest="70"
+                            HorizontalOptions="Start"
+                            Stroke="#e6f0ff"
+                            StrokeShape="{RoundRectangle CornerRadius=12}"
+                            WidthRequest="70">
+                            <Label
+                                FontFamily="MauiKitIcons"
+                                FontSize="40"
+                                HorizontalOptions="Center"
+                                Text="{x:Static views:MauiKitIcons.CartOutline}"
+                                TextColor="#1b55e2"
+                                VerticalOptions="Center" />
+                        </Border>
+                        <StackLayout
+                            Grid.Column="1"
+                            Spacing="0"
+                            VerticalOptions="Center">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="20"
+                                Text="2189"
+                                TextColor="{DynamicResource BaseTextColor}" />
+                            <Label
+                                Style="{StaticResource CardDescriptionLabelStyle}"
+                                Text="Products Sold"
+                                TextColor="#b01616" />
+                        </StackLayout>
+
+                        <Border
+                            Grid.Column="2"
+                            Padding="8,3"
+                            Background="#8dbf42"
+                            HorizontalOptions="EndAndExpand"
+                            Stroke="Transparent"
+                            StrokeShape="{RoundRectangle CornerRadius='8'}"
+                            TranslationY="10"
+                            VerticalOptions="Start">
+                            <HorizontalStackLayout>
+                                <Label
+                                    FontSize="12"
+                                    HorizontalOptions="Center"
+                                    Text="20%"
+                                    TextColor="{DynamicResource White}"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    FontSize="14"
+                                    Style="{StaticResource MauiKitIconLabelStyle}"
+                                    Text="{x:Static views:MauiKitIcons.ArrowUp}"
+                                    TextColor="{DynamicResource White}" />
+                            </HorizontalStackLayout>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!--  New Orders  -->
+                <Border
+                    Padding="20"
+                    BackgroundColor="{DynamicResource BasePageColor}"
+                    StrokeShape="{RoundRectangle CornerRadius='16'}">
+
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                        <Border
+                            Background="#ffebd2"
+                            HeightRequest="70"
+                            HorizontalOptions="Start"
+                            Stroke="#ffebd2"
+                            StrokeShape="{RoundRectangle CornerRadius=12}"
+                            WidthRequest="70">
+                            <Label
+                                FontFamily="MauiKitIcons"
+                                FontSize="40"
+                                HorizontalOptions="Center"
+                                Text="{x:Static views:MauiKitIcons.PackageVariantClosed}"
+                                TextColor="#e2a03f"
+                                VerticalOptions="Center" />
+                        </Border>
+                        <StackLayout
+                            Grid.Column="1"
+                            Spacing="0"
+                            VerticalOptions="Center">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="20"
+                                Text="450"
+                                TextColor="{DynamicResource BaseTextColor}" />
+                            <Label
+                                Style="{StaticResource CardDescriptionLabelStyle}"
+                                Text="New Orders"
+                                TextColor="#e2a03f" />
+                        </StackLayout>
+
+                        <Border
+                            Grid.Column="2"
+                            Padding="8,3"
+                            Background="#e7515a"
+                            HorizontalOptions="EndAndExpand"
+                            Stroke="Transparent"
+                            StrokeShape="{RoundRectangle CornerRadius='8'}"
+                            TranslationY="10"
+                            VerticalOptions="Start">
+                            <HorizontalStackLayout>
+                                <Label
+                                    FontSize="12"
+                                    HorizontalOptions="Center"
+                                    Text="10%"
+                                    TextColor="{DynamicResource White}"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    FontSize="14"
+                                    Style="{StaticResource MauiKitIconLabelStyle}"
+                                    Text="{x:Static views:MauiKitIcons.ArrowDown}"
+                                    TextColor="{DynamicResource White}" />
+                            </HorizontalStackLayout>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!--  Monthly Sales  -->
+                <Border
+                    Padding="20"
+                    BackgroundColor="{DynamicResource BasePageColor}"
+                    StrokeShape="{RoundRectangle CornerRadius='16'}">
+
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                        <Border
+                            Background="#dbc4ff"
+                            HeightRequest="70"
+                            HorizontalOptions="Start"
+                            Stroke="#dbc4ff"
+                            StrokeShape="{RoundRectangle CornerRadius=12}"
+                            WidthRequest="70">
+                            <Label
+                                FontFamily="MauiKitIcons"
+                                FontSize="40"
+                                HorizontalOptions="Center"
+                                Text="{x:Static views:MauiKitIcons.CashUsd}"
+                                TextColor="#5c1ac3"
+                                VerticalOptions="Center" />
+                        </Border>
+                        <StackLayout
+                            Grid.Column="1"
+                            Spacing="0"
+                            VerticalOptions="Center">
+
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="20"
+                                Text="$3465"
+                                TextColor="{DynamicResource BaseTextColor}" />
+                            <Label
+                                Style="{StaticResource CardDescriptionLabelStyle}"
+                                Text="Monthly Sales"
+                                TextColor="#5c1ac3" />
+                        </StackLayout>
+
+                        <Border
+                            Grid.Column="2"
+                            Padding="8,3"
+                            Background="#8dbf42"
+                            HorizontalOptions="EndAndExpand"
+                            Stroke="Transparent"
+                            StrokeShape="{RoundRectangle CornerRadius='8'}"
+                            TranslationY="10"
+                            VerticalOptions="Start">
+                            <HorizontalStackLayout>
+                                <Label
+                                    FontSize="12"
+                                    HorizontalOptions="Center"
+                                    Text="40%"
+                                    TextColor="{DynamicResource White}"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    FontSize="14"
+                                    Style="{StaticResource MauiKitIconLabelStyle}"
+                                    Text="{x:Static views:MauiKitIcons.ArrowUp}"
+                                    TextColor="{DynamicResource White}" />
+                            </HorizontalStackLayout>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!--  New Users  -->
+                <Border
+                    Padding="20"
+                    BackgroundColor="{DynamicResource BasePageColor}"
+                    StrokeShape="{RoundRectangle CornerRadius='16'}">
+
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                        <Border
+                            Background="#acfff7"
+                            HeightRequest="70"
+                            HorizontalOptions="Start"
+                            Stroke="#acfff7"
+                            StrokeShape="{RoundRectangle CornerRadius=12}"
+                            WidthRequest="70">
+                            <Label
+                                FontFamily="MauiKitIcons"
+                                FontSize="40"
+                                HorizontalOptions="Center"
+                                Text="{x:Static views:MauiKitIcons.AccountPlusOutline}"
+                                TextColor="#009688"
+                                VerticalOptions="Center" />
+                        </Border>
+
+                        <StackLayout
+                            Grid.Column="1"
+                            Spacing="0"
+                            VerticalOptions="Center">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="20"
+                                Text="35"
+                                TextColor="{DynamicResource BaseTextColor}" />
+                            <Label
+                                Style="{StaticResource CardDescriptionLabelStyle}"
+                                Text="New Customers"
+                                TextColor="#009688" />
+                        </StackLayout>
+
+                        <Border
+                            Grid.Column="2"
+                            Padding="8,3"
+                            Background="#e7515a"
+                            HorizontalOptions="EndAndExpand"
+                            Stroke="Transparent"
+                            StrokeShape="{RoundRectangle CornerRadius='8'}"
+                            TranslationY="10"
+                            VerticalOptions="Start">
+                            <HorizontalStackLayout>
+                                <Label
+                                    FontSize="12"
+                                    HorizontalOptions="Center"
+                                    Text="20%"
+                                    TextColor="{DynamicResource White}"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    FontSize="14"
+                                    Style="{StaticResource MauiKitIconLabelStyle}"
+                                    Text="{x:Static views:MauiKitIcons.ArrowDown}"
+                                    TextColor="{DynamicResource White}" />
+                            </HorizontalStackLayout>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <Border
+                    Padding="0"
+                    BackgroundColor="{DynamicResource BasePageColor}"
+                    StrokeShape="{RoundRectangle CornerRadius='16'}">
+
+                    <Grid ColumnDefinitions="0.45*,0.55*">
+                        <Grid
+                            Padding="20"
+                            BackgroundColor="#da0019"
+                            RowDefinitions="80,100,Auto"
+                            RowSpacing="0">
+                            <Label
+                                FontSize="50"
+                                HorizontalOptions="Center"
+                                Style="{StaticResource MauiKitIconLabelStyle}"
+                                Text="{x:Static views:MauiKitIcons.Timer}"
+                                TextColor="{DynamicResource White}"
+                                VerticalOptions="Center" />
+
+                            <Label
+                                Grid.Row="1"
+                                FontAttributes="Bold"
+                                FontSize="20"
+                                HorizontalOptions="Center"
+                                HorizontalTextAlignment="Center"
+                                Text="Budget Saving"
+                                TextColor="{DynamicResource White}"
+                                VerticalOptions="Center" />
+
+                            <Label
+                                Grid.Row="2"
+                                FontSize="11"
+                                HorizontalOptions="Center"
+                                HorizontalTextAlignment="Center"
+                                Style="{StaticResource CardDescriptionLabelStyle}"
+                                Text="Save your money and improve your business finance today"
+                                TextColor="{DynamicResource White}" />
+                        </Grid>
+
+                        <VerticalStackLayout
+                            Grid.Column="1"
+                            Padding="15"
+                            Spacing="10"
+                            VerticalOptions="CenterAndExpand">
+                            <Label
+                                FontSize="16"
+                                HorizontalOptions="Center"
+                                HorizontalTextAlignment="Center"
+                                Style="{StaticResource CardDescriptionLabelStyle}"
+                                Text="Estimated Earning"
+                                TextColor="{DynamicResource BaseTextColor}" />
+
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                HorizontalOptions="Center"
+                                HorizontalTextAlignment="Center"
+                                Text="$1,860.00 /year"
+                                TextColor="{DynamicResource BaseLightTextColor}" />
+
+                            <StackLayout
+                                Margin="0,5"
+                                BackgroundColor="{DynamicResource BaseSeparatorColor}"
+                                HeightRequest="0.5"
+                                VerticalOptions="Fill" />
+
+                            <Label
+                                HorizontalOptions="Center"
+                                HorizontalTextAlignment="Center"
+                                Style="{StaticResource CardDescriptionLabelStyle}"
+                                Text="Save more if you subscribe with the following coupon"
+                                TextColor="{DynamicResource BaseLightTextColor}" />
+
+                            <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                                <Label
+                                    FontSize="25"
+                                    HorizontalOptions="Center"
+                                    Style="{StaticResource MauiKitIconLabelStyle}"
+                                    Text="{x:Static views:MauiKitIcons.Tag}"
+                                    TextColor="#b01616"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    FontSize="18"
+                                    HorizontalOptions="Center"
+                                    Text="$45.00"
+                                    TextColor="#b01616"
+                                    VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+
+                            <Button
+                                Padding="0"
+                                FontSize="15"
+                                HeightRequest="36"
+                                HorizontalOptions="Center"
+                                Text="Claim Reward"
+                                TextColor="{DynamicResource White}"
+                                WidthRequest="150">
+                                <Button.Background>
+                                    <LinearGradientBrush>
+                                        <GradientStop Offset="0.1" Color="#3cba92" />
+                                        <GradientStop Offset="1.0" Color="#0ba360" />
+                                    </LinearGradientBrush>
+                                </Button.Background>
+                            </Button>
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

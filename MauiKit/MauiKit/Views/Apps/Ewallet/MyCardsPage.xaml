@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Ewallet.MyCardsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:helpers="clr-namespace:MauiKit.Helpers"
+    xmlns:local="clr-namespace:MauiKit"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:models="clr-namespace:MauiKit.Models"
+    xmlns:templates="clr-namespace:MauiKit.Views.Apps.Ewallet.Templates"
+    xmlns:viewmodels="clr-namespace:MauiKit.ViewModels"
+    xmlns:views="clr-namespace:MauiKit.Views">
+
+    <views:BasePage.PageContent>
+        <Grid
+            Padding="20"
+            BackgroundColor="{DynamicResource BasePageColor}"
+            RowDefinitions="*, 60">
+
+            <CollectionView
+                ItemsSource="{Binding MyCardLists}"
+                SelectionChangedCommand="{Binding CardOptionsCommand}"
+                SelectionChangedCommandParameter="{Binding .}"
+                SelectionMode="Single">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout
+                        HorizontalItemSpacing="12"
+                        Orientation="Vertical"
+                        Span="{OnIdiom Phone='1',
+                                       Tablet='2',
+                                       Desktop='3'}"
+                        VerticalItemSpacing="15" />
+                    <!--<LinearItemsLayout ItemSpacing="15" Orientation="Vertical" />-->
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <templates:MyCardItemTemplate HeightRequest="200" />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button
+                Grid.Row="1"
+                Command="{Binding AddNewCardCommand}"
+                HeightRequest="50"
+                Style="{StaticResource PrimaryButtonStyle}"
+                Text="Add Card"
+                VerticalOptions="End" />
+
+            <controls:SimpleLoadingIndicator Grid.RowSpan="2" />
+        </Grid>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="MauiKit.Views.Travels.Templates.FollowingAuthorGuideItemTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MauiKit"
+    xmlns:models="clr-namespace:MauiKit.Models"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    x:DataType="models:TravelArticle">
+    <VerticalStackLayout>
+        <Border
+            Margin="0"
+            Padding="12,14"
+            Stroke="{DynamicResource T_Accent}"
+            StrokeThickness="0.8">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="14" />
+            </Border.StrokeShape>
+
+            <VerticalStackLayout Spacing="0">
+                <Grid ColumnDefinitions="Auto,*, Auto">
+                    <!--  Author Avatar  -->
+                    <Border
+                        Padding="0"
+                        HeightRequest="42"
+                        Stroke="Transparent"
+                        StrokeThickness="0.8"
+                        WidthRequest="42">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="14" />
+                        </Border.StrokeShape>
+                        <Image Aspect="AspectFill" Source="{Binding Author.Avatar}" />
+                    </Border>
+
+                    <StackLayout
+                        Grid.Column="1"
+                        Margin="12,0"
+                        Spacing="0"
+                        VerticalOptions="Center">
+
+                        <!--  Full Name  -->
+                        <Label
+                            FontFamily="SemiBoldFont"
+                            LineBreakMode="NoWrap"
+                            Text="{Binding Author.FullName}" />
+
+                        <!--  Posted Time  -->
+                        <Label
+                            Style="{StaticResource Footnote}"
+                            Text="{Binding PostedTime}"
+                            TextColor="{DynamicResource BaseLightTextColor}" />
+                    </StackLayout>
+
+                    <!--  More Action Button  -->
+                    <Border
+                        Grid.Column="2"
+                        Padding="0"
+                        HeightRequest="34"
+                        Stroke="{DynamicResource T_Primary}"
+                        StrokeThickness="0.8"
+                        WidthRequest="34">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12" />
+                        </Border.StrokeShape>
+                        <Image HorizontalOptions="Center" VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="FaPro"
+                                    Glyph="{x:Static views:FaPro.EllipsisHAlt}"
+                                    Size="18"
+                                    Color="{DynamicResource BaseIconColor}" />
+                            </Image.Source>
+                        </Image>
+                    </Border>
+                </Grid>
+
+                <!--  Excerp  -->
+                <Label
+                    Margin="0,5"
+                    FontSize="14"
+                    HorizontalOptions="Start"
+                    MaxLines="2"
+                    Text="{Binding Excerp}"
+                    VerticalOptions="Center" />
+
+                <!--  Featured Image  -->
+                <Frame
+                    Margin="0"
+                    Padding="0"
+                    CornerRadius="10"
+                    HasShadow="False"
+                    HeightRequest="160"
+                    IsClippedToBounds="True">
+                    <Image Aspect="AspectFill" Source="{Binding FeaturedImage}" />
+                </Frame>
+
+            </VerticalStackLayout>
+
+        </Border>
+    </VerticalStackLayout>
+</ContentView>

@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Travels.TravelMessagesPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:templates="clr-namespace:MauiKit.Views.Travels.Templates"
+    xmlns:viewModels="clr-namespace:MauiKit.ViewModels.Travels"
+    xmlns:views="clr-namespace:MauiKit.Views">
+
+    <views:BasePage.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="TitleTextStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="TextColor" Value="{DynamicResource PrimaryColor}" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center" />
+            </Style>
+
+            <Style x:Key="SuggestedContainerStyle" TargetType="Grid">
+                <Setter Property="Margin" Value="0, 10, 0, 14" />
+            </Style>
+
+            <Style x:Key="BorderContainerStyle" TargetType="Border">
+                <Setter Property="HeightRequest" Value="42" />
+                <Setter Property="WidthRequest" Value="42" />
+                <Setter Property="Margin" Value="0, 0, 20, 0" />
+                <Setter Property="Stroke" Value="{DynamicResource T_Primary}" />
+                <Setter Property="StrokeThickness" Value="0.8" />
+                <Setter Property="Background" Value="{StaticResource BasePageColor}" />
+                <Setter Property="StrokeShape" Value="{RoundRectangle CornerRadius=12}" />
+            </Style>
+
+            <Style x:Key="RecentMessageCollectionStyle" TargetType="CollectionView">
+                <Setter Property="Margin" Value="0, 24, 0, 0" />
+            </Style>
+
+            <Style x:Key="RecentMessageAdornerStyle" TargetType="BoxView">
+                <Setter Property="Color" Value="{DynamicResource White}" />
+                <Setter Property="CornerRadius" Value="18, 18, 0, 0" />
+            </Style>
+
+        </ResourceDictionary>
+    </views:BasePage.Resources>
+
+    <views:BasePage.PageContent>
+        <Grid RowDefinitions="Auto, *">
+            <Border Padding="20,0,0,25" Background="{DynamicResource BasePageColor}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="0,0,26,26" />
+                </Border.StrokeShape>
+
+                <Grid RowDefinitions="Auto,*">
+
+                    <Grid ColumnDefinitions="60,*, Auto" Style="{StaticResource SuggestedContainerStyle}">
+                        <!--  CLOSE ICON  -->
+                        <Border Style="{StaticResource BorderContainerStyle}">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12" />
+                            </Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnCloseButtonClicked" />
+                            </Border.GestureRecognizers>
+                            <Image
+                                HeightRequest="26"
+                                HorizontalOptions="Center"
+                                Source="{DynamicResource MenuIcon}"
+                                VerticalOptions="Center"
+                                WidthRequest="26" />
+                        </Border>
+
+                        <!--  TITLE  -->
+                        <Label
+                            Grid.Column="1"
+                            Style="{StaticResource TitleTextStyle}"
+                            Text="{localization:Translate PageTitleTravelMessagePage}" />
+
+                        <!--  SEARCH  -->
+                        <Border Grid.Column="2" Style="{StaticResource BorderContainerStyle}">
+                            <Image Aspect="AspectFit" HeightRequest="25">
+                                <Image.Source>
+                                    <FontImageSource
+                                        FontFamily="MaterialDesign"
+                                        Glyph="{x:Static views:MaterialDesignIcons.Search}"
+                                        Color="{DynamicResource BaseTextColor}" />
+                                </Image.Source>
+                            </Image>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <Grid Grid.Row="1">
+                <CollectionView
+                    ItemsSource="{Binding RecentMessages}"
+                    SelectionMode="Single"
+                    Style="{StaticResource RecentMessageCollectionStyle}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="10" Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <templates:RecentMessageItemTemplate />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+
+            <controls:SimpleLoadingIndicator Grid.RowSpan="2" />
+        </Grid>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

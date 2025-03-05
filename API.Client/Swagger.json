@@ -5,7 +5,7 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/Chat/CreateChatRoom/rooms": {
+    "/api/Chat/CreateChatRoom": {
       "post": {
         "tags": [
           "Chat"
@@ -36,7 +36,7 @@
         }
       }
     },
-    "/api/Chat/GetChatRoom/rooms/{roomId}": {
+    "/api/Chat/GetChatRoom/{roomId}": {
       "get": {
         "tags": [
           "Chat"
@@ -58,7 +58,7 @@
         }
       }
     },
-    "/api/Chat/GetUserChatRooms/rooms": {
+    "/api/Chat/GetUserChatRooms": {
       "get": {
         "tags": [
           "Chat"
@@ -70,7 +70,7 @@
         }
       }
     },
-    "/api/Chat/SendMessage/messages": {
+    "/api/Chat/SendMessage": {
       "post": {
         "tags": [
           "Chat"
@@ -101,7 +101,7 @@
         }
       }
     },
-    "/api/Chat/DeleteChatRoom/rooms/{roomId}": {
+    "/api/Chat/DeleteChatRoom/{roomId}": {
       "delete": {
         "tags": [
           "Chat"
@@ -123,7 +123,7 @@
         }
       }
     },
-    "/api/ChatRules/GetDefaultRules/default": {
+    "/api/ChatRules/GetDefaultRules": {
       "get": {
         "tags": [
           "ChatRules"
@@ -135,7 +135,7 @@
         }
       }
     },
-    "/api/ChatRules/UpdateDefaultRules/default": {
+    "/api/ChatRules/UpdateDefaultRules": {
       "put": {
         "tags": [
           "ChatRules"
@@ -231,7 +231,7 @@
         }
       }
     },
-    "/api/ConversationAnalytics/GetUserConversationHistory/history": {
+    "/api/ConversationAnalytics/GetUserConversationHistory": {
       "get": {
         "tags": [
           "ConversationAnalytics"
@@ -263,7 +263,7 @@
         }
       }
     },
-    "/api/ConversationAnalytics/GetRoomConversationHistory/room/{roomId}": {
+    "/api/ConversationAnalytics/GetRoomConversationHistory/{roomId}": {
       "get": {
         "tags": [
           "ConversationAnalytics"
@@ -303,7 +303,7 @@
         }
       }
     },
-    "/api/ConversationAnalytics/GetUserAnalytics/user-analytics": {
+    "/api/ConversationAnalytics/GetUserAnalytics": {
       "get": {
         "tags": [
           "ConversationAnalytics"
@@ -333,7 +333,7 @@
         }
       }
     },
-    "/api/ConversationAnalytics/GetGlobalAnalytics/global-analytics": {
+    "/api/ConversationAnalytics/GetGlobalAnalytics": {
       "get": {
         "tags": [
           "ConversationAnalytics"
@@ -363,7 +363,7 @@
         }
       }
     },
-    "/api/DeepSeek/ProcessQuery/process": {
+    "/api/DeepSeek/ProcessQuery": {
       "post": {
         "tags": [
           "DeepSeek"
@@ -469,7 +469,7 @@
         }
       }
     },
-    "/api/User/Register/register": {
+    "/api/User/Register": {
       "post": {
         "tags": [
           "User"
@@ -517,7 +517,7 @@
         }
       }
     },
-    "/api/User/Login/login": {
+    "/api/User/Login": {
       "post": {
         "tags": [
           "User"
@@ -565,7 +565,7 @@
         }
       }
     },
-    "/api/User/LoginWithPhone/login-with-phone": {
+    "/api/User/LoginWithPhone": {
       "post": {
         "tags": [
           "User"
@@ -613,7 +613,7 @@
         }
       }
     },
-    "/api/User/RefreshToken/refresh-token": {
+    "/api/User/RefreshToken": {
       "post": {
         "tags": [
           "User"
@@ -661,7 +661,7 @@
         }
       }
     },
-    "/api/User/GetProfile/profile": {
+    "/api/User/GetProfile": {
       "get": {
         "tags": [
           "User"
@@ -690,7 +690,7 @@
         }
       }
     },
-    "/api/User/UpdateProfile/profile": {
+    "/api/User/UpdateProfile": {
       "put": {
         "tags": [
           "User"
@@ -738,7 +738,7 @@
         }
       }
     },
-    "/api/User/ChangePassword/change-password": {
+    "/api/User/ChangePassword": {
       "post": {
         "tags": [
           "User"
@@ -786,7 +786,7 @@
         }
       }
     },
-    "/api/User/ResetPassword/reset-password": {
+    "/api/User/ResetPassword": {
       "post": {
         "tags": [
           "User"
@@ -834,7 +834,7 @@
         }
       }
     },
-    "/api/User/ActivateUser/activate/{userId}": {
+    "/api/User/ActivateUser/{userId}": {
       "post": {
         "tags": [
           "User"
@@ -874,7 +874,7 @@
         }
       }
     },
-    "/api/User/DeactivateUser/deactivate/{userId}": {
+    "/api/User/DeactivateUser/{userId}": {
       "post": {
         "tags": [
           "User"

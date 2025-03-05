@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="MauiKit.Views.Socials.Templates.SocialFriendItemTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Grid
+        Padding="0"
+        RowSpacing="5"
+        WidthRequest="120">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--<Border
+            Grid.Row="0"
+            HeightRequest="60"
+            Stroke="{DynamicResource White}"
+            StrokeThickness="3"
+            WidthRequest="60">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="30" />
+            </Border.StrokeShape>
+            <Image Aspect="AspectFill" Source="{Binding Avatar}" />
+        </Border>-->
+        <toolkit:AvatarView
+                HeightRequest="60"
+                ImageSource="{Binding Avatar}"
+                WidthRequest="60" />
+
+        <Label
+            Grid.Row="1"
+            FontSize="13"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center"
+            LineBreakMode="TailTruncation"
+            MaxLines="1"
+            Text="{Binding Name}"
+            VerticalOptions="CenterAndExpand" />
+    </Grid>
+</ContentView>

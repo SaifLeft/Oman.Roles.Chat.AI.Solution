@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Ewallet.EwalletServicesPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:handlers="clr-namespace:MauiKit.Handlers"
+    xmlns:helpers="clr-namespace:MauiKit.Helpers"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:local="clr-namespace:MauiKit"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:models="clr-namespace:MauiKit.Models"
+    xmlns:templates="clr-namespace:MauiKit.Views.Apps.Ewallet.Templates"
+    xmlns:viewmodels="clr-namespace:MauiKit.ViewModels"
+    xmlns:views="clr-namespace:MauiKit.Views">
+
+    <views:BasePage.PageContent>
+        <Grid
+            Padding="16"
+            BackgroundColor="{DynamicResource BasePageColor}"
+            RowDefinitions="Auto, *"
+            RowSpacing="10">
+            <!--  Searchbar  -->
+            <Border
+                Padding="0"
+                Background="{DynamicResource MainWrapperBackgroundColor}"
+                StrokeShape="RoundRectangle 12"
+                StrokeThickness="1.5">
+
+                <Grid>
+                    <SearchBar
+                        android:Entry.ImeOptions="Search"
+                        ios:SearchBar.SearchBarStyle="Minimal"
+                        CancelButtonColor="{DynamicResource BaseIconColor}"
+                        FontFamily="RegularFont"
+                        HeightRequest="46"
+                        HorizontalOptions="FillAndExpand"
+                        Placeholder="{localization:Translate StringSearch}"
+                        PlaceholderColor="{DynamicResource BaseLightTextColor}"
+                        TextColor="{DynamicResource BaseTextColor}" />
+                </Grid>
+            </Border>
+
+            <!--  Service List with Group  -->
+            <CollectionView
+                Grid.Row="1"
+                IsGrouped="true"
+                ItemsSource="{Binding AllServices}"
+                SelectionMode="None"
+                VerticalScrollBarVisibility="Never">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout
+                        Orientation="Vertical"
+                        Span="4"
+                        VerticalItemSpacing="12" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <Grid
+                            Padding="5,10,5,0"
+                            BackgroundColor="Transparent"
+                            HeightRequest="46">
+                            <Label
+                                FontAttributes="Bold"
+                                FontFamily="MediumFont"
+                                FontSize="16"
+                                Text="{Binding GroupName}"
+                                VerticalOptions="End" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.GroupHeaderTemplate>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <templates:ServiceItemTemplate />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </Grid>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

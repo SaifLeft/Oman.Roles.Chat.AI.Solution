@@ -1,0 +1,368 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.News.NewsDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:handlers="clr-namespace:MauiKit.Handlers"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:models="clr-namespace:MauiKit.Models.News"
+    xmlns:viewmodels="clr-namespace:MauiKit.ViewModels.News"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    NavigationPage.HasNavigationBar="False">
+
+    <views:BasePage.Resources>
+        <Style x:Key="SectionHeading" TargetType="Label">
+            <Setter Property="FontSize" Value="26" />
+            <Setter Property="FontFamily" Value="MediumFont" />
+            <Setter Property="HorizontalOptions" Value="StartAndExpand" />
+        </Style>
+        <Style x:Key="ViewAll" TargetType="Label">
+            <Setter Property="HorizontalOptions" Value="End" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="TextColor" Value="{DynamicResource PrimaryColor}" />
+            <Setter Property="VerticalOptions" Value="End" />
+        </Style>
+        <Style TargetType="BoxView">
+            <Setter Property="HeightRequest" Value="1.5" />
+            <Setter Property="Color" Value="{DynamicResource FrameBorder}" />
+            <Setter Property="Margin" Value="20,10,20,0" />
+        </Style>
+
+        <DataTemplate x:Key="ArticleTemplate" x:DataType="models:Article">
+            <StackLayout
+                Margin="0,0,10,0"
+                Orientation="Vertical"
+                WidthRequest="130">
+                <Frame
+                    Padding="0"
+                    BorderColor="Transparent"
+                    CornerRadius="12"
+                    IsClippedToBounds="True">
+                    <Image
+                        Aspect="AspectFill"
+                        HeightRequest="115"
+                        Source="{Binding ImageURL}"
+                        WidthRequest="130" />
+                </Frame>
+                <Label
+                    Margin="0,8,0,0"
+                    FontSize="15"
+                    MaxLines="3"
+                    Style="{StaticResource Title2}"
+                    Text="{Binding Title}" />
+            </StackLayout>
+        </DataTemplate>
+    </views:BasePage.Resources>
+
+    <views:BasePage.PageContent>
+        <ScrollView>
+            <StackLayout Spacing="10">
+                <Border Margin="-3" Background="Transparent">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="0,0,40,40" />
+                    </Border.StrokeShape>
+                    <Grid>
+                        <Image
+                            Aspect="AspectFill"
+                            HeightRequest="{OnIdiom Phone=400,
+                                                    Tablet=450,
+                                                    Desktop=500}"
+                            Source="{Binding ArticleDetail.ImageURL}" />
+
+                        <Border
+                            Margin="25"
+                            Padding="3"
+                            Background="{DynamicResource BasePageColor}"
+                            HeightRequest="40"
+                            HorizontalOptions="Start"
+                            Opacity="0.7"
+                            StrokeShape="{RoundRectangle CornerRadius=10}"
+                            StrokeThickness="0"
+                            VerticalOptions="Start"
+                            WidthRequest="40">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="GoBack_Tapped" />
+                            </Border.GestureRecognizers>
+
+                            <Border.Shadow>
+                                <Shadow Opacity="0.3" />
+                            </Border.Shadow>
+                            <Image
+                                Margin="5"
+                                HeightRequest="30"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center">
+                                <Image.Source>
+                                    <FontImageSource
+                                        FontFamily="MaterialDesign"
+                                        Glyph="{x:Static views:MaterialDesignIcons.Close}"
+                                        Size="30"
+                                        Color="{DynamicResource BaseIconColor}" />
+                                </Image.Source>
+                            </Image>
+                        </Border>
+
+                        <Border
+                            Margin="20,0,0,20"
+                            Padding="15,5"
+                            Background="{DynamicResource PrimaryColor}"
+                            HorizontalOptions="Start"
+                            Stroke="Transparent"
+                            StrokeShape="{RoundRectangle CornerRadius='6'}"
+                            VerticalOptions="End">
+                            <Label
+                                FontSize="15"
+                                Text="{Binding ArticleDetail.Category}"
+                                TextColor="{DynamicResource White}"
+                                VerticalOptions="Center" />
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <Grid
+                    Margin="20,10,20,0"
+                    ColumnDefinitions="Auto,*,Auto"
+                    ColumnSpacing="10">
+
+                    <Border
+                        Padding="0"
+                        Background="{DynamicResource White}"
+                        HeightRequest="50"
+                        HorizontalOptions="Center"
+                        Stroke="Transparent"
+                        StrokeShape="RoundRectangle 25"
+                        VerticalOptions="Center"
+                        WidthRequest="50">
+                        <Image Aspect="Fill" Source="{Binding ArticleDetail.ChannelImage}" />
+                    </Border>
+
+                    <StackLayout Grid.Column="1" Spacing="3">
+                        <Label Style="{StaticResource Title2}" Text="{Binding ArticleDetail.ChannelName}" />
+                        <Label Text="{Binding ArticleDetail.Author}" TextColor="{DynamicResource BaseLightTextColor}" />
+                    </StackLayout>
+
+                    <Button
+                        Grid.Column="2"
+                        Padding="15,5"
+                        BackgroundColor="{DynamicResource PrimaryColor}"
+                        CornerRadius="6"
+                        HorizontalOptions="End"
+                        Text="+ Follow"
+                        TextColor="{DynamicResource White}"
+                        VerticalOptions="Center" />
+                </Grid>
+
+                <Label
+                    Margin="20,10"
+                    Style="{StaticResource Title1}"
+                    Text="{Binding ArticleDetail.Title}" />
+                <Label
+                    Margin="20,0,20,10"
+                    Style="{StaticResource Headline}"
+                    Text="{Binding ArticleDetail.Subtitle}"
+                    TextColor="{DynamicResource BaseTextColor}" />
+
+                <Label
+                    Margin="20,10"
+                    FontSize="15"
+                    Text="{Binding ArticleDetail.Body}"
+                    TextColor="{DynamicResource BaseTextColor}" />
+
+                <!--  Comments  -->
+                <StackLayout
+                    Margin="20,0,20,10"
+                    HorizontalOptions="FillAndExpand"
+                    Orientation="Horizontal">
+                    <Label
+                        Style="{StaticResource Title2}"
+                        Text="135 Comments Total"
+                        VerticalOptions="Center" />
+                    <Label
+                        HorizontalOptions="EndAndExpand"
+                        Style="{StaticResource ViewAll}"
+                        Text="{localization:Translate LabelViewAll}"
+                        VerticalOptions="Center" />
+                </StackLayout>
+
+                <StackLayout
+                    Margin="0,5"
+                    BindableLayout.ItemsSource="{Binding ArticleDetail.Comments}"
+                    Orientation="Vertical"
+                    Spacing="0">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Grid
+                                Margin="0,10,0,5"
+                                Padding="0"
+                                RowDefinitions="*,1"
+                                RowSpacing="10">
+                                <Grid
+                                    Padding="20,0"
+                                    ColumnDefinitions="Auto,*,Auto"
+                                    ColumnSpacing="10"
+                                    RowDefinitions="Auto,*,Auto"
+                                    RowSpacing="10">
+
+                                    <Border
+                                        Grid.RowSpan="3"
+                                        Padding="0"
+                                        HeightRequest="46"
+                                        StrokeShape="RoundRectangle 23"
+                                        StrokeThickness="0"
+                                        VerticalOptions="Start"
+                                        WidthRequest="46">
+                                        <Image
+                                            Aspect="AspectFill"
+                                            HeightRequest="40"
+                                            Source="{Binding UserAvatar}"
+                                            WidthRequest="40" />
+                                    </Border>
+
+                                    <Label
+                                        Grid.Column="1"
+                                        FontSize="14"
+                                        Text="{Binding User}"
+                                        TextColor="{DynamicResource BaseLightTextColor}" />
+
+                                    <Label
+                                        Grid.Column="2"
+                                        HorizontalOptions="End"
+                                        Text="{Binding Time}"
+                                        TextColor="{DynamicResource BaseLightTextColor}" />
+
+                                    <Label
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Grid.ColumnSpan="2"
+                                        FontSize="14"
+                                        MinimumHeightRequest="50"
+                                        Text="{Binding Content}"
+                                        VerticalOptions="StartAndExpand"
+                                        VerticalTextAlignment="Start" />
+
+                                    <StackLayout
+                                        Grid.Row="2"
+                                        Grid.Column="1"
+                                        Orientation="Horizontal"
+                                        Spacing="5">
+                                        <Label Text="Reply" TextColor="{DynamicResource PrimaryColor}" />
+                                        <Label
+                                            FontFamily="MaterialDesign"
+                                            FontSize="18"
+                                            Text="{x:Static views:MaterialDesignIcons.ChatBubble}"
+                                            TextColor="{DynamicResource BaseLightTextColor}" />
+                                    </StackLayout>
+
+                                    <Frame
+                                        Grid.Row="2"
+                                        Grid.Column="2"
+                                        Padding="10,5"
+                                        BackgroundColor="{DynamicResource Primary10Color}"
+                                        BorderColor="Transparent"
+                                        CornerRadius="6"
+                                        HorizontalOptions="End">
+                                        <StackLayout
+                                            HorizontalOptions="End"
+                                            Orientation="Horizontal"
+                                            Spacing="5">
+                                            <Label HorizontalOptions="End" Text="{Binding LikeCount}" />
+                                            <Label
+                                                FontFamily="MaterialDesign"
+                                                FontSize="22"
+                                                HorizontalOptions="End"
+                                                Text="{x:Static views:MaterialDesignIcons.ThumbUp}" />
+                                        </StackLayout>
+                                    </Frame>
+
+                                </Grid>
+
+                                <BoxView Grid.Row="1" HeightRequest="0.8" />
+                            </Grid>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+                <!--<CollectionView Margin="0,5" ItemsSource="{Binding ArticleDetail.Comments}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout ItemSpacing="10" Orientation="Vertical" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate />
+        </CollectionView>-->
+
+                <!--  Post New Comment  -->
+                <StackLayout
+                    Margin="20,0,20,20"
+                    HorizontalOptions="FillAndExpand"
+                    Orientation="Horizontal"
+                    Spacing="12">
+                    <Border
+                        Margin="0,15,0,0"
+                        Padding="0"
+                        Background="{DynamicResource Primary10Color}"
+                        HeightRequest="50"
+                        HorizontalOptions="FillAndExpand"
+                        StrokeShape="RoundRectangle 10"
+                        StrokeThickness="0">
+                        <StackLayout
+                            Margin="12,2"
+                            Orientation="Horizontal"
+                            VerticalOptions="CenterAndExpand">
+
+                            <handlers:BorderlessEntry
+                                Margin="8,0"
+                                HorizontalOptions="FillAndExpand"
+                                Placeholder="Write a comment"
+                                PlaceholderColor="{DynamicResource BaseLightTextColor}" />
+
+                            <Label
+                                FontFamily="FaRegular"
+                                FontSize="24"
+                                HorizontalOptions="Center"
+                                HorizontalTextAlignment="Center"
+                                Text="{x:Static views:FaRegular.Grin}"
+                                TextColor="{DynamicResource BaseIconColor}"
+                                VerticalOptions="CenterAndExpand" />
+
+                            <Label
+                                Margin="15,0,0,0"
+                                FontFamily="IonIcons"
+                                FontSize="24"
+                                HorizontalOptions="End"
+                                HorizontalTextAlignment="Center"
+                                Text="{x:Static views:IonIcons.AndroidSend}"
+                                TextColor="{DynamicResource PrimaryColor}"
+                                VerticalOptions="CenterAndExpand" />
+                        </StackLayout>
+                    </Border>
+                </StackLayout>
+
+                <BoxView HeightRequest="0.8" />
+
+                <!--  More News  -->
+                <StackLayout
+                    Margin="20,10,20,0"
+                    HorizontalOptions="FillAndExpand"
+                    Orientation="Horizontal">
+                    <Label
+                        Style="{StaticResource SectionHeading}"
+                        Text="{localization:Translate LabelMoreNews}"
+                        VerticalOptions="Center" />
+                    <Label
+                        HorizontalOptions="EndAndExpand"
+                        Style="{StaticResource ViewAll}"
+                        Text="{localization:Translate LabelViewAll}"
+                        VerticalOptions="Center" />
+                </StackLayout>
+                <CollectionView
+                    Margin="20,0,0,20"
+                    HeightRequest="200"
+                    ItemTemplate="{StaticResource ArticleTemplate}"
+                    ItemsSource="{Binding RelatedNews}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="10" Orientation="Horizontal" />
+                    </CollectionView.ItemsLayout>
+                </CollectionView>
+            </StackLayout>
+        </ScrollView>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

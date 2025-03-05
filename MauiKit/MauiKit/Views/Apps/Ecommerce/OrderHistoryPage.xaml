@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Ecommerce.OrderHistoryPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    x:Name="orderDetailsPage"
+    BaseTitle="{localization:Translate PageTitleOrderHistory}"
+    BaseTitleColor="{DynamicResource BaseTextColor}">
+
+    <views:BasePage.PageContent>
+        <Grid Padding="15" RowDefinitions="Auto, *">
+
+            <!--  Header  -->
+            <Grid
+                Padding="0,15"
+                ColumnDefinitions="Auto, *"
+                ColumnSpacing="10">
+
+                <Label
+                    FontFamily="MaterialDesign"
+                    FontSize="26"
+                    HorizontalOptions="Center"
+                    Text="{x:Static views:MaterialDesignIcons.Receipt}"
+                    VerticalOptions="Center" />
+
+                <Label
+                    Grid.Column="1"
+                    Style="{StaticResource Title2}"
+                    Text="{localization:Translate PageTitleOrderHistory}"
+                    VerticalOptions="Center" />
+            </Grid>
+
+            <!--  Orders list  -->
+            <CollectionView
+                Grid.Row="1"
+                IsGrouped="True"
+                ItemsSource="{Binding OrderLists}">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="12" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <Grid Padding="0,15,0,-5" BackgroundColor="{DynamicResource MainWrapperBackgroundColor}">
+                            <Label
+                                FontFamily="MediumFont"
+                                FontSize="16"
+                                LineHeight="1.0"
+                                Text="{Binding Date, StringFormat='# {0}'}"
+                                TextColor="{DynamicResource BaseTextColor}"
+                                VerticalOptions="End" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.GroupHeaderTemplate>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border
+                            Padding="15"
+                            HorizontalOptions="FillAndExpand"
+                            StrokeShape="RoundRectangle 20"
+                            StrokeThickness="0">
+                            <StackLayout Orientation="Horizontal">
+                                <StackLayout HorizontalOptions="StartAndExpand">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="16"
+                                        HorizontalOptions="StartAndExpand"
+                                        Text="{Binding OrderId}" />
+
+                                    <Label
+                                        Margin="0,5"
+                                        FontSize="15"
+                                        HorizontalOptions="StartAndExpand"
+                                        Text="{Binding Price}"
+                                        TextColor="{DynamicResource OkColor}" />
+
+                                    <Frame
+                                        Padding="0"
+                                        BackgroundColor="{DynamicResource PrimaryColor}"
+                                        BorderColor="Transparent"
+                                        CornerRadius="8"
+                                        HasShadow="False"
+                                        HorizontalOptions="Start"
+                                        IsClippedToBounds="True">
+
+                                        <Label
+                                            Margin="15,5"
+                                            FontSize="14"
+                                            HorizontalOptions="Center"
+                                            Text="{Binding Status}"
+                                            TextColor="{DynamicResource White}"
+                                            VerticalOptions="Center"
+                                            VerticalTextAlignment="Center" />
+                                    </Frame>
+                                </StackLayout>
+
+                                <Grid
+                                    ColumnDefinitions="50, 50"
+                                    ColumnSpacing="4"
+                                    HorizontalOptions="EndAndExpand"
+                                    RowDefinitions="50, 50"
+                                    RowSpacing="4">
+
+                                    <Border
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Padding="0"
+                                        Background="{DynamicResource MainWrapperBackgroundColor}"
+                                        IsVisible="{Binding ImageOneVisibility}"
+                                        StrokeShape="RoundRectangle 5,5,5,5"
+                                        StrokeThickness="1">
+                                        <Image Aspect="AspectFill" Source="{Binding ImageOneUrl}" />
+                                    </Border>
+
+
+                                    <Border
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Padding="0"
+                                        Background="{DynamicResource MainWrapperBackgroundColor}"
+                                        IsVisible="{Binding ImageTwoVisibility}"
+                                        StrokeShape="RoundRectangle 5,5,5,5"
+                                        StrokeThickness="1">
+                                        <Image
+                                            Aspect="AspectFill"
+                                            IsVisible="{Binding ImageTwoVisibility}"
+                                            Source="{Binding ImageTwoUrl}" />
+                                    </Border>
+
+                                    <Border
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Padding="0"
+                                        Background="{DynamicResource MainWrapperBackgroundColor}"
+                                        IsVisible="{Binding ImageThreeVisibility}"
+                                        StrokeShape="RoundRectangle 5,5,5,5"
+                                        StrokeThickness="1">
+                                        <Image
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            Aspect="AspectFill"
+                                            Source="{Binding ImageThreeUrl}" />
+
+                                    </Border>
+
+                                    <Border
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Padding="0"
+                                        Background="{DynamicResource MainWrapperBackgroundColor}"
+                                        IsVisible="{Binding ImageMoreVisibility}"
+                                        StrokeShape="RoundRectangle 5,5,5,5"
+                                        StrokeThickness="1">
+                                        <Label
+                                            FontSize="14"
+                                            HorizontalOptions="CenterAndExpand"
+                                            Text="{Binding RemainingImages, StringFormat='+{0}'}"
+                                            TextColor="{DynamicResource BaseIconColor}"
+                                            VerticalOptions="CenterAndExpand" />
+                                    </Border>
+
+                                </Grid>
+                            </StackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+        </Grid>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

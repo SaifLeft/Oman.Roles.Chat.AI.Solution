@@ -20,8 +20,7 @@ namespace API.Controllers
             _localizationService = localizationService;
             _logger = logger;
         }
-
-        [HttpPost("process")]
+        [HttpPost]
         public async Task<IActionResult> ProcessQuery([FromBody] QueryRequest request)
         {
             // Get preferred language from request header or default to English

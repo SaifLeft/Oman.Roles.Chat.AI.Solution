@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.News.NewsProfilePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:models="clr-namespace:MauiKit.Models.News"
+    xmlns:viewBase="clr-namespace:MauiKit.Views"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    BaseTitle="{localization:Translate PageTitleAccount}"
+    BaseTitleColor="{DynamicResource BaseTextColor}">
+
+    <views:BasePage.Resources>
+        <Style x:Key="SectionHeading" TargetType="Label">
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="FontFamily" Value="MediumFont" />
+            <Setter Property="TextColor" Value="{DynamicResource BaseTextColor}" />
+            <Setter Property="HorizontalOptions" Value="StartAndExpand" />
+        </Style>
+
+        <Style TargetType="BoxView">
+            <Setter Property="HeightRequest" Value="1" />
+            <Setter Property="Color" Value="{DynamicResource FrameBorder}" />
+            <Setter Property="Margin" Value="-20,10" />
+        </Style>
+
+        <Style x:Key="ViewAll" TargetType="Label">
+            <Setter Property="HorizontalOptions" Value="End" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="TextColor" Value="{DynamicResource PrimaryColor}" />
+            <Setter Property="VerticalOptions" Value="End" />
+        </Style>
+
+        <DataTemplate x:Key="ArticleTemplate" x:DataType="models:Article">
+            <Border
+                Padding="10"
+                StrokeShape="RoundRectangle 12"
+                StrokeThickness="1">
+                <Grid ColumnSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="30" />
+                    </Grid.RowDefinitions>
+
+                    <Frame
+                        Grid.RowSpan="3"
+                        Grid.Column="0"
+                        Padding="0"
+                        CornerRadius="10"
+                        HeightRequest="110"
+                        IsClippedToBounds="True"
+                        WidthRequest="100">
+                        <Image Aspect="AspectFill" Source="{Binding ImageURL}" />
+                    </Frame>
+
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Text="{Binding Category}"
+                        TextColor="{DynamicResource PrimaryColor}" />
+
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        MaxLines="2"
+                        Style="{StaticResource Title2}"
+                        Text="{Binding Title}" />
+
+                    <StackLayout
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Orientation="Horizontal"
+                        Spacing="5"
+                        VerticalOptions="Center">
+                        <Label
+                            Text="{Binding Time}"
+                            TextColor="{DynamicResource BaseLightTextColor}"
+                            VerticalOptions="Center" />
+                        <Label
+                            FontAttributes="Bold"
+                            Text="-"
+                            TextColor="{DynamicResource BaseSeparatorColor}"
+                            VerticalOptions="Center" />
+
+                        <Label
+                            Margin="15,0,0,0"
+                            FontFamily="MaterialDesign"
+                            FontSize="16"
+                            Text="{x:Static views:MaterialDesignIcons.ChatBubble}"
+                            TextColor="{DynamicResource BaseLightTextColor}"
+                            VerticalOptions="Center" />
+                        <Label Text="{Binding CommentCount}" TextColor="{DynamicResource BaseTextColor}" />
+
+                        <Label
+                            Margin="15,0,0,0"
+                            FontFamily="MaterialDesign"
+                            FontSize="16"
+                            Text="{x:Static views:MaterialDesignIcons.ThumbUp}"
+                            TextColor="{DynamicResource BaseLightTextColor}"
+                            VerticalOptions="Center" />
+                        <Label Text="{Binding LikeCount}" TextColor="{DynamicResource BaseTextColor}" />
+                    </StackLayout>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </views:BasePage.Resources>
+
+    <views:BasePage.PageContent>
+        <ScrollView>
+            <VerticalStackLayout Padding="20,10,20,20">
+                <Border
+                    Padding="0"
+                    Stroke="Transparent"
+                    StrokeShape="{RoundRectangle CornerRadius='10'}">
+                    <Image
+                        Aspect="AspectFill"
+                        HeightRequest="130"
+                        Source="https://raw.githubusercontent.com/tlssoftware/raw-material/master/maui-kit/news/green-bg.jpg" />
+                </Border>
+
+                <Border
+                    Margin="0,-60,0,0"
+                    Padding="0"
+                    Background="{DynamicResource White}"
+                    HeightRequest="120"
+                    HorizontalOptions="Center"
+                    Stroke="{DynamicResource White}"
+                    StrokeShape="RoundRectangle 60"
+                    StrokeThickness="5"
+                    VerticalOptions="Start"
+                    WidthRequest="120">
+                    <Image Aspect="Fill" Source="https://raw.githubusercontent.com/tlssoftware/raw-material/master/maui-kit/ecommerce/users/user2.png" />
+                </Border>
+
+                <Label
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource SectionHeading}"
+                    Text="Nura Lineon" />
+                <Label
+                    Margin="45,0"
+                    FontFamily="RegularFont"
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource Headline}"
+                    Text="I'm interested in environment issues, trying to make the better and more beautiful"
+                    TextColor="{StaticResource Gray500}" />
+
+                <Grid Padding="10" ColumnDefinitions="0.5*, 150, 0.5*">
+                    <StackLayout HorizontalOptions="End">
+                        <Label
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            Style="{StaticResource Title2}"
+                            Text="750"
+                            TextColor="{DynamicResource PrimaryColor}" />
+                        <Label
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            Text="{localization:Translate LabelArticleCount}"
+                            TextColor="{DynamicResource BaseTextColor}" />
+                    </StackLayout>
+
+                    <StackLayout Grid.Column="1" HorizontalOptions="Center">
+                        <Label
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            Style="{StaticResource Title2}"
+                            Text="252K"
+                            TextColor="{DynamicResource PrimaryColor}" />
+                        <Label
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            Text="{localization:Translate LabelFollowerCount}"
+                            TextColor="{DynamicResource BaseTextColor}" />
+                    </StackLayout>
+
+                    <StackLayout Grid.Column="2" HorizontalOptions="Start">
+                        <Label
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            Style="{StaticResource Title2}"
+                            Text="152"
+                            TextColor="{DynamicResource PrimaryColor}" />
+                        <Label
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            Text="{localization:Translate LabelPostCount}"
+                            TextColor="{DynamicResource BaseTextColor}" />
+                    </StackLayout>
+                </Grid>
+
+                <BoxView />
+
+                <!--  Latest Articles  -->
+                <StackLayout
+                    Margin="0,10,0,0"
+                    HorizontalOptions="FillAndExpand"
+                    Orientation="Horizontal">
+                    <Label
+                        Style="{StaticResource SectionHeading}"
+                        Text="{localization:Translate LabelLatestArticles}"
+                        VerticalOptions="Center" />
+                    <Label
+                        HorizontalOptions="EndAndExpand"
+                        Style="{StaticResource ViewAll}"
+                        Text="{localization:Translate StringViewAll}"
+                        VerticalOptions="Center" />
+                </StackLayout>
+                <CollectionView
+                    Margin="0"
+                    ItemTemplate="{StaticResource ArticleTemplate}"
+                    ItemsSource="{Binding LatestArticles}">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout
+                            HorizontalItemSpacing="15"
+                            Orientation="Vertical"
+                            Span="{OnIdiom Desktop='2',
+                                           Phone='1',
+                                           Tablet='2'}"
+                            VerticalItemSpacing="15" />
+                    </CollectionView.ItemsLayout>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Travels.TravelHomePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:handlers="clr-namespace:MauiKit.Handlers"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:models="clr-namespace:MauiKit.Models"
+    xmlns:templates="clr-namespace:MauiKit.Views.Travels.Templates"
+    xmlns:viewModels="clr-namespace:MauiKit.ViewModels.Travels"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    x:DataType="viewModels:TravelHomeViewModel"
+    BackgroundColor="{DynamicResource BasePageColor}"
+    NavigationPage.HasNavigationBar="True">
+
+    <views:BasePage.PageContent>
+        <Grid RowDefinitions="Auto, *">
+            <Grid
+                Padding="16"
+                ColumnDefinitions="Auto, *, Auto"
+                ColumnSpacing="20">
+                <!--  Menu Icon  -->
+                <Border
+                    Padding="0"
+                    HeightRequest="42"
+                    Stroke="{DynamicResource T_Primary}"
+                    StrokeThickness="1"
+                    WidthRequest="42">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <Image
+                        HeightRequest="26"
+                        HorizontalOptions="Center"
+                        Source="{DynamicResource MenuIcon}"
+                        VerticalOptions="Center"
+                        WidthRequest="26" />
+                </Border>
+
+                <!--  Location  -->
+                <StackLayout Grid.Column="1" HorizontalOptions="Center">
+                    <Label
+                        HorizontalOptions="Center"
+                        Text="{localization:Translate LabelLocation}"
+                        TextColor="{DynamicResource T_Primary}" />
+                    <Label
+                        FontFamily="SemiBoldFont"
+                        FontSize="14"
+                        HorizontalOptions="Center"
+                        Text="Allentown, New Mexico"
+                        TextColor="{DynamicResource BaseTextColor}"
+                        VerticalOptions="Center" />
+                </StackLayout>
+
+                <!--  Notification Icon  -->
+                <Border
+                    Grid.Column="2"
+                    Padding="0"
+                    HeightRequest="42"
+                    Stroke="{DynamicResource T_Primary}"
+                    StrokeThickness="1"
+                    WidthRequest="42">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <Image
+                        HeightRequest="26"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        WidthRequest="26">
+                        <Image.Source>
+                            <FontImageSource
+                                FontFamily="LineAwesome"
+                                Glyph="{x:Static views:LineAwesome.BellO}"
+                                Color="{DynamicResource BaseTextColor}" />
+                        </Image.Source>
+                    </Image>
+                </Border>
+            </Grid>
+
+            <ScrollView Grid.Row="1" VerticalScrollBarVisibility="Default">
+                <Grid
+                    Padding="0,20"
+                    RowDefinitions="Auto,300,*"
+                    RowSpacing="20">
+
+                    <!--  Categories  -->
+                    <Grid
+                        Grid.Row="0"
+                        Margin="0,10,0,0"
+                        Padding="16,0,0,0"
+                        HeightRequest="{OnIdiom Phone='60',
+                                                Default='60',
+                                                Desktop='100'}">
+                        <CollectionView ItemsSource="{Binding PlaceCategories}">
+                            <CollectionView.ItemsLayout>
+                                <GridItemsLayout
+                                    HorizontalItemSpacing="0"
+                                    Orientation="Horizontal"
+                                    Span="1"
+                                    VerticalItemSpacing="10" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:PlaceCategory">
+                                    <Border
+                                        Margin="0,0,10,0"
+                                        Padding="10,8"
+                                        Stroke="{DynamicResource T_Accent}"
+                                        StrokeThickness="0.8"
+                                        VerticalOptions="Center">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="10" />
+                                        </Border.StrokeShape>
+                                        <Grid
+                                            ColumnDefinitions="Auto,*"
+                                            ColumnSpacing="10"
+                                            MinimumWidthRequest="{OnIdiom Phone='100',
+                                                                          Tablet='100',
+                                                                          Desktop='130'}">
+                                            <Image
+                                                HeightRequest="30"
+                                                HorizontalOptions="Center"
+                                                Source="{Binding Icon}"
+                                                VerticalOptions="Center"
+                                                WidthRequest="30" />
+
+                                            <Label
+                                                Grid.Column="1"
+                                                FontFamily="MediumFont"
+                                                FontSize="14"
+                                                Text="{Binding CategoryName}"
+                                                TextColor="{DynamicResource BaseTextColor}"
+                                                VerticalOptions="Center" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </Grid>
+
+                    <!--  Popular Guides  -->
+                    <StackLayout
+                        Grid.Row="1"
+                        Padding="16,0,0,0"
+                        HeightRequest="300"
+                        Spacing="6">
+                        <Label
+                            FontFamily="BoldFont"
+                            FontSize="18"
+                            Text="{localization:Translate LabelTravelPopularArticles}" />
+
+                        <CollectionView
+                            x:Name="popularLists"
+                            ItemsSource="{Binding PopularTravelGuides}"
+                            SelectionChanged="CollectionView_OnSelectionChanged"
+                            SelectionMode="Single">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout ItemSpacing="0" Orientation="Horizontal" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <templates:PopularTravelGuideItemTemplate />
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                            <CollectionView.Footer>
+                                <Label Text="" />
+                            </CollectionView.Footer>
+                        </CollectionView>
+                    </StackLayout>
+
+                    <!--  Following Authors  -->
+                    <StackLayout
+                        Grid.Row="2"
+                        Padding="16,0"
+                        Spacing="6">
+                        <Label
+                            FontFamily="BoldFont"
+                            FontSize="18"
+                            Text="{localization:Translate LabelTravelFollowingArticles}" />
+
+                        <CollectionView
+                            x:Name="followingLists"
+                            ItemsSource="{Binding FollowingAuthorGuides}"
+                            SelectionChanged="CollectionView_OnSelectionChanged"
+                            SelectionMode="Single">
+                            <CollectionView.ItemsLayout>
+                                <GridItemsLayout
+                                    HorizontalItemSpacing="15"
+                                    Orientation="Vertical"
+                                    Span="{OnIdiom Phone='1',
+                                                   Tablet='2',
+                                                   Desktop='3'}"
+                                    VerticalItemSpacing="15" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <templates:FollowingAuthorGuideItemTemplate />
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                            <CollectionView.Footer>
+                                <Label Text="" />
+                            </CollectionView.Footer>
+                        </CollectionView>
+                    </StackLayout>
+                </Grid>
+            </ScrollView>
+        </Grid>
+    </views:BasePage.PageContent>
+</views:BasePage>

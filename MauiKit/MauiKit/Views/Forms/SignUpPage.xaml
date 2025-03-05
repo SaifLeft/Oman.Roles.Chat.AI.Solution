@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiKit.Views.Forms.SignUpPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:handlers="clr-namespace:MauiKit.Handlers"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    NavigationPage.HasBackButton="False"
+    NavigationPage.HasNavigationBar="False">
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="Transparent" StatusBarStyle="DarkContent" />
+    </ContentPage.Behaviors>
+
+    <ScrollView VerticalScrollBarVisibility="Default">
+        <Grid ColumnDefinitions="{OnIdiom Desktop='2*, 6*, 2*', Phone='Auto, *, Auto', Tablet='2*, 6*, 2*', Default='Auto, *, Auto'}">
+
+            <Grid
+                Grid.Column="1"
+                RowDefinitions="Auto, *, Auto"
+                RowSpacing="30">
+
+                <VerticalStackLayout
+                    Padding="30,0"
+                    HorizontalOptions="CenterAndExpand"
+                    Spacing="20"
+                    VerticalOptions="Start">
+                    <Border
+                        Padding="0"
+                        Background="{DynamicResource PrimaryColor}"
+                        HeightRequest="80"
+                        HorizontalOptions="Center"
+                        Stroke="{DynamicResource White}"
+                        StrokeShape="{RoundRectangle CornerRadius=16}"
+                        StrokeThickness="3"
+                        WidthRequest="80">
+                        <controls:RoundedCornerImage
+                            Background="{DynamicResource White}"
+                            HeightRequest="50"
+                            HorizontalOptions="Center"
+                            Source="logo.png"
+                            Stroke="Transparent"
+                            StrokeShape="{RoundRectangle CornerRadius=50}"
+                            VerticalOptions="Center"
+                            WidthRequest="50" />
+                    </Border>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="19"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource Title2}"
+                        Text="{localization:Translate StringRegisterNow}" />
+                    <Label
+                        FontSize="17"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource PrimaryLabel}"
+                        Text="{localization:Translate StringRegisterNowSubtitle}" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout
+                    Grid.Row="1"
+                    Padding="30,0"
+                    HorizontalOptions="Fill"
+                    Spacing="16"
+                    VerticalOptions="CenterAndExpand">
+                    <Border Padding="20,5" Background="{DynamicResource EntryAndEditorsBackgroundColor}">
+                        <handlers:BorderlessEntry
+                            HeightRequest="42"
+                            Keyboard="Default"
+                            Placeholder="{localization:Translate StringEnterFullname}"
+                            PlaceholderColor="{DynamicResource BaseTextColor}" />
+                    </Border>
+
+                    <Border Padding="20,5" Background="{DynamicResource EntryAndEditorsBackgroundColor}">
+                        <handlers:BorderlessEntry
+                            HeightRequest="42"
+                            Keyboard="Default"
+                            Placeholder="{localization:Translate StringEnterUsername}"
+                            PlaceholderColor="{DynamicResource BaseTextColor}" />
+                    </Border>
+
+                    <Border Padding="20,5" Background="{DynamicResource EntryAndEditorsBackgroundColor}">
+                        <handlers:BorderlessEntry
+                            HeightRequest="42"
+                            IsPassword="True"
+                            Keyboard="Default"
+                            Placeholder="{localization:Translate StringPassword}"
+                            PlaceholderColor="{DynamicResource BaseTextColor}" />
+                    </Border>
+
+                    <Border Padding="20,5" Background="{DynamicResource EntryAndEditorsBackgroundColor}">
+                        <handlers:BorderlessEntry
+                            HeightRequest="42"
+                            IsPassword="True"
+                            Keyboard="Default"
+                            Placeholder="{localization:Translate StringConfirmPassword}"
+                            PlaceholderColor="{DynamicResource BaseTextColor}" />
+                    </Border>
+
+                </VerticalStackLayout>
+
+                <VerticalStackLayout
+                    Grid.Row="2"
+                    Padding="30,0"
+                    HorizontalOptions="Fill"
+                    Spacing="20"
+                    VerticalOptions="EndAndExpand">
+                    <Button
+                        BackgroundColor="{DynamicResource PrimaryColor}"
+                        Clicked="SignupButtonClicked"
+                        CornerRadius="14"
+                        HeightRequest="50"
+                        Text="{localization:Translate ButtonSignup}"
+                        TextColor="{DynamicResource White}" />
+
+                    <Grid
+                        Padding="40,0"
+                        ColumnDefinitions="0.5*, Auto, 0.5*"
+                        ColumnSpacing="16">
+                        <Rectangle
+                            Fill="{DynamicResource BaseSeparatorColor}"
+                            HeightRequest="1"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Column="1"
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            Text="{localization:Translate StringOr}"
+                            TextColor="{DynamicResource BaseLightTextColor}"
+                            VerticalOptions="Center" />
+                        <Rectangle
+                            Grid.Column="2"
+                            Fill="{DynamicResource BaseSeparatorColor}"
+                            HeightRequest="1"
+                            VerticalOptions="Center" />
+                    </Grid>
+
+                    <StackLayout
+                        Padding="0,15"
+                        HorizontalOptions="CenterAndExpand"
+                        Orientation="Horizontal"
+                        Spacing="25">
+                        <controls:ButtonFacebookLogin />
+
+                        <controls:ButtonGoogleLogin />
+
+                        <controls:ButtonAppleLogin />
+                    </StackLayout>
+
+                    <Button
+                        BackgroundColor="Transparent"
+                        CornerRadius="12"
+                        FontSize="15"
+                        Text="{localization:Translate ButtonAlreadyRegistered}"
+                        TextColor="{DynamicResource BaseTextColor}" />
+                </VerticalStackLayout>
+            </Grid>
+
+            <!--  CLOSE ICON  -->
+            <Label
+                Grid.ColumnSpan="3"
+                Margin="20"
+                HorizontalOptions="End"
+                HorizontalTextAlignment="End"
+                Style="{StaticResource IconCloseLabelStyle}"
+                TextColor="{DynamicResource BaseTextColor}"
+                VerticalOptions="Start">
+
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="GoBack_Tapped" />
+                </Label.GestureRecognizers>
+            </Label>
+        </Grid>
+    </ScrollView>
+</ContentPage>

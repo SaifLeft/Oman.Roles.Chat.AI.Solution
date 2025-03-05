@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="MauiKit.Views.Articles.Templates.HeaderArticleGalleryItemTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiKit.Controls">
+    <controls:RoundedCornerImage
+        HeightRequest="150"
+        Source="{Binding BackgroundImage}"
+        Stroke="{DynamicResource FrameBorder}"
+        StrokeShape="{RoundRectangle CornerRadius=20}"
+        WidthRequest="150" />
+</ContentView>

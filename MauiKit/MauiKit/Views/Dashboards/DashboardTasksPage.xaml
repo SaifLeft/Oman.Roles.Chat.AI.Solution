@@ -1,0 +1,414 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Dashboards.DashboardTasksPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:menuItems="clr-namespace:MauiKit.Models"
+    xmlns:models="clr-namespace:MauiKit.Models"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:MauiKit.ViewModels.Dashboards"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    BackgroundColor="{DynamicResource MainWrapperBackgroundColor}"
+    BaseTitle="{localization:Translate LabelDashboardTasks}"
+    BaseTitleColor="{DynamicResource BaseTextColor}">
+
+    <views:BasePage.BindingContext>
+        <viewmodels:DashboardTasksViewModel />
+    </views:BasePage.BindingContext>
+
+    <views:BasePage.Resources />
+
+    <ScrollView>
+        <VerticalStackLayout Padding="10">
+            <Grid
+                ColumnDefinitions="*, *"
+                ColumnSpacing="10"
+                RowDefinitions="Auto, Auto"
+                RowSpacing="10">
+
+                <!--  New Tasks Group  -->
+                <Border
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Padding="10,7">
+                    <Grid ColumnDefinitions="Auto, *" ColumnSpacing="10">
+                        <Border
+                            Background="#acfff7"
+                            HeightRequest="40"
+                            HorizontalOptions="Start"
+                            Stroke="#acfff7"
+                            StrokeShape="{RoundRectangle CornerRadius=20}"
+                            WidthRequest="40">
+                            <Label
+                                FontFamily="MauiKitIcons"
+                                FontSize="26"
+                                HorizontalOptions="Center"
+                                Text="{x:Static views:MauiKitIcons.NewBox}"
+                                TextColor="#009688"
+                                VerticalOptions="Center" />
+                        </Border>
+
+                        <StackLayout
+                            Grid.Column="1"
+                            Spacing="0"
+                            VerticalOptions="Center">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="{Binding NewTaskCount}" />
+                            <Label
+                                Style="{StaticResource CardDescriptionLabelStyle}"
+                                Text="New Tasks"
+                                TextColor="#009688" />
+                        </StackLayout>
+                    </Grid>
+
+                    <Border.Triggers>
+                        <DataTrigger
+                            Binding="{Binding SelectedOption}"
+                            TargetType="Border"
+                            Value="0">
+                            <Setter Property="BackgroundColor" Value="{DynamicResource Primary20Color}" />
+                            <Setter Property="Stroke" Value="{DynamicResource Primary35Color}" />
+                            <Setter Property="StrokeThickness" Value="1" />
+                        </DataTrigger>
+                        <DataTrigger
+                            Binding="{Binding SelectedOption}"
+                            TargetType="Border"
+                            Value="-1">
+                            <Setter Property="BackgroundColor" Value="{DynamicResource BasePageColor}" />
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding FilterTaskListCommand}" CommandParameter="0" />
+                        <DropGestureRecognizer
+                            AllowDrop="True"
+                            DropCommand="{Binding TaskDropedCommand}"
+                            DropCommandParameter="0" />
+                    </Border.GestureRecognizers>
+
+                </Border>
+
+                <!--  In Progress Tasks Group  -->
+                <Border
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Padding="10">
+
+                    <Grid ColumnDefinitions="Auto, *" ColumnSpacing="10">
+                        <Border
+                            Background="#e6f0ff"
+                            HeightRequest="40"
+                            HorizontalOptions="Start"
+                            Stroke="#e6f0ff"
+                            StrokeShape="{RoundRectangle CornerRadius=20}"
+                            WidthRequest="40">
+                            <Label
+                                FontFamily="MauiKitIcons"
+                                FontSize="26"
+                                HorizontalOptions="Center"
+                                Text="{x:Static views:MauiKitIcons.ProgressCheck}"
+                                TextColor="#1b55e2"
+                                VerticalOptions="Center" />
+                        </Border>
+
+                        <StackLayout
+                            Grid.Column="1"
+                            Spacing="0"
+                            VerticalOptions="Center">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="{Binding InProgressCount}" />
+                            <Label
+                                Style="{StaticResource CardDescriptionLabelStyle}"
+                                Text="In Progress"
+                                TextColor="#1b55e2" />
+                        </StackLayout>
+                    </Grid>
+
+                    <Border.Triggers>
+                        <DataTrigger
+                            Binding="{Binding SelectedOption}"
+                            TargetType="Border"
+                            Value="1">
+                            <Setter Property="BackgroundColor" Value="{DynamicResource Primary20Color}" />
+                            <Setter Property="Stroke" Value="{DynamicResource Primary35Color}" />
+                            <Setter Property="StrokeThickness" Value="1" />
+                        </DataTrigger>
+                        <DataTrigger
+                            Binding="{Binding SelectedOption}"
+                            TargetType="Border"
+                            Value="-1">
+                            <Setter Property="BackgroundColor" Value="{DynamicResource BasePageColor}" />
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding FilterTaskListCommand}" CommandParameter="1" />
+                        <DropGestureRecognizer
+                            AllowDrop="True"
+                            DropCommand="{Binding TaskDropedCommand}"
+                            DropCommandParameter="1" />
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <!--  In Review Tasks Group  -->
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Padding="10">
+
+                    <Grid ColumnDefinitions="Auto, *" ColumnSpacing="10">
+                        <Border
+                            Background="#ffebd2"
+                            HeightRequest="40"
+                            HorizontalOptions="Start"
+                            Stroke="#ffebd2"
+                            StrokeShape="{RoundRectangle CornerRadius=20}"
+                            WidthRequest="40">
+                            <Label
+                                FontFamily="MauiKitIcons"
+                                FontSize="26"
+                                HorizontalOptions="Center"
+                                Text="{x:Static views:MauiKitIcons.EyeCheck}"
+                                TextColor="#e2a03f"
+                                VerticalOptions="Center" />
+                        </Border>
+
+                        <StackLayout
+                            Grid.Column="1"
+                            Spacing="0"
+                            VerticalOptions="Center">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="{Binding InReviewCount}" />
+                            <Label
+                                Style="{StaticResource CardDescriptionLabelStyle}"
+                                Text="In Review"
+                                TextColor="#e2a03f" />
+                        </StackLayout>
+                    </Grid>
+
+                    <Border.Triggers>
+                        <DataTrigger
+                            Binding="{Binding SelectedOption}"
+                            TargetType="Border"
+                            Value="2">
+                            <Setter Property="BackgroundColor" Value="{DynamicResource Primary20Color}" />
+                            <Setter Property="Stroke" Value="{DynamicResource Primary35Color}" />
+                            <Setter Property="StrokeThickness" Value="1" />
+                        </DataTrigger>
+                        <DataTrigger
+                            Binding="{Binding SelectedOption}"
+                            TargetType="Border"
+                            Value="-1">
+                            <Setter Property="BackgroundColor" Value="{DynamicResource BasePageColor}" />
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding FilterTaskListCommand}" CommandParameter="2" />
+                        <DropGestureRecognizer
+                            AllowDrop="True"
+                            DropCommand="{Binding TaskDropedCommand}"
+                            DropCommandParameter="2" />
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <!--  Completed Tasks Group  -->
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Padding="10">
+
+                    <Grid ColumnDefinitions="Auto, *" ColumnSpacing="10">
+                        <Border
+                            Background="#dbc4ff"
+                            HeightRequest="40"
+                            HorizontalOptions="Start"
+                            Stroke="#dbc4ff"
+                            StrokeShape="{RoundRectangle CornerRadius=20}"
+                            WidthRequest="40">
+                            <Label
+                                FontFamily="MauiKitIcons"
+                                FontSize="26"
+                                HorizontalOptions="Center"
+                                Text="{x:Static views:MauiKitIcons.Check}"
+                                TextColor="#5c1ac3"
+                                VerticalOptions="Center" />
+                        </Border>
+
+                        <StackLayout
+                            Grid.Column="1"
+                            Spacing="0"
+                            VerticalOptions="Center">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="{Binding DoneCount}" />
+                            <Label
+                                Style="{StaticResource CardDescriptionLabelStyle}"
+                                Text="Completed"
+                                TextColor="#5c1ac3" />
+                        </StackLayout>
+                    </Grid>
+
+                    <Border.Triggers>
+                        <DataTrigger
+                            Binding="{Binding SelectedOption}"
+                            TargetType="Border"
+                            Value="3">
+                            <Setter Property="BackgroundColor" Value="{DynamicResource Primary20Color}" />
+                            <Setter Property="Stroke" Value="{DynamicResource Primary35Color}" />
+                            <Setter Property="StrokeThickness" Value="1" />
+                        </DataTrigger>
+                        <DataTrigger
+                            Binding="{Binding SelectedOption}"
+                            TargetType="Border"
+                            Value="-1">
+                            <Setter Property="BackgroundColor" Value="{DynamicResource BasePageColor}" />
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding FilterTaskListCommand}" CommandParameter="3" />
+                        <DropGestureRecognizer
+                            AllowDrop="True"
+                            DropCommand="{Binding TaskDropedCommand}"
+                            DropCommandParameter="3" />
+                    </Border.GestureRecognizers>
+                </Border>
+            </Grid>
+
+            <controls:CustomLoadingIndicator
+                HeightRequest="30"
+                IsVisible="{Binding IsBusy}"
+                WidthRequest="30" />
+
+            <!--  Tasks List  -->
+            <CollectionView
+                Margin="0,20,0,0"
+                ItemsSource="{Binding TaskList}"
+                SelectionMode="Single"
+                VerticalOptions="FillAndExpand">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout
+                        HorizontalItemSpacing="{OnIdiom Phone=0,
+                                                        Tablet=0,
+                                                        Desktop=8}"
+                        Orientation="Vertical"
+                        Span="{OnIdiom Phone=1,
+                                       Tablet=1,
+                                       Desktop=2}"
+                        VerticalItemSpacing="{OnIdiom Phone=10,
+                                                      Tablet=10,
+                                                      Desktop=8}" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:DaskboardTaskModel">
+                        <Border
+                            Padding="15,10"
+                            Stroke="{DynamicResource DefaultBorder}"
+                            StrokeThickness="1">
+                            <Border.GestureRecognizers>
+                                <DragGestureRecognizer
+                                    CanDrag="True"
+                                    DragStartingCommand="{Binding Source={x:RelativeSource AncestorType={x:Type viewmodels:DashboardTasksViewModel}}, Path=DragStartedCommand}"
+                                    DragStartingCommandParameter="{Binding .}" />
+                                <TapGestureRecognizer Command="{Binding Source={x:RelativeSource AncestorType={x:Type viewmodels:DashboardTasksViewModel}}, Path=TaskTappedCommand}" CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+
+                            <Grid RowDefinitions="Auto, Auto, Auto, 1, Auto" RowSpacing="3">
+                                <!--  Task Priority  -->
+                                <Border
+                                    Padding="8,2"
+                                    BackgroundColor="{DynamicResource MainWrapperBackgroundColor}"
+                                    HorizontalOptions="Start"
+                                    Stroke="Transparent"
+                                    StrokeShape="{RoundRectangle CornerRadius=8}"
+                                    VerticalOptions="Center">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="13"
+                                        HorizontalOptions="Center"
+                                        Text="{Binding Priority}"
+                                        TextColor="{Binding Priority, Converter={StaticResource TaskPriorityToColorConverter}}"
+                                        VerticalOptions="Center" />
+                                </Border>
+
+                                <!--  Task Name  -->
+                                <Label
+                                    Grid.Row="1"
+                                    Style="{StaticResource Title2}"
+                                    Text="{Binding TaskName}" />
+
+                                <!--  Task Description  -->
+                                <Label
+                                    Grid.Row="2"
+                                    LineBreakMode="TailTruncation"
+                                    MaxLines="1"
+                                    Style="{StaticResource Body}"
+                                    Text="{Binding TaskDescription}" />
+
+                                <StackLayout
+                                    Grid.Row="3"
+                                    Margin="-15,0"
+                                    BackgroundColor="LightGrey"
+                                    HeightRequest="0.5" />
+
+                                <Grid Grid.Row="4" ColumnDefinitions="*, Auto">
+
+                                    <!--  Owner  -->
+                                    <HorizontalStackLayout Grid.Column="0" Spacing="5">
+                                        <!--  Owner Avatar  -->
+                                        <toolkit:AvatarView
+                                            CornerRadius="15"
+                                            HeightRequest="30"
+                                            ImageSource="{Binding OwnerAvatar}"
+                                            VerticalOptions="Center"
+                                            WidthRequest="30" />
+
+                                        <!--  Owner Name  -->
+                                        <Label
+                                            FontAttributes="Bold"
+                                            Style="{StaticResource Footnote}"
+                                            Text="{Binding OwnerName}"
+                                            TextColor="{DynamicResource BaseTextColor}"
+                                            VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+
+                                    <!--  Created Date  -->
+                                    <HorizontalStackLayout
+                                        Grid.Column="1"
+                                        HorizontalOptions="EndAndExpand"
+                                        Spacing="3"
+                                        VerticalOptions="CenterAndExpand">
+                                        <!--  Icon  -->
+                                        <Label
+                                            FontFamily="MauiKitIcons"
+                                            FontSize="17"
+                                            Text="{x:Static views:MauiKitIcons.ClockOutline}"
+                                            TextColor="{DynamicResource DisabledColor}"
+                                            VerticalOptions="Center" />
+
+                                        <!--  Value  -->
+                                        <Label
+                                            Style="{StaticResource Footnote}"
+                                            Text="{Binding CreatedDate}"
+                                            TextColor="{DynamicResource BaseTextColor}"
+                                            TranslationY="1"
+                                            VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+                                </Grid>
+
+                            </Grid>
+
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</views:BasePage>

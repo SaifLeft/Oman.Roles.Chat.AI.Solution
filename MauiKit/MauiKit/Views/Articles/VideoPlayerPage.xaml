@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Articles.VideoPlayerPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:videoPlayer="clr-namespace:MauiKit.Controls.Videos"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    BackgroundColor="{DynamicResource Black}">
+
+    <views:BasePage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="Transparent" StatusBarStyle="DarkContent" />
+    </views:BasePage.Behaviors>
+
+    <views:BasePage.PageContent>
+        <Grid RowDefinitions="*, Auto">
+
+            <toolkit:MediaElement
+                x:Name="mediaPlayer"
+                Grid.RowSpan="2"
+                Aspect="Center"
+                ShouldAutoPlay="True"
+                ShouldShowPlaybackControls="True"
+                Source="{Binding ArticleData.VideoUrl}" />
+
+            <Grid
+                Grid.Row="1"
+                Padding="20,30"
+                ColumnDefinitions="*,Auto"
+                VerticalOptions="End">
+
+                <StackLayout HorizontalOptions="Fill" VerticalOptions="End">
+
+                    <!--  Category  -->
+                    <HorizontalStackLayout Spacing="15">
+                        <Label
+                            FontFamily="MauiKitIcons"
+                            Text="{x:Static views:MauiKitIcons.ChartBar}"
+                            TextColor="{DynamicResource OverImageTextColor}"
+                            VerticalOptions="Center" />
+
+                        <Label
+                            Text="{Binding ArticleData.Section}"
+                            TextColor="{DynamicResource PrimaryColor}"
+                            VerticalOptions="End" />
+                    </HorizontalStackLayout>
+
+                    <!--  Title  -->
+                    <Label
+                        FontAttributes="Bold"
+                        Text="{Binding ArticleData.Title}"
+                        TextColor="{DynamicResource OverImageTextColor}" />
+
+                </StackLayout>
+
+                <StackLayout
+                    Grid.Column="1"
+                    HorizontalOptions="End"
+                    Spacing="20">
+
+                    <!--  Author Avatar  -->
+                    <Grid RowDefinitions="50,12">
+                        <controls:RoundedCornerImage
+                            HeightRequest="50"
+                            HorizontalOptions="Center"
+                            Source="{Binding ArticleData.Avatar}"
+                            Stroke="{DynamicResource White}"
+                            StrokeShape="{RoundRectangle CornerRadius=25}"
+                            StrokeThickness="1"
+                            VerticalOptions="Start"
+                            WidthRequest="50" />
+
+                        <Frame
+                            Grid.RowSpan="2"
+                            Padding="0"
+                            BackgroundColor="{DynamicResource Green}"
+                            CornerRadius="10"
+                            HeightRequest="20"
+                            HorizontalOptions="Center"
+                            TranslationY="0"
+                            VerticalOptions="End"
+                            WidthRequest="30">
+                            <Label
+                                FontAttributes="Bold"
+                                FontFamily="MauiKitIcons"
+                                HorizontalOptions="Center"
+                                Text="{x:Static views:MauiKitIcons.Plus}"
+                                TextColor="{DynamicResource OverImageTextColor}"
+                                VerticalOptions="Center" />
+                        </Frame>
+                    </Grid>
+
+                    <!--  Share Action  -->
+                    <StackLayout>
+                        <Label
+                            Grid.Column="1"
+                            FontFamily="MauiKitIcons"
+                            FontSize="30"
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            Text="{x:Static views:MauiKitIcons.ShareOutline}"
+                            TextColor="{DynamicResource OverImageTextColor}" />
+
+                        <Label
+                            FontSize="12"
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            Text="{localization:Translate StringShare}"
+                            TextColor="{DynamicResource OverImageTextColor}" />
+                    </StackLayout>
+                </StackLayout>
+
+            </Grid>
+        </Grid>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Socials.ChatDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:handlers="clr-namespace:MauiKit.Handlers"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:templates="clr-namespace:MauiKit.Views.Socials.Templates"
+    xmlns:viewBase="clr-namespace:MauiKit.Views"
+    xmlns:viewModel="clr-namespace:MauiKit.ViewModels.Socials"
+    xmlns:views="clr-namespace:MauiKit.Views">
+
+    <views:BasePage.Resources>
+        <ResourceDictionary>
+
+            <DataTemplate x:Key="SenderMessageItemTemplate">
+                <templates:SenderChatMessageItemTemplate />
+            </DataTemplate>
+
+            <DataTemplate x:Key="ReceiverMessageItemTemplate">
+                <templates:ReceiverChatMessageItemTemplate />
+            </DataTemplate>
+
+            <templates:MessageDataTemplateSelector
+                x:Key="MessageDataTemplateSelector"
+                ReceiverMessageTemplate="{StaticResource ReceiverMessageItemTemplate}"
+                SenderMessageTemplate="{StaticResource SenderMessageItemTemplate}" />
+
+            <Style x:Key="UserContainerStyle" TargetType="HorizontalStackLayout">
+                <Setter Property="HeightRequest" Value="60" />
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="Spacing" Value="10" />
+            </Style>
+
+            <Style x:Key="UsernameTextStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="TextColor" Value="{DynamicResource BaseTextColor}" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="HorizontalOptions" Value="Start" />
+                <Setter Property="VerticalOptions" Value="Center" />
+            </Style>
+
+            <Style x:Key="ButtonGroupContainerStyle" TargetType="StackLayout">
+                <Setter Property="HeightRequest" Value="60" />
+                <Setter Property="Orientation" Value="Horizontal" />
+                <Setter Property="Margin" Value="20, 0" />
+                <Setter Property="Spacing" Value="14" />
+            </Style>
+
+            <Style x:Key="ButtonContainerStyle" TargetType="Border">
+                <Setter Property="HeightRequest" Value="40" />
+                <Setter Property="WidthRequest" Value="40" />
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="StrokeThickness" Value="0" />
+                <Setter Property="Background" Value="{DynamicResource MainWrapperBackgroundColor}" />
+                <Setter Property="StrokeShape" Value="{RoundRectangle CornerRadius=10}" />
+            </Style>
+
+            <Style x:Key="ButtonImageStyle" TargetType="Image">
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="Aspect" Value="AspectFit" />
+                <Setter Property="HeightRequest" Value="18" />
+                <Setter Property="Margin" Value="0" />
+            </Style>
+
+            <Style x:Key="ChatCollectionStyle" TargetType="CollectionView">
+                <Setter Property="Margin" Value="16, 0, 16, 10" />
+            </Style>
+
+            <Style x:Key="ChatEntryContainerStyle" TargetType="Border">
+                <Setter Property="BackgroundColor" Value="{DynamicResource Primary10Color}" />
+                <Setter Property="HeightRequest" Value="50" />
+                <Setter Property="StrokeShape" Value="{RoundRectangle CornerRadius=10}" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="Padding" Value="15,0" />
+                <Setter Property="StrokeThickness" Value="1" />
+                <Setter Property="Stroke" Value="{DynamicResource FrameBorder}" />
+            </Style>
+
+            <Style x:Key="ChatEntryStyle" TargetType="handlers:BorderlessEntry">
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="TextColor" Value="{DynamicResource BaseTextColor}" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="Margin" Value="0, 0" />
+            </Style>
+
+            <Style x:Key="DividerStyle" TargetType="StackLayout">
+                <Setter Property="HeightRequest" Value="1" />
+                <Setter Property="BackgroundColor" Value="{DynamicResource DefaultBorder}" />
+                <Setter Property="Margin" Value="0" />
+            </Style>
+        </ResourceDictionary>
+    </views:BasePage.Resources>
+
+    <views:BasePage.PageContent>
+        <Grid Padding="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="60" />
+            </Grid.RowDefinitions>
+
+            <Grid
+                Padding="0,5,0,0"
+                BackgroundColor="{DynamicResource BasePageColor}"
+                ColumnDefinitions="60,*, Auto"
+                HeightRequest="{OnIdiom Phone='60',
+                                        Tablet='60',
+                                        Desktop='70'}"
+                VerticalOptions="Start">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="1" />
+                </Grid.RowDefinitions>
+
+                <!--  BACK ICON  -->
+                <Label
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource IconBackLabelStyle}"
+                    TextColor="{DynamicResource BaseTextColor}"
+                    VerticalOptions="Center">
+
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnBackButtonClicked" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <Grid
+                    Grid.Column="1"
+                    ColumnDefinitions="50,*"
+                    ColumnSpacing="10"
+                    Style="{StaticResource UserContainerStyle}">
+                    <controls:AvatarWithStatus
+                        AvatarHeight="40"
+                        AvatarWidth="40"
+                        Source="{Binding User.Image}"
+                        Status="{Binding User.Status}" />
+
+                    <Label
+                        Grid.Column="1"
+                        Style="{StaticResource UsernameTextStyle}"
+                        Text="{Binding User.Name}" />
+                </Grid>
+
+                <StackLayout
+                    Grid.Column="2"
+                    HorizontalOptions="Fill"
+                    Style="{StaticResource ButtonGroupContainerStyle}">
+
+                    <!--  Video Call Button  -->
+                    <Border
+                        Background="{DynamicResource MainWrapperBackgroundColor}"
+                        Stroke="{DynamicResource DefaultBorder}"
+                        StrokeThickness="1"
+                        Style="{StaticResource ButtonContainerStyle}">
+                        <Image Style="{StaticResource ButtonImageStyle}">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="MauiKitIcons"
+                                    Glyph="{x:Static views:MauiKitIcons.Video}"
+                                    Color="{DynamicResource Red}" />
+                            </Image.Source>
+                        </Image>
+                    </Border>
+
+                    <!--  Phone Call Button  -->
+                    <Border Background="{DynamicResource Green}" Style="{StaticResource ButtonContainerStyle}">
+                        <Image Style="{StaticResource ButtonImageStyle}">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="MauiKitIcons"
+                                    Glyph="{x:Static views:MauiKitIcons.Phone}"
+                                    Color="{DynamicResource White}" />
+                            </Image.Source>
+                        </Image>
+                    </Border>
+                </StackLayout>
+
+                <StackLayout
+                    Grid.Row="1"
+                    Grid.ColumnSpan="3"
+                    Style="{StaticResource DividerStyle}"
+                    VerticalOptions="EndAndExpand" />
+            </Grid>
+
+            <!--  CHAT MESSAGES  -->
+            <CollectionView
+                Grid.Row="1"
+                ItemSizingStrategy="MeasureAllItems"
+                ItemTemplate="{StaticResource MessageDataTemplateSelector}"
+                ItemsSource="{Binding Messages}"
+                Style="{StaticResource ChatCollectionStyle}"
+                VerticalScrollBarVisibility="Default" />
+
+            <!--  CHAT ENTRY  -->
+            <Grid
+                Grid.Row="2"
+                Padding="20,0"
+                ColumnDefinitions="*, Auto"
+                ColumnSpacing="16">
+                <Border Padding="10,0" Style="{StaticResource ChatEntryContainerStyle}">
+                    <Grid ColumnDefinitions="30, *, 40" ColumnSpacing="15">
+                        <Image HeightRequest="20">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="IonIcons"
+                                    Glyph="{x:Static views:IonIcons.AndroidAttach}"
+                                    Color="{DynamicResource BaseIconColor}" />
+                            </Image.Source>
+                        </Image>
+
+                        <handlers:BorderlessEntry
+                            Grid.Column="1"
+                            HeightRequest="46"
+                            Placeholder="{localization:Translate StringEnterMessage}"
+                            Style="{StaticResource ChatEntryStyle}" />
+
+                        <Image
+                            Grid.Column="2"
+                            Aspect="AspectFit"
+                            HeightRequest="25"
+                            Source="ic_emoticon.png"
+                            VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+
+                <!--  Send Button  -->
+                <Border
+                    Grid.Column="1"
+                    Padding="0"
+                    Background="{DynamicResource PrimaryColor}"
+                    Style="{StaticResource ButtonContainerStyle}">
+                    <Image Style="{StaticResource ButtonImageStyle}">
+                        <Image.Source>
+                            <FontImageSource
+                                FontFamily="MauiKitIcons"
+                                Glyph="{x:Static views:MauiKitIcons.Send}"
+                                Size="22"
+                                Color="{DynamicResource White}" />
+                        </Image.Source>
+                    </Image>
+                </Border>
+            </Grid>
+
+        </Grid>
+    </views:BasePage.PageContent>
+</views:BasePage>

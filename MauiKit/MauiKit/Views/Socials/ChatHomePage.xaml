@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Socials.ChatHomePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:templates="clr-namespace:MauiKit.Views.Socials.Templates"
+    xmlns:viewBase="clr-namespace:MauiKit.Views"
+    xmlns:viewModels="clr-namespace:MauiKit.ViewModels.Socials"
+    xmlns:views="clr-namespace:MauiKit.Views">
+
+    <views:BasePage.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="TitleTextStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="TextColor" Value="{DynamicResource PrimaryColor}" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="VerticalOptions" Value="Center" />
+            </Style>
+
+            <Style x:Key="SuggestedContainerStyle" TargetType="Grid">
+                <Setter Property="Margin" Value="0, 10, 0, 14" />
+            </Style>
+
+            <Style x:Key="SearchContainerStyle" TargetType="Border">
+                <Setter Property="HeightRequest" Value="46" />
+                <Setter Property="WidthRequest" Value="46" />
+                <Setter Property="Margin" Value="0, 0, 20, 0" />
+                <Setter Property="Background" Value="{StaticResource MainWrapperBackgroundColor}" />
+                <Setter Property="StrokeShape" Value="{RoundRectangle CornerRadius=12}" />
+            </Style>
+
+            <Style x:Key="RecentChatCollectionStyle" TargetType="CollectionView">
+                <Setter Property="Margin" Value="0, 24, 0, 0" />
+            </Style>
+
+            <Style x:Key="RecentChatAdornerStyle" TargetType="BoxView">
+                <Setter Property="Color" Value="{DynamicResource White}" />
+                <Setter Property="CornerRadius" Value="18, 18, 0, 0" />
+            </Style>
+
+        </ResourceDictionary>
+    </views:BasePage.Resources>
+
+    <views:BasePage.PageContent>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid Padding="20,0,0,20" BackgroundColor="{DynamicResource MainWrapperBackgroundColor}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="100" />
+                </Grid.RowDefinitions>
+
+                <Grid ColumnDefinitions="60,*, Auto" Style="{StaticResource SuggestedContainerStyle}">
+                    <!--  CLOSE ICON  -->
+                    <Label
+                        HorizontalOptions="Start"
+                        HorizontalTextAlignment="Start"
+                        Style="{StaticResource IconCloseLabelStyle}"
+                        TextColor="{DynamicResource BaseTextColor}"
+                        VerticalOptions="Center">
+
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="GoBack_Tapped" />
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <!--  TITLE  -->
+                    <Label
+                        Grid.Column="1"
+                        Style="{StaticResource TitleTextStyle}"
+                        Text="{localization:Translate PageTitleChatMainPage}" />
+
+                    <!--  SEARCH  -->
+                    <Border Grid.Column="2" Style="{StaticResource SearchContainerStyle}">
+                        <Image Aspect="AspectFit" HeightRequest="25">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="MaterialDesign"
+                                    Glyph="{x:Static views:MaterialDesignIcons.Search}"
+                                    Color="{DynamicResource BaseTextColor}" />
+                            </Image.Source>
+                        </Image>
+                    </Border>
+                </Grid>
+
+                <!--  SUGGESTED CONTACTS  -->
+                <CollectionView
+                    Grid.Row="1"
+                    HorizontalScrollBarVisibility="Never"
+                    ItemsSource="{Binding Users}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="0" Orientation="Horizontal" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <templates:SuggestedItemTemplate />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+
+            <Border
+                Grid.Row="1"
+                StrokeShape="{RoundRectangle CornerRadius='26,26,0,0'}"
+                VerticalOptions="Fill">
+                <CollectionView
+                    ItemsSource="{Binding RecentChat}"
+                    SelectionMode="Single"
+                    Style="{StaticResource RecentChatCollectionStyle}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="10" Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <templates:RecentChatItemTemplate>
+                                <templates:RecentChatItemTemplate.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:ChatHomeViewModel}}, Path=OpenConversationCommand}" CommandParameter="{Binding .}" />
+                                </templates:RecentChatItemTemplate.GestureRecognizers>
+                            </templates:RecentChatItemTemplate>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Border>
+        </Grid>
+    </views:BasePage.PageContent>
+</views:BasePage>

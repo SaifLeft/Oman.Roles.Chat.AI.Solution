@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Dashboards.DashboardEventPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:models="clr-namespace:MauiKit.Models"
+    xmlns:viewModels="clr-namespace:MauiKit.ViewModels.Dashboards"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    xmlns:xc="clr-namespace:XCalendar.Maui.Views;assembly=XCalendar.Maui"
+    xmlns:xcConverters="clr-namespace:XCalendar.Maui.Converters;assembly=XCalendar.Maui"
+    xmlns:xcInterfaces="clr-namespace:XCalendar.Core.Interfaces;assembly=XCalendar.Core"
+    x:Name="This"
+    x:DataType="viewModels:DashboardEventViewModel"
+    BaseTitle="{localization:Translate PageTitleDashboardEvent}"
+    BaseTitleColor="{DynamicResource BaseTextColor}">
+
+    <views:BasePage.Resources>
+        <!--  Returns true if all bindings evaluate to true  -->
+        <mct:VariableMultiValueConverter x:Key="AllTrueConverter" ConditionType="All" />
+        <!--  Inverts a binded boolean value  -->
+        <mct:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+    </views:BasePage.Resources>
+
+    <views:BasePage.Content>
+        <Grid ColumnDefinitions="*" RowDefinitions="Auto, *">
+
+            <Border
+                Grid.Row="0"
+                Margin="10"
+                Padding="0"
+                BackgroundColor="{DynamicResource BasePageColor}"
+                StrokeShape="{RoundRectangle CornerRadius='15'}">
+
+                <xc:CalendarView
+                    x:Name="MainCalendarView"
+                    Days="{Binding EventCalendar.Days}"
+                    DaysOfWeek="{Binding EventCalendar.DayNamesOrder}"
+                    LeftArrowCommand="{Binding NavigateCalendarCommand}"
+                    NavigatedDate="{Binding EventCalendar.NavigatedDate}"
+                    RightArrowCommand="{Binding NavigateCalendarCommand}"
+                    Style="{StaticResource DefaultCalendarViewStyle}">
+
+                    <xc:CalendarView.RightArrowCommandParameter>
+                        <x:Int32>1</x:Int32>
+                    </xc:CalendarView.RightArrowCommandParameter>
+
+                    <xc:CalendarView.LeftArrowCommandParameter>
+                        <x:Int32>-1</x:Int32>
+                    </xc:CalendarView.LeftArrowCommandParameter>
+
+                    <xc:CalendarView.NavigationViewTemplate>
+                        <ControlTemplate>
+                            <xc:NavigationView
+                                ArrowColor="{DynamicResource BaseTextColor}"
+                                BackgroundColor="Transparent"
+                                HeightRequest="40"
+                                LeftArrowCommand="{Binding LeftArrowCommand, Source={RelativeSource TemplatedParent}}"
+                                LeftArrowCommandParameter="{Binding LeftArrowCommandParameter, Source={RelativeSource TemplatedParent}}"
+                                RightArrowCommand="{Binding RightArrowCommand, Source={RelativeSource TemplatedParent}}"
+                                RightArrowCommandParameter="{Binding RightArrowCommandParameter, Source={RelativeSource TemplatedParent}}"
+                                Style="{StaticResource DefaultNavigationViewStyle}"
+                                Text="{Binding Text, Source={RelativeSource TemplatedParent}}"
+                                TextColor="{StaticResource BaseTextColor}" />
+                        </ControlTemplate>
+                    </xc:CalendarView.NavigationViewTemplate>
+
+                    <xc:CalendarView.DayTemplate>
+                        <DataTemplate x:DataType="{x:Null}">
+                            <Border
+                                Margin="2.5"
+                                BackgroundColor="Transparent"
+                                HeightRequest="45"
+                                WidthRequest="45">
+
+                                <Border.StrokeShape>
+                                    <Ellipse />
+                                </Border.StrokeShape>
+
+                                <xc:DayView
+                                    DateTime="{Binding DateTime}"
+                                    Events="{Binding Events}"
+                                    HeightRequest="42"
+                                    InvalidStyle="{StaticResource DefaultDayViewInvalidStyle}"
+                                    IsCurrentMonth="{Binding IsCurrentMonth}"
+                                    IsInvalid="{Binding IsInvalid}"
+                                    IsSelected="{Binding IsSelected}"
+                                    IsToday="{Binding IsToday}"
+                                    OtherMonthStyle="{StaticResource DefaultDayViewOtherMonthStyle}">
+
+                                    <xc:DayView.EventTemplate>
+                                        <DataTemplate x:DataType="{x:Null}">
+                                            <Rectangle Fill="{Binding Color}" Style="{StaticResource DefaultEventIndicatorRectangleStyle}" />
+                                        </DataTemplate>
+                                    </xc:DayView.EventTemplate>
+
+                                    <xc:DayView.CurrentMonthStyle>
+                                        <Style BasedOn="{StaticResource DefaultDayViewCurrentMonthStyle}" TargetType="xc:DayView">
+                                            <Setter Property="Command" Value="{Binding BindingContext.ChangeDateSelectionCommand, Source={x:Reference This}}" />
+                                            <Setter Property="CommandParameter" Value="{Binding DateTime}" />
+                                        </Style>
+                                    </xc:DayView.CurrentMonthStyle>
+
+                                    <xc:DayView.TodayStyle>
+                                        <Style BasedOn="{StaticResource DefaultDayViewTodayStyle}" TargetType="xc:DayView">
+                                            <Setter Property="Command" Value="{Binding BindingContext.ChangeDateSelectionCommand, Source={x:Reference This}}" />
+                                            <Setter Property="CommandParameter" Value="{Binding DateTime}" />
+                                        </Style>
+                                    </xc:DayView.TodayStyle>
+
+                                    <xc:DayView.SelectedStyle>
+                                        <Style BasedOn="{StaticResource DefaultDayViewSelectedStyle}" TargetType="xc:DayView">
+                                            <Setter Property="Command" Value="{Binding BindingContext.ChangeDateSelectionCommand, Source={x:Reference This}}" />
+                                            <Setter Property="CommandParameter" Value="{Binding DateTime}" />
+                                        </Style>
+                                    </xc:DayView.SelectedStyle>
+
+                                </xc:DayView>
+                            </Border>
+                        </DataTemplate>
+                    </xc:CalendarView.DayTemplate>
+                </xc:CalendarView>
+            </Border>
+
+            <CollectionView
+                Grid.Row="1"
+                Margin="10"
+                ItemsSource="{Binding SelectedEvents}">
+                <CollectionView.EmptyView>
+                    <Label
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource Title1}"
+                        Text="No Events"
+                        TextColor="{DynamicResource BaseTextColor}"
+                        VerticalTextAlignment="Center" />
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout
+                        Orientation="Vertical"
+                        Span="1"
+                        VerticalItemSpacing="10" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="{x:Null}">
+                        <Border
+                            Margin="5"
+                            BackgroundColor="{DynamicResource BasePageColor}"
+                            StrokeThickness="0">
+
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10" />
+                            </Border.StrokeShape>
+
+                            <Grid>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="15" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Grid
+                                    Grid.Column="0"
+                                    BackgroundColor="{Binding Color}"
+                                    WidthRequest="15" />
+
+                                <VerticalStackLayout
+                                    Grid.Column="1"
+                                    Padding="10"
+                                    Background="{DynamicResource BasePageColor}">
+
+                                    <HorizontalStackLayout>
+                                        <Label
+                                            Style="{StaticResource Title2}"
+                                            Text="{Binding StartDate, StringFormat='{0:dd MMMM HH:mm}'}"
+                                            TextColor="{DynamicResource BaseTextColor}"
+                                            VerticalTextAlignment="Center" />
+                                        <Label
+                                            Style="{StaticResource Title2}"
+                                            Text=" - "
+                                            TextColor="{DynamicResource BaseTextColor}"
+                                            VerticalTextAlignment="Center" />
+                                        <Label
+                                            Style="{StaticResource Title2}"
+                                            Text="{Binding EndDate, StringFormat='{0:dd MMMM HH:mm}', TargetNullValue='No End Date'}"
+                                            TextColor="{DynamicResource BaseTextColor}"
+                                            VerticalTextAlignment="Center" />
+                                    </HorizontalStackLayout>
+
+
+                                    <Label
+                                        Margin="5,0,0,0"
+                                        FontSize="16"
+                                        Text="{Binding Title}"
+                                        TextColor="{DynamicResource BaseTextColor}" />
+                                    <Label
+                                        Margin="5,10,0,0"
+                                        FontSize="14"
+                                        Text="{Binding Description}"
+                                        TextColor="{DynamicResource BaseTextColor}" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </Grid>
+    </views:BasePage.Content>
+
+</views:BasePage>

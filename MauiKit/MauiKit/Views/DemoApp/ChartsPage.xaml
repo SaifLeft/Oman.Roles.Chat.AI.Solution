@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.ChartsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:templates="clr-namespace:MauiKit.Views.Templates"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    Title="">
+
+    <views:BasePage.PageContent>
+        <Grid RowDefinitions="Auto,*" RowSpacing="15">
+            <controls:HeaderTemplate
+                Margin="25,30,25,0"
+                IconColor="#FF3E8EED"
+                IconFontFamily="MauiKitIcons"
+                IconSize="35"
+                IconText="{x:Static views:MauiKitIcons.ChartDonut}"
+                Text="{localization:Translate LabelCharts}"
+                TextSize="25" />
+
+            <ScrollView Grid.Row="1">
+                <VerticalStackLayout Padding="25,0,25,30" Spacing="18">
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:MauiKitIcons.TimelineTextOutline}"
+                        HeaderIconFontFamily="MauiKitIcons"
+                        ItemDescription="{localization:Translate LabelCartesianChartDescription}"
+                        ItemTitle="{localization:Translate LabelCartesianChart}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="CartesianChart_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:MauiKitIcons.MonitorDashboard}"
+                        HeaderIconFontFamily="MauiKitIcons"
+                        ItemDescription="{localization:Translate LabelPieChartDescription}"
+                        ItemTitle="{localization:Translate LabelPieChart}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="PieChart_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:MaterialDesignIcons.Dashboard}"
+                        HeaderIconFontFamily="MaterialDesign"
+                        ItemDescription="{localization:Translate LabelPolarChartDescription}"
+                        ItemTitle="{localization:Translate LabelPolarChart}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="PolarChart_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:MaterialDesignIcons.Map}"
+                        HeaderIconFontFamily="MaterialDesign"
+                        ItemDescription="{localization:Translate LabelGeoMapDescription}"
+                        ItemTitle="{localization:Translate LabelGeoMap}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="GeoMap_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+    </views:BasePage.PageContent>
+</views:BasePage>

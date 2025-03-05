@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage
+    x:Class="MauiKit.Views.MainTabbedPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:pages="clr-namespace:MauiKit.Views.Samples;assembly=MauiKit"
+    xmlns:views="clr-namespace:MauiKit.Views;assembly=MauiKit"
+    android:TabbedPage.IsSmoothScrollEnabled="False"
+    android:TabbedPage.IsSwipePagingEnabled="False"
+    android:TabbedPage.ToolbarPlacement="Bottom"
+    BarBackgroundColor="{DynamicResource BaseTabbedPageColor}"
+    BarTextColor="{DynamicResource BaseTextColor}"
+    SelectedTabColor="{DynamicResource PrimaryColor}"
+    UnselectedTabColor="{DynamicResource BaseIconColor}">
+
+    <views:HomePage Title="{localization:Translate BottomTabbedHome}">
+        <views:HomePage.IconImageSource>
+            <FontImageSource
+                FontFamily="MaterialDesign"
+                Glyph="{x:Static views:MaterialDesignIcons.Home}"
+                Color="{DynamicResource BaseIconColor}" />
+        </views:HomePage.IconImageSource>
+    </views:HomePage>
+
+    <views:StatisticPage Title="{localization:Translate BottomTabbedStats}">
+        <views:StatisticPage.IconImageSource>
+            <FontImageSource
+                FontFamily="MaterialDesign"
+                Glyph="{x:Static views:MaterialDesignIcons.Dashboard}"
+                Color="{DynamicResource BaseIconColor}" />
+        </views:StatisticPage.IconImageSource>
+    </views:StatisticPage>
+
+    <views:RemarkPage Title="{localization:Translate BottomTabbedRemarks}">
+        <views:RemarkPage.IconImageSource>
+            <FontImageSource
+                FontFamily="MaterialDesign"
+                Glyph="{x:Static views:MaterialDesignIcons.Favorite}"
+                Color="{DynamicResource BaseIconColor}" />
+        </views:RemarkPage.IconImageSource>
+    </views:RemarkPage>
+
+    <views:ProfilePage Title="{localization:Translate BottomTabbedProfile}">
+        <views:ProfilePage.IconImageSource>
+            <FontImageSource
+                FontFamily="MaterialDesign"
+                Glyph="{x:Static views:MaterialDesignIcons.AccountCircle}"
+                Color="{DynamicResource BaseIconColor}" />
+        </views:ProfilePage.IconImageSource>
+    </views:ProfilePage>
+
+</TabbedPage>

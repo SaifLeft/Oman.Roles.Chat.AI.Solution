@@ -32,7 +32,7 @@ namespace API.Controllers
         /// <summary>
         /// Get user's conversation history
         /// </summary>
-        [HttpGet("history")]
+        [HttpGet]
         public async Task<IActionResult> GetUserConversationHistory([FromQuery] int limit = 20, [FromQuery] int offset = 0)
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
@@ -61,7 +61,7 @@ namespace API.Controllers
         /// <summary>
         /// Get room conversation history
         /// </summary>
-        [HttpGet("room/{roomId}")]
+        [HttpGet("{roomId}")]
         public async Task<IActionResult> GetRoomConversationHistory(string roomId, [FromQuery] int limit = 20, [FromQuery] int offset = 0)
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
@@ -88,7 +88,7 @@ namespace API.Controllers
         /// <summary>
         /// Get user's conversation analytics
         /// </summary>
-        [HttpGet("user-analytics")]
+        [HttpGet]
         public async Task<IActionResult> GetUserAnalytics([FromQuery] DateTime? fromDate = null, [FromQuery] DateTime? toDate = null)
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
@@ -118,7 +118,7 @@ namespace API.Controllers
         /// Get global conversation analytics (Admin only)
         /// </summary>
         [Authorize(Roles = "Admin")]
-        [HttpGet("global-analytics")]
+        [HttpGet]
         public async Task<IActionResult> GetGlobalAnalytics([FromQuery] DateTime? fromDate = null, [FromQuery] DateTime? toDate = null)
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);

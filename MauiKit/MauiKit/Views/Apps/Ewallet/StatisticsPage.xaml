@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Ewallet.StatisticsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:charts="clr-namespace:MauiKit.Controls.Charts"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:handlers="clr-namespace:MauiKit.Handlers"
+    xmlns:helpers="clr-namespace:MauiKit.Helpers"
+    xmlns:local="clr-namespace:MauiKit"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
+    xmlns:lvcore="clr-namespace:LiveChartsCore;assembly=LiveChartsCore"
+    xmlns:models="clr-namespace:MauiKit.Models"
+    xmlns:templates="clr-namespace:MauiKit.Views.Apps.Ewallet.Templates"
+    xmlns:viewmodels="clr-namespace:MauiKit.ViewModels"
+    xmlns:views="clr-namespace:MauiKit.Views">
+
+    <views:BasePage.BindingContext>
+        <viewmodels:StatisticsViewModel />
+    </views:BasePage.BindingContext>
+
+    <views:BasePage.PageContent>
+        <ScrollView>
+            <Grid Padding="20" RowSpacing="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="{OnPlatform MacCatalyst='350', Default='350'}" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <!--  Statistics Graph  -->
+                <Grid>
+                    <Label
+                        FontAttributes="Bold"
+                        FontFamily="BoldFont"
+                        FontSize="16"
+                        Text="Statistics Graph"
+                        TextColor="{DynamicResource BaseTextColor}" />
+
+                    <Picker
+                        HorizontalOptions="End"
+                        ItemDisplayBinding="{Binding Duration}"
+                        ItemsSource="{Binding DataSource}"
+                        MinimumWidthRequest="70"
+                        SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
+                        SelectedItem="{Binding DataSource[0], Mode=OneTime}" />
+                </Grid>
+
+                <lvc:PieChart
+                    Grid.Row="1"
+                    AnimationsSpeed="00:00:00.300"
+                    EasingFunction="{Binding Source={x:Static lvcore:EasingFunctions.Lineal}}"
+                    HandlerProperties.DisconnectPolicy="Manual"
+                    LegendPosition="Bottom"
+                    Series="{Binding ChartData}" />
+
+                <VerticalStackLayout Grid.Row="2" Spacing="20">
+
+                    <Grid ColumnDefinitions="2*, 2*" ColumnSpacing="15">
+                        <!--  Income  -->
+                        <Border
+                            Padding="10,5"
+                            Background="{DynamicResource BasePageColor}"
+                            StrokeShape="{RoundRectangle CornerRadius='10'}">
+                            <Grid ColumnDefinitions="40, *" ColumnSpacing="12">
+                                <Border
+                                    Padding="5"
+                                    Background="#EAEEF6"
+                                    HeightRequest="40"
+                                    HorizontalOptions="Start"
+                                    Stroke="Transparent"
+                                    StrokeShape="{RoundRectangle CornerRadius='20'}"
+                                    TranslationY="0"
+                                    VerticalOptions="Center"
+                                    WidthRequest="40">
+                                    <Label
+                                        FontFamily="MauiKitIcons"
+                                        FontSize="{OnIdiom Phone='20',
+                                                           Tablet='25',
+                                                           Desktop='30'}"
+                                        HorizontalOptions="CenterAndExpand"
+                                        HorizontalTextAlignment="Center"
+                                        Opacity="1"
+                                        Text="{x:Static views:MauiKitIcons.ArrowDownBox}"
+                                        TextColor="{DynamicResource Green}"
+                                        VerticalOptions="CenterAndExpand" />
+                                </Border>
+
+                                <StackLayout
+                                    Grid.Column="1"
+                                    Spacing="0"
+                                    VerticalOptions="Center">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="15"
+                                        Text="{Binding TotalIncome, StringFormat='${0:N2}'}"
+                                        TextColor="{DynamicResource BaseTextColor}" />
+                                    <Label
+                                        FontSize="14"
+                                        Text="Income"
+                                        TextColor="{DynamicResource BaseLightTextColor}" />
+                                </StackLayout>
+                            </Grid>
+                        </Border>
+
+                        <!--  Expense  -->
+                        <Border
+                            Grid.Column="1"
+                            Padding="10,5"
+                            Background="{DynamicResource BasePageColor}"
+                            StrokeShape="{RoundRectangle CornerRadius='10'}">
+                            <Grid ColumnDefinitions="40, *" ColumnSpacing="12">
+                                <Border
+                                    Padding="5"
+                                    Background="#EAEEF6"
+                                    HeightRequest="40"
+                                    HorizontalOptions="Start"
+                                    Stroke="Transparent"
+                                    StrokeShape="{RoundRectangle CornerRadius='20'}"
+                                    TranslationY="0"
+                                    VerticalOptions="Center"
+                                    WidthRequest="40">
+                                    <Label
+                                        FontFamily="MauiKitIcons"
+                                        FontSize="{OnIdiom Phone='20',
+                                                           Tablet='25',
+                                                           Desktop='30'}"
+                                        HorizontalOptions="CenterAndExpand"
+                                        HorizontalTextAlignment="Center"
+                                        Opacity="1"
+                                        Text="{x:Static views:MauiKitIcons.ArrowUpBox}"
+                                        TextColor="{DynamicResource Red}"
+                                        VerticalOptions="CenterAndExpand" />
+                                </Border>
+
+                                <StackLayout
+                                    Grid.Column="1"
+                                    Spacing="0"
+                                    VerticalOptions="Center">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="15"
+                                        Text="{Binding TotalExpense, StringFormat='${0:N2}'}"
+                                        TextColor="{DynamicResource BaseTextColor}" />
+                                    <Label
+                                        FontSize="14"
+                                        Text="Expense"
+                                        TextColor="{DynamicResource BaseLightTextColor}" />
+                                </StackLayout>
+                            </Grid>
+                        </Border>
+                    </Grid>
+
+                    <!--  Transactions  -->
+                    <Grid>
+                        <Label
+                            FontAttributes="Bold"
+                            FontFamily="BoldFont"
+                            FontSize="16"
+                            Text="Transactions"
+                            TextColor="{DynamicResource BaseTextColor}" />
+                        <Label
+                            FontSize="14"
+                            HorizontalOptions="End"
+                            Text="View All"
+                            TextColor="{DynamicResource PrimaryColor}" />
+                    </Grid>
+
+                    <Grid ColumnDefinitions="2*, 2*" ColumnSpacing="15">
+                        <!--  Income  -->
+                        <Button
+                            HeightRequest="42"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            Text="Income"
+                            VerticalOptions="End" />
+
+                        <!--  Expense  -->
+                        <Button
+                            Grid.Column="1"
+                            HeightRequest="42"
+                            Style="{StaticResource OutlinePrimaryButtonStyle}"
+                            Text="Expense"
+                            VerticalOptions="End" />
+                    </Grid>
+
+                    <CollectionView
+                        ItemsSource="{Binding TransactionLists}"
+                        SelectionMode="None"
+                        VerticalScrollBarVisibility="Never">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="12" Orientation="Vertical" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <templates:TransactionItemTemplate />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <!--<Border Style="{StaticResource FeatureBorder}">
+                <Grid ColumnDefinitions="40, *, Auto" ColumnSpacing="12">
+                    <Border
+                        Padding="5"
+                        BackgroundColor="#EAEEF6"
+                        HeightRequest="40"
+                        HorizontalOptions="Start"
+                        Stroke="Transparent"
+                        StrokeShape="{RoundRectangle CornerRadius='20'}"
+                        TranslationY="0"
+                        VerticalOptions="Center"
+                        WidthRequest="40">
+                        <Label
+                            FontFamily="MauiKitIcons"
+                            FontSize="{OnIdiom Phone='20',
+                                               Tablet='25',
+                                               Desktop='30'}"
+                            HorizontalOptions="CenterAndExpand"
+                            HorizontalTextAlignment="Center"
+                            Opacity="1"
+                            Text="{x:Static views:MauiKitIcons.Food}"
+                            TextColor="{DynamicResource Orange}"
+                            VerticalOptions="CenterAndExpand" />
+                    </Border>
+
+                    <StackLayout Grid.Column="1">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="15"
+                            Text="Food for Lunch"
+                            TextColor="{DynamicResource BaseTextColor}" />
+                        <Label
+                            FontSize="14"
+                            Text="3:02 PM - Aug 22, 2022"
+                            TextColor="{DynamicResource BaseLightTextColor}" />
+                    </StackLayout>
+
+                    <Label
+                        Grid.Column="2"
+                        FontAttributes="Bold"
+                        FontSize="15"
+                        Text="-$12.00"
+                        TextColor="{DynamicResource BaseTextColor}"
+                        VerticalOptions="Center" />
+                </Grid>
+            </Border>
+
+            <Border Style="{StaticResource FeatureBorder}">
+                <Grid ColumnDefinitions="40, *, Auto" ColumnSpacing="12">
+                    <Border
+                        Padding="5"
+                        BackgroundColor="#EAEEF6"
+                        HeightRequest="40"
+                        HorizontalOptions="Start"
+                        Stroke="Transparent"
+                        StrokeShape="{RoundRectangle CornerRadius='20'}"
+                        TranslationY="0"
+                        VerticalOptions="Center"
+                        WidthRequest="40">
+                        <Label
+                            FontFamily="MauiKitIcons"
+                            FontSize="{OnIdiom Phone='20',
+                                               Tablet='25',
+                                               Desktop='30'}"
+                            HorizontalOptions="CenterAndExpand"
+                            HorizontalTextAlignment="Center"
+                            Opacity="1"
+                            Text="{x:Static views:MauiKitIcons.Camera}"
+                            TextColor="{DynamicResource Blue}"
+                            VerticalOptions="CenterAndExpand" />
+                    </Border>
+
+                    <StackLayout Grid.Column="1">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="15"
+                            Text="Equipments"
+                            TextColor="{DynamicResource BaseTextColor}" />
+                        <Label
+                            FontSize="14"
+                            Text="3:02 PM - Aug 22, 2022"
+                            TextColor="{DynamicResource BaseLightTextColor}" />
+                    </StackLayout>
+
+                    <Label
+                        Grid.Column="2"
+                        FontAttributes="Bold"
+                        FontSize="15"
+                        Text="-$719.99"
+                        TextColor="{DynamicResource BaseTextColor}"
+                        VerticalOptions="Center" />
+                </Grid>
+            </Border>-->
+                </VerticalStackLayout>
+
+                <controls:SimpleLoadingIndicator Grid.RowSpan="3" />
+            </Grid>
+        </ScrollView>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

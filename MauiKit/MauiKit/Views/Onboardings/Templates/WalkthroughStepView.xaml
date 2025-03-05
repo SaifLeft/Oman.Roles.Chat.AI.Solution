@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="MauiKit.Views.Onboardings.WalkthroughStepView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animations="clr-namespace:AlohaKit.Animations;assembly=AlohaKit.Animations"
+    xmlns:helpers="clr-namespace:MauiKit.Helpers"
+    xmlns:onboardings="clr-namespace:MauiKit.Views.Onboardings"
+    xmlns:templates="clr-namespace:MauiKit.Views"
+    x:Name="Root">
+
+    <ContentView.Content>
+        <StackLayout
+            Padding="30,0"
+            HorizontalOptions="CenterAndExpand"
+            Spacing="10"
+            VerticalOptions="CenterAndExpand">
+
+            <Grid
+                Margin="0,0,0,20"
+                HeightRequest="300"
+                WidthRequest="300">
+                <Border
+                    Padding="0"
+                    BackgroundColor="{DynamicResource Primary40Color}"
+                    HeightRequest="300"
+                    HorizontalOptions="CenterAndExpand"
+                    Stroke="{DynamicResource Primary10Color}"
+                    StrokeShape="{RoundRectangle CornerRadius=150}"
+                    StrokeThickness="70"
+                    VerticalOptions="CenterAndExpand"
+                    WidthRequest="300" />
+
+                <Border
+                    BackgroundColor="{DynamicResource Primary35Color}"
+                    HeightRequest="230"
+                    HorizontalOptions="CenterAndExpand"
+                    Stroke="{DynamicResource Primary10Color}"
+                    StrokeShape="{RoundRectangle CornerRadius=115}"
+                    StrokeThickness="70"
+                    VerticalOptions="CenterAndExpand"
+                    WidthRequest="230">
+
+                    <Image
+                        Margin="15"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center">
+                        <Image.Source>
+                            <FontImageSource
+                                FontAutoScalingEnabled="True"
+                                FontFamily="MauiKitIcons"
+                                Glyph="{Binding ImagePath}"
+                                Size="70"
+                                Color="{DynamicResource White}" />
+                        </Image.Source>
+                    </Image>
+
+                </Border>
+
+            </Grid>
+
+            <Label
+                FontAttributes="Bold"
+                FontSize="19"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
+                Text="{Binding Title}" />
+
+            <Label
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
+                Style="{StaticResource Body}"
+                Text="{Binding Subtitle}" />
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

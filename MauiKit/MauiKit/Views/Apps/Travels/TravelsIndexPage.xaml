@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.TravelsIndexPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:templates="clr-namespace:MauiKit.Views.Templates"
+    xmlns:viewmodel="clr-namespace:MauiKit.ViewModels.News"
+    xmlns:views="clr-namespace:MauiKit.Views">
+
+    <views:BasePage.PageContent>
+        <Grid RowDefinitions="Auto,*" RowSpacing="15">
+
+            <controls:HeaderTemplate
+                Margin="25,30,25,0"
+                IconFontFamily="MauiKitIcons"
+                IconText="{x:Static views:MauiKitIcons.AirplaneTakeoff}"
+                Text="{localization:Translate LabelTravel}"
+                TextSize="25" />
+
+            <ScrollView Grid.Row="1">
+                <VerticalStackLayout Padding="25,0,25,30" Spacing="18">
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:MaterialDesignIcons.Home}"
+                        HeaderIconFontFamily="MaterialDesign"
+                        ItemDescription="{localization:Translate LabelTravelHomePageDescription}"
+                        ItemTitle="{localization:Translate LabelTravelHomePage}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="HomePage_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:MaterialDesignIcons.Navigation}"
+                        HeaderIconFontFamily="MaterialDesign"
+                        ItemDescription="{localization:Translate LabelTravelExplorePageDescription}"
+                        ItemTitle="{localization:Translate LabelTravelExplorePage}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ExplorePage_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:MaterialDesignIcons.Note}"
+                        HeaderIconFontFamily="MaterialDesign"
+                        ItemDescription="{localization:Translate LabelTravelArticleDetailPageDescription}"
+                        ItemTitle="{localization:Translate LabelTravelArticleDetailPage}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ArticleDetailPage_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:MauiKitIcons.ChatProcessing}"
+                        HeaderIconFontFamily="MauiKitIcons"
+                        ItemDescription="{localization:Translate LabelTravelMessagesPageDescription}"
+                        ItemTitle="{localization:Translate LabelTravelMessagesPage}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="RecentMessagesPage_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:MauiKitIcons.Chat}"
+                        HeaderIconFontFamily="MauiKitIcons"
+                        ItemDescription="{localization:Translate LabelTravelConversationPageDescription}"
+                        ItemTitle="{localization:Translate LabelTravelConversationPage}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="MessageDetailPage_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:MaterialDesignIcons.AccountBox}"
+                        HeaderIconFontFamily="MaterialDesign"
+                        ItemDescription="{localization:Translate LabelTravelAccountPageDescription}"
+                        ItemTitle="{localization:Translate LabelTravelAccountPage}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="AccountPage_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:MaterialDesignIcons.VerifiedUser}"
+                        HeaderIconFontFamily="MaterialDesign"
+                        ItemDescription="{localization:Translate LabelTravelUpdateProfilePageDescription}"
+                        ItemTitle="{localization:Translate LabelTravelUpdateProfilePage}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="UpdateProfilePage_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                    <templates:DemoItemTemplate
+                        HeaderIcon="{x:Static views:MaterialDesignIcons.Settings}"
+                        HeaderIconFontFamily="MaterialDesign"
+                        ItemDescription="{localization:Translate LabelTravelSettingsPageDescription}"
+                        ItemTitle="{localization:Translate LabelTravelSettingsPage}">
+                        <templates:DemoItemTemplate.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="SettingsPage_Tapped" />
+                        </templates:DemoItemTemplate.GestureRecognizers>
+                    </templates:DemoItemTemplate>
+
+                </VerticalStackLayout>
+            </ScrollView>
+
+        </Grid>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Ecommerce.OrderConfirmationPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:templates="clr-namespace:MauiKit.Views.AppFlows.Ecommerce.Templates"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    x:Name="orderConfirmationPage"
+    BaseTitle="{localization:Translate PageTitleOrderConfirmation}"
+    BaseTitleColor="{DynamicResource BaseTextColor}">
+
+    <views:BasePage.PageContent>
+        <Grid RowDefinitions="*,80">
+            <ScrollView VerticalScrollBarVisibility="Never">
+
+                <VerticalStackLayout Padding="20" Spacing="15">
+
+                    <ScrollView>
+                        <StackLayout BindableLayout.ItemsSource="{Binding Carts}" Spacing="10">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <Border
+                                        Padding="0"
+                                        HeightRequest="120"
+                                        HorizontalOptions="FillAndExpand"
+                                        StrokeShape="RoundRectangle 20"
+                                        StrokeThickness="0">
+                                        <Grid ColumnDefinitions="100,*,Auto">
+                                            <Image
+                                                Aspect="AspectFit"
+                                                HeightRequest="80"
+                                                Source="{Binding ProductImage}"
+                                                VerticalOptions="Center" />
+
+                                            <StackLayout
+                                                Grid.Column="1"
+                                                Margin="8"
+                                                Spacing="5"
+                                                VerticalOptions="CenterAndExpand">
+
+                                                <Label
+                                                    HorizontalOptions="Start"
+                                                    Style="{StaticResource Body}"
+                                                    Text="{Binding BrandName}"
+                                                    VerticalOptions="Start" />
+
+                                                <Label
+                                                    HorizontalOptions="Start"
+                                                    Style="{StaticResource Title2}"
+                                                    Text="{Binding ProductName}"
+                                                    VerticalOptions="Start" />
+
+                                                <Label
+                                                    HorizontalOptions="Start"
+                                                    Style="{StaticResource Title1}"
+                                                    Text="{Binding Price, StringFormat='${0:F2}'}"
+                                                    TextColor="{DynamicResource OkColor}"
+                                                    VerticalOptions="Start" />
+                                            </StackLayout>
+
+                                            <StackLayout
+                                                Grid.Column="2"
+                                                Margin="8,8,15,8"
+                                                Spacing="10"
+                                                VerticalOptions="CenterAndExpand">
+                                                <!--  QUANTITY  -->
+                                                <controls:NumericUpDown
+                                                    Maximum="100"
+                                                    Minimum="1"
+                                                    OnValueChanged="NumericUpDown_OnValueChanged"
+                                                    Value="{Binding Quantity}" />
+
+                                                <!--  REMOVE BUTTON  -->
+                                                <Border
+                                                    Padding="0"
+                                                    Background="{DynamicResource Red}"
+                                                    HeightRequest="30"
+                                                    HorizontalOptions="EndAndExpand"
+                                                    StrokeShape="RoundRectangle 15,15,15,15"
+                                                    StrokeThickness="0"
+                                                    WidthRequest="30">
+
+                                                    <Label
+                                                        FontFamily="MaterialDesign"
+                                                        FontSize="20"
+                                                        HorizontalOptions="Center"
+                                                        Text="{x:Static views:MaterialDesignIcons.Delete}"
+                                                        TextColor="{DynamicResource White}"
+                                                        VerticalOptions="Center" />
+                                                </Border>
+                                            </StackLayout>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </StackLayout>
+                    </ScrollView>
+
+                    <Border
+                        Padding="20"
+                        HorizontalOptions="FillAndExpand"
+                        IsVisible="False"
+                        StrokeShape="RoundRectangle 20"
+                        StrokeThickness="0">
+                        <StackLayout
+                            Orientation="Horizontal"
+                            Spacing="10"
+                            VerticalOptions="CenterAndExpand">
+                            <CheckBox x:Name="checkBox" />
+                            <Label Text="{localization:Translate LabelGiftOrder}" VerticalOptions="Center" />
+                        </StackLayout>
+                    </Border>
+
+                    <!--  SUBTOTAL  -->
+                    <Grid
+                        Padding="5,0"
+                        ColumnDefinitions="*,Auto"
+                        HeightRequest="60">
+                        <Label
+                            FontAttributes="Bold"
+                            HorizontalOptions="Start"
+                            Style="{StaticResource Title1}"
+                            Text="{localization:Translate LabelSubtotal}"
+                            TextColor="{DynamicResource PrimaryColor}"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Column="1"
+                            FontAttributes="Bold"
+                            HorizontalOptions="End"
+                            HorizontalTextAlignment="End"
+                            Style="{StaticResource Title1}"
+                            Text="{Binding TotalPrice, StringFormat='${0:F2}'}"
+                            TextColor="{DynamicResource PrimaryColor}"
+                            VerticalOptions="Center" />
+                    </Grid>
+
+                    <StackLayout
+                        Margin="0,12,0,0"
+                        Orientation="Horizontal"
+                        Spacing="0">
+                        <Label
+                            HorizontalOptions="Start"
+                            HorizontalTextAlignment="Start"
+                            Style="{StaticResource Title1}"
+                            Text="{localization:Translate LabelRelatedProduct}"
+                            VerticalOptions="Center" />
+                    </StackLayout>
+
+                    <CollectionView Margin="0,0,0,12" ItemsSource="{Binding RelatedProducts}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="16" Orientation="Horizontal" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <templates:ProductGridTemplate WidthRequest="190">
+                                    <templates:ProductGridTemplate.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={x:Reference orderConfirmationPage}, Path=BindingContext.TapCommand}" CommandParameter="{Binding .}" />
+                                    </templates:ProductGridTemplate.GestureRecognizers>
+                                </templates:ProductGridTemplate>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+
+            </ScrollView>
+
+            <Grid Grid.Row="1" BackgroundColor="{DynamicResource BasePageColor}">
+                <Button
+                    Margin="20,10"
+                    BackgroundColor="{DynamicResource PrimaryColor}"
+                    CornerRadius="14"
+                    HeightRequest="50"
+                    Text="{localization:Translate ButtonGoToCheckout}"
+                    TextColor="{DynamicResource White}" />
+            </Grid>
+        </Grid>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

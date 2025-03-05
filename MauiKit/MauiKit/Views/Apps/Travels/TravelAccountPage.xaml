@@ -1,0 +1,242 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Travels.TravelAccountPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:templates="clr-namespace:MauiKit.Views.Travels.Templates"
+    xmlns:viewModels="clr-namespace:MauiKit.ViewModels.Travels"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    x:DataType="viewModels:TravelAccountViewModel"
+    BackgroundColor="{DynamicResource BasePageColor}"
+    NavigationPage.HasNavigationBar="False">
+
+    <views:BasePage.PageContent>
+        <Grid RowDefinitions="Auto, *">
+
+            <Grid
+                Padding="16,10"
+                ColumnDefinitions="Auto,*,Auto"
+                VerticalOptions="Center">
+                <!--  Navigation Button  -->
+                <Border
+                    HeightRequest="42"
+                    HorizontalOptions="Start"
+                    Stroke="{DynamicResource T_Primary}"
+                    StrokeThickness="0.8"
+                    VerticalOptions="Center"
+                    WidthRequest="42">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="GoBack_Tapped" />
+                    </Border.GestureRecognizers>
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10" />
+                    </Border.StrokeShape>
+
+                    <Image HeightRequest="20" VerticalOptions="Center">
+                        <Image.Source>
+                            <FontImageSource
+                                FontFamily="IonIcons"
+                                Glyph="{x:Static views:IonIcons.AndroidArrowBack}"
+                                Size="25"
+                                Color="{DynamicResource BaseTextColor}" />
+                        </Image.Source>
+                    </Image>
+                </Border>
+
+                <!--  Page Title  -->
+                <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        HorizontalOptions="Center"
+                        Text="{localization:Translate LabelProfile}"
+                        TextColor="{DynamicResource BaseTextColor}" />
+                    <Label
+                        FontFamily="SemiBoldFont"
+                        FontSize="13"
+                        HorizontalOptions="Center"
+                        Text="{Binding User.NickName}"
+                        TextColor="{DynamicResource T_Primary}"
+                        VerticalOptions="Center" />
+                </VerticalStackLayout>
+
+                <!--  Notification Icon  -->
+                <Border
+                    Grid.Column="2"
+                    Padding="0"
+                    HeightRequest="42"
+                    Stroke="{DynamicResource T_Primary}"
+                    StrokeThickness="0.8"
+                    WidthRequest="42">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <Image
+                        HeightRequest="26"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        WidthRequest="26">
+                        <Image.Source>
+                            <FontImageSource
+                                FontFamily="LineAwesome"
+                                Glyph="{x:Static views:LineAwesome.BellO}"
+                                Color="{DynamicResource BaseTextColor}" />
+                        </Image.Source>
+                    </Image>
+                </Border>
+            </Grid>
+
+            <ScrollView Grid.Row="1" VerticalScrollBarVisibility="Default">
+                <VerticalStackLayout VerticalOptions="Fill">
+                    <VerticalStackLayout Padding="16" Spacing="15">
+                        <!--  Profile Info Card  -->
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="0">
+                            <Frame
+                                Padding="0"
+                                CornerRadius="12"
+                                HasShadow="False"
+                                HeightRequest="60"
+                                IsClippedToBounds="True"
+                                WidthRequest="60">
+                                <Image Aspect="AspectFill" Source="{Binding User.Avatar}" />
+                            </Frame>
+
+                            <StackLayout
+                                Grid.Column="1"
+                                Padding="15"
+                                VerticalOptions="Fill">
+                                <Label
+                                    FontFamily="SemiBoldFont"
+                                    FontSize="17"
+                                    Text="{Binding User.FullName}"
+                                    VerticalTextAlignment="Center" />
+                                <Label
+                                    FontSize="13"
+                                    Text="Blogger, Travel Creator"
+                                    TextColor="{DynamicResource BaseLightTextColor}" />
+                            </StackLayout>
+                        </Grid>
+
+                        <!--  Account Stats  -->
+                        <Border Stroke="{DynamicResource T_Accent}" StrokeThickness="0.6">
+
+                            <Grid Margin="15" ColumnDefinitions="3*,3*,3*,Auto">
+
+                                <StackLayout
+                                    HorizontalOptions="Start"
+                                    Spacing="0"
+                                    VerticalOptions="Center">
+                                    <Label
+                                        Margin="0"
+                                        HorizontalOptions="Start"
+                                        HorizontalTextAlignment="Start"
+                                        Style="{StaticResource Title2}"
+                                        Text="750"
+                                        TextColor="{DynamicResource BaseTextColor}"
+                                        VerticalOptions="End" />
+                                    <Label
+                                        Margin="0"
+                                        FontSize="13"
+                                        HorizontalOptions="Start"
+                                        HorizontalTextAlignment="Start"
+                                        Text="{localization:Translate LabelFollowerCount}"
+                                        TextColor="{DynamicResource BaseLightTextColor}" />
+                                </StackLayout>
+
+                                <StackLayout
+                                    Grid.Column="1"
+                                    HorizontalOptions="Start"
+                                    Spacing="0"
+                                    VerticalOptions="Center">
+                                    <Label
+                                        HorizontalOptions="Start"
+                                        HorizontalTextAlignment="Start"
+                                        Style="{StaticResource Title2}"
+                                        Text="252K"
+                                        TextColor="{DynamicResource BaseTextColor}" />
+                                    <Label
+                                        FontSize="13"
+                                        HorizontalOptions="Start"
+                                        HorizontalTextAlignment="Start"
+                                        Text="{localization:Translate LabelFollowingCount}"
+                                        TextColor="{DynamicResource BaseLightTextColor}" />
+                                </StackLayout>
+
+                                <StackLayout
+                                    Grid.Column="2"
+                                    HorizontalOptions="Start"
+                                    Spacing="0"
+                                    VerticalOptions="Center">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="Start"
+                                        HorizontalTextAlignment="Start"
+                                        Style="{StaticResource Title2}"
+                                        Text="152"
+                                        TextColor="{DynamicResource BaseTextColor}" />
+                                    <Label
+                                        FontSize="13"
+                                        HorizontalOptions="Start"
+                                        HorizontalTextAlignment="Start"
+                                        Text="{localization:Translate LabelArticleCount}"
+                                        TextColor="{DynamicResource BaseLightTextColor}" />
+                                </StackLayout>
+
+                                <Button
+                                    Grid.Column="3"
+                                    Padding="12,0"
+                                    BackgroundColor="{DynamicResource T_Primary}"
+                                    BorderColor="{DynamicResource T_Primary}"
+                                    BorderWidth="1"
+                                    CornerRadius="10"
+                                    FontSize="12"
+                                    HeightRequest="30"
+                                    HorizontalOptions="End"
+                                    Text="{localization:Translate ButtonEditProfile}"
+                                    TextColor="{DynamicResource White}"
+                                    VerticalOptions="CenterAndExpand" />
+                            </Grid>
+                        </Border>
+
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Padding="16,10,16,20" Spacing="6">
+
+                        <!--  Account Articles  -->
+                        <Label
+                            FontFamily="BoldFont"
+                            FontSize="18"
+                            Text="{localization:Translate LabelArticle}" />
+                        <CollectionView
+                            x:Name="AccountArticleListings"
+                            ItemsSource="{Binding MyArticles}"
+                            SelectionChanged="CollectionView_OnSelectionChanged"
+                            SelectionMode="Single"
+                            VerticalScrollBarVisibility="Default">
+                            <CollectionView.ItemsLayout>
+                                <GridItemsLayout
+                                    HorizontalItemSpacing="15"
+                                    Orientation="Vertical"
+                                    Span="{OnIdiom Desktop='2',
+                                                   Phone='1',
+                                                   Tablet='2'}"
+                                    VerticalItemSpacing="15" />
+                            </CollectionView.ItemsLayout>
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <templates:MyArticleItemTemplate />
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </ScrollView>
+
+        </Grid>
+    </views:BasePage.PageContent>
+
+</views:BasePage>

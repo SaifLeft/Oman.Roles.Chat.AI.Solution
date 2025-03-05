@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="MauiKit.Views.Lists.Templates.ListCardsItemTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:MauiKit.Views">
+    <ContentView.Resources>
+        <Style TargetType="Border">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="Background" Value="Transparent" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentView.Resources>
+    <Border
+        Padding="0"
+        Background="{DynamicResource BasePageColor}"
+        HeightRequest="{OnIdiom Phone='90',
+                                Tablet='110',
+                                Desktop='120'}"
+        Stroke="Transparent"
+        StrokeShape="{RoundRectangle CornerRadius=20}">
+        <Grid ColumnSpacing="15" RowSpacing="0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="{OnIdiom Phone='90', Tablet='110', Desktop='120'}" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!--  BACKGROUND COLOR  -->
+            <BoxView
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                Grid.Column="0"
+                CornerRadius="0"
+                HeightRequest="{OnIdiom Phone='90',
+                                        Tablet='110',
+                                        Desktop='120'}"
+                WidthRequest="{OnIdiom Phone='90',
+                                       Tablet='110',
+                                       Desktop='120'}"
+                Color="{Binding BackgroundColor}" />
+
+            <!--  BACKGROUND CIRCLE  -->
+            <BoxView
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                Grid.Column="0"
+                Margin="0"
+                CornerRadius="14"
+                HeightRequest="56"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                WidthRequest="56"
+                Color="#30000000" />
+
+
+            <!--  ICON  -->
+            <Label
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                Grid.Column="0"
+                FontFamily="IonIcons"
+                FontSize="22"
+                HorizontalOptions="Center"
+                Text="{Binding Icon}"
+                TextColor="{DynamicResource White}"
+                VerticalOptions="Center" />
+
+            <!--  CATEGORY  -->
+            <Label
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="0,0,10,0"
+                FontFamily="MediumFont"
+                FontSize="16"
+                HorizontalOptions="Start"
+                Text="{Binding Title}"
+                TextColor="{DynamicResource BaseTextColor}"
+                VerticalTextAlignment="End" />
+
+            <!--  ITEM COUNT  -->
+            <Label
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="0,0,10,0"
+                FontSize="14"
+                HorizontalOptions="Start"
+                Opacity=".5"
+                Text="{Binding ItemCount, StringFormat='{}{0:F0} items'}"
+                TextColor="{DynamicResource BaseTextColor}"
+                VerticalTextAlignment="Start" />
+
+            <!--  CHEVRON  -->
+            <Label
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                Margin="15,0"
+                Style="{StaticResource ChevronIconStyle}" />
+
+        </Grid>
+    </Border>
+</ContentView>

@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiKit.Views.Socials.SocialProfileCardPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiKit.Controls"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:templates="clr-namespace:MauiKit.Views.Socials.Templates"
+    xmlns:tint="clr-namespace:MauiKit.Controls.TintMask"
+    xmlns:viewBase="clr-namespace:MauiKit.Views"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    NavigationPage.HasBackButton="False">
+
+    <ContentPage.Resources>
+        <Style x:Key="ButtonGroupStyle" TargetType="Grid">
+            <Setter Property="Margin" Value="50,0,50,30" />
+            <Setter Property="HeightRequest" Value="60" />
+            <Setter Property="ColumnSpacing" Value="10" />
+        </Style>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <Grid RowDefinitions="Auto, *">
+
+            <!--  Profile Card  -->
+            <Border
+                Grid.Row="0"
+                Margin="15,60,15,15"
+                Background="{DynamicResource BasePageColor}"
+                Shadow="{StaticResource CommonShadow}"
+                StrokeShape="{RoundRectangle CornerRadius='14'}">
+
+                <StackLayout
+                    Margin="0"
+                    Padding="0"
+                    Spacing="0">
+
+                    <!--  Header image path  -->
+                    <Grid>
+                        <Image
+                            Aspect="AspectFill"
+                            HeightRequest="{OnIdiom Phone=170,
+                                                    Tablet=250,
+                                                    Desktop=350}"
+                            HorizontalOptions="FillAndExpand">
+                            <Image.Source>
+                                <UriImageSource
+                                    CacheValidity="5"
+                                    CachingEnabled="true"
+                                    Uri="{Binding Profile.CoverImage}" />
+                            </Image.Source>
+                        </Image>
+
+                        <tint:TintColorMask
+                            Aspect="Fill"
+                            IsVisible="{OnPlatform WinUI='True',
+                                                   Default='False'}"
+                            Source="curved_2_mask.png"
+                            TintColor="{DynamicResource BasePageColor}"
+                            VerticalOptions="End" />
+
+                        <tint:MaskCurved2 IsVisible="{OnPlatform WinUI='False', Default='True'}" MaskColor="{DynamicResource BasePageColor}" />
+                    </Grid>
+
+                    <Grid Margin="0,-70,0,0" HorizontalOptions="Center">
+                        <!--  AVATAR  -->
+                        <controls:RoundedCornerImage
+                            HeightRequest="100"
+                            Source="{Binding Profile.Avatar}"
+                            Stroke="{DynamicResource White}"
+                            StrokeThickness="3"
+                            WidthRequest="100">
+                            <controls:RoundedCornerImage.StrokeShape>
+                                <RoundRectangle CornerRadius="18" />
+                            </controls:RoundedCornerImage.StrokeShape>
+                        </controls:RoundedCornerImage>
+
+                        <!--  EDIT BUTTON  -->
+                        <Button
+                            Padding="0"
+                            BackgroundColor="{DynamicResource PrimaryColor}"
+                            BorderColor="{DynamicResource White}"
+                            BorderWidth="2"
+                            CornerRadius="15"
+                            FontFamily="MaterialDesign"
+                            FontSize="16"
+                            HeightRequest="30"
+                            HorizontalOptions="End"
+                            Text="{x:Static views:MaterialDesignIcons.Edit}"
+                            TextColor="{DynamicResource White}"
+                            TranslationX="5"
+                            TranslationY="2"
+                            VerticalOptions="End"
+                            WidthRequest="30">
+                            <Button.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnEdit" />
+                            </Button.GestureRecognizers>
+                        </Button>
+                    </Grid>
+
+                    <!--  USER NAME AND DESCRIPTION  -->
+                    <StackLayout Margin="0,10" Padding="0">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="19"
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding Profile.Name}"
+                            TextColor="{DynamicResource BaseTextColor}" />
+
+                        <Label
+                            FontSize="14"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding Profile.Description}"
+                            TextColor="{DynamicResource BaseLightTextColor}" />
+                    </StackLayout>
+
+                    <!--  Follow button  -->
+                    <Button
+                        Margin="0,0,0,16"
+                        CornerRadius="10"
+                        FontSize="14"
+                        HeightRequest="40"
+                        Style="{StaticResource PrimaryButtonStyle}"
+                        Text="FOLLOW"
+                        WidthRequest="120" />
+
+                    <!--  About title label  -->
+                    <Label
+                        Margin="{OnPlatform Default='16,0,16,5'}"
+                        FontAttributes="Bold"
+                        FontSize="15"
+                        HorizontalOptions="StartAndExpand"
+                        HorizontalTextAlignment="Start"
+                        Text="About"
+                        TextColor="{DynamicResource BaseTextColor}" />
+
+                    <!--  About label  -->
+                    <Label
+                        Margin="{OnPlatform Default='16,0,16,24'}"
+                        FontSize="{OnIdiom Default=12,
+                                           Desktop=14}"
+                        HorizontalOptions="Start"
+                        HorizontalTextAlignment="Start"
+                        Text="{Binding Profile.About}" />
+
+                </StackLayout>
+            </Border>
+
+            <!--  Friends and Gallery  -->
+            <Grid
+                Grid.Row="1"
+                Margin="20,0,20,20"
+                BackgroundColor="{StaticResource MainWrapperBackgroundColor}"
+                RowDefinitions="Auto, Auto, Auto, Auto">
+
+                <!--  Friends Header  -->
+                <controls:HeaderTemplate
+                    Margin="0,15,0,0"
+                    IconText="{x:Static views:IonIcons.IosContact}"
+                    Text="{localization:Translate LabelFriends}" />
+
+                <!--  Friends Collection  -->
+                <CollectionView
+                    Grid.Row="1"
+                    Margin="0"
+                    HeightRequest="250"
+                    ItemsSource="{Binding Profile.Friends}">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout
+                            HorizontalItemSpacing="0"
+                            Orientation="Horizontal"
+                            Span="2"
+                            VerticalItemSpacing="10" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <templates:SocialFriendItemTemplate />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.Footer>
+                        <BoxView HeightRequest="5" Color="Transparent" />
+                    </CollectionView.Footer>
+                </CollectionView>
+
+                <!--  Gallery Header  -->
+                <controls:HeaderTemplate
+                    Grid.Row="2"
+                    Margin="0,5,0,0"
+                    IconText="{x:Static views:IonIcons.Image}"
+                    Text="{localization:Translate LabelPhotos}" />
+
+                <!--  Gallery Collection  -->
+                <StackLayout Grid.Row="3">
+                    <CollectionView Margin="0" ItemsSource="{Binding Profile.Images}">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout
+                                HorizontalItemSpacing="{OnIdiom Default=12,
+                                                                Phone=7}"
+                                Orientation="Vertical"
+                                Span="3"
+                                VerticalItemSpacing="{OnIdiom Default=12,
+                                                              Phone=7}" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <controls:GalleryImage Image="{Binding .}" />
+                                <!--<Image Source="{Binding .}" />-->
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                        <!--  For some reason, last item is hidden behind bottom bar. Add blank footer to compensate.  -->
+                        <CollectionView.Footer>
+                            <BoxView HeightRequest="10" Color="Transparent" />
+                        </CollectionView.Footer>
+                    </CollectionView>
+                </StackLayout>
+
+            </Grid>
+
+            <!--  Close Icon  -->
+            <Grid
+                Grid.RowSpan="2"
+                Margin="20"
+                HorizontalOptions="End">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnCloseButtonTapped" />
+                </Grid.GestureRecognizers>
+                <Label
+                    Style="{StaticResource IconCloseLabelStyle}"
+                    TextColor="{DynamicResource BaseTextColor}"
+                    VerticalOptions="Start" />
+            </Grid>
+
+        </Grid>
+    </ScrollView>
+</ContentPage>

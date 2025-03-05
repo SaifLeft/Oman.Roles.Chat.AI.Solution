@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="MauiKit.Views.Dashboards.DashboardCoverFlowPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+    xmlns:controls="clr-namespace:PanCardView.Controls;assembly=PanCardView"
+    xmlns:localization="clr-namespace:MauiKit.Resources.Translations"
+    xmlns:menuItems="clr-namespace:MauiKit.Models"
+    xmlns:proc="clr-namespace:PanCardView.Processors;assembly=PanCardView"
+    xmlns:templates="clr-namespace:MauiKit.Views.Dashboards.Templates"
+    xmlns:viewmodels="clr-namespace:MauiKit.ViewModels.Dashboards"
+    xmlns:views="clr-namespace:MauiKit.Views"
+    BaseTitle="{localization:Translate PageTitleDashboardCoverFlow}"
+    BaseTitleColor="{DynamicResource BaseTextColor}">
+
+    <views:BasePage.Resources>
+        <Style TargetType="Border">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="Background" Value="Transparent" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </views:BasePage.Resources>
+
+    <ScrollView>
+        <Grid Padding="0" RowSpacing="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="{OnIdiom Phone=320, Tablet=430, Desktop=500}" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <cards:CoverFlowView
+                Margin="0,10,0,0"
+                HeightRequest="{OnIdiom Phone='260',
+                                        Tablet='400',
+                                        Desktop='450'}"
+                IsAutoNavigatingAnimationEnabled="True"
+                IsCyclical="True"
+                IsPanInteractionEnabled="True"
+                IsPanSwipeEnabled="True"
+                ItemsSource="{Binding BannerItems}"
+                PositionShiftValue="50"
+                SelectedIndex="{Binding CurrentIndex}"
+                SlideShowDuration="3000">
+                <x:Arguments>
+                    <proc:CoverFlowProcessor OpacityFactor="0.3" ScaleFactor="0.85" />
+                </x:Arguments>
+
+                <cards:CoverFlowView.ItemTemplate>
+                    <DataTemplate>
+                        <ContentView>
+                            <Border
+                                Margin="30,10"
+                                Padding="0"
+                                Background="{Binding BackgroundColor}"
+                                HeightRequest="{OnIdiom Phone='260',
+                                                        Tablet='400',
+                                                        Desktop='400'}"
+                                StrokeShape="RoundRectangle 30">
+                                <Grid>
+                                    <Image
+                                        Aspect="AspectFill"
+                                        Opacity="0.3"
+                                        Source="{OnIdiom Phone='main_bg.png',
+                                                         Tablet='main_bg.png',
+                                                         Desktop='main_bg_desktop.png'}" />
+
+                                    <Grid
+                                        Padding="30"
+                                        HeightRequest="{OnIdiom Phone='260',
+                                                                Tablet='400',
+                                                                Desktop='400'}"
+                                        RowDefinitions="80, Auto, *"
+                                        RowSpacing="20">
+                                        <Border
+                                            Padding="12"
+                                            Background="#80000000"
+                                            HeightRequest="54"
+                                            HorizontalOptions="Start"
+                                            Stroke="Transparent"
+                                            StrokeShape="{RoundRectangle CornerRadius='14'}"
+                                            VerticalOptions="Start"
+                                            WidthRequest="54">
+                                            <Image
+                                                Aspect="AspectFit"
+                                                HeightRequest="30"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="IonIcons"
+                                                        Glyph="{Binding Icon}"
+                                                        Size="30"
+                                                        Color="{DynamicResource White}" />
+                                                </Image.Source>
+                                            </Image>
+                                        </Border>
+
+                                        <Label
+                                            Grid.Row="1"
+                                            FontAttributes="Bold"
+                                            FontSize="21"
+                                            HorizontalOptions="Start"
+                                            Text="{Binding Title}"
+                                            TextColor="{DynamicResource White}"
+                                            VerticalOptions="Center" />
+
+                                        <Label
+                                            Grid.Row="2"
+                                            FontSize="13"
+                                            HorizontalOptions="Start"
+                                            Text="{Binding Body}"
+                                            TextColor="{DynamicResource White}"
+                                            VerticalOptions="FillAndExpand" />
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </ContentView>
+                    </DataTemplate>
+                </cards:CoverFlowView.ItemTemplate>
+            </cards:CoverFlowView>
+
+            <Border
+                Grid.Row="1"
+                Margin="-3,-25,-3,0"
+                Padding="{OnIdiom Phone='15,15,15,10',
+                                  Tablet='15,10',
+                                  Desktop='30,10'}"
+                Background="{DynamicResource MainWrapperBackgroundColor}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="30,30,0,0" />
+                </Border.StrokeShape>
+
+                <CollectionView
+                    x:Name="dashboardTiles"
+                    Margin="{OnIdiom Phone='10,15,10,10',
+                                     Tablet='15,10',
+                                     Desktop='30,10'}"
+                    x:FieldModifier="public"
+                    ItemsSource="{Binding NavigationItems}"
+                    SelectionMode="Single">
+
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout
+                            HorizontalItemSpacing="5"
+                            Orientation="Vertical"
+                            Span="3"
+                            VerticalItemSpacing="5" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <templates:DashboardCarouselItemTemplate />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Border>
+
+        </Grid>
+    </ScrollView>
+</views:BasePage>
