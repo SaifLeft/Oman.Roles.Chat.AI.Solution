@@ -1,11 +1,21 @@
-using API.Client;
-using Maui.Mobile.ViewModels;
-using Maui.Mobile.Views;
-using Maui.Service;
+﻿using CommunityToolkit.Maui;
+using SkiaSharp.Views.Maui.Controls.Hosting;
+using Microsoft.Maui.LifecycleEvents;
+using MauiKit.Handlers;
+using CommunityToolkit.Maui.Core;
 using Microsoft.Extensions.Logging;
-using System.Net.Http.Headers;
+using PanCardView;
+using FFImageLoading.Maui;
 
-namespace Maui.Mobile
+#if WINDOWS
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
+using Windows.Graphics;
+using WinRT.Interop;
+using Windows.UI.Core;
+#endif
+
+namespace MauiKit
 {
     public static class MauiProgram
     {
@@ -14,55 +24,122 @@ namespace Maui.Mobile
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .RegisterDemoAppServices()
+                .RegisterViewModels()
+                .UseMauiCommunityToolkit()
+                .UseMauiCommunityToolkitMediaElement()
+                .UseSkiaSharp()
+                .UseCardsView()
+                .UseFFImageLoading()
                 .ConfigureFonts(fonts =>
                 {
-                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                    fonts.AddFont("Roboto-Medium.ttf", "Roboto-Medium");
-                    fonts.AddFont("Roboto-Regular.ttf", "Roboto-Regular");
-                    fonts.AddFont("UIFontIcons.ttf", "FontIcons");
+                    fonts.AddFont("Poppins-Regular.otf", "RegularFont");
+                    fonts.AddFont("Poppins-Medium.otf", "MediumFont");
+                    fonts.AddFont("Poppins-SemiBold.otf", "SemiBoldFont");
+                    fonts.AddFont("Poppins-Bold.otf", "BoldFont");
+                    fonts.AddFont("Caveat-Bold.ttf", "HandwritingBoldFont");
+                    fonts.AddFont("Caveat-Regular.ttf", "HandwritingFont");
+
+                    fonts.AddFont("fa-solid-900.ttf", "FaPro");
+                    fonts.AddFont("fa-brands-400.ttf", "FaBrands");
+                    fonts.AddFont("fa-regular-400.ttf", "FaRegular");
+                    fonts.AddFont("line-awesome.ttf", "LineAwesome");
+                    fonts.AddFont("material-icons-outlined-regular.otf", "MaterialDesign");
+                    fonts.AddFont("ionicons.ttf", "IonIcons");
+                    fonts.AddFont("icon.ttf", "MauiKitIcons");
+                })
+                .ConfigureMauiHandlers(handlers =>
+                {
+                    handlers.AddHandler(typeof(ProgressBar), typeof(ProgressBarHandler));
+                })
+                .ConfigureLifecycleEvents(events =>
+                {
+#if ANDROID
+                    events.AddAndroid(android => android.OnCreate((activity, bundle) => MakeStatusBarTranslucent(activity)));
+
+                    static void MakeStatusBarTranslucent(Android.App.Activity activity)
+                    {
+                        //activity.Window.SetFlags(Android.Views.WindowManagerFlags.LayoutNoLimits, Android.Views.WindowManagerFlags.LayoutNoLimits);
+
+                        activity.Window.ClearFlags(Android.Views.WindowManagerFlags.TranslucentStatus);
+
+                        activity.Window.SetStatusBarColor(Android.Graphics.Color.White);
+
+                        activity.Window.SetNavigationBarColor(Android.Graphics.Color.Transparent);
+                    }
+#endif
                 });
-
-            // Register services
-            builder.Services.AddSingleton<IPreferencesService, PreferencesService>();
-            builder.Services.AddSingleton<IAuthService, AuthService>();
-
-            // Register HttpClient and API client
-            builder.Services.AddSingleton<HttpClient>(CreateHttpClient());
-            builder.Services.AddSingleton<IAPIClient, APIClient>();
-
-            // Register view models
-            builder.Services.AddTransient<LoginViewModel>();
-            builder.Services.AddTransient<RegisterViewModel>();
-            builder.Services.AddTransient<PhoneLoginViewModel>();
-
-            // Register pages
-            builder.Services.AddTransient<LoginPage>();
-            builder.Services.AddTransient<RegisterPage>();
-            builder.Services.AddTransient<PhoneLoginPage>();
-            builder.Services.AddTransient<ForgotPasswordPage>();
 
 #if DEBUG
             builder.Logging.AddDebug();
+            builder.Services.AddLogging(configure => configure.AddDebug());
 #endif
 
-            return builder.Build();
+            builder.ConfigureLifecycleEvents(events =>
+            {
+#if WINDOWS
+                events.AddWindows(wndLifeCycleBuilder =>
+                {
+                    wndLifeCycleBuilder.OnWindowCreated(window =>
+                    {
+                        IntPtr nativeWindowHandle = WinRT.Interop.WindowNative.GetWindowHandle(window);
+                        WindowId win32WindowsId = Win32Interop.GetWindowIdFromWindow(nativeWindowHandle);
+                        AppWindow winuiAppWindow = AppWindow.GetFromWindowId(win32WindowsId);
+                       
+                        //https://github.com/dotnet/maui/issues/7751
+                        window.ExtendsContentIntoTitleBar = false; // must be false or else you see some of the buttons
+                        winuiAppWindow.SetPresenter(AppWindowPresenterKind.Default);
+
+                        //https://github.com/microsoft/microsoft-ui-xaml/issues/8746
+                        ///
+                        /// System back button for backwards navigation is no longer recommend
+                        /// Instead, you should provide your own in-app back button
+                        //  https://learn.microsoft.com/en-us/windows/apps/design/basics/navigation-history-and-backwards-navigation?source=recommendations#system-back-behavior-for-backward-compatibility
+                        var titleBar = winuiAppWindow.TitleBar;
+                        titleBar.ExtendsContentIntoTitleBar = true;
+                        titleBar.BackgroundColor = Windows.UI.Color.FromArgb(1, 186, 213, 248); //Hex: #BAD5F8
+                        titleBar.ButtonBackgroundColor = Windows.UI.Color.FromArgb(1, 186, 213, 248); //Hex: #BAD5F8
+                        titleBar.ButtonInactiveBackgroundColor = Microsoft.UI.Colors.Black;
+                        titleBar.ButtonHoverBackgroundColor = Windows.UI.Color.FromArgb(1, 186, 213, 248); //Hex: #BAD5F8
+                        titleBar.ForegroundColor = Microsoft.UI.Colors.White;
+                        titleBar.InactiveBackgroundColor = Microsoft.UI.Colors.Black;
+
+                        //https://github.com/dotnet/maui/issues/6976
+                        var displayArea = Microsoft.UI.Windowing.DisplayArea.GetFromWindowId(win32WindowsId, Microsoft.UI.Windowing.DisplayAreaFallback.Nearest);
+                        
+                        int width = displayArea.WorkArea.Width * 3 / 4;
+                        int height = displayArea.WorkArea.Height - 50;
+
+                        winuiAppWindow.MoveAndResize(new RectInt32(25, 50, width, height));
+
+                    });
+                });
+#endif
+            });
+
+            builder.Services.AddLocalization();
+
+            var app = builder.Build();
+
+            return app;
         }
 
-        private static HttpClient CreateHttpClient()
+        public static MauiAppBuilder RegisterDemoAppServices(this MauiAppBuilder mauiAppBuilder)
         {
-            var httpClient = new HttpClient();
+            return mauiAppBuilder;
+        }
 
-            // Configure base address and headers
-            httpClient.BaseAddress = new Uri("https://localhost:7155/");
-            httpClient.DefaultRequestHeaders.Accept.Clear();
-            httpClient.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
+        public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder)
+        {
+            mauiAppBuilder.Services.AddTransient<MainPage>();
+            mauiAppBuilder.Services.AddTransient<TestPage>();
+            mauiAppBuilder.Services.AddTransient<TestPageViewModel>();
+            mauiAppBuilder.Services.AddTransient<MainViewModel>();
+            mauiAppBuilder.Services.AddTransient<DemoWalkthroughViewModel>();
+            mauiAppBuilder.Services.AddTransient<DemoStartPage>();
+            mauiAppBuilder.Services.AddTransient<DemoWalkthroughPage>();
 
-            // Configure timeout
-            httpClient.Timeout = TimeSpan.FromSeconds(30);
-
-            return httpClient;
+            return mauiAppBuilder;
         }
     }
 }

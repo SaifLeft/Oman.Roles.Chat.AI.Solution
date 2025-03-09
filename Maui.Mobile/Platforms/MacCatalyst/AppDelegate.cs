@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace Maui.Mobile.Platforms.MacCatalyst
+namespace MauiKit
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate

@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace Maui.Mobile.Platforms.iOS
+namespace MauiKit
 {
     public class Program
     {
