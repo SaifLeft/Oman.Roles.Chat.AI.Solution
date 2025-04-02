@@ -67,6 +67,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "public.sms_otp_code",
+         "ObjectType": 0
+      },
+      {
          "Name": "public.subscription_plan",
          "ObjectType": 0
       },

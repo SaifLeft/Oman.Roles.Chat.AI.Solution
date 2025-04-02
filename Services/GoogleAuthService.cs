@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Models;
+using Models.DTOs.Authorization;
 using System.Text.Json;
 
 namespace Services

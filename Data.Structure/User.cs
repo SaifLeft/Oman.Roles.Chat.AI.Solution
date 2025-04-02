@@ -13,11 +13,23 @@ public partial class User
 
     public string Email { get; set; }
 
+    public string FirstName { get; set; }
+
+    public int? MiddleName { get; set; }
+
+    public int? LastName { get; set; }
+
+    public string GoogleId { get; set; }
+
+    public bool IsEmailConfirmed { get; set; }
+
     public string PasswordHash { get; set; }
 
-    public string FullName { get; set; }
-
     public long? PhoneNumber { get; set; }
+
+    public bool PhoneNumberConfirmed { get; set; }
+
+    public string LogInType { get; set; }
 
     public DateTime? LastLoginAt { get; set; }
 

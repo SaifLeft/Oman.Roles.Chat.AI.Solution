@@ -11,9 +11,21 @@ public partial class ConversationTracking
 
     public long UserId { get; set; }
 
+    public long RoomId { get; set; }
+
+    public string ConversationId { get; set; }
+
     public string UserQuery { get; set; }
 
     public string AiResponse { get; set; }
+
+    public string Topic { get; set; }
+
+    public string Language { get; set; }
+
+    public string MetadataJson { get; set; }
+
+    public DateTime Timestamp { get; set; }
 
     public long CreatedByUserId { get; set; }
 
@@ -26,18 +38,6 @@ public partial class ConversationTracking
     public bool IsDeleted { get; set; }
 
     public DateTime? DeletedAt { get; set; }
-
-    public string Topic { get; set; }
-
-    public string Language { get; set; }
-
-    public string MetadataJson { get; set; }
-
-    public DateTime Timestamp { get; set; }
-
-    public long RoomId { get; set; }
-
-    public string ConversationId { get; set; }
 
     public virtual ICollection<ConversationKeyword> ConversationKeywords { get; set; } = new List<ConversationKeyword>();
 

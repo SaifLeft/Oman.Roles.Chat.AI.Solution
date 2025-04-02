@@ -4,55 +4,60 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Models;
+using Models.DTOs.Subscription;
+using Models.DTOs.Subscription.Enums;
+using Models.DTOs.Subscription.Requests;
+using Models.DTOs.Subscription.Responses;
 
 namespace Services
 {
     public interface ISubscriptionService
     {
         /// <summary>
-        /// الحصول على جميع خطط الاشتراك
+        /// Get all subscriptions
         /// </summary>
-        Task<BaseResponse<List<SubscriptionPlanDTO>>> GetAllPlansAsync(string language);
+        Task<BaseResponse<List<SubscriptionPlanDTO>>> GetAllSubscriptionsAsync(int page, int pageSize, string language);
 
         /// <summary>
-        /// الحصول على خطة اشتراك بواسطة المعرف
+        /// Get specific subscription
         /// </summary>
-        Task<BaseResponse<SubscriptionPlanDTO>> GetPlanByIdAsync(string planId, string language);
+        Task<BaseResponse<SubscriptionPlanDTO>> GetSubscriptionByIdAsync(string id, string language);
 
         /// <summary>
-        /// الحصول على اشتراك المستخدم
+        /// Get subscriptions for a specific user
         /// </summary>
-        Task<BaseResponse<UserSubscriptionDTO>> GetUserSubscriptionAsync(string userId, string language);
+        Task<BaseResponse<List<UserSubscriptionDTO>>> GetUserSubscriptionsHistoryAsync(string userId, string language);
 
         /// <summary>
-        /// إنشاء اشتراك جديد
+        /// Create a new subscription plan
         /// </summary>
-        Task<BaseResponse<UserSubscriptionDTO>> CreateSubscriptionAsync(string userId, CreateSubscriptionRequest request, string language);
+        Task<BaseResponse<SubscriptionPlanDTO>> CreateSubscriptionPlanAsync(CreateSubscriptionPlanRequestDTO request, string adminId, string language);
 
         /// <summary>
-        /// تجديد اشتراك
+        /// Update a subscription plan
         /// </summary>
-        Task<BaseResponse<UserSubscriptionDTO>> RenewSubscriptionAsync(string userId, RenewSubscriptionRequest request, string language);
+        Task<BaseResponse<SubscriptionPlanDTO>> UpdateSubscriptionPlanAsync(string id, UpdateSubscriptionPlanRequestDTO request, string adminId, string language);
 
         /// <summary>
-        /// إيقاف التجديد التلقائي
+        /// Create a new discount coupon
         /// </summary>
-        Task<BaseResponse<UserSubscriptionDTO>> CancelAutoRenewalAsync(string userId, string subscriptionId, string language);
+        Task<BaseResponse<DiscountCouponDTO>> CreateDiscountCouponAsync(CreateDiscountCouponRequestDTO request, string adminId, string language);
 
         /// <summary>
-        /// إلغاء اشتراك
+        /// Get all discount coupons
         /// </summary>
-        Task<BaseResponse<UserSubscriptionDTO>> CancelSubscriptionAsync(string userId, string subscriptionId, string language);
+        Task<BaseResponse<List<DiscountCouponDTO>>> GetAllDiscountCouponsAsync(int page, int pageSize, string language);
 
         /// <summary>
-        /// التحقق من صلاحية كوبون
+        /// Update a discount coupon
         /// </summary>
-        Task<BaseResponse<CouponValidationResponse>> ValidateCouponAsync(ValidateCouponRequest request, string language);
+        Task<BaseResponse<DiscountCouponDTO>> UpdateDiscountCouponAsync(string id, UpdateDiscountCouponRequestDTO request, string adminId, string language);
 
         /// <summary>
-        /// الحصول على معاملات المستخدم
+        /// Get subscription reports
         /// </summary>
-        Task<BaseResponse<List<FinancialTransaction>>> GetUserTransactionsAsync(string userId, string language);
+        Task<BaseResponse<SubscriptionReportDTO>> GetSubscriptionReportsAsync(DateTime? startDate, DateTime? endDate, string language);
+        Task<BaseResponse<UserSubscriptionDTO>> CreateSubscription(string userId, CreateSubscriptionRequestDTO request, string language);
     }
 
     public class SubscriptionService : ISubscriptionService
@@ -75,6 +80,296 @@ namespace Services
             _configuration = configuration;
             _logger = logger;
             _localizationService = localizationService;
+        }
+
+        public async Task<BaseResponse<List<SubscriptionPlanDTO>>> GetAllSubscriptionsAsync(int page, int pageSize, string language)
+        {
+            try
+            {
+                var subscriptions = await _context.SubscriptionPlans
+                    .Where(s => s.IsDeleted != true)
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+                var subscriptionDtos = _mapper.Map<List<SubscriptionPlanDTO>>(subscriptions);
+                return BaseResponse<List<SubscriptionPlanDTO>>.SuccessResponse(subscriptionDtos);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving all subscriptions");
+                var errorMessage = _localizationService.GetMessage("SubscriptionsRetrievalError", "Errors", language);
+                return BaseResponse<List<SubscriptionPlanDTO>>.FailureResponse(errorMessage, 500);
+            }
+        }
+
+        public async Task<BaseResponse<SubscriptionPlanDTO>> GetSubscriptionByIdAsync(string id, string language)
+        {
+            try
+            {
+                if (!long.TryParse(id, out long subscriptionId))
+                {
+                    var invalidIdMessage = _localizationService.GetMessage("InvalidSubscriptionId", "Errors", language);
+                    return BaseResponse<SubscriptionPlanDTO>.FailureResponse(invalidIdMessage, 400);
+                }
+
+                var subscription = await _context.SubscriptionPlans
+                    .FirstOrDefaultAsync(s => s.Id == subscriptionId && s.IsDeleted != true);
+
+                if (subscription == null)
+                {
+                    var notFoundMessage = _localizationService.GetMessage("SubscriptionNotFound", "Errors", language);
+                    return BaseResponse<SubscriptionPlanDTO>.FailureResponse(notFoundMessage, 404);
+                }
+
+                var subscriptionDto = _mapper.Map<SubscriptionPlanDTO>(subscription);
+                return BaseResponse<SubscriptionPlanDTO>.SuccessResponse(subscriptionDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving subscription {SubscriptionId}", id);
+                var errorMessage = _localizationService.GetMessage("SubscriptionRetrievalError", "Errors", language);
+                return BaseResponse<SubscriptionPlanDTO>.FailureResponse(errorMessage, 500);
+            }
+        }
+
+        public async Task<BaseResponse<List<UserSubscriptionDTO>>> GetUserSubscriptionsHistoryAsync(string userId, string language)
+        {
+            try
+            {
+                if (!long.TryParse(userId, out long userIdLong))
+                {
+                    var invalidIdMessage = _localizationService.GetMessage("InvalidUserId", "Errors", language);
+                    return BaseResponse<List<UserSubscriptionDTO>>.FailureResponse(invalidIdMessage, 400);
+                }
+
+                var subscriptions = await _context.UserSubscriptions
+                    .Where(s => s.UserId == userIdLong && s.IsDeleted != true)
+                    .OrderByDescending(s => s.CreateDate)
+                    .ToListAsync();
+
+                var subscriptionDtos = _mapper.Map<List<UserSubscriptionDTO>>(subscriptions);
+                return BaseResponse<List<UserSubscriptionDTO>>.SuccessResponse(subscriptionDtos);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving user subscriptions history {UserId}", userId);
+                var errorMessage = _localizationService.GetMessage("UserSubscriptionsRetrievalError", "Errors", language);
+                return BaseResponse<List<UserSubscriptionDTO>>.FailureResponse(errorMessage, 500);
+            }
+        }
+
+        public async Task<BaseResponse<SubscriptionPlanDTO>> CreateSubscriptionPlanAsync(CreateSubscriptionPlanRequestDTO request, string adminId, string language)
+        {
+            try
+            {
+                if (!long.TryParse(adminId, out long adminIdLong))
+                {
+                    var invalidIdMessage = _localizationService.GetMessage("InvalidAdminId", "Errors", language);
+                    return BaseResponse<SubscriptionPlanDTO>.FailureResponse(invalidIdMessage, 400);
+                }
+
+                var subscriptionPlan = new SubscriptionPlan
+                {
+                    Name = request.Name,
+                    Description = request.Description,
+                    PriceMonthly = request.PriceMonthly,
+                    PriceYearly = request.PriceYearly,
+                    IsTrial = request.IsTrial,
+                    TrialDays = request.TrialDays,
+                    IsActive = true,
+                    CreatedByUserId = adminIdLong,
+                    CreateDate = DateTime.Now
+                };
+
+                _context.SubscriptionPlans.Add(subscriptionPlan);
+                await _context.SaveChangesAsync();
+
+                var subscriptionDto = _mapper.Map<SubscriptionPlanDTO>(subscriptionPlan);
+                return BaseResponse<SubscriptionPlanDTO>.SuccessResponse(subscriptionDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error creating subscription plan");
+                var errorMessage = _localizationService.GetMessage("SubscriptionPlanCreationError", "Errors", language);
+                return BaseResponse<SubscriptionPlanDTO>.FailureResponse(errorMessage, 500);
+            }
+        }
+
+        public async Task<BaseResponse<SubscriptionPlanDTO>> UpdateSubscriptionPlanAsync(string id, UpdateSubscriptionPlanRequestDTO request, string adminId, string language)
+        {
+            try
+            {
+                if (!long.TryParse(id, out long planId) || !long.TryParse(adminId, out long adminIdLong))
+                {
+                    var invalidIdMessage = _localizationService.GetMessage("InvalidId", "Errors", language);
+                    return BaseResponse<SubscriptionPlanDTO>.FailureResponse(invalidIdMessage, 400);
+                }
+
+                var plan = await _context.SubscriptionPlans
+                    .FirstOrDefaultAsync(p => p.Id == planId && p.IsDeleted != true);
+
+                if (plan == null)
+                {
+                    var notFoundMessage = _localizationService.GetMessage("PlanNotFound", "Errors", language);
+                    return BaseResponse<SubscriptionPlanDTO>.FailureResponse(notFoundMessage, 404);
+                }
+
+                plan.Name = request.Name;
+                plan.Description = request.Description;
+                plan.PriceMonthly = (double)request.PriceMonthly;
+                plan.PriceYearly = (double)request.PriceYearly;
+                plan.IsTrial = request.IsTrial ?? false;
+                plan.TrialDays = request.TrialDays;
+                plan.IsActive = request.IsActive ?? false;
+                plan.ModifiedByUserId = adminIdLong;
+                plan.ModifiedDate = DateTime.Now;
+
+                await _context.SaveChangesAsync();
+
+                var planDto = _mapper.Map<SubscriptionPlanDTO>(plan);
+                return BaseResponse<SubscriptionPlanDTO>.SuccessResponse(planDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating subscription plan {PlanId}", id);
+                var errorMessage = _localizationService.GetMessage("SubscriptionPlanUpdateError", "Errors", language);
+                return BaseResponse<SubscriptionPlanDTO>.FailureResponse(errorMessage, 500);
+            }
+        }
+
+        public async Task<BaseResponse<DiscountCouponDTO>> CreateDiscountCouponAsync(CreateDiscountCouponRequestDTO request, string adminId, string language)
+        {
+            try
+            {
+                if (!long.TryParse(adminId, out long adminIdLong))
+                {
+                    var invalidIdMessage = _localizationService.GetMessage("InvalidAdminId", "Errors", language);
+                    return BaseResponse<DiscountCouponDTO>.FailureResponse(invalidIdMessage, 400);
+                }
+
+                var coupon = new DiscountCoupon
+                {
+                    Code = request.Code,
+                    Description = request.Description,
+                    DiscountType = request.DiscountType.ToString(),
+                    DiscountValue = (double)request.DiscountValue,
+                    MaxUses = request.MaxUses,
+                    CurrentUses = 0,
+                    StartDate = DateTime.Now,
+                    EndDate = request.ExpiryDate,
+                    IsActive = true,
+                    CreatedByUserId = adminIdLong,
+                    CreateDate = DateTime.Now
+                };
+
+                _context.DiscountCoupons.Add(coupon);
+                await _context.SaveChangesAsync();
+
+                var couponDto = _mapper.Map<DiscountCouponDTO>(coupon);
+                return BaseResponse<DiscountCouponDTO>.SuccessResponse(couponDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error creating discount coupon");
+                var errorMessage = _localizationService.GetMessage("DiscountCouponCreationError", "Errors", language);
+                return BaseResponse<DiscountCouponDTO>.FailureResponse(errorMessage, 500);
+            }
+        }
+
+        public async Task<BaseResponse<List<DiscountCouponDTO>>> GetAllDiscountCouponsAsync(int page, int pageSize, string language)
+        {
+            try
+            {
+                var coupons = await _context.DiscountCoupons
+                    .Where(c => c.IsDeleted != true)
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+                var couponDtos = _mapper.Map<List<DiscountCouponDTO>>(coupons);
+                return BaseResponse<List<DiscountCouponDTO>>.SuccessResponse(couponDtos);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving discount coupons");
+                var errorMessage = _localizationService.GetMessage("DiscountCouponsRetrievalError", "Errors", language);
+                return BaseResponse<List<DiscountCouponDTO>>.FailureResponse(errorMessage, 500);
+            }
+        }
+
+        public async Task<BaseResponse<DiscountCouponDTO>> UpdateDiscountCouponAsync(string id, UpdateDiscountCouponRequestDTO request, string adminId, string language)
+        {
+            try
+            {
+                if (!long.TryParse(id, out long couponId) || !long.TryParse(adminId, out long adminIdLong))
+                {
+                    var invalidIdMessage = _localizationService.GetMessage("InvalidId", "Errors", language);
+                    return BaseResponse<DiscountCouponDTO>.FailureResponse(invalidIdMessage, 400);
+                }
+
+                var coupon = await _context.DiscountCoupons
+                    .FirstOrDefaultAsync(c => c.Id == couponId && c.IsDeleted != true);
+
+                if (coupon == null)
+                {
+                    var notFoundMessage = _localizationService.GetMessage("CouponNotFound", "Errors", language);
+                    return BaseResponse<DiscountCouponDTO>.FailureResponse(notFoundMessage, 404);
+                }
+
+                coupon.Description = request.Description;
+                coupon.DiscountType = request.DiscountType.ToString();
+                coupon.DiscountValue = (double)request.DiscountValue;
+                coupon.MaxUses = request.MaxUses;
+                coupon.EndDate = request.ExpiryDate;
+                coupon.IsActive = request.IsActive;
+                coupon.ModifiedByUserId = adminIdLong;
+                coupon.ModifiedDate = DateTime.Now;
+
+                await _context.SaveChangesAsync();
+
+                var couponDto = _mapper.Map<DiscountCouponDTO>(coupon);
+                return BaseResponse<DiscountCouponDTO>.SuccessResponse(couponDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating discount coupon {CouponId}", id);
+                var errorMessage = _localizationService.GetMessage("DiscountCouponUpdateError", "Errors", language);
+                return BaseResponse<DiscountCouponDTO>.FailureResponse(errorMessage, 500);
+            }
+        }
+
+        public async Task<BaseResponse<SubscriptionReportDTO>> GetSubscriptionReportsAsync(DateTime? startDate, DateTime? endDate, string language)
+        {
+            try
+            {
+                var query = _context.UserSubscriptions.Where(s => s.IsDeleted != true);
+
+                if (startDate.HasValue)
+                    query = query.Where(s => s.CreateDate >= startDate.Value);
+
+                if (endDate.HasValue)
+                    query = query.Where(s => s.CreateDate <= endDate.Value);
+
+                var subscriptions = await query.ToListAsync();
+
+                var report = new SubscriptionReportDTO
+                {
+                    TotalSubscriptions = subscriptions.Count,
+                    ActiveSubscriptions = subscriptions.Count(s => s.Status == "Active"),
+                    ExpiredSubscriptions = subscriptions.Count(s => s.Status == "Expired"),
+                    CancelledSubscriptions = subscriptions.Count(s => s.Status == "Cancelled"),
+                    TrialSubscriptions = subscriptions.Count(s => s.Status == "Trial")
+                };
+
+                return BaseResponse<SubscriptionReportDTO>.SuccessResponse(report);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error generating subscription reports");
+                var errorMessage = _localizationService.GetMessage("SubscriptionReportsError", "Errors", language);
+                return BaseResponse<SubscriptionReportDTO>.FailureResponse(errorMessage, 500);
+            }
         }
 
         /// <summary>
@@ -176,9 +471,9 @@ namespace Services
                 }
 
                 // Check if subscription has expired and update if necessary
-                if (subscription.EndDate < DateTime.Now && subscription.Status != "Expired")
+                if (subscription.EndDate < DateTime.Now && subscription.Status != SubscriptionStatus.Expired.ToString())
                 {
-                    subscription.Status = "Expired";
+                    subscription.Status = SubscriptionStatus.Expired.ToString();
                     subscription.ModifiedDate = DateTime.Now;
                     subscription.ModifiedByUserId = id;
                     await _context.SaveChangesAsync();
@@ -198,7 +493,7 @@ namespace Services
         /// <summary>
         /// إنشاء اشتراك جديد
         /// </summary>
-        public async Task<BaseResponse<UserSubscriptionDTO>> CreateSubscriptionAsync(string userId, CreateSubscriptionRequest request, string language)
+        public async Task<BaseResponse<UserSubscriptionDTO>> CreateSubscription(string userId, CreateSubscriptionRequestDTO request, string language)
         {
             try
             {
@@ -249,7 +544,14 @@ namespace Services
                 // Validate coupon if provided
                 if (!string.IsNullOrEmpty(request.CouponCode))
                 {
-                    var couponValidation = await ValidateCouponInternalAsync(request.CouponCode, request.PlanId);
+                    BaseResponse<CouponValidationResponse> couponValidationRes = await ValidateCouponInternalAsync(request.CouponCode, request.PlanId);
+
+                    if (!couponValidationRes.Success)
+                    {
+                        var errorMessage = _localizationService.GetMessage("InvalidCouponCode", "Errors", language);
+                        return BaseResponse<UserSubscriptionDTO>.FailureResponse(errorMessage, 400);
+                    }
+                    var couponValidation = couponValidationRes.Data;
                     if (couponValidation.IsValid)
                     {
                         if (couponValidation.DiscountType == DiscountType.Percentage)
@@ -311,13 +613,13 @@ namespace Services
                 {
                     PlanId = planIdLong,
                     UserId = userIdLong,
-                    Type = "NewSubscription",
+                    Type = TransactionType.NewSubscription.ToString(),
                     Amount = (double)price,
                     DiscountAmount = (double)discountAmount,
                     TotalAmount = (double)totalAmount,
                     CouponCode = couponCode,
                     InvoiceNumber = invoiceNumber,
-                    Status = "Completed",
+                    Status = TransactionStatus.Completed.ToString(),
                     TransactionDate = DateTime.Now,
                     CreatedByUserId = userIdLong,
                     CreateDate = DateTime.Now
@@ -417,7 +719,14 @@ namespace Services
                 // Validate coupon if provided
                 if (!string.IsNullOrEmpty(request.CouponCode))
                 {
-                    var couponValidation = await ValidateCouponInternalAsync(request.CouponCode, subscription.PlanId.ToString());
+                    var couponValidationRep = await ValidateCouponInternalAsync(request.CouponCode, subscription.PlanId.ToString());
+
+                    if (!couponValidationRep.Success)
+                    {
+                        var errorMessage = _localizationService.GetMessage("InvalidCouponCode", "Errors", language);
+                        return BaseResponse<UserSubscriptionDTO>.FailureResponse(errorMessage, 400);
+                    }
+                    var couponValidation = couponValidationRep.Data;
                     if (couponValidation.IsValid)
                     {
                         if (couponValidation.DiscountType == DiscountType.Percentage)
@@ -462,13 +771,13 @@ namespace Services
                 {
                     PlanId = subscription.PlanId,
                     UserId = userIdLong,
-                    Type = "Renewal",
+                    Type = TransactionType.Renewal.ToString(),
                     Amount = (double)price,
                     DiscountAmount = (double)discountAmount,
                     TotalAmount = (double)totalAmount,
                     CouponCode = couponCode,
                     InvoiceNumber = invoiceNumber,
-                    Status = "Completed",
+                    Status = TransactionStatus.Completed.ToString(),
                     TransactionDate = DateTime.Now,
                     CreatedByUserId = userIdLong,
                     CreateDate = DateTime.Now
@@ -629,15 +938,16 @@ namespace Services
             {
                 var validation = await ValidateCouponInternalAsync(request.CouponCode, request.PlanId);
 
-                if (!validation.IsValid)
+                if (!validation.Success)
                 {
-                    return BaseResponse<CouponValidationResponse>.FailureResponse(
-                        validation.ErrorMessage ?? "Invalid coupon",
-                        400,
-                        new List<string> { validation.ErrorMessage ?? "Invalid coupon" });
+                    return BaseResponse<CouponValidationResponse>.FailureResponse("Invalid coupon", 400, validation.Errors);
+                }
+                if (!validation.Data.IsValid)
+                {
+                    return BaseResponse<CouponValidationResponse>.FailureResponse("Coupon is not valid", 400);
                 }
 
-                return BaseResponse<CouponValidationResponse>.SuccessResponse(validation);
+                return BaseResponse<CouponValidationResponse>.SuccessResponse(validation.Data);
             }
             catch (Exception ex)
             {
@@ -650,14 +960,14 @@ namespace Services
         /// <summary>
         /// الحصول على معاملات المستخدم
         /// </summary>
-        public async Task<BaseResponse<List<FinancialTransaction>>> GetUserTransactionsAsync(string userId, string language)
+        public async Task<BaseResponse<List<FinancialTransactionDTO>>> GetUserTransactionsAsync(string userId, string language)
         {
             try
             {
                 if (!long.TryParse(userId, out long userIdLong))
                 {
                     var invalidIdMessage = _localizationService.GetMessage("InvalidUserId", "Errors", language);
-                    return BaseResponse<List<FinancialTransaction>>.FailureResponse(invalidIdMessage, 400);
+                    return BaseResponse<List<FinancialTransactionDTO>>.FailureResponse(invalidIdMessage, 400);
                 }
 
                 var invoices = await _context.Invoices
@@ -665,11 +975,11 @@ namespace Services
                     .OrderByDescending(i => i.TransactionDate)
                     .ToListAsync();
 
-                // Map to FinancialTransaction DTOs
-                var transactions = new List<FinancialTransaction>();
+                // Map to FinancialTransactionDTO DTOs
+                var transactions = new List<FinancialTransactionDTO>();
                 foreach (var invoice in invoices)
                 {
-                    var transaction = new FinancialTransaction
+                    var transaction = new FinancialTransactionDTO
                     {
                         Id = invoice.Id.ToString(),
                         UserId = invoice.UserId.ToString(),
@@ -690,13 +1000,13 @@ namespace Services
                     transactions.Add(transaction);
                 }
 
-                return BaseResponse<List<FinancialTransaction>>.SuccessResponse(transactions);
+                return BaseResponse<List<FinancialTransactionDTO>>.SuccessResponse(transactions);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving user transactions for user {userId}", userId);
                 var errorMessage = _localizationService.GetMessage("TransactionsRetrievalError", "Errors", language);
-                return BaseResponse<List<FinancialTransaction>>.FailureResponse(errorMessage, 500);
+                return BaseResponse<List<FinancialTransactionDTO>>.FailureResponse(errorMessage, 500);
             }
         }
 
@@ -705,19 +1015,17 @@ namespace Services
         /// <summary>
         /// التحقق من صلاحية كوبون داخليًا
         /// </summary>
-        private async Task<CouponValidationResponse> ValidateCouponInternalAsync(string couponCode, string planId)
+        private async Task<BaseResponse<CouponValidationResponse>> ValidateCouponInternalAsync(string couponCode, string planId)
         {
             var response = new CouponValidationResponse { IsValid = false };
 
             if (string.IsNullOrEmpty(couponCode))
             {
-                response.ErrorMessage = "Coupon code is required";
-                return response;
+                return BaseResponse<CouponValidationResponse>.FailureResponse("Coupon code is required", 400);
             }
             if (!long.TryParse(planId, out long planIdLong))
             {
-                response.ErrorMessage = "Invalid plan ID";
-                return response;
+                return BaseResponse<CouponValidationResponse>.FailureResponse("Invalid plan ID", 400);
             }
 
             // Find the coupon
@@ -726,36 +1034,31 @@ namespace Services
 
             if (coupon == null)
             {
-                response.ErrorMessage = "Coupon not found";
-                return response;
+                return BaseResponse<CouponValidationResponse>.FailureResponse("Coupon not found", 404);
             }
 
             // Check if coupon is active
             if (!coupon.IsActive)
             {
-                response.ErrorMessage = "Coupon is not active";
-                return response;
+                return BaseResponse<CouponValidationResponse>.FailureResponse("Coupon is not active", 400);
             }
 
             // Check start date
             if (coupon.StartDate.HasValue && coupon.StartDate.Value > DateTime.Now)
             {
-                response.ErrorMessage = "Coupon is not yet valid";
-                return response;
+                return BaseResponse<CouponValidationResponse>.FailureResponse("Coupon is not yet valid", 400);
             }
 
             // Check end date
             if (coupon.EndDate.HasValue && coupon.EndDate.Value < DateTime.Now)
             {
-                response.ErrorMessage = "Coupon has expired";
-                return response;
+                return BaseResponse<CouponValidationResponse>.FailureResponse("Coupon has expired", 400);
             }
 
             // Check usage limit
             if (coupon.MaxUses.HasValue && coupon.CurrentUses >= coupon.MaxUses.Value)
             {
-                response.ErrorMessage = "Coupon usage limit has been reached";
-                return response;
+                return BaseResponse<CouponValidationResponse>.FailureResponse("Coupon usage limit has been reached", 400);
             }
 
             // Check if coupon applies to this plan
@@ -768,17 +1071,17 @@ namespace Services
 
             if (hasAnyPlans && !couponPlan)
             {
-                response.ErrorMessage = "Coupon is not applicable for this plan";
-                return response;
+                return BaseResponse<CouponValidationResponse>.FailureResponse("Coupon is not applicable for this plan", 400);
             }
 
             // Coupon is valid
             response.IsValid = true;
-            response.DiscountType = (DiscountType)coupon.DiscountType;
+            response.DiscountType = Enum.Parse<DiscountType>(coupon.DiscountType);
             response.DiscountValue = (decimal)coupon.DiscountValue;
 
-            return response;
+            return BaseResponse<CouponValidationResponse>.SuccessResponse(response);
             #endregion
         }
+
     }
 }

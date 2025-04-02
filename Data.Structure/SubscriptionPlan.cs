@@ -19,11 +19,11 @@ public partial class SubscriptionPlan
 
     public bool IsActive { get; set; }
 
-    public bool? AllowedChatRooms { get; set; }
+    public long? AllowedChatRooms { get; set; }
 
-    public bool? AllowedFiles { get; set; }
+    public long? AllowedFiles { get; set; }
 
-    public double? AllowedFileSizeMb { get; set; }
+    public long? AllowedFileSizeMb { get; set; }
 
     public bool IsTrial { get; set; }
 
@@ -42,8 +42,6 @@ public partial class SubscriptionPlan
     public DateTime? DeletedAt { get; set; }
 
     public virtual ICollection<CouponPlan> CouponPlans { get; set; } = new List<CouponPlan>();
-
-    public virtual ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
 
     public virtual ICollection<PlanFeature> PlanFeatures { get; set; } = new List<PlanFeature>();
 

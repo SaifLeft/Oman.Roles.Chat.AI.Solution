@@ -63,10 +63,10 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
-	  <AndroidPackageFormat>aab</AndroidPackageFormat>
-	  <AndroidUseAapt2>True</AndroidUseAapt2>
-	  <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
-	  <JavaMaximumHeapSize>2G</JavaMaximumHeapSize>
+		<AndroidPackageFormat>aab</AndroidPackageFormat>
+		<AndroidUseAapt2>True</AndroidUseAapt2>
+		<AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
+		<JavaMaximumHeapSize>2G</JavaMaximumHeapSize>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
@@ -77,9 +77,9 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(TargetFramework)'=='net9.0-ios'">
-	  <ProvisioningType>manual</ProvisioningType>
-	  <CodesignKey>Apple Development: Created via API (593M5Y572N)</CodesignKey>
-	  <CodesignProvision></CodesignProvision>
+		<ProvisioningType>manual</ProvisioningType>
+		<CodesignKey>Apple Development: Created via API (593M5Y572N)</CodesignKey>
+		<CodesignProvision></CodesignProvision>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="$(TargetFramework.Contains('-ios'))">
@@ -91,22 +91,22 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-ios|AnyCPU'">
-	  <CreatePackage>false</CreatePackage>
-	  <CodesignProvision>VS: WildCard Development</CodesignProvision>
-	  <CodesignKey>Apple Development: Created via API (593M5Y572N)</CodesignKey>
+		<CreatePackage>false</CreatePackage>
+		<CodesignProvision>VS: WildCard Development</CodesignProvision>
+		<CodesignKey>Apple Development: Created via API (593M5Y572N)</CodesignKey>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-ios|AnyCPU'">
-	  <CreatePackage>false</CreatePackage>
-	  <CodesignProvision>iOS Distribution</CodesignProvision>
-	  <CodesignKey>Apple Distribution: Ai Pham Huu (78XZM2329V)</CodesignKey>
+		<CreatePackage>false</CreatePackage>
+		<CodesignProvision>iOS Distribution</CodesignProvision>
+		<CodesignKey>Apple Distribution: Ai Pham Huu (78XZM2329V)</CodesignKey>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-maccatalyst|AnyCPU'">
-	  <CreatePackage>true</CreatePackage>
-	  <CodesignKey>3rd Party Mac Developer Application: Ai Pham Huu (78XZM2329V)</CodesignKey>
-	  <PackageSigningKey>3rd Party Mac Developer Installer: Ai Pham Huu (78XZM2329V)</PackageSigningKey>
-	  <EnablePackageSigning>true</EnablePackageSigning>
-	  <CodesignEntitlements>Platforms\MacCatalyst\Entitlements.plist</CodesignEntitlements>
-	  <CodesignProvision>MacProvisioningProfile</CodesignProvision>
+		<CreatePackage>true</CreatePackage>
+		<CodesignKey>3rd Party Mac Developer Application: Ai Pham Huu (78XZM2329V)</CodesignKey>
+		<PackageSigningKey>3rd Party Mac Developer Installer: Ai Pham Huu (78XZM2329V)</PackageSigningKey>
+		<EnablePackageSigning>true</EnablePackageSigning>
+		<CodesignEntitlements>Platforms\MacCatalyst\Entitlements.plist</CodesignEntitlements>
+		<CodesignProvision>MacProvisioningProfile</CodesignProvision>
 	</PropertyGroup>
 	<ItemGroup>
 		<!-- App Icon -->
@@ -128,10 +128,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\Images\bg_paint.png" />
-	  <None Remove="Resources\Raw\loading1.json" />
-	  <None Remove="Resources\Raw\loading2.json" />
-	  <None Remove="Resources\Raw\loading3.json" />
+		<None Remove="Resources\Images\bg_paint.png" />
+		<None Remove="Resources\Raw\loading1.json" />
+		<None Remove="Resources\Raw\loading2.json" />
+		<None Remove="Resources\Raw\loading3.json" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -172,36 +172,36 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Views\Socials\ChatWithAI.xaml.cs">
-	    <DependentUpon>ChatWithAI.xaml</DependentUpon>
-	  </Compile>
+		<Compile Update="Views\Socials\ChatWithAI.xaml.cs">
+			<DependentUpon>ChatWithAI.xaml</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Controls\Popups\BasePopupPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\Socials\ChatWithAI.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\DemoApp\AppFlyout.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\DemoApp\MainMenuPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\Forms\LoginPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\Templates\MainMenuClassicItemTemplate.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\Templates\MainMenuGridItemTemplate.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\Templates\RecentlyChatTemplate\TransactionItemTemplate.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
+		<MauiXaml Update="Controls\Popups\BasePopupPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\Socials\ChatWithAI.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\DemoApp\AppFlyout.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\DemoApp\MainMenuPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\Forms\LoginPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\Templates\MainMenuClassicItemTemplate.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\Templates\MainMenuGridItemTemplate.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\Templates\RecentlyChatTemplate\TransactionItemTemplate.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 	</ItemGroup>
 
 </Project>

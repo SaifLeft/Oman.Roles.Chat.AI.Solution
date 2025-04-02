@@ -1,7 +1,8 @@
-﻿using Helpers;
+using Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Models.DTOs.Authorization;
 using Services;
 using System.Security.Claims;
 
@@ -34,19 +35,49 @@ namespace API.Controllers
         /// <summary>
         /// تسجيل مستخدم جديد
         /// </summary>
-        [HttpPost]
+        [HttpPost("register/email")]
         [ProducesDefaultResponseType(typeof(BaseResponse<UserDTO>))]
-        public async Task<IActionResult> Register([FromBody] RegisterUserRequestDTO request)
+        public async Task<IActionResult> RegisterWithEmail([FromBody] RegisterUserRequestDTO registrationDto)
         {
-            // استخراج اللغة المفضلة من رأس الطلب
+            // Existing email registration implementation
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
+            registrationDto.IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+            registrationDto.UserAgent = Request.Headers["User-Agent"].ToString();
 
-            // تعيين عنوان IP ومعلومات المستعرض
-            request.IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
-            request.UserAgent = Request.Headers["User-Agent"].ToString();
-
-            var result = await _userService.RegisterUserAsync(request, language);
+            var result = await _userService.RegisterUserAsync(registrationDto, language);
             return StatusCode(result.StatusCode, result);
+        }
+
+        [HttpPost("register/phone")]
+        [ProducesDefaultResponseType(typeof(BaseResponse<UserDTO>))]
+        public async Task<IActionResult> RegisterWithPhone([FromBody] UserPhoneRegistrationDto registrationDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
+            registrationDto.IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+            registrationDto.UserAgent = Request.Headers["User-Agent"].ToString();
+
+            var result = await _userService.RegisterWithPhoneAsync(registrationDto, language);
+            return result.Succeeded 
+                ? Ok(new AuthResponse(result.Token, result.RefreshToken)) 
+                : BadRequest(result.Errors);
+        }
+
+        [HttpPost("google-auth")]
+        [ProducesDefaultResponseType(typeof(BaseResponse<AuthResponse>))]
+        public async Task<IActionResult> GoogleAuth([FromBody] GoogleAuthDto authDto)
+        {
+            string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
+            var validationResult = await _googleAuthService.ValidateTokenAsync(authDto.Token);
+            if (!validationResult.IsValid)
+                return Unauthorized(BaseResponse.FailureResponse(_localizationService.GetMessage("InvalidGoogleToken", "Errors", language), 401));
+
+            var user = await _userService.GetOrCreateGoogleUserAsync(validationResult, language);
+            var tokens = await _jwtService.GenerateTokens(user);
+            return Ok(BaseResponse<AuthResponse>.SuccessResponse(new AuthResponse(tokens.Token, tokens.RefreshToken), 
+                _localizationService.GetMessage("GoogleAuthSuccess", "Messages", language)));
         }
 
         /// <summary>

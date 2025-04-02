@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace Muhami.Mobile;
+namespace Muhami.Mobile.Platforms.MacCatalyst;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate

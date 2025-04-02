@@ -1,4 +1,4 @@
-﻿namespace Models
+namespace Models.DTOs.Authorization
 {
 
     // نماذج طلبات المستخدم
@@ -47,5 +47,35 @@
         public string ConfirmPassword { get; set; } = string.Empty;
         public string? IpAddress { get; set; }
         public string? UserAgent { get; set; }
+    }
+
+    //AdminUpdateUserRequest
+
+    public class AdminUserDTO
+    {
+        /// <summary>
+        /// معرف المستخدم
+        /// </summary>
+        public long Id { get; set; }
+
+        /// <summary>
+        /// اسم المستخدم
+        /// </summary>
+        public string Username { get; set; } = string.Empty;
+
+        /// <summary>
+        /// البريد الإلكتروني
+        /// </summary>
+        public string Email { get; set; } = string.Empty;
+
+        /// <summary>
+        /// أدوار المستخدم
+        /// </summary>
+        public List<string> Roles { get; set; } = new List<string>();
+
+        /// <summary>
+        /// حالة التفعيل
+        /// </summary>
+        public bool IsActive { get; set; }
     }
 }

@@ -1,6 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Models;
+using Models.DTOs.Subscription;
+using Models.DTOs.Subscription.Enums;
+using Models.DTOs.Subscription.Requests;
 
 namespace Services
 {
@@ -184,7 +187,7 @@ namespace Services
                 }
 
                 // إنشاء طلب اشتراك تجريبي
-                var request = new CreateSubscriptionRequest
+                var request = new CreateSubscriptionRequestDTO
                 {
                     PlanId = trialPlan.Id,
                     PeriodType = SubscriptionPeriodType.Monthly,
@@ -192,7 +195,7 @@ namespace Services
                 };
 
                 // إنشاء الاشتراك التجريبي
-                return await _subscriptionService.CreateSubscriptionAsync(userId, request, language);
+                return await _subscriptionService.CreateSubscription(userId, request, language);
             }
             catch (Exception ex)
             {

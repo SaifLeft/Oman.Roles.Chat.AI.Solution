@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Data.Structure;
-using Models;
+using Models.DTOs.Subscription;
+using Models.DTOs.Subscription.Requests;
 
 namespace Services.Common
 {
@@ -26,9 +27,9 @@ namespace Services.Common
                 .ForMember(dest => dest.PeriodType, opt => opt.MapFrom(src => src.PeriodType));
 
             // DTO to Entity mappings (for creating/updating)
-            CreateMap<CreateSubscriptionRequest, UserSubscription>()
+            CreateMap<CreateSubscriptionRequestDTO, UserSubscription>()
                 .ForMember(dest => dest.PlanId, opt => opt.MapFrom(src => long.Parse(src.PlanId)))
-                .ForMember(dest => dest.PeriodType, opt => opt.MapFrom(src => src.PeriodType == SubscriptionPeriodType.Monthly ? "Monthly" : "Yearly"))
+                .ForMember(dest => dest.PeriodType, opt => opt.MapFrom(src => nameof(src.PeriodType)))
                 .ForMember(dest => dest.AutoRenew, opt => opt.MapFrom(src => src.AutoRenew))
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.UserId, opt => opt.Ignore())
@@ -45,7 +46,7 @@ namespace Services.Common
                 .ForMember(dest => dest.IsDeleted, opt => opt.Ignore());
 
             // Invoice to Financial Transaction mapping
-            CreateMap<Invoice, FinancialTransaction>()
+            CreateMap<Invoice, FinancialTransactionDTO>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId.ToString()))
                 .ForMember(dest => dest.PlanId, opt => opt.MapFrom(src => src.PlanId.ToString()))
@@ -58,7 +59,7 @@ namespace Services.Common
             // Discount Coupon mappings
             CreateMap<DiscountCoupon, DiscountCouponDTO>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
-                .ForMember(dest => dest.DiscountType, opt => opt.MapFrom(src => (DiscountType)src.DiscountType))
+                .ForMember(dest => dest.DiscountType, opt => opt.MapFrom(src => src.DiscountType))
                 .ForMember(dest => dest.DiscountValue, opt => opt.MapFrom(src => (decimal)src.DiscountValue))
                 .ForMember(dest => dest.ApplicablePlanIds, opt => opt.Ignore()); // Loaded separately
         }

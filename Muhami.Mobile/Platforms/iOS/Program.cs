@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace Muhami.Mobile;
+namespace Muhami.Mobile.Platforms.iOS;
 
 public class Program
 {

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Models
+namespace Models.DTOs.Authorization
 {
     /// <summary>
     /// معلومات المستخدم
@@ -80,12 +80,6 @@ namespace Models
         /// </summary>
         [JsonPropertyName("expiresAt")]
         public DateTime ExpiresAt { get; set; }
-
-        /// <summary>
-        /// معلومات المستخدم
-        /// </summary>
-        [JsonPropertyName("user")]
-        public UserDTO User { get; set; } = new UserDTO();
     }
 
     /// <summary>

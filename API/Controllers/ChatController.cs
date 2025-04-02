@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models;
 using Services;
 using System.Security.Claims;
+using System.Linq;
 
 namespace API.Controllers
 {
@@ -16,6 +17,8 @@ namespace API.Controllers
         private readonly ILogger<ChatController> _logger;
         private readonly IConfiguration _configuration;
         private readonly ILocalizationService _localizationService;
+        private readonly int _maxImageUploads;
+        private readonly int _maxPdfUploads;
 
         public ChatController(
             IChatAIService chatService,
@@ -27,18 +30,20 @@ namespace API.Controllers
             _logger = logger;
             _configuration = configuration;
             _localizationService = localizationService;
+            _maxImageUploads = _configuration.GetValue<int>("ChatSettings:MaxImageUploads");
+            _maxPdfUploads = _configuration.GetValue<int>("ChatSettings:MaxPdfUploads");
         }
 
         /// <summary>
-        /// еДтга шящи ояоти лоМои
+        /// О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫
         /// </summary>
         [HttpPost]
         public async Task<IActionResult> CreateChatRoom([FromBody] CreateChatRoomRequest request)
         {
-            // гсйнягл гААши гАЦщжАи ЦД яцс гАьАх
+            // О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
 
-            // гсйнягл Цзящ гАЦсйноЦ ЦД гАяЦр гАЦЦМр
+            // О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
             {
@@ -53,21 +58,21 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "мок ньц цкДга еДтга шящи ояоти");
+                _logger.LogError(ex, "О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫");
                 var errorMessage = _localizationService.GetMessage("ChatRoomCreationError", "Errors", language);
                 return StatusCode(500, BaseResponse.FailureResponse(errorMessage, 500));
             }
         }
 
         /// <summary>
-        /// гАмуФА зАЛ шящи ояоти хФгсьи гАЦзящ
+        /// О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫
         /// </summary>
         [HttpGet("{roomId}")]
         public async Task<IActionResult> GetChatRoom(string roomId)
         {
-            // гсйнягл гААши гАЦщжАи ЦД яцс гАьАх
+            // О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
-            // гсйнягл Цзящ гАЦсйноЦ ЦД гАяЦр гАЦЦМр
+            // О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
             {
@@ -82,22 +87,22 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "мок ньц цкДга гАмуФА зАЛ шящи гАояоти");
+                _logger.LogError(ex, "О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫");
                 var errorMessage = _localizationService.GetMessage("ChatRoomRetrievalError", "Errors", language);
                 return StatusCode(500, BaseResponse.FailureResponse(errorMessage, 500));
             }
         }
 
         /// <summary>
-        /// гАмуФА зАЛ чгфЦи шящ гАояоти ААЦсйноЦ гАмгАМ
+        /// О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫
         /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetUserChatRooms()
         {
-            // гсйнягл гААши гАЦщжАи ЦД яцс гАьАх
+            // О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
 
-            // гсйнягл Цзящ гАЦсйноЦ ЦД гАяЦр гАЦЦМр
+            // О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
             {
@@ -112,22 +117,22 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "мок ньц цкДга гАмуФА зАЛ шящ гАояоти ААЦсйноЦ");
+                _logger.LogError(ex, "О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫");
                 var errorMessage = _localizationService.GetMessage("ChatRoomsRetrievalError", "Errors", language);
                 return StatusCode(500, BaseResponse.FailureResponse(errorMessage, 500));
             }
         }
 
         /// <summary>
-        /// еясгА ясгАи щМ шящи ояоти
+        /// О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫
         /// </summary>
         [HttpPost]
         public async Task<IActionResult> SendMessage([FromBody] SendMessageRequest request)
         {
-            // гсйнягл гААши гАЦщжАи ЦД яцс гАьАх
+            // О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
 
-            // гсйнягл Цзящ гАЦсйноЦ ЦД гАяЦр гАЦЦМр
+            // О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
             {
@@ -142,22 +147,22 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "мок ньц цкДга еясгА гАясгАи");
+                _logger.LogError(ex, "О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫");
                 var errorMessage = _localizationService.GetMessage("MessageSendingError", "Errors", language);
                 return StatusCode(500, BaseResponse.FailureResponse(errorMessage, 500));
             }
         }
 
         /// <summary>
-        /// мпщ шящи ояоти
+        /// О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫
         /// </summary>
         [HttpDelete("{roomId}")]
         public async Task<IActionResult> DeleteChatRoom(string roomId)
         {
-            // гсйнягл гААши гАЦщжАи ЦД яцс гАьАх
+            // О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
 
-            // гсйнягл Цзящ гАЦсйноЦ ЦД гАяЦр гАЦЦМр
+            // О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
             {
@@ -172,7 +177,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "мок ньц цкДга мпщ шящи гАояоти");
+                _logger.LogError(ex, "О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫");
                 var errorMessage = _localizationService.GetMessage("ChatRoomDeletionError", "Errors", language);
                 return StatusCode(500, BaseResponse.FailureResponse(errorMessage, 500));
             }

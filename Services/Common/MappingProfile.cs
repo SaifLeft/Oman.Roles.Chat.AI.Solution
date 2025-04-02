@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Data.Structure;
 using Models;
+using Models.DTOs.Authorization;
+using Models.DTOs.Subscription;
 
 namespace Services.Common
 {

@@ -16,7 +16,7 @@ public partial class DiscountCoupon
     /// <summary>
     /// Percentage, Fixed
     /// </summary>
-    public double DiscountType { get; set; }
+    public string DiscountType { get; set; }
 
     public DateTime? StartDate { get; set; }
 

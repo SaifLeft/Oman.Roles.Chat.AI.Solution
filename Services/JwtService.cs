@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Models;
+using Models.DTOs.Authorization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -17,7 +17,7 @@ namespace Services
         /// </summary>
         /// <param name="user">معلومات المستخدم</param>
         /// <returns>معلومات الرمز المنشأ</returns>
-        Task<LoginResponse> GenerateJwtTokenAsync(UserDTO user);
+        Task<LoginResponse> GenerateJwtToken(string Id);
 
         /// <summary>
         /// التحقق من صحة الرمز وقراءة البيانات منه
@@ -62,8 +62,31 @@ namespace Services
         /// <summary>
         /// إنشاء رمز JWT
         /// </summary>
-        public async Task<LoginResponse> GenerateJwtTokenAsync(UserDTO user)
+        public async Task<LoginResponse> GenerateJwtToken(string Id)
         {
+            // get User from database to get the latest roles
+
+            // حفظ رمز التحديث في قاعدة البيانات
+            if (!long.TryParse(Id, out long userIdLong))
+            {
+                throw new InvalidOperationException("Invalid user ID format");
+            }
+
+            var userEntity = await _context.Users
+                .FirstOrDefaultAsync(u => u.Id == userIdLong);
+
+            if (userEntity == null)
+            {
+                throw new InvalidOperationException("User not found");
+            }
+
+            var Roles = new List<string> { userEntity.UserRole };
+            string Email = userEntity.Email;
+            string Username = userEntity.Username;
+
+
+
+
             var jwtSettings = _configuration.GetSection("JwtSettings");
             var key = Encoding.ASCII.GetBytes(jwtSettings["Secret"] ?? throw new InvalidOperationException("JWT Secret is not configured"));
 
@@ -72,14 +95,14 @@ namespace Services
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(ClaimTypes.NameIdentifier, userIdLong.ToString()),
+                new Claim(JwtRegisteredClaimNames.Email, Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(ClaimTypes.Name, Username)
             };
 
             // إضافة الأدوار كـ claims
-            foreach (var role in user.Roles)
+            foreach (var role in Roles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
@@ -106,11 +129,7 @@ namespace Services
             var refreshTokenExpiryDays = int.Parse(jwtSettings["RefreshTokenExpiryDays"] ?? "7");
             var refreshTokenExpiryTime = DateTime.Now.AddDays(refreshTokenExpiryDays);
 
-            // حفظ رمز التحديث في قاعدة البيانات
-            if (!long.TryParse(user.Id, out long userIdLong))
-            {
-                throw new InvalidOperationException("Invalid user ID format");
-            }
+
 
             var refreshTokenEntity = new RefreshToken
             {
@@ -129,7 +148,6 @@ namespace Services
                 AccessToken = accessToken,
                 RefreshToken = refreshToken,
                 ExpiresAt = expiryTime,
-                User = user
             };
         }
 
@@ -220,21 +238,13 @@ namespace Services
                     return null;
                 }
 
-                var userInfo = new UserDTO
-                {
-                    Id = user.Id.ToString(),
-                    Username = user.Username,
-                    Email = user.Email,
-                    FullName = user.FullName,
-                    Roles = new List<string> { user.UserRole }
-                };
 
                 // إلغاء رمز التحديث الحالي
                 tokenEntity.RevokedAt = DateTime.Now;
                 await _context.SaveChangesAsync();
 
                 // إنشاء رمز جديد
-                return await GenerateJwtTokenAsync(userInfo);
+                return await GenerateJwtToken(user.Id.ToString());
             }
             catch (Exception)
             {
