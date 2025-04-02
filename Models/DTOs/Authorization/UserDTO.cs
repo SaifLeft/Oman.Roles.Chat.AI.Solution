@@ -29,7 +29,12 @@ namespace Models.DTOs.Authorization
         /// الاسم الكامل
         /// </summary>
         [JsonPropertyName("fullName")]
-        public string FullName { get; set; } = string.Empty;
+        public string FirstName { get; set; } = string.Empty;
+
+
+        //last name
+        [JsonPropertyName("lastName")]
+        public string LastName { get; set; } = string.Empty;
 
         /// <summary>
         /// أدوار المستخدم

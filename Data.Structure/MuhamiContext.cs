@@ -536,12 +536,6 @@ public partial class MuhamiContext : DbContext
                 .HasColumnName("token");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
-            entity.HasOne(d => d.User).WithMany(p => p.RefreshTokens)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fkrefresh_to131031");
-                .HasColumnName("modified_date");
-            entity.Property(e => e.PhoneNumber).HasColumnName("phone_number");
         });
 
         modelBuilder.Entity<SubscriptionPlan>(entity =>

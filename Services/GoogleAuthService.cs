@@ -134,7 +134,8 @@ namespace Services
                 Id = googleUserInfo.Id,
                 Username = googleUserInfo.Email,
                 Email = googleUserInfo.Email,
-                FullName = googleUserInfo.Name,
+                FirstName = googleUserInfo.Name,
+                LastName = googleUserInfo.FamilyName,
                 Roles = new List<string> { "User" } // منح دور المستخدم العادي بشكل افتراضي
             };
 

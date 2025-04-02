@@ -17,7 +17,7 @@ public partial class User
 
     public int? MiddleName { get; set; }
 
-    public int? LastName { get; set; }
+    public string? LastName { get; set; }
 
     public string GoogleId { get; set; }
 

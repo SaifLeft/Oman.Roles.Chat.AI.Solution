@@ -14,20 +14,15 @@ namespace Services
 {
     public interface IUserService
     {
-        Task<BaseResponse<LoginResponse>> RegisterWithPhoneAsync(UserPhoneRegistrationDTO registrationDto, string language);
-
-        Task<PaginatedResponse<List<UserDTO>>> GetAllUsersAsync(int page, int pageSize, string language);
-        Task<BaseResponse<UserDTO>> AdminUpdateUserAsync(long userId, AdminUpdateUserRequestDTO request, long adminId, string language);
-        Task<BaseResponse<UserDTO>> UpdateUserProfileAsync(long userId, UpdateUserProfileRequestDTO request, string language);
-        Task<BaseResponse<bool>> ResetPasswordAsync(ResetPasswordRequestDTO request, string language);
-        Task<BaseResponse<bool>> ActivateUserAsync(long userId, string language);
-        Task<BaseResponse<bool>> DeactivateUserAsync(long userId, string language);
-        Task<BaseResponse<bool>> AddUserActivityLogAsync(long userId, string activityType, string description, string ipAddress, string userAgent, string language);
-
         /// <summary>
         /// تسجيل مستخدم جديد
         /// </summary>
         Task<BaseResponse<UserDTO>> RegisterUserAsync(RegisterUserRequestDTO request, string language);
+
+        /// <summary>
+        /// تسجيل الدخول باستخدام رقم الهاتف
+        /// </summary>
+        Task<BaseResponse<LoginResponse>> RegisterWithPhoneAsync(UserPhoneRegistrationDTO registrationDto, string language);
 
         /// <summary>
         /// تسجيل الدخول باستخدام اسم المستخدم وكلمة المرور
@@ -43,7 +38,51 @@ namespace Services
         /// الحصول على معلومات المستخدم
         /// </summary>
         Task<BaseResponse<UserDTO>> GetUserProfileAsync(long userId, string language);
+
+        /// <summary>
+        /// تحديث معلومات المستخدم
+        /// </summary>
+        Task<BaseResponse<UserDTO>> UpdateUserProfileAsync(long userId, UpdateUserProfileRequestDTO request, string language);
+
+        /// <summary>
+        /// تحديث معلومات المستخدم (للمسؤول)
+        /// </summary>
+        Task<BaseResponse<UserDTO>> AdminUpdateUserAsync(long userId, AdminUpdateUserRequestDTO request, long adminId, string language);
+
+        /// <summary>
+        /// تغيير كلمة المرور
+        /// </summary>
         Task<BaseResponse<bool>> ChangePasswordAsync(long userId, ChangePasswordRequestDTO request, string language);
+
+        /// <summary>
+        /// إعادة تعيين كلمة المرور
+        /// </summary>
+        Task<BaseResponse<bool>> ResetPasswordAsync(ResetPasswordRequestDTO request, string language);
+
+        /// <summary>
+        /// تفعيل حساب المستخدم
+        /// </summary>
+        Task<BaseResponse<bool>> ActivateUserAsync(long userId, string language);
+
+        /// <summary>
+        /// تعطيل حساب المستخدم
+        /// </summary>
+        Task<BaseResponse<bool>> DeactivateUserAsync(long userId, string language);
+
+        /// <summary>
+        /// الحصول على جميع المستخدمين
+        /// </summary>
+        Task<PaginatedResponse<List<UserDTO>>> GetAllUsersAsync(int page, int pageSize, string language);
+
+        /// <summary>
+        /// إضافة سجل نشاط للمستخدم
+        /// </summary>
+        Task<BaseResponse<bool>> AddUserActivityLogAsync(long userId, string activityType, string description, string ipAddress, string userAgent, string language);
+
+        /// <summary>
+        /// الحصول على أو إنشاء مستخدم جوجل
+        /// </summary>
+        Task<User> GetOrCreateGoogleUserAsync(GoogleTokenValidationResult validationResult, string language);
     }
 
     public class UserService : IUserService
@@ -77,65 +116,10 @@ namespace Services
         /// <summary>
         /// تسجيل مستخدم جديد
         /// </summary>
-        public async Task<BaseResponse<UserDTO>> RegisterUserAsync(UserEmailRegistrationDTO DTO, string language)
-        {
-            throw new NotImplementedException();    
-        }
-
-        public async Task<BaseResponse<LoginResponse>> RegisterWithPhoneAsync(UserPhoneRegistrationDTO registrationDto, string language)
-        {
-            // Validate confirmation code
-            if (!await _smsService.VerifyConfirmationCode(registrationDto.PhoneNumber, registrationDto.ConfirmationCode))
-                return BaseResponse<LoginResponse>.FailureResponse(_localizationService.GetMessage("InvalidConfirmationCode", "Errors", language), 400);
-
-            // Create new user
-            var user = new User
-            {
-                PhoneNumber = registrationDto.PhoneNumber,
-                PhoneNumberConfirmed = true,
-                CreateDate = DateTime.UtcNow
-            };
-
-            // Hash password and save user
-            user.PasswordHash = HashPassword(registrationDto.Password);
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            // Generate JWT tokens
-            var tokens = await _jwtService.GenerateJwtToken(user.Id.ToString());
-            return BaseResponse<LoginResponse>.SuccessResponse(tokens, _localizationService.GetMessage("RegistrationSuccess", "Messages", language));
-        }
-
-        private string HashPassword(object password)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<User> GetOrCreateGoogleUserAsync(GoogleTokenValidationResult validationResult, string language)
-        {
-            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == validationResult.Email);
-            if (existingUser != null) return existingUser;
-
-            var newUser = new User
-            {
-                Email = validationResult.Email,
-                FirstName = validationResult.GivenName,
-                LastName = validationResult.FamilyName,
-                GoogleId = validationResult.Subject,
-                IsEmailConfirmed = true,
-                CreateDate = DateTime.Now
-            };
-
-            _context.Users.Add(newUser);
-            await _context.SaveChangesAsync();
-            return newUser;
-        }
-
-        public async Task<BaseResponse<UserDTO>> RegisterUserAsync(UserEmailRegistrationDTO request, string language)
+        public async Task<BaseResponse<UserDTO>> RegisterUserAsync(RegisterUserRequestDTO request, string language)
         {
             try
             {
-
                 // التحقق من صحة البريد الإلكتروني
                 if (!IsValidEmail(request.Email))
                 {
@@ -184,7 +168,8 @@ namespace Services
                 {
                     Username = request.Username,
                     Email = request.Email,
-                    FullName = request.FullName,
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
                     PhoneNumber = request.PhoneNumber,
                     PasswordHash = HashPassword(request.Password),
                     UserRole = nameof(UserRole.USER), // الدور الافتراضي هو "مستخدم"
@@ -206,7 +191,8 @@ namespace Services
                     Id = user.Id.ToString(),
                     Username = user.Username,
                     Email = user.Email,
-                    FullName = user.FullName,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
                     Roles = new List<string> { user.UserRole }
                 };
 
@@ -218,6 +204,107 @@ namespace Services
                 _logger.LogError(ex, "حدث خطأ أثناء تسجيل مستخدم جديد");
                 var errorMessage = _localizationService.GetMessage("UserRegistrationError", "Errors", language);
                 return BaseResponse<UserDTO>.FailureResponse(errorMessage, 500);
+            }
+        }
+
+        /// <summary>
+        /// تسجيل مستخدم جديد عبر الهاتف
+        /// </summary>
+        public async Task<BaseResponse<LoginResponse>> RegisterWithPhoneAsync(UserPhoneRegistrationDTO registrationDto, string language)
+        {
+            try
+            {
+                // Validate confirmation code
+                if (!await _smsService.VerifyConfirmationCode(registrationDto.PhoneNumber, registrationDto.ConfirmationCode))
+                {
+                    var errorMessage = _localizationService.GetMessage("InvalidConfirmationCode", "Errors", language);
+                    return BaseResponse<LoginResponse>.FailureResponse(errorMessage, 400);
+                }
+
+                // Check if phone number already exists
+                if (await _context.Users.AnyAsync(u => u.PhoneNumber == registrationDto.PhoneNumber && u.IsDeleted != true))
+                {
+                    var errorMessage = _localizationService.GetMessage("PhoneNumberExists", "Errors", language);
+                    return BaseResponse<LoginResponse>.FailureResponse(errorMessage, 400);
+                }
+
+                // Create new user
+                var user = new User
+                {
+                    Username = $"user_{registrationDto.PhoneNumber}", // Generate username from phone
+                    PhoneNumber = registrationDto.PhoneNumber,
+                    PhoneNumberConfirmed = true,
+                    PasswordHash = HashPassword(registrationDto.Password),
+                    UserRole = nameof(UserRole.USER),
+                    IsActive = true,
+                    CreatedByUserId = 1, // System user
+                    CreateDate = DateTime.Now
+                };
+
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
+
+                // Add activity log
+                await AddUserActivityLogInternalAsync(user.Id, "RegisterWithPhone", "تسجيل مستخدم جديد باستخدام رقم الهاتف", null, null);
+
+                // Generate JWT token
+                var token = await _jwtService.GenerateJwtToken(user.Id.ToString());
+
+                var successMessage = _localizationService.GetMessage("RegistrationSuccess", "Messages", language);
+                return BaseResponse<LoginResponse>.SuccessResponse(token, successMessage);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "حدث خطأ أثناء تسجيل مستخدم جديد باستخدام رقم الهاتف {PhoneNumber}", registrationDto.PhoneNumber);
+                var errorMessage = _localizationService.GetMessage("UserRegistrationError", "Errors", language);
+                return BaseResponse<LoginResponse>.FailureResponse(errorMessage, 500);
+            }
+        }
+
+        /// <summary>
+        /// الحصول على أو إنشاء مستخدم جوجل
+        /// </summary>
+        public async Task<User> GetOrCreateGoogleUserAsync(GoogleTokenValidationResult validationResult, string language)
+        {
+            try
+            {
+                // البحث عن المستخدم بمعرف Google أو البريد الإلكتروني
+                var existingUser = await _context.Users
+                    .FirstOrDefaultAsync(u =>
+                        (u.GoogleId == validationResult.Subject || u.Email == validationResult.Email) &&
+                        u.IsDeleted != true);
+
+                if (existingUser != null)
+                {
+                    return existingUser;
+                }
+
+                // إنشاء مستخدم جديد
+                var newUser = new User
+                {
+                    Username = $"google_{Guid.NewGuid().ToString().Substring(0, 8)}", // إنشاء اسم مستخدم فريد
+                    Email = validationResult.Email,
+                    FirstName = validationResult.Name,
+                    GoogleId = validationResult.Subject,
+                    IsEmailConfirmed = validationResult.EmailVerified,
+                    IsActive = true,
+                    UserRole = nameof(UserRole.USER),
+                    CreatedByUserId = 1, // النظام
+                    CreateDate = DateTime.Now
+                };
+
+                _context.Users.Add(newUser);
+                await _context.SaveChangesAsync();
+
+                // إضافة سجل نشاط
+                await AddUserActivityLogInternalAsync(newUser.Id, "GoogleAuth", "تسجيل مستخدم جديد باستخدام Google", null, null);
+
+                return newUser;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "حدث خطأ أثناء معالجة مستخدم Google");
+                throw;
             }
         }
 
@@ -266,31 +353,8 @@ namespace Services
                 // إضافة سجل للنشاط
                 await AddUserActivityLogInternalAsync(user.Id, "Login", "تسجيل دخول", request.IpAddress, request.UserAgent);
 
-                // إنشاء معلومات المستخدم للرمز
-                var userInfo = new UserDTO
-                {
-                    Id = user.Id.ToString(),
-                    Username = user.Username,
-                    Email = user.Email,
-                    FullName = user.FullName,
-                    Roles = new List<string> { user.UserRole }
-                };
-
                 // إنشاء رمز JWT
-                var loginResponse = await _jwtService.GenerateJwtTokenAsync(userInfo);
-
-                // تخزين رمز التحديث في قاعدة البيانات
-                var refreshTokenEntity = new RefreshToken
-                {
-                    Token = loginResponse.RefreshToken,
-                    ExpiresAt = loginResponse.ExpiresAt.AddDays(7), // 7 أيام بعد انتهاء رمز JWT
-                    UserId = user.Id,
-                    CreatedByUserId = user.Id,
-                    CreateDate = DateTime.Now
-                };
-
-                _context.RefreshTokens.Add(refreshTokenEntity);
-                await _context.SaveChangesAsync();
+                var loginResponse = await _jwtService.GenerateJwtToken(user.Id.ToString());
 
                 var successMessage = _localizationService.GetMessage("LoginSuccess", "Messages", language);
                 return BaseResponse<LoginResponse>.SuccessResponse(loginResponse, successMessage);
@@ -348,31 +412,8 @@ namespace Services
                 // إضافة سجل للنشاط
                 await AddUserActivityLogInternalAsync(user.Id, "LoginWithPhone", "تسجيل دخول برقم الهاتف", request.IpAddress, request.UserAgent);
 
-                // إنشاء معلومات المستخدم للرمز
-                var userInfo = new UserDTO
-                {
-                    Id = user.Id.ToString(),
-                    Username = user.Username,
-                    Email = user.Email,
-                    FullName = user.FullName,
-                    Roles = new List<string> { user.UserRole }
-                };
-
                 // إنشاء رمز JWT
-                var loginResponse = await _jwtService.GenerateJwtTokenAsync(userInfo);
-
-                // تخزين رمز التحديث في قاعدة البيانات
-                var refreshTokenEntity = new RefreshToken
-                {
-                    Token = loginResponse.RefreshToken,
-                    ExpiresAt = loginResponse.ExpiresAt.AddDays(7), // 7 أيام بعد انتهاء رمز JWT
-                    UserId = user.Id,
-                    CreatedByUserId = user.Id,
-                    CreateDate = DateTime.Now
-                };
-
-                _context.RefreshTokens.Add(refreshTokenEntity);
-                await _context.SaveChangesAsync();
+                var loginResponse = await _jwtService.GenerateJwtToken(user.Id.ToString());
 
                 var successMessage = _localizationService.GetMessage("LoginSuccess", "Messages", language);
                 return BaseResponse<LoginResponse>.SuccessResponse(loginResponse, successMessage);
@@ -408,7 +449,7 @@ namespace Services
                     Id = user.Id.ToString(),
                     Username = user.Username,
                     Email = user.Email,
-                    FullName = user.FullName,
+
                     Roles = new List<string> { user.UserRole }
                 };
 
@@ -480,7 +521,7 @@ namespace Services
                 // تحديث الاسم الكامل (إذا تم تقديمه)
                 if (!string.IsNullOrWhiteSpace(request.FullName))
                 {
-                    user.FullName = request.FullName;
+                    user.FirstName = request.FullName;
                 }
 
                 // تحديث معلومات التعديل
@@ -499,7 +540,8 @@ namespace Services
                     Id = user.Id.ToString(),
                     Username = user.Username,
                     Email = user.Email,
-                    FullName = user.FullName,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
                     Roles = new List<string> { user.UserRole }
                 };
 
@@ -508,8 +550,119 @@ namespace Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "حدث خطأ أثناء تحديث معلومات المستخدم {userId}", userId);
                 var errorMessage = _localizationService.GetMessage("UserProfileUpdateError", "Errors", language);
+                _logger.LogError(ex, "حدث خطأ أثناء تحديث معلومات المستخدم {userId}", userId);
+                return BaseResponse<UserDTO>.FailureResponse(errorMessage, 500);
+            }
+        }
+
+        /// <summary>
+        /// تحديث معلومات المستخدم (للمسؤول)
+        /// </summary>
+        public async Task<BaseResponse<UserDTO>> AdminUpdateUserAsync(long userId, AdminUpdateUserRequestDTO request, long adminId, string language)
+        {
+            try
+            {
+                // البحث عن المستخدم
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId && u.IsDeleted != true);
+                if (user == null)
+                {
+                    var userNotFoundMessage = _localizationService.GetMessage("UserNotFound", "Errors", language);
+                    return BaseResponse<UserDTO>.FailureResponse(userNotFoundMessage, 404);
+                }
+
+                // التحقق من صحة البريد الإلكتروني الجديد (إذا تم تقديمه)
+                if (!string.IsNullOrWhiteSpace(request.Email) && request.Email != user.Email)
+                {
+                    if (!IsValidEmail(request.Email))
+                    {
+                        var invalidEmailMessage = _localizationService.GetMessage("InvalidEmail", "Errors", language);
+                        return BaseResponse<UserDTO>.FailureResponse(invalidEmailMessage, 400);
+                    }
+
+                    // التحقق من عدم وجود البريد الإلكتروني بالفعل لمستخدم آخر
+                    if (await _context.Users.AnyAsync(u => u.Email == request.Email && u.Id != userId && u.IsDeleted != true))
+                    {
+                        var emailExistsMessage = _localizationService.GetMessage("EmailExists", "Errors", language);
+                        return BaseResponse<UserDTO>.FailureResponse(emailExistsMessage, 400);
+                    }
+
+                    user.Email = request.Email;
+                }
+
+                // التحقق من صحة رقم الهاتف الجديد (إذا تم تقديمه)
+                if (request.PhoneNumber.HasValue && request.PhoneNumber != user.PhoneNumber)
+                {
+                    if (!IsValidPhoneNumber(request.PhoneNumber.Value.ToString()))
+                    {
+                        var invalidPhoneMessage = _localizationService.GetMessage("InvalidPhoneNumber", "Errors", language);
+                        return BaseResponse<UserDTO>.FailureResponse(invalidPhoneMessage, 400);
+                    }
+
+                    // التحقق من عدم وجود رقم الهاتف بالفعل لمستخدم آخر
+                    if (await _context.Users.AnyAsync(u => u.PhoneNumber == request.PhoneNumber && u.Id != userId && u.IsDeleted != true))
+                    {
+                        var phoneExistsMessage = _localizationService.GetMessage("PhoneNumberExists", "Errors", language);
+                        return BaseResponse<UserDTO>.FailureResponse(phoneExistsMessage, 400);
+                    }
+
+                    user.PhoneNumber = request.PhoneNumber;
+                }
+
+                // تحديث الاسم الكامل (إذا تم تقديمه)
+                if (!string.IsNullOrWhiteSpace(request.FullName))
+                {
+                    user.FirstName = request.FullName;
+                }
+
+                // تحديث دور المستخدم (إذا تم تقديمه)
+                if (!string.IsNullOrWhiteSpace(request.Roles.SingleOrDefault()))
+                {
+                    // التحقق من صحة الدور
+
+                    if (!Enum.IsDefined(typeof(UserRole), request.Roles))
+                    {
+                        var invalidRoleMessage = _localizationService.GetMessage("InvalidRole", "Errors", language);
+                        return BaseResponse<UserDTO>.FailureResponse(invalidRoleMessage, 400);
+                    }
+
+                    user.UserRole = request.Roles.SingleOrDefault() ?? nameof(UserRole.USER);
+                }
+
+                // تحديث حالة التفعيل (إذا تم تقديمها)
+                if (request.IsActive.HasValue)
+                {
+                    user.IsActive = request.IsActive.Value;
+                }
+
+                // تحديث معلومات التعديل
+                user.ModifiedByUserId = adminId;
+                user.ModifiedDate = DateTime.Now;
+
+                // حفظ التغييرات
+                await _context.SaveChangesAsync();
+
+                // إضافة سجل للنشاط
+                await AddUserActivityLogInternalAsync(adminId, "AdminUpdateUser", $"تحديث بيانات المستخدم {userId} بواسطة المسؤول", null, null);
+
+                // تحويل البيانات إلى النموذج المطلوب للمستخدم
+                var userInfo = new UserDTO
+                {
+                    Id = user.Id.ToString(),
+                    Username = user.Username,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Roles = new List<string> { user.UserRole }
+                };
+
+                var successMessage = _localizationService.GetMessage("UserUpdatedByAdmin", "Messages", language);
+                return BaseResponse<UserDTO>.SuccessResponse(userInfo, successMessage);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "حدث خطأ أثناء تحديث معلومات المستخدم {userId} بواسطة المسؤول {adminId}", userId, adminId);
+                var errorMessage = _localizationService.GetMessage("UserUpdateError", "Errors", language);
                 return BaseResponse<UserDTO>.FailureResponse(errorMessage, 500);
             }
         }
@@ -762,23 +915,6 @@ namespace Services
             }
         }
 
-        /// <summary>
-        /// إضافة سجل نشاط للمستخدم
-        /// </summary>
-        public async Task<BaseResponse<bool>> AddUserActivityLogAsync(long userId, string activityType, string description, string ipAddress, string userAgent, string language)
-        {
-            try
-            {
-                await AddUserActivityLogInternalAsync(userId, activityType, description, ipAddress, userAgent);
-                return BaseResponse<bool>.SuccessResponse(true);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "حدث خطأ أثناء إضافة سجل نشاط للمستخدم {userId}", userId);
-                var errorMessage = _localizationService.GetMessage("ActivityLogError", "Errors", language);
-                return BaseResponse<bool>.FailureResponse(errorMessage, 500);
-            }
-        }
 
         public async Task<PaginatedResponse<List<UserDTO>>> GetAllUsersAsync(int page, int pageSize, string language)
         {
@@ -808,80 +944,6 @@ namespace Services
             }
         }
 
-        public async Task<BaseResponse<UserDTO>> AdminUpdateUserAsync(long userId, AdminUpdateUserRequestDTO request, long adminId, string language)
-        {
-            try
-            {
-                // البحث عن المستخدم
-                var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId && u.IsDeleted != true);
-                if (user == null)
-                {
-                    var userNotFoundMessage = _localizationService.GetMessage("UserNotFound", "Errors", language);
-                    return BaseResponse<UserDTO>.FailureResponse(userNotFoundMessage, 404);
-                }
-                // التحقق من صحة البريد الإلكتروني الجديد (إذا تم تقديمه)
-                if (!string.IsNullOrWhiteSpace(request.Email) && request.Email != user.Email)
-                {
-                    if (!IsValidEmail(request.Email))
-                    {
-                        var invalidEmailMessage = _localizationService.GetMessage("InvalidEmail", "Errors", language);
-                        return BaseResponse<UserDTO>.FailureResponse(invalidEmailMessage, 400);
-                    }
-                    // التحقق من عدم وجود البريد الإلكتروني بالفعل لمستخدم آخر
-                    if (await _context.Users.AnyAsync(u => u.Email == request.Email && u.Id != userId && u.IsDeleted != true))
-                    {
-                        var emailExistsMessage = _localizationService.GetMessage("EmailExists", "Errors", language);
-                        return BaseResponse<UserDTO>.FailureResponse(emailExistsMessage, 400);
-                    }
-                    user.Email = request.Email;
-                }
-                // التحقق من صحة رقم الهاتف الجديد (إذا تم تقديمه)
-                if (request.PhoneNumber.HasValue && request.PhoneNumber != user.PhoneNumber)
-                {
-                    if (!IsValidPhoneNumber(request.PhoneNumber.Value.ToString()))
-                    {
-                        var invalidPhoneMessage = _localizationService.GetMessage("InvalidPhoneNumber", "Errors", language);
-                        return BaseResponse<UserDTO>.FailureResponse(invalidPhoneMessage, 400);
-                    }
-                    // التحقق من عدم وجود رقم الهاتف بالفعل لمستخدم آخر
-                    if (await _context.Users.AnyAsync(u => u.PhoneNumber == request.PhoneNumber && u.Id != userId && u.IsDeleted != true))
-                    {
-                        var phoneExistsMessage = _localizationService.GetMessage("PhoneNumberExists", "Errors", language);
-                        return BaseResponse<UserDTO>.FailureResponse(phoneExistsMessage, 400);
-                    }
-                    user.PhoneNumber = request.PhoneNumber;
-
-                }
-
-                // تحديث الاسم الكامل (إذا تم تقديمه)
-                if (!string.IsNullOrWhiteSpace(request.FullName))
-                {
-                    user.FullName = request.FullName;
-                }
-                // تحديث حالة التفعيل (إذا تم تقديمها)
-                if (request.IsActive.HasValue)
-                {
-                    user.IsActive = request.IsActive.Value;
-                }
-
-                // تحديث معلومات التعديل
-                user.ModifiedByUserId = adminId;
-                user.ModifiedDate = DateTime.Now;
-
-                // حفظ التغييرات
-                await _context.SaveChangesAsync();
-                return BaseResponse<UserDTO>.SuccessResponse(_mapper.Map<UserDTO>(user));
-
-
-
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "حدث خطأ أثناء تحديث معلومات المستخدم {userId} بواسطة المسؤول {adminId}", userId, adminId);
-                var errorMessage = _localizationService.GetMessage("UserUpdateError", "Errors", language);
-                return BaseResponse<UserDTO>.FailureResponse(errorMessage, 500);
-            }
-        }
         #region Helper Methods
 
         /// <summary>
@@ -965,9 +1027,12 @@ namespace Services
             return regex.IsMatch(password);
         }
 
+        public Task<BaseResponse<bool>> AddUserActivityLogAsync(long userId, string activityType, string description, string ipAddress, string userAgent, string language)
+        {
+            throw new NotImplementedException();
+        }
+
 
         #endregion
-
     }
 }
-
