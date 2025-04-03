@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Models;
+using Models.Common;
 using Models.DTOs.Subscription.Enums;
 using Models.DTOs.Subscription.Requests;
 using System.Net.Http.Headers;

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Models;
+using Models.Common;
 using Models.DTOs.Authorization;
 using Services.Common;
 using System.Security.Cryptography;
@@ -916,10 +917,19 @@ namespace Services
         }
 
 
+        /// <summary>
+        /// الحصول على جميع المستخدمين
+        /// </summary>
         public async Task<PaginatedResponse<List<UserDTO>>> GetAllUsersAsync(int page, int pageSize, string language)
         {
             try
             {
+                // التحقق من صحة المدخلات
+                if (page < 1) page = 1;
+                if (pageSize < 1) pageSize = 10;
+                if (pageSize > 100) pageSize = 100; // تحديد الحد الأقصى لعدد العناصر في الصفحة
+
+                // الحصول على المستخدمين مع التصفية والترتيب والتقسيم
                 var users = await _context.Users
                     .Where(u => u.IsDeleted != true)
                     .OrderByDescending(u => u.CreateDate)
@@ -927,20 +937,22 @@ namespace Services
                     .Take(pageSize)
                     .ToListAsync();
 
+                // حساب إجمالي عدد المستخدمين
                 long totalUsers = await _context.Users
                     .Where(u => u.IsDeleted != true)
                     .CountAsync();
 
+                // تحويل البيانات إلى النموذج المطلوب للمستخدمين
                 var usersInfo = _mapper.Map<List<UserDTO>>(users);
 
-
+                // إرجاع النتيجة مع معلومات التقسيم
                 return PaginatedResponse<List<UserDTO>>.SuccessResponse(usersInfo, page, pageSize, totalUsers);
-
             }
             catch (Exception ex)
             {
-
-                throw;
+                _logger.LogError(ex, "حدث خطأ أثناء الحصول على قائمة المستخدمين");
+                var errorMessage = _localizationService.GetMessage("UserListRetrievalError", "Errors", language);
+                return PaginatedResponse<List<UserDTO>>.FailureResponse(errorMessage, 500);
             }
         }
 
@@ -1027,9 +1039,35 @@ namespace Services
             return regex.IsMatch(password);
         }
 
-        public Task<BaseResponse<bool>> AddUserActivityLogAsync(long userId, string activityType, string description, string ipAddress, string userAgent, string language)
+        /// <summary>
+        /// إضافة سجل نشاط للمستخدم
+        /// </summary>
+        public async Task<BaseResponse<bool>> AddUserActivityLogAsync(long userId, string activityType, string description, string ipAddress, string userAgent, string language)
         {
-            throw new NotImplementedException();
+            try
+            {
+                // التحقق من وجود المستخدم
+                var user = await _context.Users
+                    .FirstOrDefaultAsync(u => u.Id == userId && u.IsDeleted != true);
+
+                if (user == null)
+                {
+                    var userNotFoundMessage = _localizationService.GetMessage("UserNotFound", "Errors", language);
+                    return BaseResponse<bool>.FailureResponse(userNotFoundMessage, 404);
+                }
+
+                // إضافة سجل النشاط
+                await AddUserActivityLogInternalAsync(userId, activityType, description, ipAddress, userAgent);
+
+                var successMessage = _localizationService.GetMessage("ActivityLogAdded", "Messages", language);
+                return BaseResponse<bool>.SuccessResponse(true, successMessage);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "حدث خطأ أثناء إضافة سجل نشاط للمستخدم {userId}", userId);
+                var errorMessage = _localizationService.GetMessage("ActivityLogError", "Errors", language);
+                return BaseResponse<bool>.FailureResponse(errorMessage, 500);
+            }
         }
 
 

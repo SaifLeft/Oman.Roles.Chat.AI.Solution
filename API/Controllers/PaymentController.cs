@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Models;
+using Models.Common;
 using Services;
 
 namespace API.Controllers

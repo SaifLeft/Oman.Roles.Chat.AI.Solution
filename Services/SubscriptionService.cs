@@ -3,7 +3,7 @@ using Data.Structure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Models;
+using Models.Common;
 using Models.DTOs.Subscription;
 using Models.DTOs.Subscription.Enums;
 using Models.DTOs.Subscription.Requests;

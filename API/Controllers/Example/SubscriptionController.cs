@@ -1,7 +1,7 @@
 using API.Controllers.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Models;
+using Models.Common;
 using Models.DTOs.Subscription.Requests;
 using Services;
 using System.Security.Claims;
