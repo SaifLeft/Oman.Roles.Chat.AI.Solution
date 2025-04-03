@@ -1,0 +1,106 @@
+/* Custom styles for Swagger UI */
+.swagger-ui {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Language selector */
+.language-selector {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+}
+
+.language-selector select {
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    margin-left: 10px;
+}
+
+.language-selector label {
+    margin-right: 5px;
+    font-weight: bold;
+    color: #444;
+}
+
+/* RTL Support */
+.rtl {
+    direction: rtl;
+    text-align: right;
+}
+
+.rtl .swagger-ui .opblock .opblock-summary-method {
+    margin-right: 0;
+    margin-left: 10px;
+}
+
+.rtl .swagger-ui .opblock-tag {
+    padding-right: 20px;
+    padding-left: 0;
+}
+
+.rtl .swagger-ui table th, 
+.rtl .swagger-ui table td {
+    text-align: right;
+}
+
+/* Custom branding */
+.swagger-ui .topbar {
+    background-color: #2A3F54;
+}
+
+.swagger-ui .info h2.title {
+    color: #2A3F54;
+}
+
+.swagger-ui .btn.execute {
+    background-color: #1CABE2;
+    border-color: #1CABE2;
+}
+
+.swagger-ui .btn.execute:hover {
+    background-color: #0E8CBC;
+    border-color: #0E8CBC;
+}
+
+/* Improve readability */
+.swagger-ui .opblock-description-wrapper p, 
+.swagger-ui .opblock-external-docs-wrapper p, 
+.swagger-ui .opblock-title_normal p {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.swagger-ui .opblock .opblock-summary-description {
+    color: #222;
+    font-weight: 500;
+}
+
+/* Endpoint categories */
+.swagger-ui .opblock-tag {
+    font-size: 18px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* Response styling */
+.swagger-ui .responses-table .response-col_status {
+    font-weight: bold;
+}
+
+.swagger-ui .response-col_status .response.success {
+    color: #4CAF50;
+}
+
+.swagger-ui .response-col_status .response.error {
+    color: #F44336;
+}
+
+.swagger-ui .model-container {
+    background-color: #fafafa;
+    border-radius: 4px;
+} 
