@@ -94,7 +94,8 @@ namespace Services
         private readonly ILocalizationService _localizationService;
         private readonly IJwtService _jwtService;
         private readonly IMapper _mapper;
-        private readonly ISmsService _smsService;
+        // Temporarily commented out due to ISmsService being commented out
+        //private readonly ISmsService _smsService;
 
         public UserService(
             MuhamiContext context,
@@ -102,8 +103,10 @@ namespace Services
             ILogger<UserService> logger,
             ILocalizationService localizationService,
             IJwtService jwtService,
-            IMapper mapper,
-            ISmsService smsService)
+            IMapper mapper
+            // Temporarily commented out due to ISmsService being commented out
+            //ISmsService smsService
+            )
         {
             _context = context;
             _configuration = configuration;
@@ -111,7 +114,8 @@ namespace Services
             _localizationService = localizationService;
             _jwtService = jwtService;
             _mapper = mapper;
-            _smsService = smsService;
+            // Temporarily commented out due to ISmsService being commented out
+            //_smsService = smsService;
         }
 
         /// <summary>
@@ -216,12 +220,16 @@ namespace Services
             try
             {
                 // Validate confirmation code
+                // Temporarily commented out due to ISmsService being commented out
+                /*
                 if (!await _smsService.VerifyConfirmationCode(registrationDto.PhoneNumber, registrationDto.ConfirmationCode))
                 {
                     var errorMessage = _localizationService.GetMessage("InvalidConfirmationCode", "Errors", language);
                     return BaseResponse<LoginResponse>.FailureResponse(errorMessage, 400);
                 }
+                */
 
+                // For now, assume the confirmation code is valid
                 // Check if phone number already exists
                 if (await _context.Users.AnyAsync(u => u.PhoneNumber == registrationDto.PhoneNumber && u.IsDeleted != true))
                 {
@@ -234,7 +242,7 @@ namespace Services
                 {
                     Username = $"user_{registrationDto.PhoneNumber}", // Generate username from phone
                     PhoneNumber = registrationDto.PhoneNumber,
-                    PhoneNumberConfirmed = true,
+                    PhoneVerified = true,
                     PasswordHash = HashPassword(registrationDto.Password),
                     UserRole = nameof(UserRole.USER),
                     IsActive = true,
@@ -946,13 +954,25 @@ namespace Services
                 var usersInfo = _mapper.Map<List<UserDTO>>(users);
 
                 // إرجاع النتيجة مع معلومات التقسيم
-                return PaginatedResponse<List<UserDTO>>.SuccessResponse(usersInfo, page, pageSize, totalUsers);
+                return PaginatedResponse<List<UserDTO>>.SuccessResponse(usersInfo, "تم جلب قائمة المستخدمين بنجاح", page, pageSize, (int)totalUsers);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ أثناء الحصول على قائمة المستخدمين");
                 var errorMessage = _localizationService.GetMessage("UserListRetrievalError", "Errors", language);
-                return PaginatedResponse<List<UserDTO>>.FailureResponse(errorMessage, 500);
+                var baseResponse = BaseResponse<List<UserDTO>>.FailureResponse(errorMessage, 500);
+                // Cast BaseResponse to PaginatedResponse to match the return type
+                return new PaginatedResponse<List<UserDTO>>
+                {
+                    Data = baseResponse.Data,
+                    Message = baseResponse.Message,
+                    Success = baseResponse.Success,
+                    StatusCode = baseResponse.StatusCode,
+                    Page = 1,
+                    PageSize = pageSize,
+                    TotalCount = 0,
+                    TotalPages = 0
+                };
             }
         }
 

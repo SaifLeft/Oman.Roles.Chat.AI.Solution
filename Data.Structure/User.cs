@@ -15,9 +15,9 @@ public partial class User
 
     public string FirstName { get; set; }
 
-    public int? MiddleName { get; set; }
+    public string MiddleName { get; set; }
 
-    public string? LastName { get; set; }
+    public string LastName { get; set; }
 
     public string GoogleId { get; set; }
 
@@ -27,7 +27,7 @@ public partial class User
 
     public long? PhoneNumber { get; set; }
 
-    public bool PhoneNumberConfirmed { get; set; }
+    public bool PhoneVerified { get; set; }
 
     public string LogInType { get; set; }
 
@@ -39,6 +39,10 @@ public partial class User
     /// User, Admin
     /// </summary>
     public string UserRole { get; set; }
+
+    public string GoogleEmail { get; set; }
+
+    public string UserAgent { get; set; }
 
     public long CreatedByUserId { get; set; }
 
@@ -52,7 +56,15 @@ public partial class User
 
     public DateTime? DeletedAt { get; set; }
 
+    public virtual ICollection<AnalyticsQueryLog> AnalyticsQueryLogs { get; set; } = new List<AnalyticsQueryLog>();
+
+    public virtual ICollection<ChatRoomFolder> ChatRoomFolders { get; set; } = new List<ChatRoomFolder>();
+
+    public virtual ICollection<ChatRoom> ChatRooms { get; set; } = new List<ChatRoom>();
+
     public virtual ICollection<ConversationTracking> ConversationTrackings { get; set; } = new List<ConversationTracking>();
+
+    public virtual ICollection<DataSourceFile> DataSourceFiles { get; set; } = new List<DataSourceFile>();
 
     public virtual ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
 

@@ -1,16 +1,17 @@
-using Helpers;
+using API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Common;
 using Models.DTOs.Subscription.Requests;
 using Services;
+using Services.Common;
 using System.Security.Claims;
 
 namespace API.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = nameof(UserRole.ADMIN))]
     [ApiController]
-    [Route("api/admin/subscriptions")]
+    [Route("api/Admin/Subscription/[action]")]
     public class AdminSubscriptionController : ControllerBase
     {
         private readonly ISubscriptionService _subscriptionService;
@@ -61,7 +62,7 @@ namespace API.Controllers
         /// </summary>
         /// <param name="id">معرف الاشتراك</param>
         /// <returns>تفاصيل الاشتراك</returns>
-        [HttpGet("{id}")]
+        [HttpGet]
         public async Task<IActionResult> GetSubscription(string id)
         {
             try
@@ -85,7 +86,7 @@ namespace API.Controllers
         /// </summary>
         /// <param name="userId">معرف المستخدم</param>
         /// <returns>قائمة باشتراكات المستخدم</returns>
-        [HttpGet("user/{userId}")]
+        [HttpGet]
         public async Task<IActionResult> GetUserSubscriptions(string userId)
         {
             try
@@ -109,7 +110,7 @@ namespace API.Controllers
         /// </summary>
         /// <param name="request">بيانات خطة الاشتراك</param>
         /// <returns>خطة الاشتراك المنشأة</returns>
-        [HttpPost("plans")]
+        [HttpPost]
         public async Task<IActionResult> CreateSubscriptionPlan([FromBody] CreateSubscriptionPlanRequestDTO request)
         {
             try
@@ -135,7 +136,7 @@ namespace API.Controllers
         /// <param name="id">معرف خطة الاشتراك</param>
         /// <param name="request">بيانات تحديث خطة الاشتراك</param>
         /// <returns>خطة الاشتراك المحدثة</returns>
-        [HttpPut("plans/{id}")]
+        [HttpPut]
         public async Task<IActionResult> UpdateSubscriptionPlan(string id, [FromBody] UpdateSubscriptionPlanRequestDTO request)
         {
             try
@@ -160,7 +161,7 @@ namespace API.Controllers
         /// </summary>
         /// <param name="request">بيانات كوبون الخصم</param>
         /// <returns>كوبون الخصم المنشأ</returns>
-        [HttpPost("coupons")]
+        [HttpPost]
         public async Task<IActionResult> CreateDiscountCoupon([FromBody] CreateDiscountCouponRequestDTO request)
         {
             try
@@ -186,7 +187,7 @@ namespace API.Controllers
         /// <param name="page">رقم الصفحة</param>
         /// <param name="pageSize">حجم الصفحة</param>
         /// <returns>قائمة بكوبونات الخصم</returns>
-        [HttpGet("coupons")]
+        [HttpGet]
         public async Task<IActionResult> GetAllDiscountCoupons([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
             try
@@ -211,7 +212,7 @@ namespace API.Controllers
         /// <param name="id">معرف كوبون الخصم</param>
         /// <param name="request">بيانات تحديث كوبون الخصم</param>
         /// <returns>كوبون الخصم المحدث</returns>
-        [HttpPut("coupons/{id}")]
+        [HttpPut]
         public async Task<IActionResult> UpdateDiscountCoupon(string id, [FromBody] UpdateDiscountCouponRequestDTO request)
         {
             try
@@ -237,7 +238,7 @@ namespace API.Controllers
         /// <param name="startDate">تاريخ البداية</param>
         /// <param name="endDate">تاريخ النهاية</param>
         /// <returns>تقارير الاشتراكات</returns>
-        [HttpGet("reports")]
+        [HttpGet]
         public async Task<IActionResult> GetSubscriptionReports([FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate)
         {
             try

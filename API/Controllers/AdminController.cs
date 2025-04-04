@@ -1,13 +1,15 @@
-using Helpers;
+using API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Common;
+using Models.DTOs.Authorization;
 using Services;
+using Services.Common;
 using System.Security.Claims;
 
 namespace API.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = nameof(UserRole.ADMIN))]
     [ApiController]
     [Route("api/[controller]/[action]")]
     public class AdminController : ControllerBase
@@ -18,16 +20,18 @@ namespace API.Controllers
         private readonly ILogger<AdminController> _logger;
         private readonly IConfiguration _configuration;
         private readonly ILocalizationService _localizationService;
-        private readonly IDeepSeekService _deepSeekService;
+        private readonly Services.ModelService.IDeepSeekService _deepSeekService;
+        private readonly IAdminAnalyticsService _adminAnalyticsService;
 
         public AdminController(
             IUserService userService,
             ISubscriptionService subscriptionService,
             IConversationTrackingService conversationTrackingService,
-            IDeepSeekService deepSeekService,
+            Services.ModelService.IDeepSeekService deepSeekService,
             ILogger<AdminController> logger,
             IConfiguration configuration,
-            ILocalizationService localizationService)
+            ILocalizationService localizationService,
+            IAdminAnalyticsService adminAnalyticsService)
         {
             _userService = userService;
             _subscriptionService = subscriptionService;
@@ -36,6 +40,7 @@ namespace API.Controllers
             _logger = logger;
             _configuration = configuration;
             _localizationService = localizationService;
+            _adminAnalyticsService = adminAnalyticsService;
         }
 
         #region User Management
@@ -43,7 +48,7 @@ namespace API.Controllers
         /// <summary>
         /// Get all users
         /// </summary>
-        [HttpGet("users")]
+        [HttpGet]
         public async Task<IActionResult> GetUsers([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
@@ -64,7 +69,7 @@ namespace API.Controllers
         /// <summary>
         /// Get user by ID
         /// </summary>
-        [HttpGet("users/{id}")]
+        [HttpGet]
         public async Task<IActionResult> GetUser(string id)
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
@@ -91,8 +96,8 @@ namespace API.Controllers
         /// <summary>
         /// Update user 
         /// </summary>
-        [HttpPut("users/{id}")]
-        public async Task<IActionResult> UpdateUser(string id, [FromBody] AdminUpdateUserRequest request)
+        [HttpPut]
+        public async Task<IActionResult> UpdateUser(string id, [FromBody] AdminUpdateUserRequestDTO request)
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
 
@@ -129,7 +134,7 @@ namespace API.Controllers
         /// <summary>
         /// Get all subscriptions
         /// </summary>
-        [HttpGet("subscriptions")]
+        [HttpGet]
         public async Task<IActionResult> GetSubscriptions([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
@@ -150,11 +155,15 @@ namespace API.Controllers
         /// <summary>
         /// Get subscription plans
         /// </summary>
-        [HttpGet("subscription-plans")]
+        [HttpGet]
         public async Task<IActionResult> GetSubscriptionPlans()
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
 
+            // Temporarily commented out due to missing method implementation
+            return StatusCode(501, BaseResponse.FailureResponse("This endpoint is temporarily disabled.", 501));
+
+            /*
             try
             {
                 var result = await _subscriptionService.GetAllPlansAsync(language);
@@ -166,6 +175,7 @@ namespace API.Controllers
                 var errorMessage = _localizationService.GetMessage("SubscriptionPlansRetrievalError", "Errors", language);
                 return StatusCode(500, BaseResponse.FailureResponse(errorMessage, 500));
             }
+            */
         }
 
         #endregion
@@ -175,11 +185,15 @@ namespace API.Controllers
         /// <summary>
         /// Get all conversations
         /// </summary>
-        [HttpGet("conversations")]
+        [HttpGet]
         public async Task<IActionResult> GetConversations([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
 
+            // Temporarily commented out due to missing method implementation
+            return StatusCode(501, BaseResponse.FailureResponse("This endpoint is temporarily disabled.", 501));
+
+            /*
             try
             {
                 var result = await _conversationTrackingService.GetAllConversationsAsync(page, pageSize, language);
@@ -191,6 +205,7 @@ namespace API.Controllers
                 var errorMessage = _localizationService.GetMessage("ConversationsRetrievalError", "Errors", language);
                 return StatusCode(500, BaseResponse.FailureResponse(errorMessage, 500));
             }
+            */
         }
 
         #endregion
@@ -200,11 +215,15 @@ namespace API.Controllers
         /// <summary>
         /// Get AI models
         /// </summary>
-        [HttpGet("ai-models")]
+        [HttpGet]
         public async Task<IActionResult> GetAiModels()
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
 
+            // Temporarily commented out due to missing method implementation
+            return StatusCode(501, BaseResponse.FailureResponse("This endpoint is temporarily disabled.", 501));
+
+            /*
             try
             {
                 var result = await _deepSeekService.GetAvailableModelsAsync(language);
@@ -216,16 +235,21 @@ namespace API.Controllers
                 var errorMessage = _localizationService.GetMessage("AiModelsRetrievalError", "Errors", language);
                 return StatusCode(500, BaseResponse.FailureResponse(errorMessage, 500));
             }
+            */
         }
 
         /// <summary>
         /// Update AI model configuration
         /// </summary>
-        [HttpPut("ai-models")]
+        [HttpPut]
         public async Task<IActionResult> UpdateAiModel([FromBody] UpdateAiModelRequest request)
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
 
+            // Temporarily commented out due to missing method implementation
+            return StatusCode(501, BaseResponse.FailureResponse("This endpoint is temporarily disabled.", 501));
+
+            /*
             try
             {
                 var result = await _deepSeekService.UpdateModelConfigurationAsync(request, language);
@@ -237,6 +261,7 @@ namespace API.Controllers
                 var errorMessage = _localizationService.GetMessage("AiModelUpdateError", "Errors", language);
                 return StatusCode(500, BaseResponse.FailureResponse(errorMessage, 500));
             }
+            */
         }
 
         #endregion
@@ -244,22 +269,121 @@ namespace API.Controllers
         #region Analytics
 
         /// <summary>
-        /// Get analytics data
+        /// Get dashboard summary
         /// </summary>
-        [HttpGet("analytics")]
-        public async Task<IActionResult> GetAnalytics([FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate)
+        [HttpGet]
+        public async Task<IActionResult> GetDashboardSummary([FromQuery] DateTime? fromDate, [FromQuery] DateTime? toDate)
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
 
             try
             {
-                var result = await _conversationTrackingService.GetAnalyticsDataAsync(startDate, endDate, language);
+                var from = fromDate ?? DateTime.UtcNow.AddDays(-30);
+                var to = toDate ?? DateTime.UtcNow;
+
+                var result = await _adminAnalyticsService.GetDashboardSummaryAsync(from, to, language);
                 return StatusCode(result.StatusCode, result);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error retrieving analytics data");
-                var errorMessage = _localizationService.GetMessage("AnalyticsRetrievalError", "Errors", language);
+                _logger.LogError(ex, "Error retrieving dashboard summary");
+                var errorMessage = _localizationService.GetMessage("DashboardSummaryError", "Errors", language);
+                return StatusCode(500, BaseResponse.FailureResponse(errorMessage, 500));
+            }
+        }
+
+        /// <summary>
+        /// Get user analytics
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> GetUserAnalytics([FromQuery] DateTime? fromDate, [FromQuery] DateTime? toDate)
+        {
+            string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
+
+            try
+            {
+                var from = fromDate ?? DateTime.UtcNow.AddDays(-30);
+                var to = toDate ?? DateTime.UtcNow;
+
+                var result = await _adminAnalyticsService.GetUserAnalyticsAsync(from, to, language);
+                return StatusCode(result.StatusCode, result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving user analytics");
+                var errorMessage = _localizationService.GetMessage("UserAnalyticsError", "Errors", language);
+                return StatusCode(500, BaseResponse.FailureResponse(errorMessage, 500));
+            }
+        }
+
+        /// <summary>
+        /// Get subscription analytics
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> GetSubscriptionAnalytics([FromQuery] DateTime? fromDate, [FromQuery] DateTime? toDate)
+        {
+            string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
+
+            try
+            {
+                var from = fromDate ?? DateTime.UtcNow.AddDays(-30);
+                var to = toDate ?? DateTime.UtcNow;
+
+                var result = await _adminAnalyticsService.GetSubscriptionAnalyticsAsync(from, to, language);
+                return StatusCode(result.StatusCode, result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving subscription analytics");
+                var errorMessage = _localizationService.GetMessage("SubscriptionAnalyticsError", "Errors", language);
+                return StatusCode(500, BaseResponse.FailureResponse(errorMessage, 500));
+            }
+        }
+
+        /// <summary>
+        /// Get query analytics
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> GetQueryAnalytics([FromQuery] DateTime? fromDate, [FromQuery] DateTime? toDate)
+        {
+            string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
+
+            try
+            {
+                var from = fromDate ?? DateTime.UtcNow.AddDays(-30);
+                var to = toDate ?? DateTime.UtcNow;
+
+                var result = await _adminAnalyticsService.GetQueryAnalyticsAsync(from, to, language);
+                return StatusCode(result.StatusCode, result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving query analytics");
+                var errorMessage = _localizationService.GetMessage("QueryAnalyticsError", "Errors", language);
+                return StatusCode(500, BaseResponse.FailureResponse(errorMessage, 500));
+            }
+        }
+
+        /// <summary>
+        /// Get revenue analytics
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> GetRevenueAnalytics([FromQuery] DateTime? fromDate, [FromQuery] DateTime? toDate)
+        {
+            string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
+
+            try
+            {
+                var from = fromDate ?? DateTime.UtcNow.AddDays(-30);
+                var to = toDate ?? DateTime.UtcNow;
+
+                var result = await _adminAnalyticsService.GetRevenueAnalyticsAsync(from, to, language);
+                return StatusCode(result.StatusCode, result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving revenue analytics");
+                var errorMessage = _localizationService.GetMessage("RevenueAnalyticsError", "Errors", language);
                 return StatusCode(500, BaseResponse.FailureResponse(errorMessage, 500));
             }
         }

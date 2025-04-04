@@ -15,11 +15,23 @@
    "T4TemplatePath": null,
    "Tables": [
       {
+         "Name": "public.analytics_query_log",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.analytics_revenue_log",
+         "ObjectType": 0
+      },
+      {
          "Name": "public.chat_message",
          "ObjectType": 0
       },
       {
          "Name": "public.chat_room",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.chat_room_folder",
          "ObjectType": 0
       },
       {
@@ -56,6 +68,22 @@
       },
       {
          "Name": "public.invoice",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.legal_category",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.legal_context_keyword",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.legal_context_topic",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.message_category",
          "ObjectType": 0
       },
       {

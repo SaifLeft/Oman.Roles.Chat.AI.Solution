@@ -1,13 +1,16 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using iTextSharp.text.pdf;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Models;
 using Models.Common;
+using Models.DTOs.Files;
 using System.Text.Json;
 
 namespace Services
 {
     public interface IPdfService
     {
+        Task<string> ExtractTextFromPdfAsync(string filePath);
+
         /// <summary>
         /// الحصول على قائمة ملفات PDF المتاحة
         /// </summary>
@@ -16,12 +19,13 @@ namespace Services
         /// <summary>
         /// الحصول على معلومات ملف PDF
         /// </summary>
-        Task<BaseResponse<DataFileDTO>> GetPdfFileInfoAsync(string fileName, string language);
+        Task<BaseResponse<PdfDocumentDTO>> GetPdfFileInfoAsync(string fileName, string language);
+        Task<long> GetPdfPageCountAsync(string filePath);
 
         /// <summary>
         /// تحديث معلومات ملف PDF
         /// </summary>
-        Task<BaseResponse<DataFileDTO>> UpdatePdfInfoAsync(string fileName, string title, string description, List<string> keywords, string userId, string language);
+        Task<BaseResponse<PdfDocumentDTO>> UpdatePdfInfoAsync(string fileName, string title, string description, List<string> keywords, string userId, string language);
     }
 
     public class PdfService : IPdfService
@@ -62,7 +66,7 @@ namespace Services
             try
             {
                 var files = Directory.GetFiles(_pdfBasePath, "*.pdf");
-                var pdfFiles = new List<DataFileDTO>();
+                var pdfFiles = new List<PdfDocumentDTO>();
 
                 foreach (var file in files)
                 {
@@ -90,7 +94,7 @@ namespace Services
         /// <summary>
         /// الحصول على معلومات ملف PDF
         /// </summary>
-        public async Task<BaseResponse<DataFileDTO>> GetPdfFileInfoAsync(string fileName, string language)
+        public async Task<BaseResponse<PdfDocumentDTO>> GetPdfFileInfoAsync(string fileName, string language)
         {
             try
             {
@@ -99,23 +103,23 @@ namespace Services
                 if (fileInfo == null)
                 {
                     var errorMessage = _localizationService.GetMessage("PdfFileNotFound", "Errors", language);
-                    return BaseResponse<DataFileDTO>.FailureResponse(string.Format(errorMessage, fileName), 404);
+                    return BaseResponse<PdfDocumentDTO>.FailureResponse(string.Format(errorMessage, fileName), 404);
                 }
 
-                return BaseResponse<DataFileDTO>.SuccessResponse(fileInfo);
+                return BaseResponse<PdfDocumentDTO>.SuccessResponse(fileInfo);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ أثناء الحصول على معلومات ملف PDF {fileName}", fileName);
                 var errorMessage = _localizationService.GetMessage("PdfFileInfoRetrievalError", "Errors", language);
-                return BaseResponse<DataFileDTO>.FailureResponse(errorMessage, 500);
+                return BaseResponse<PdfDocumentDTO>.FailureResponse(errorMessage, 500);
             }
         }
 
         /// <summary>
         /// تحديث معلومات ملف PDF
         /// </summary>
-        public async Task<BaseResponse<DataFileDTO>> UpdatePdfInfoAsync(string fileName, string title, string description, List<string> keywords, string userId, string language)
+        public async Task<BaseResponse<PdfDocumentDTO>> UpdatePdfInfoAsync(string fileName, string title, string description, List<string> keywords, string userId, string language)
         {
             try
             {
@@ -124,7 +128,7 @@ namespace Services
                 if (fileInfo == null)
                 {
                     var errorMessage = _localizationService.GetMessage("PdfFileNotFound", "Errors", language);
-                    return BaseResponse<DataFileDTO>.FailureResponse(string.Format(errorMessage, fileName), 404);
+                    return BaseResponse<PdfDocumentDTO>.FailureResponse(string.Format(errorMessage, fileName), 404);
                 }
 
                 // تحديث المعلومات
@@ -136,20 +140,20 @@ namespace Services
                 SavePdfFileInfo(fileInfo);
 
                 var successMessage = _localizationService.GetMessage("PdfFileInfoUpdated", "Messages", language);
-                return BaseResponse<DataFileDTO>.SuccessResponse(fileInfo, successMessage);
+                return BaseResponse<PdfDocumentDTO>.SuccessResponse(fileInfo, successMessage);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ أثناء تحديث معلومات ملف PDF {fileName}", fileName);
                 var errorMessage = _localizationService.GetMessage("PdfFileInfoUpdateError", "Errors", language);
-                return BaseResponse<DataFileDTO>.FailureResponse(errorMessage, 500);
+                return BaseResponse<PdfDocumentDTO>.FailureResponse(errorMessage, 500);
             }
         }
 
         /// <summary>
         /// الحصول على معلومات ملف PDF داخليًا
         /// </summary>
-        private async Task<DataFileDTO?> GetPdfFileInfoInternalAsync(string fileName)
+        private async Task<PdfDocumentDTO?> GetPdfFileInfoInternalAsync(string fileName)
         {
             var pdfFilePath = Path.Combine(_pdfBasePath, fileName);
             if (!File.Exists(pdfFilePath))
@@ -163,7 +167,7 @@ namespace Services
             if (File.Exists(infoFilePath))
             {
                 var json = await File.ReadAllTextAsync(infoFilePath);
-                var fileInfo = JsonSerializer.Deserialize<DataFileDTO>(json);
+                var fileInfo = JsonSerializer.Deserialize<PdfDocumentDTO>(json);
 
                 if (fileInfo != null)
                 {
@@ -173,7 +177,7 @@ namespace Services
 
             // إذا لم يكن ملف المعلومات موجودًا، ننشئه
             var fileSize = new FileInfo(pdfFilePath).Length;
-            var fileInfo2 = new DataFileDTO
+            var fileInfo2 = new PdfDocumentDTO
             {
                 FileName = fileName,
                 Title = Path.GetFileNameWithoutExtension(fileName),
@@ -191,7 +195,7 @@ namespace Services
         /// <summary>
         /// حفظ معلومات ملف PDF
         /// </summary>
-        private void SavePdfFileInfo(DataFileDTO fileInfo)
+        private void SavePdfFileInfo(PdfDocumentDTO fileInfo)
         {
             try
             {
@@ -205,6 +209,69 @@ namespace Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "حدث خطأ أثناء حفظ معلومات ملف PDF {fileName}", fileInfo.FileName);
+            }
+        }
+
+        /// <summary>
+        /// استخراج النص من ملف PDF
+        /// </summary>
+        public async Task<string> ExtractTextFromPdfAsync(string filePath)
+        {
+            try
+            {
+                if (!File.Exists(filePath))
+                {
+                    _logger.LogWarning("ملف PDF غير موجود: {filePath}", filePath);
+                    return string.Empty;
+                }
+
+                return await Task.Run(() =>
+                {
+                    var text = new System.Text.StringBuilder();
+                    using (var reader = new PdfReader(filePath))
+                    {
+                        for (int i = 1; i <= reader.NumberOfPages; i++)
+                        {
+                            var strategy = new iTextSharp.text.pdf.parser.SimpleTextExtractionStrategy();
+                            string pageText = iTextSharp.text.pdf.parser.PdfTextExtractor.GetTextFromPage(reader, i, strategy);
+                            text.AppendLine(pageText);
+                        }
+                    }
+                    return text.ToString();
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "حدث خطأ أثناء استخراج النص من ملف PDF {filePath}", filePath);
+                return string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// الحصول على عدد صفحات ملف PDF
+        /// </summary>
+        public async Task<long> GetPdfPageCountAsync(string filePath)
+        {
+            try
+            {
+                if (!File.Exists(filePath))
+                {
+                    _logger.LogWarning("ملف PDF غير موجود: {filePath}", filePath);
+                    return 0;
+                }
+
+                return await Task.Run(() =>
+                {
+                    using (var reader = new PdfReader(filePath))
+                    {
+                        return reader.NumberOfPages;
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "حدث خطأ أثناء الحصول على عدد صفحات ملف PDF {filePath}", filePath);
+                return 0;
             }
         }
     }

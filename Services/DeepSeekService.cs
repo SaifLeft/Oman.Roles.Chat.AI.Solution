@@ -1,24 +1,24 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Models;
-using System.Net.Http.Headers;
+using Models.DTOs.AIChat;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 
 namespace Services
 {
     /// <summary>
-    /// واجهة خدمة الاتصال بـ DeepSeek للحصول على إجابات ذكية حول الاستشارات القانونية
+    /// واجهة خدمة DeepSeek للذكاء الاصطناعي
     /// </summary>
     public interface IDeepSeekService
     {
         /// <summary>
-        /// معالجة بيانات PDF واستخراج الإجابات المناسبة
+        /// الحصول على رد من نموذج DeepSeek
         /// </summary>
-        /// <param name="prompt">الاستعلام المطلوب معالجته</param>
-        /// <param name="language">لغة الاستعلام والاستجابة</param>
-        /// <returns>استجابة النموذج</returns>
-        Task<string> ProcessPdfDataAsync(string prompt, string language = "ar");
+        /// <param name="query">استعلام المستخدم</param>
+        /// <param name="language">اللغة (العربية الافتراضية)</param>
+        /// <returns>رد النموذج</returns>
+        Task<DeepSeekResponseDTO> GetResponseAsync(string query, string language = "ar");
 
         /// <summary>
         /// تنفيذ استعلام قانوني مع سياق محدد
@@ -28,330 +28,243 @@ namespace Services
         /// <param name="language">اللغة المطلوبة</param>
         /// <returns>استجابة قانونية</returns>
         Task<string> ExecuteLegalQueryAsync(string query, string context, string language = "ar");
-
-        /// <summary>
-        /// تحليل مستند PDF وتلخيصه
-        /// </summary>
-        /// <param name="pdfContent">محتوى ملف PDF</param>
-        /// <param name="language">اللغة المطلوبة</param>
-        /// <returns>ملخص للمستند</returns>
-        Task<string> AnalyzePdfContentAsync(string pdfContent, string language = "ar");
-
-        /// <summary>
-        /// الاستعلام عن إجراءات حكومية محددة
-        /// </summary>
-        /// <param name="service">اسم الخدمة الحكومية</param>
-        /// <param name="language">اللغة المطلوبة</param>
-        /// <returns>إرشادات حول الإجراء</returns>
-        Task<string> GetGovernmentProcedureAsync(string service, string language = "ar");
+        Task<string> ProcessPdfDataAsync(string enrichedContext, string language);
     }
 
-
-
     /// <summary>
-    /// تنفيذ خدمة DeepSeek المتخصصة في الاستشارات القانونية والحكومية في سلطنة عمان
+    /// تنفيذ خدمة DeepSeek للذكاء الاصطناعي
     /// </summary>
     public class DeepSeekService : IDeepSeekService
     {
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;
         private readonly ILogger<DeepSeekService> _logger;
-        private readonly ILocalizationService _localizationService;
-        private readonly string _apiKey;
-        private readonly string _endpoint;
-        private readonly string _model;
-        private readonly int _maxRetries = 3;
 
         /// <summary>
-        /// إنشاء مثيل جديد من خدمة DeepSeek
+        /// إنشاء نسخة جديدة من خدمة DeepSeek
         /// </summary>
         public DeepSeekService(
             HttpClient httpClient,
             IConfiguration configuration,
-            ILogger<DeepSeekService> logger,
-            ILocalizationService localizationService)
+            ILogger<DeepSeekService> logger)
         {
             _httpClient = httpClient;
             _configuration = configuration;
             _logger = logger;
-            _localizationService = localizationService;
 
-            // استخراج بيانات التكوين
-            _apiKey = _configuration["DeepSeekAPI:ApiKey"] ?? throw new InvalidOperationException("DeepSeek API Key is missing in configuration");
-            _endpoint = _configuration["DeepSeekAPI:Endpoint"] ?? "https://api.deepseek.com/v1/chat/completions";
-            _model = _configuration["DeepSeekAPI:Model"] ?? "deepseek-chat";
+            // تكوين عنوان API
+            string apiUrl = _configuration["DeepSeekSettings:ApiUrl"];
+            if (!string.IsNullOrEmpty(apiUrl))
+            {
+                _httpClient.BaseAddress = new Uri(apiUrl);
+            }
 
-            // تهيئة عميل HTTP
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            _httpClient.Timeout = TimeSpan.FromMinutes(2); // زيادة مهلة الانتظار للردود الطويلة
+            // إضافة مفتاح API إلى الرأس إذا كان متاحًا
+            string apiKey = _configuration["DeepSeekSettings:ApiKey"];
+            if (!string.IsNullOrEmpty(apiKey))
+            {
+                _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
+            }
         }
 
         /// <summary>
-        /// معالجة محتوى الـ PDF والاستعلام وإرجاع إجابة مناسبة
+        /// الحصول على رد من نموذج DeepSeek
         /// </summary>
-        public async Task<string> ProcessPdfDataAsync(string prompt, string language = "ar")
+        public async Task<DeepSeekResponseDTO> GetResponseAsync(string query, string language = "ar")
         {
             try
             {
-                _logger.LogInformation("جاري معالجة استعلام PDF: {PromptStart}...", prompt.Substring(0, Math.Min(100, prompt.Length)));
+                _logger.LogInformation($"Processing query with DeepSeek: {query}");
 
-                // إضافة سياق خاص بالاستشارات القانونية العمانية
-                var enhancedPrompt = EnhanceLegalPrompt(prompt, language);
-
-                // تحضير الطلب
-                var messages = new List<ChatMessageDTO>
+                // بناء طلب DeepSeek
+                var request = new DeepSeekRequestDTO
                 {
-                    new ChatMessageDTO { Role = "system", Content = GetLegalSystemPrompt(language) },
-                    new ChatMessageDTO { Role = "user", Content = enhancedPrompt }
+                    Prompt = query,
+                    SystemPrompt = GetSystemPrompt(language)
                 };
 
-                var response = await SendRequestToDeepSeekAsync(messages);
-                return response;
+                // إرسال الطلب
+                var response = await SendRequestAsync(request);
+                if (response != null)
+                {
+                    _logger.LogInformation("DeepSeek response received successfully");
+                    return response;
+                }
+
+                _logger.LogWarning("DeepSeek returned null response");
+                return new DeepSeekResponseDTO
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = GetErrorMessage(language),
+                    Finished = true
+                };
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "خطأ أثناء معالجة استعلام PDF");
-                var errorMessage = _localizationService.GetMessage("ApiError", "Errors", language);
-                return $"{errorMessage}: {ex.Message}";
+                _logger.LogError(ex, "Error getting response from DeepSeek API");
+                return new DeepSeekResponseDTO
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = GetErrorMessage(language),
+                    Finished = false
+                };
             }
+        }
+
+        /// <summary>
+        /// إرسال طلب إلى API نموذج DeepSeek
+        /// </summary>
+        private async Task<DeepSeekResponseDTO> SendRequestAsync(DeepSeekRequestDTO request)
+        {
+            try
+            {
+                _logger.LogInformation("Sending request to DeepSeek API");
+
+                // تحويل الطلب إلى JSON
+                var json = JsonSerializer.Serialize(request);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                // إرسال الطلب إلى API
+                var endpoint = _configuration["DeepSeekSettings:Endpoint"] ?? "api/generate";
+                var response = await _httpClient.PostAsync(endpoint, content);
+
+                // التحقق من الاستجابة
+                if (response.IsSuccessStatusCode)
+                {
+                    _logger.LogInformation("DeepSeek API request successful");
+                    return await response.Content.ReadFromJsonAsync<DeepSeekResponseDTO>();
+                }
+
+                _logger.LogWarning($"DeepSeek API returned status code: {response.StatusCode}");
+                var errorContent = await response.Content.ReadAsStringAsync();
+                _logger.LogWarning($"Error content: {errorContent}");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error sending request to DeepSeek API");
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// الحصول على رسالة الخطأ المناسبة
+        /// </summary>
+        private string GetErrorMessage(string language)
+        {
+            return language.ToLower() == "ar"
+                ? "عذراً، حدث خطأ أثناء معالجة طلبك. يرجى المحاولة مرة أخرى لاحقاً."
+                : "Sorry, an error occurred while processing your request. Please try again later.";
+        }
+
+        /// <summary>
+        /// الحصول على توجيه النظام المناسب
+        /// </summary>
+        private string GetSystemPrompt(string language)
+        {
+            return language.ToLower() == "ar"
+                ? "أنت مساعد قانوني ذكي متخصص في القانون العماني. مهمتك هي تقديم إجابات دقيقة ومفيدة للاستفسارات القانونية باللغة العربية. استخدم المعلومات القانونية الدقيقة في إجاباتك، واستشهد بالقوانين واللوائح العمانية ذات الصلة عندما يكون ذلك مناسباً. تحلى بالوضوح والدقة في إجاباتك، وكن محترفاً ومفيداً دائماً."
+                : "You are an intelligent legal assistant specialized in Omani law. Your task is to provide accurate and helpful answers to legal inquiries in English. Use accurate legal information in your answers, and cite relevant Omani laws and regulations when appropriate. Be clear and precise in your answers, and always be professional and helpful.";
         }
 
         /// <summary>
         /// تنفيذ استعلام قانوني مع سياق محدد
         /// </summary>
+        /// <param name="query">استعلام المستخدم</param>
+        /// <param name="context">السياق القانوني المعطى</param>
+        /// <param name="language">اللغة المطلوبة</param>
+        /// <returns>استجابة قانونية</returns>
         public async Task<string> ExecuteLegalQueryAsync(string query, string context, string language = "ar")
         {
             try
             {
-                _logger.LogInformation("تنفيذ استعلام قانوني: {QueryStart}...", query.Substring(0, Math.Min(50, query.Length)));
+                _logger.LogInformation($"Executing legal query: {query}");
 
-                // تحضير سياق السؤال القانوني
-                var legalContext = $"### السياق القانوني:\n{context}\n\n### السؤال:\n{query}";
+                // Prepare legal context and query
+                var legalContext = string.IsNullOrEmpty(context)
+                    ? query
+                    : $"Context: {context}\n\nQuery: {query}";
 
-                // تحضير الطلب
-                var messages = new List<ChatMessageDTO>
+                // Create request with system prompt and user query
+                var request = new DeepSeekRequestDTO
                 {
-                    new ChatMessageDTO { Role = "system", Content = GetLegalSystemPrompt(language) },
-                    new ChatMessageDTO { Role = "user", Content = legalContext }
+                    Prompt = legalContext,
+                    SystemPrompt = GetLegalSystemPrompt(language)
                 };
 
-                var response = await SendRequestToDeepSeekAsync(messages, 0.5); // استخدام حرارة أقل للإجابات القانونية الأكثر دقة
-                return response;
+                // Send request to DeepSeek
+                var response = await SendRequestAsync(request);
+                if (response != null)
+                {
+                    _logger.LogInformation("Legal query response received successfully");
+                    return response.Content;
+                }
+
+                _logger.LogWarning("DeepSeek returned null response for legal query");
+                return GetErrorMessage(language);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "خطأ أثناء تنفيذ استعلام قانوني");
-                var errorMessage = _localizationService.GetMessage("LegalQueryError", "Errors", language);
-                return $"{errorMessage}: {ex.Message}";
+                _logger.LogError(ex, "Error executing legal query with DeepSeek API");
+                return GetErrorMessage(language);
             }
         }
 
         /// <summary>
-        /// تحليل محتوى PDF وتلخيصه
-        /// </summary>
-        public async Task<string> AnalyzePdfContentAsync(string pdfContent, string language = "ar")
-        {
-            try
-            {
-                _logger.LogInformation("تحليل محتوى PDF بحجم {ContentLength} حرف", pdfContent.Length);
-
-                // إعداد طلب تحليل المستند
-                var analyzePrompt = $"قم بتحليل وتلخيص المستند التالي، مع استخراج النقاط القانونية الرئيسية والمصطلحات المهمة:\n\n{pdfContent}";
-
-                // تحضير الطلب
-                var messages = new List<ChatMessageDTO>
-                {
-                    new ChatMessageDTO { Role = "system", Content = "أنت محلل قانوني متخصص في تلخيص وتحليل المستندات القانونية. قم بتقديم تحليل منظم وشامل." },
-                    new ChatMessageDTO { Role = "user", Content = analyzePrompt }
-                };
-
-                // استخدام عدد توكنز أعلى للتحليلات الطويلة
-                var response = await SendRequestToDeepSeekAsync(messages, 0.3, 4000);
-                return response;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "خطأ أثناء تحليل محتوى PDF");
-                var errorMessage = _localizationService.GetMessage("PdfAnalysisError", "Errors", language);
-                return $"{errorMessage}: {ex.Message}";
-            }
-        }
-
-        /// <summary>
-        /// الحصول على معلومات حول إجراء حكومي محدد
-        /// </summary>
-        public async Task<string> GetGovernmentProcedureAsync(string service, string language = "ar")
-        {
-            try
-            {
-                _logger.LogInformation("طلب معلومات حول إجراء حكومي: {Service}", service);
-
-                // إعداد طلب الإجراء الحكومي
-                var procedurePrompt = $"اشرح بالتفصيل الإجراءات المطلوبة للحصول على خدمة \"{service}\" من الجهات الحكومية في سلطنة عُمان. يرجى توضيح المستندات المطلوبة، والرسوم، والوقت المتوقع، وأي نصائح مهمة.";
-
-                // تحضير الطلب
-                var messages = new List<ChatMessageDTO>
-                {
-                    new ChatMessageDTO { Role = "system", Content = "أنت خبير في الإجراءات الحكومية والخدمات في سلطنة عُمان، مهمتك تقديم معلومات دقيقة وشاملة عن كيفية الحصول على الخدمات الحكومية." },
-                    new ChatMessageDTO { Role = "user", Content = procedurePrompt }
-                };
-
-                var response = await SendRequestToDeepSeekAsync(messages);
-                return response;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "خطأ أثناء الحصول على معلومات الإجراءات الحكومية");
-                var errorMessage = _localizationService.GetMessage("GovernmentProcedureError", "Errors", language);
-                return $"{errorMessage}: {ex.Message}";
-            }
-        }
-
-        /// <summary>
-        /// إرسال طلب إلى DeepSeek والحصول على الرد
-        /// </summary>
-        private async Task<string> SendRequestToDeepSeekAsync(List<ChatMessageDTO> messages, double temperature = 0.7, int maxTokens = 2000)
-        {
-            // إعداد الطلب
-            var requestBody = new DeepSeekRequestDTO
-            {
-                Model = _model,
-                Messages = messages,
-                Temperature = temperature,
-                MaxTokens = maxTokens
-            };
-
-            var requestJson = JsonSerializer.Serialize(requestBody);
-            var requestContent = new StringContent(requestJson, Encoding.UTF8, "application/json");
-
-            // إضافة رأس المصادقة لكل طلب
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
-
-            // محاولات إعادة المحاولة مع تأخير تصاعدي
-            int retryCount = 0;
-            while (true)
-            {
-                try
-                {
-                    var response = await _httpClient.PostAsync(_endpoint, requestContent);
-
-                    // التحقق من نجاح الاستجابة
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var responseContent = await response.Content.ReadAsStringAsync();
-                        var deepSeekResponse = JsonSerializer.Deserialize<DeepSeekResponseDTO>(responseContent);
-
-                        if (deepSeekResponse?.Choices?.Count > 0)
-                        {
-                            _logger.LogInformation("تم استلام رد ناجح من DeepSeek: {TokensUsed} توكنز", deepSeekResponse.Usage.TotalTokens);
-                            return deepSeekResponse.Choices[0].Message.Content;
-                        }
-                        else
-                        {
-                            _logger.LogWarning("استجابة DeepSeek ناقصة: {ResponseContent}", responseContent);
-                            return "عذراً، لم أتمكن من معالجة طلبك في الوقت الحالي. يرجى المحاولة مرة أخرى.";
-                        }
-                    }
-                    else
-                    {
-                        // تسجيل تفاصيل الخطأ
-                        var errorContent = await response.Content.ReadAsStringAsync();
-                        _logger.LogError("استجابة خطأ من DeepSeek: {StatusCode}, {ErrorContent}", response.StatusCode, errorContent);
-
-                        // التحقق من إمكانية إعادة المحاولة
-                        if (retryCount < _maxRetries && (
-                            (int)response.StatusCode == 429 || // Rate limit
-                            (int)response.StatusCode == 500 || // خطأ في الخادم
-                            (int)response.StatusCode == 503)) // الخدمة غير متوفرة
-                        {
-                            retryCount++;
-                            // زيادة تأخير إعادة المحاولة بشكل أسي (1s, 2s, 4s, ...)
-                            var delayMs = (int)Math.Pow(2, retryCount) * 1000;
-                            _logger.LogWarning("إعادة المحاولة {RetryCount}/{MaxRetries} بعد {DelayMs}ms", retryCount, _maxRetries, delayMs);
-                            await Task.Delay(delayMs);
-                            continue;
-                        }
-
-                        return $"عذراً، واجهت مشكلة في الاتصال بالخدمة (رمز الخطأ: {(int)response.StatusCode}).";
-                    }
-                }
-                catch (HttpRequestException ex)
-                {
-                    _logger.LogError(ex, "خطأ في طلب HTTP");
-
-                    if (retryCount < _maxRetries)
-                    {
-                        retryCount++;
-                        var delayMs = (int)Math.Pow(2, retryCount) * 1000;
-                        _logger.LogWarning("إعادة المحاولة {RetryCount}/{MaxRetries} بعد {DelayMs}ms", retryCount, _maxRetries, delayMs);
-                        await Task.Delay(delayMs);
-                        continue;
-                    }
-
-                    return "عذراً، حدث خطأ في الاتصال بالخدمة. يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى.";
-                }
-                catch (TaskCanceledException ex) when (ex.InnerException is TimeoutException)
-                {
-                    _logger.LogError(ex, "انتهاء مهلة الطلب");
-                    return "عذراً، استغرقت العملية وقتاً أطول من المتوقع. يرجى تبسيط استعلامك والمحاولة مرة أخرى.";
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "خطأ غير متوقع أثناء التواصل مع DeepSeek");
-                    return "عذراً، حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى لاحقاً.";
-                }
-            }
-        }
-
-        /// <summary>
-        /// تحسين استعلام قانوني بإضافة سياق خاص بسلطنة عمان
-        /// </summary>
-        private string EnhanceLegalPrompt(string prompt, string language)
-        {
-            // إضافة تعليمات لتحسين الاستجابة القانونية
-            if (language == "ar")
-            {
-                return $"قم بالإجابة على السؤال التالي المتعلق بالقوانين والإجراءات في سلطنة عُمان، مع الاعتماد فقط على المعلومات الواردة في الملفات المعطاة: \n\n{prompt}";
-            }
-            else
-            {
-                return $"Please answer the following question related to laws and procedures in the Sultanate of Oman, relying only on the information provided in the given files: \n\n{prompt}";
-            }
-        }
-
-        /// <summary>
-        /// الحصول على توجيهات النظام القانوني حسب اللغة
+        /// الحصول على مطالبة النظام للاستعلامات القانونية
         /// </summary>
         private string GetLegalSystemPrompt(string language)
         {
-            if (language == "ar")
+            return language == "ar"
+                ? "أنت مساعد قانوني ذكي متخصص في القوانين العمانية. مهمتك هي تقديم إجابات دقيقة ومفيدة للاستفسارات القانونية باللغة العربية. استخدم معلومات قانونية دقيقة في إجاباتك، واستشهد بالقوانين واللوائح العمانية ذات الصلة عند الاقتضاء. كن واضحًا ودقيقًا في إجاباتك، وكن دائمًا محترفًا ومفيدًا."
+                : "You are an intelligent legal assistant specialized in Omani law. Your task is to provide accurate and helpful answers to legal inquiries in English. Use accurate legal information in your answers, and cite relevant Omani laws and regulations when appropriate. Be clear and precise in your answers, and always be professional and helpful.";
+        }
+
+        /// <summary>
+        /// معالجة بيانات ملفات PDF مع ضمان التقيد بالمعلومات من الملفات فقط
+        /// </summary>
+        /// <param name="enrichedContext">محتوى مثرى من الملفات</param>
+        /// <param name="language">اللغة المطلوبة</param>
+        /// <returns>استجابة لمعالجة البيانات من الذكاء الاصطناعي</returns>
+        public async Task<string> ProcessPdfDataAsync(string enrichedContext, string language)
+        {
+            try
             {
-                return @"أنت مساعد قانوني متخصص في القوانين والإجراءات الحكومية في سلطنة عُمان. التزم بالقواعد التالية:
+                _logger.LogInformation("Processing PDF data with DeepSeek");
 
-1. الإجابة فقط على الأسئلة المتعلقة بالقوانين والإجراءات القانونية والحكومية في سلطنة عُمان.
-2. الاعتماد فقط على المعلومات المقدمة في الملفات المعطاة، وعدم الافتراض أو التخمين بمعلومات إضافية.
-3. الإشارة بوضوح إلى مصدر المعلومات من الملفات المقدمة.
-4. استخدام لغة قانونية دقيقة مع شرح المصطلحات الصعبة.
-5. الالتزام بالأدب والاحترام في الردود.
-6. عند عدم توفر معلومات كافية، اذكر ذلك بوضوح واقترح مصادر رسمية يمكن الرجوع إليها.
-7. الإجابة بتنسيق منظم وواضح يسهل على المستخدم فهم الخطوات والإجراءات.
+                // بناء طلب للنموذج مع توجيهات خاصة للتقيد بمحتوى الملفات فقط
+                var request = new DeepSeekRequestDTO
+                {
+                    Prompt = enrichedContext,
+                    SystemPrompt = GetPdfContextSystemPrompt(language)
+                };
 
-تذكر أن أي معلومات تقدمها يجب أن تكون معتمدة فقط على محتوى الملفات المرفقة، وليست نصيحة قانونية بديلة عن استشارة محامٍ مؤهل.";
+                // إرسال الطلب إلى النموذج
+                var response = await SendRequestAsync(request);
+                if (response != null)
+                {
+                    _logger.LogInformation("PDF data processed successfully");
+                    return response.Content;
+                }
+
+                _logger.LogWarning("DeepSeek returned null response for PDF data processing");
+                return GetErrorMessage(language);
             }
-            else
+            catch (Exception ex)
             {
-                return @"You are a legal assistant specialized in laws and government procedures in the Sultanate of Oman. Adhere to the following rules:
-
-1. Answer only questions related to laws and legal and governmental procedures in the Sultanate of Oman.
-2. Rely only on information provided in the given files, without assuming or guessing additional information.
-3. Clearly reference the source of information from the provided files.
-4. Use precise legal language while explaining difficult terms.
-5. Maintain politeness and respect in responses.
-6. When sufficient information is not available, clearly state this and suggest official sources for further reference.
-7. Answer in an organized and clear format that makes it easy for the user to understand steps and procedures.
-
-Remember that any information you provide should be based solely on the content of the attached files and is not a substitute for consulting a qualified lawyer.";
+                _logger.LogError(ex, "Error processing PDF data with DeepSeek API");
+                return GetErrorMessage(language);
             }
+        }
+
+        /// <summary>
+        /// الحصول على مطالبة النظام للتقيد بمحتوى الملفات
+        /// </summary>
+        private string GetPdfContextSystemPrompt(string language)
+        {
+            return language == "ar"
+                ? "أنت مساعد قانوني مدرب على التشريعات والقوانين العمانية. يجب عليك الإجابة فقط باستخدام المعلومات الموجودة في الوثائق المقدمة. إذا كان السؤال يتعلق بموضوع غير موجود في المستندات، فيجب أن توضح أنك لا تستطيع الإجابة عن هذا السؤال لأنه خارج نطاق المستندات المتاحة. استشهد بأرقام الصفحات أو أقسام المستندات عند الإجابة، وتأكد من الدقة. لا تختلق معلومات ليست موجودة في المستندات."
+                : "You are a legal assistant trained on Omani legislation and laws. You must answer only using information contained in the provided documents. If the question relates to a topic not covered in the documents, you should clarify that you cannot answer this question because it is outside the scope of the available documents. Cite page numbers or document sections when answering, and ensure accuracy. Do not make up information that isn't present in the documents.";
         }
     }
 }

@@ -9,6 +9,12 @@ public partial class DataSourceFile
 {
     public long Id { get; set; }
 
+    public long UploadedBy { get; set; }
+
+    public bool IsPublic { get; set; }
+
+    public bool IsActive { get; set; }
+
     public string FileName { get; set; }
 
     public string Title { get; set; }
@@ -21,6 +27,14 @@ public partial class DataSourceFile
     /// bytes
     /// </summary>
     public long Size { get; set; }
+
+    public bool IsKnowledgeBase { get; set; }
+
+    public string FileType { get; set; }
+
+    public long PageCount { get; set; }
+
+    public byte[] Content { get; set; }
 
     public string ContentType { get; set; }
 
@@ -39,4 +53,6 @@ public partial class DataSourceFile
     public virtual ICollection<ConversationPdfReference> ConversationPdfReferences { get; set; } = new List<ConversationPdfReference>();
 
     public virtual ICollection<DataSourceFileKeyword> DataSourceFileKeywords { get; set; } = new List<DataSourceFileKeyword>();
+
+    public virtual User UploadedByNavigation { get; set; }
 }

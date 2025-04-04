@@ -1,9 +1,10 @@
-﻿using Helpers;
+﻿using API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.Common;
 using Services;
+using Services.Common;
 using System.Security.Claims;
 
 namespace API.Controllers
@@ -62,7 +63,7 @@ namespace API.Controllers
         /// <summary>
         /// Get room conversation history
         /// </summary>
-        [HttpGet("{roomId}")]
+        [HttpGet]
         public async Task<IActionResult> GetRoomConversationHistory(string roomId, [FromQuery] int limit = 20, [FromQuery] int offset = 0)
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
@@ -118,7 +119,7 @@ namespace API.Controllers
         /// <summary>
         /// Get global conversation analytics (Admin only)
         /// </summary>
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = nameof(UserRole.ADMIN))]
         [HttpGet]
         public async Task<IActionResult> GetGlobalAnalytics([FromQuery] DateTime? fromDate = null, [FromQuery] DateTime? toDate = null)
         {

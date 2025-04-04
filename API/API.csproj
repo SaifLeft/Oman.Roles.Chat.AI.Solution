@@ -4,10 +4,15 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>$(NoWarn);1591</NoWarn>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+		<GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Compile Remove="NewFolder\**" />
+		<Compile Include="**\*.cs" Exclude="obj\**\*.cs" />
 		<Content Remove="NewFolder\**" />
 		<EmbeddedResource Remove="NewFolder\**" />
 		<None Remove="NewFolder\**" />

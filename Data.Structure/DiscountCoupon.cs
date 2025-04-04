@@ -38,7 +38,7 @@ public partial class DiscountCoupon
 
     public DateTime? ModifiedDate { get; set; }
 
-    public bool? IsDeleted { get; set; }
+    public bool IsDeleted { get; set; }
 
     public DateTime? DeletedAt { get; set; }
 

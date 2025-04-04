@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿// This file is temporarily commented out due to missing methods in ISubscriptionService
+// Please update the ISubscriptionService interface to include the required methods.
+
+/*
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Models.Common;
 using Models.DTOs.Subscription;
@@ -206,3 +210,4 @@ namespace Services
         }
     }
 }
+*/

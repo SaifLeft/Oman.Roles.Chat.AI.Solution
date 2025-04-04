@@ -91,5 +91,7 @@ namespace Models.DTOs.Subscription.Requests
         /// </summary>
         [JsonPropertyName("trialDays")]
         public long? TrialDays { get; set; }
+        public long MaxQueriesPerDay { get; set; }
+        public long MaxQueriesPerMonth { get; set; }
     }
 }

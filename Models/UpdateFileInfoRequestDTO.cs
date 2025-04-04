@@ -3,6 +3,11 @@
     public class UpdateFileInfoRequestDTO
     {
         /// <summary>
+        /// معرف الملف
+        /// </summary>
+        public long FileId { get; set; }
+        
+        /// <summary>
         /// عنوان الملف
         /// </summary>
         public string Title { get; set; }

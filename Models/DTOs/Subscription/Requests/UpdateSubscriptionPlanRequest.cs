@@ -23,14 +23,14 @@ namespace Models.DTOs.Subscription.Requests
         public string? Description { get; set; }
 
         /// <summary>
-        /// السعر الشهري
+        /// السعر الشهري (بالريال العماني)
         /// Monthly price
         /// </summary>
         [JsonPropertyName("priceMonthly")]
         public decimal? PriceMonthly { get; set; }
 
         /// <summary>
-        /// السعر السنوي
+        /// السعر السنوي (بالريال العماني)
         /// Yearly price
         /// </summary>
         [JsonPropertyName("priceYearly")]
@@ -58,6 +58,27 @@ namespace Models.DTOs.Subscription.Requests
         public int? AllowedFileSizeMb { get; set; }
 
         /// <summary>
+        /// الحد الأقصى للاستعلامات اليومية
+        /// Maximum queries per day
+        /// </summary>
+        [JsonPropertyName("maxQueriesPerDay")]
+        public int? MaxQueriesPerDay { get; set; }
+
+        /// <summary>
+        /// الحد الأقصى للاستعلامات الشهرية
+        /// Maximum queries per month
+        /// </summary>
+        [JsonPropertyName("maxQueriesPerMonth")]
+        public int? MaxQueriesPerMonth { get; set; }
+
+        /// <summary>
+        /// عدد أيام الفترة التجريبية
+        /// Number of trial days
+        /// </summary>
+        [JsonPropertyName("trialDays")]
+        public int? TrialDays { get; set; }
+
+        /// <summary>
         /// هل الخطة نشطة
         /// Is the plan active
         /// </summary>
@@ -70,26 +91,12 @@ namespace Models.DTOs.Subscription.Requests
         /// </summary>
         [JsonPropertyName("isTrial")]
         public bool? IsTrial { get; set; }
-
+        
         /// <summary>
         /// مميزات الخطة
         /// Plan features
         /// </summary>
         [JsonPropertyName("features")]
         public List<string>? Features { get; set; }
-
-        /// <summary>
-        /// علامات الخطة
-        /// Plan tags
-        /// </summary>
-        [JsonPropertyName("tags")]
-        public List<string>? Tags { get; set; }
-
-        /// <summary>
-        /// عدد أيام الفترة التجريبية
-        /// Number of trial days
-        /// </summary>
-        [JsonPropertyName("trialDays")]
-        public int? TrialDays { get; set; }
     }
 }

@@ -20,6 +20,12 @@ public partial class ChatMessage
 
     public string Content { get; set; }
 
+    public double? SentimentScore { get; set; }
+
+    public long? Urgency { get; set; }
+
+    public string EmotionalTone { get; set; }
+
     public DateTime Timestamp { get; set; }
 
     public long CreatedByUserId { get; set; }
@@ -35,4 +41,6 @@ public partial class ChatMessage
     public DateTime? DeletedAt { get; set; }
 
     public virtual ChatRoom ChatRoom { get; set; }
+
+    public virtual ICollection<MessageCategory> MessageCategories { get; set; } = new List<MessageCategory>();
 }

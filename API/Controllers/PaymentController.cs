@@ -27,7 +27,7 @@ namespace API.Controllers
         /// Handle payment webhooks from Thawani payment gateway
         /// </summary>
         /// <returns>نتيجة معالجة الإشعار</returns>
-        [HttpPost("webhook")]
+        [HttpPost]
         public async Task<IActionResult> HandleWebhook()
         {
             try
@@ -59,7 +59,7 @@ namespace API.Controllers
         /// </summary>
         /// <param name="sessionId">معرف جلسة الدفع</param>
         /// <returns>حالة الدفع</returns>
-        [HttpGet("status/{sessionId}")]
+        [HttpGet]
         public async Task<IActionResult> CheckPaymentStatus(string sessionId)
         {
             try

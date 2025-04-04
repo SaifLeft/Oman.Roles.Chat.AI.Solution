@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Services.Common;
 
 namespace API.Controllers.Base
 {
@@ -8,7 +9,7 @@ namespace API.Controllers.Base
     /// Base admin controller with standard routing and admin authorization
     /// </summary>
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = nameof(UserRole.ADMIN))]
     [Route("api/admin/[controller]/[action]")]
     public abstract class AdminControllerBase : ControllerBase
     {

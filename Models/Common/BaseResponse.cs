@@ -111,49 +111,5 @@ namespace Models.Common
                 Errors = errors
             };
         }
-
-
-    }
-
-    /// <summary>
-    /// يمثل استجابة مجزأة مع معلومات الترقيم
-    /// </summary>
-    /// <typeparam name="T">نوع البيانات المُرجعة</typeparam>
-    public class PaginatedResponse<T> : BaseResponse<T>
-    {
-        /// <summary>
-        /// رقم الصفحة الحالية
-        /// </summary>
-        [JsonPropertyName("pageNumber")]
-        public long PageNumber { get; set; }
-
-        /// <summary>
-        /// حجم الصفحة
-        /// </summary>
-        [JsonPropertyName("pageSize")]
-        public long PageSize { get; set; }
-
-        /// <summary>
-        /// العدد الإجمالي للعناصر
-        /// </summary>
-        [JsonPropertyName("totalCount")]
-        public long TotalCount { get; set; }
-
-        /// <summary>
-        /// إنشاء استجابة مجزأة ناجحة
-        /// </summary>
-        public static PaginatedResponse<T> SuccessResponse(T data, long pageNumber, long pageSize, long totalCount, string message = "تمت العملية بنجاح", int statusCode = 200)
-        {
-            return new PaginatedResponse<T>
-            {
-                Success = true,
-                Message = message,
-                StatusCode = statusCode,
-                Data = data,
-                PageNumber = pageNumber,
-                PageSize = pageSize,
-                TotalCount = totalCount
-            };
-        }
     }
 }

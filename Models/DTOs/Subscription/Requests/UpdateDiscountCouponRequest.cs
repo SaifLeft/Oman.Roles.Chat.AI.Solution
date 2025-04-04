@@ -70,5 +70,26 @@ namespace Models.DTOs.Subscription.Requests
         /// </summary>
         [JsonPropertyName("applicablePlanIds")]
         public List<string>? ApplicablePlanIds { get; set; }
+        
+        /// <summary>
+        /// كود الكوبون
+        /// Coupon code
+        /// </summary>
+        [JsonPropertyName("code")]
+        public string? Code { get; set; }
+        
+        /// <summary>
+        /// تاريخ نهاية الصلاحية
+        /// End date
+        /// </summary>
+        [JsonPropertyName("endDate")]
+        public DateTime? EndDate { get; set; }
+        
+        /// <summary>
+        /// معرفات خطط الاشتراك
+        /// Plan IDs
+        /// </summary>
+        [JsonPropertyName("planIds")]
+        public List<string>? PlanIds { get; set; }
     }
 }

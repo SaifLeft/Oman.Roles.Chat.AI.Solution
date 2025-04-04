@@ -1,12 +1,13 @@
-﻿using Helpers;
+﻿using API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Common;
 using Services;
+using Services.Common;
 
 namespace API.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = nameof(UserRole.ADMIN))]
     [ApiController]
     [Route("api/[controller]/[action]")]
     public class ChatRulesController : ControllerBase
@@ -145,7 +146,7 @@ namespace API.Controllers
         /// <summary>
         /// حذف مجموعة قواعد
         /// </summary>
-        [HttpDelete("{name}")]
+        [HttpDelete]
         public IActionResult DeleteRuleset(string name)
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);

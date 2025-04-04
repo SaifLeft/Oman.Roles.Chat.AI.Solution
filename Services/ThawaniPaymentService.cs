@@ -1,6 +1,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Models;
 using Models.Common;
+using Models.DTOs.Subscription;
 using Models.DTOs.Subscription.Enums;
 using Models.DTOs.Subscription.Requests;
 using System.Net.Http.Headers;
@@ -260,8 +262,11 @@ namespace Services
                 // إنشاء طلب اشتراك جديد
                 var subscriptionRequest = new CreateSubscriptionRequestDTO
                 {
-                    PlanId = planId,
-                    PeriodType = SubscriptionPeriodType.Monthly, // يمكن تعديله حسب الحاجة
+                    PlanId = long.Parse(planId),
+                    IsYearly = false, // Default to monthly
+                    UserId = long.Parse(userId),
+                    IpAddress = "",
+                    UserAgent = "",
                     PaymentGatewayTransactionId = webhookData.Data.SessionId,
                     PaymentMethod = "Thawani"
                 };

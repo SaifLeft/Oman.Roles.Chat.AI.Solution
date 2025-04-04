@@ -1,9 +1,9 @@
-namespace Models.DTOs
+namespace Models.DTOs.Files
 {
     /// <summary>
     /// Data Transfer Object for file information
     /// </summary>
-    public class DataFileDTO
+    public class FileInfoDTO
     {
         /// <summary>
         /// Unique identifier for the file
@@ -54,5 +54,10 @@ namespace Models.DTOs
         /// Collection of keywords associated with this file
         /// </summary>
         public List<string> Keywords { get; set; } = new List<string>();
+        public string FileType { get; set; }
+        public long FileSize { get; set; }
+        public long PageCount { get; set; }
+        public DateTime UploadDate { get; set; }
+        public bool IsPublic { get; set; }
     }
 }

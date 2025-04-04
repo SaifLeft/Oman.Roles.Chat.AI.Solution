@@ -84,5 +84,47 @@ namespace Models.DTOs.Subscription
         /// </summary>
         [JsonPropertyName("applicablePlanIds")]
         public List<string> ApplicablePlanIds { get; set; } = new List<string>();
+        
+        /// <summary>
+        /// تاريخ نهاية الصلاحية
+        /// End date
+        /// </summary>
+        [JsonPropertyName("endDate")]
+        public DateTime EndDate { get; set; }
+        
+        /// <summary>
+        /// عدد مرات استخدام الكوبون الحالي
+        /// Current usage count
+        /// </summary>
+        [JsonPropertyName("currentUses")]
+        public int CurrentUses { get; set; }
+        
+        /// <summary>
+        /// خطط الاشتراك التي يمكن تطبيق الكوبون عليها
+        /// Subscription plans the coupon can be applied to
+        /// </summary>
+        [JsonPropertyName("applicablePlans")]
+        public List<PlanReferenceDTO> ApplicablePlans { get; set; } = new List<PlanReferenceDTO>();
+    }
+    
+    /// <summary>
+    /// مرجع خطة اشتراك مختصر
+    /// Brief subscription plan reference
+    /// </summary>
+    public class PlanReferenceDTO
+    {
+        /// <summary>
+        /// معرف الخطة
+        /// Plan ID
+        /// </summary>
+        [JsonPropertyName("id")]
+        public long Id { get; set; }
+        
+        /// <summary>
+        /// اسم الخطة
+        /// Plan name
+        /// </summary>
+        [JsonPropertyName("name")]
+        public string Name { get; set; } = string.Empty;
     }
 }

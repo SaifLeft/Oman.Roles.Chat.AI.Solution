@@ -12,8 +12,8 @@ namespace Services.Common
             // Subscription Plan mappings
             CreateMap<SubscriptionPlan, SubscriptionPlanDTO>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
-                .ForMember(dest => dest.PriceMonthly, opt => opt.MapFrom(src => (decimal)src.PriceMonthly))
-                .ForMember(dest => dest.PriceYearly, opt => opt.MapFrom(src => (decimal)src.PriceYearly))
+                .ForMember(dest => dest.MonthlyPrice, opt => opt.MapFrom(src => (decimal)src.PriceMonthly))
+                .ForMember(dest => dest.YearlyPrice, opt => opt.MapFrom(src => (decimal)src.PriceYearly))
                 .ForMember(dest => dest.AllowedChatRooms, opt => opt.MapFrom(src => src.AllowedChatRooms))
                 .ForMember(dest => dest.AllowedFiles, opt => opt.MapFrom(src => src.AllowedFiles))
                 .ForMember(dest => dest.AllowedFileSizeMb, opt => opt.MapFrom(src => src.AllowedFileSizeMb))
@@ -24,12 +24,12 @@ namespace Services.Common
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
                 .ForMember(dest => dest.PlanId, opt => opt.MapFrom(src => src.PlanId.ToString()))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
-                .ForMember(dest => dest.PeriodType, opt => opt.MapFrom(src => src.PeriodType));
+                .ForMember(dest => dest.IsYearly, opt => opt.MapFrom(src => src.PeriodType == "Yearly"));
 
             // DTO to Entity mappings (for creating/updating)
             CreateMap<CreateSubscriptionRequestDTO, UserSubscription>()
-                .ForMember(dest => dest.PlanId, opt => opt.MapFrom(src => long.Parse(src.PlanId)))
-                .ForMember(dest => dest.PeriodType, opt => opt.MapFrom(src => nameof(src.PeriodType)))
+                .ForMember(dest => dest.PlanId, opt => opt.MapFrom(src => src.PlanId))
+                .ForMember(dest => dest.PeriodType, opt => opt.MapFrom(src => src.IsYearly ? "Yearly" : "Monthly"))
                 .ForMember(dest => dest.AutoRenew, opt => opt.MapFrom(src => src.AutoRenew))
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.UserId, opt => opt.Ignore())

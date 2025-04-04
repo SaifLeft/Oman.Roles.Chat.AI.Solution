@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Services.ModelService;
 using System.Collections.Concurrent;
 using System.Text;
 using System.Text.RegularExpressions;

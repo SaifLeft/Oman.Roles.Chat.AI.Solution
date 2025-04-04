@@ -13,7 +13,17 @@ public partial class ChatRoom
 
     public string Description { get; set; }
 
-    public DateTime LastActivityAt { get; set; }
+    public DateTime? LastActivityAt { get; set; }
+
+    public bool IsFavorite { get; set; }
+
+    public string Status { get; set; }
+
+    public string Tags { get; set; }
+
+    public string FolderPath { get; set; }
+
+    public long UserId { get; set; }
 
     public long CreatedByUserId { get; set; }
 
@@ -30,4 +40,6 @@ public partial class ChatRoom
     public virtual ICollection<ChatMessage> ChatMessages { get; set; } = new List<ChatMessage>();
 
     public virtual ICollection<ConversationTracking> ConversationTrackings { get; set; } = new List<ConversationTracking>();
+
+    public virtual User User { get; set; }
 }

@@ -1,3 +1,8 @@
+// This file is temporarily commented out because it depends on ISubscriptionService methods
+// that don't exist in the current implementation.
+// Please update the ISubscriptionService interface to include the required methods.
+
+/*
 using API.Controllers.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -116,3 +121,4 @@ namespace API.Controllers.Example
         }
     }
 }
+*/

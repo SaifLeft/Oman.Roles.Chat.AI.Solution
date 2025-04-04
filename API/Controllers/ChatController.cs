@@ -1,4 +1,4 @@
-using Helpers;
+using API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -68,7 +68,7 @@ namespace API.Controllers
         /// <summary>
         /// ������ ��� ���� ����� ������ ������
         /// </summary>
-        [HttpGet("{roomId}")]
+        [HttpGet]
         public async Task<IActionResult> GetChatRoom(string roomId)
         {
             // ������� ����� ������� �� ��� �����
@@ -157,7 +157,7 @@ namespace API.Controllers
         /// <summary>
         /// ��� ���� �����
         /// </summary>
-        [HttpDelete("{roomId}")]
+        [HttpDelete]
         public async Task<IActionResult> DeleteChatRoom(string roomId)
         {
             // ������� ����� ������� �� ��� �����

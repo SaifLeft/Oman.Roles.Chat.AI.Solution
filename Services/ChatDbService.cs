@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Models;
 using System.Collections.Concurrent;
+using Microsoft.Extensions.DependencyInjection;
+using Models.DTOs.AIChat;
 
 namespace Services
 {
@@ -68,6 +70,16 @@ namespace Services
         /// <param name="userId">معرف المستخدم</param>
         /// <returns>نجاح العملية</returns>
         Task<bool> DeleteChatRoomAsync(long roomId, long userId);
+
+        /// <summary>
+        /// معالجة رسالة المستخدم وإنشاء رد من الذكاء الاصطناعي
+        /// </summary>
+        /// <param name="roomId">معرف الغرفة</param>
+        /// <param name="userId">معرف المستخدم</param>
+        /// <param name="query">استعلام المستخدم</param>
+        /// <param name="language">لغة الاستعلام</param>
+        /// <returns>استجابة الذكاء الاصطناعي</returns>
+        Task<AIQueryResponseDTO> ProcessAIMessageAsync(long roomId, long userId, string query, string language = "ar");
     }
 
     /// <summary>
@@ -80,6 +92,7 @@ namespace Services
         private readonly ILocalizationService _localizationService;
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
+        private readonly IServiceProvider _serviceProvider;
 
         // ذاكرة تخزين مؤقت للغرف والرسائل (للتحسين)
         private readonly ConcurrentDictionary<long, Models.ChatRoomDTO> _chatRoomsCache = new();
@@ -93,13 +106,15 @@ namespace Services
             ILogger<ChatDbService> logger,
             ILocalizationService localizationService,
             IConfiguration configuration,
-            IMapper mapper)
+            IMapper mapper,
+            IServiceProvider serviceProvider)
         {
             _context = context;
             _logger = logger;
             _localizationService = localizationService;
             _configuration = configuration;
             _mapper = mapper;
+            _serviceProvider = serviceProvider;
         }
 
         /// <summary>
@@ -362,6 +377,63 @@ namespace Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "خطأ في حذف غرفة الدردشة: {RoomId}", roomId);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// معالجة رسالة المستخدم وإنشاء رد من الذكاء الاصطناعي
+        /// </summary>
+        /// <param name="roomId">معرف الغرفة</param>
+        /// <param name="userId">معرف المستخدم</param>
+        /// <param name="query">استعلام المستخدم</param>
+        /// <param name="language">لغة الاستعلام</param>
+        /// <returns>استجابة الذكاء الاصطناعي</returns>
+        public async Task<AIQueryResponseDTO> ProcessAIMessageAsync(long roomId, long userId, string query, string language = "ar")
+        {
+            try
+            {
+                _logger.LogInformation("معالجة رسالة الذكاء الاصطناعي للغرفة: {RoomId} من المستخدم: {UserId}", roomId, userId);
+
+                // التحقق من وجود الغرفة
+                var chatRoom = await _context.ChatRooms
+                    .FirstOrDefaultAsync(cr => cr.Id == roomId && cr.IsDeleted != true);
+
+                if (chatRoom == null)
+                {
+                    _logger.LogWarning("غرفة الدردشة غير موجودة: {RoomId}", roomId);
+                    throw new ArgumentException($"غرفة الدردشة غير موجودة: {roomId}");
+                }
+
+                // إضافة رسالة المستخدم إلى الغرفة
+                await AddChatMessageAsync(roomId, userId.ToString(), "user", query);
+
+                // الحصول على الرد من خدمة قاعدة المعرفة
+                var knowledgeBaseService = _serviceProvider.GetRequiredService<IKnowledgeBaseService>();
+                var aiResponse = await knowledgeBaseService.GetAIResponseWithReferencesAsync(query, userId, roomId, language);
+
+                // إضافة رد الذكاء الاصطناعي إلى الغرفة
+                await AddChatMessageAsync(roomId, "ai", "assistant", aiResponse.Response);
+
+                // تحديث تاريخ آخر نشاط في الغرفة
+                await UpdateChatRoomLastActivityAsync(roomId);
+
+                // تتبع المحادثة للتحليلات
+                var conversationTrackingService = _serviceProvider.GetRequiredService<IConversationTrackingService>();
+                var conversationId = aiResponse.ConversationId ?? Guid.NewGuid().ToString();
+                await conversationTrackingService.TrackConversationAsync(
+                    conversationId,
+                    userId,
+                    query,
+                    aiResponse.Response,
+                    chatRoom.Title,
+                    language);
+
+                return aiResponse;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "خطأ في معالجة رسالة الذكاء الاصطناعي للغرفة: {RoomId}", roomId);
                 throw;
             }
         }

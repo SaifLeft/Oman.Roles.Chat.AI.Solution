@@ -1,5 +1,6 @@
-using Application.DTOs;
+using Models.DTOs;
 using Models.Common;
+using Models.DTOs.Files;
 
 namespace Models.Services
 {
@@ -20,7 +21,7 @@ namespace Models.Services
         /// <param name="userId">ID of the user uploading the file</param>
         /// <param name="language">Language for localized messages</param>
         /// <returns>Information about the uploaded file</returns>
-        Task<BaseResponse<DataFileDTO>> UploadPdfFileAsync(string fileName, string title, string description, byte[] fileContent, string contentType, List<string> keywords, long userId, string language);
+        Task<BaseResponse<PdfDocumentDTO>> UploadPdfFileAsync(string fileName, string title, string description, byte[] fileContent, string contentType, List<string> keywords, long userId, string language);
 
         /// <summary>
         /// Get all available PDF files for a user
@@ -28,7 +29,7 @@ namespace Models.Services
         /// <param name="userId">ID of the user</param>
         /// <param name="language">Language for localized messages</param>
         /// <returns>List of PDF files</returns>
-        Task<BaseResponse<List<DataFileDTO>>> GetAvailablePdfFilesAsync(long userId, string language);
+        Task<BaseResponse<List<PdfDocumentDTO>>> GetAvailablePdfFilesAsync(long userId, string language);
 
         /// <summary>
         /// Get information about a specific PDF file
@@ -36,7 +37,7 @@ namespace Models.Services
         /// <param name="fileId">ID of the file</param>
         /// <param name="language">Language for localized messages</param>
         /// <returns>Information about the file</returns>
-        Task<BaseResponse<DataFileDTO>> GetPdfFileInfoAsync(long fileId, string language);
+        Task<BaseResponse<PdfDocumentDTO>> GetPdfFileInfoAsync(long fileId, string language);
 
         /// <summary>
         /// Update information for a PDF file
@@ -48,7 +49,7 @@ namespace Models.Services
         /// <param name="userId">ID of the user making the update</param>
         /// <param name="language">Language for localized messages</param>
         /// <returns>Updated information about the file</returns>
-        Task<BaseResponse<DataFileDTO>> UpdatePdfFileInfoAsync(long fileId, string title, string description, List<string> keywords, long userId, string language);
+        Task<BaseResponse<PdfDocumentDTO>> UpdatePdfFileInfoAsync(long fileId, string title, string description, List<string> keywords, long userId, string language);
 
         /// <summary>
         /// Delete a PDF file
@@ -65,6 +66,6 @@ namespace Models.Services
         /// <param name="keywords">Keywords to search for</param>
         /// <param name="language">Language for localized messages</param>
         /// <returns>List of matching PDF files</returns>
-        Task<BaseResponse<List<DataFileDTO>>> SearchPdfFilesByKeywordsAsync(List<string> keywords, string language);
+        Task<BaseResponse<List<PdfDocumentDTO>>> SearchPdfFilesByKeywordsAsync(List<string> keywords, string language);
     }
 }

@@ -1,4 +1,3 @@
-using Models.DTOs.Subscription.Enums;
 using System.Text.Json.Serialization;
 
 namespace Models.DTOs.Subscription
@@ -14,21 +13,26 @@ namespace Models.DTOs.Subscription
         /// Subscription ID
         /// </summary>
         [JsonPropertyName("id")]
-        public string Id { get; set; } = string.Empty;
+        public long Id { get; set; }
 
         /// <summary>
         /// معرف المستخدم
         /// User ID
         /// </summary>
         [JsonPropertyName("userId")]
-        public string UserId { get; set; } = string.Empty;
+        public long UserId { get; set; }
 
         /// <summary>
-        /// خطة الاشتراك
-        /// Subscription plan
+        /// معرف خطة الاشتراك
         /// </summary>
-        [JsonPropertyName("plan")]
-        public SubscriptionPlanDTO Plan { get; set; } = new SubscriptionPlanDTO();
+        [JsonPropertyName("planId")]
+        public long PlanId { get; set; }
+
+        /// <summary>
+        /// اسم خطة الاشتراك
+        /// </summary>
+        [JsonPropertyName("planName")]
+        public string PlanName { get; set; } = string.Empty;
 
         /// <summary>
         /// تاريخ بدء الاشتراك
@@ -45,41 +49,45 @@ namespace Models.DTOs.Subscription
         public DateTime EndDate { get; set; }
 
         /// <summary>
-        /// هل الاشتراك نشط
-        /// Is the subscription active
+        /// حالة الاشتراك
         /// </summary>
-        [JsonPropertyName("isActive")]
-        public bool IsActive { get; set; }
+        [JsonPropertyName("status")]
+        public string Status { get; set; } = string.Empty;
 
         /// <summary>
-        /// نوع الفترة (شهري/سنوي)
-        /// Period type (monthly/yearly)
+        /// عدد الاستعلامات المستخدمة هذا الشهر
         /// </summary>
-        [JsonPropertyName("periodType")]
-        public SubscriptionPeriodType PeriodType { get; set; }
+        [JsonPropertyName("queriesUsedThisMonth")]
+        public int QueriesUsedThisMonth { get; set; }
 
         /// <summary>
-        /// تجديد تلقائي
-        /// Auto renewal
+        /// عدد الاستعلامات المسموح بها شهرياً
         /// </summary>
-        [JsonPropertyName("autoRenew")]
-        public bool AutoRenew { get; set; }
+        [JsonPropertyName("monthlyQueryLimit")]
+        public int MonthlyQueryLimit { get; set; }
 
         /// <summary>
-        /// كوبون الخصم المستخدم (إن وجد)
-        /// Used discount coupon (if any)
+        /// هل الاشتراك سنوي؟
         /// </summary>
-        [JsonPropertyName("discountCoupon")]
-        public DiscountCouponDTO? DiscountCoupon { get; set; }
-
-
-        public long PlanId { get; set; }
+        [JsonPropertyName("isYearly")]
+        public bool IsYearly { get; set; }
 
         /// <summary>
-        /// Active, Trial, Expired, Cancelled, Suspended
+        /// هل تم دفع الاشتراك؟
         /// </summary>
-        public string Status { get; set; }
+        [JsonPropertyName("isPaid")]
+        public bool IsPaid { get; set; }
 
+        /// <summary>
+        /// رمز الفاتورة
+        /// </summary>
+        [JsonPropertyName("invoiceReference")]
+        public string? InvoiceReference { get; set; }
 
+        /// <summary>
+        /// سعر الاشتراك
+        /// </summary>
+        [JsonPropertyName("price")]
+        public decimal Price { get; set; }
     }
 }

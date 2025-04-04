@@ -5,6 +5,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Models;
 using System.Text.Json;
+using Data.Structure.Entities;
+using Models.DTOs.AIChat;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Services
 {
@@ -77,6 +83,18 @@ namespace Services
         /// <param name="toDate">End date for analytics</param>
         /// <returns>Analytics data</returns>
         Task<ConversationAnalyticsDTO> GetUserAnalyticsAsync(string userId, DateTime? fromDate = null, DateTime? toDate = null);
+
+        /// <summary>
+        /// تتبع محادثة المستخدم مع الذكاء الاصطناعي
+        /// </summary>
+        /// <param name="conversationId">معرف المحادثة</param>
+        /// <param name="userId">معرف المستخدم</param>
+        /// <param name="userQuery">استعلام المستخدم</param>
+        /// <param name="aiResponse">رد الذكاء الاصطناعي</param>
+        /// <param name="topic">موضوع المحادثة</param>
+        /// <param name="language">لغة المحادثة</param>
+        /// <returns>هل تم التتبع بنجاح</returns>
+        Task<bool> TrackConversationAsync(string conversationId, long userId, string userQuery, string aiResponse, string topic, string language);
     }
 
     /// <summary>
@@ -683,6 +701,48 @@ namespace Services
                     TopReferencedPdfs = new List<PdfReferenceStat>(),
                     AverageMessagesPerConversation = 0
                 };
+            }
+        }
+
+        /// <summary>
+        /// تتبع محادثة المستخدم مع الذكاء الاصطناعي
+        /// </summary>
+        /// <param name="conversationId">معرف المحادثة</param>
+        /// <param name="userId">معرف المستخدم</param>
+        /// <param name="userQuery">استعلام المستخدم</param>
+        /// <param name="aiResponse">رد الذكاء الاصطناعي</param>
+        /// <param name="topic">موضوع المحادثة</param>
+        /// <param name="language">لغة المحادثة</param>
+        /// <returns>هل تم التتبع بنجاح</returns>
+        public async Task<bool> TrackConversationAsync(string conversationId, long userId, string userQuery, string aiResponse, string topic, string language)
+        {
+            try
+            {
+                _logger.LogInformation($"Tracking conversation: {conversationId} for user: {userId}");
+
+                var tracking = new ConversationTracking
+                {
+                    ConversationId = conversationId,
+                    UserId = userId,
+                    UserQuery = userQuery,
+                    AiResponse = aiResponse,
+                    Topic = topic,
+                    Language = language,
+                    CreatedByUserId = userId,
+                    CreateDate = DateTime.UtcNow,
+                    Timestamp = DateTime.UtcNow,
+                    RoomId = 1 // Default room ID if not provided
+                };
+
+                await _context.ConversationTrackings.AddAsync(tracking);
+                await _context.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error tracking conversation: {ex.Message}");
+                return false;
             }
         }
     }

@@ -33,6 +33,16 @@ public partial class UserSubscription
 
     public DateTime? LastRenewalDate { get; set; }
 
+    public long QueriesUsedToday { get; set; }
+
+    public long QueriesUsedThisMonth { get; set; }
+
+    public DateTime? LastQueryDate { get; set; }
+
+    public string PaymentGatewayTransactionId { get; set; }
+
+    public string PaymentMethod { get; set; }
+
     public string Notes { get; set; }
 
     public long CreatedByUserId { get; set; }
@@ -46,6 +56,8 @@ public partial class UserSubscription
     public bool IsDeleted { get; set; }
 
     public DateTime? DeletedAt { get; set; }
+
+    public virtual ICollection<AnalyticsRevenueLog> AnalyticsRevenueLogs { get; set; } = new List<AnalyticsRevenueLog>();
 
     public virtual SubscriptionPlan Plan { get; set; }
 

@@ -1,5 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using API.DTOs.Chat;
+using API.Helpers;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Models.Common;
 using Services;
+using Services.ModelService;
+using System.Security.Claims;
+using System.Text.Json;
 
 namespace API.Controllers
 {
@@ -7,58 +14,141 @@ namespace API.Controllers
     [Route("api/[controller]/[action]")]
     public class DeepSeekController : ControllerBase
     {
-        private readonly IDeepSeekService _deepSeekService;
+        private readonly Services.ModelService.IDeepSeekService _deepSeekService;
         private readonly ILocalizationService _localizationService;
         private readonly ILogger<DeepSeekController> _logger;
+        private readonly IConfiguration _configuration;
 
         public DeepSeekController(
-            IDeepSeekService deepSeekService,
+            Services.ModelService.IDeepSeekService deepSeekService,
             ILocalizationService localizationService,
-            ILogger<DeepSeekController> logger)
+            ILogger<DeepSeekController> logger,
+            IConfiguration configuration)
         {
             _deepSeekService = deepSeekService;
             _localizationService = localizationService;
             _logger = logger;
+            _configuration = configuration;
         }
+
+        /// <summary>
+        /// معالجة الاستعلام القانوني وتقديم استجابة
+        /// </summary>
         [HttpPost]
-        public async Task<IActionResult> ProcessQuery([FromBody] QueryRequest request)
+        [Authorize]
+        [ProducesDefaultResponseType(typeof(BaseResponse<string>))]
+        public async Task<IActionResult> ProcessQuery([FromBody] ChatQueryRequestDTO request)
         {
-            // Get preferred language from request header or default to English
-            var language = Request.Headers.AcceptLanguage.FirstOrDefault()?.Split(',')[0]?.Split(';')[0] ?? "en";
+            // استخراج اللغة المفضلة من رأس الطلب
+            string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
 
             try
             {
-                _logger.LogInformation("Received process request");
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userIdClaim) || !long.TryParse(userIdClaim, out long userId))
+                {
+                    var errorMessage = _localizationService.GetMessage("UserIdRequired", "Errors", language);
+                    return BadRequest(BaseResponse.FailureResponse(errorMessage, 400));
+                }
+
+                _logger.LogInformation("تمت معالجة طلب استعلام من المستخدم {UserId}", userId);
 
                 if (string.IsNullOrEmpty(request.Query))
                 {
                     var errorMessage = _localizationService.GetMessage("EmptyQuery", "Errors", language);
-                    return BadRequest(new { error = errorMessage });
+                    return BadRequest(BaseResponse.FailureResponse(errorMessage, 400));
                 }
 
-                // Log that we're processing the request
-                // var processingMessage = _localizationService.GetMessage("ProcessingRequest", "Messages", language);
-                //_logger.LogInformation(processingMessage);
-
-                var result = await _deepSeekService.ProcessPdfDataAsync(request.Query);
-
-                // Log that we've completed processing
-                // var completedMessage = _localizationService.GetMessage("RequestCompleted", "Messages", language);
-                // _logger.LogInformation(completedMessage);
-
-                return Ok(new { response = result });
+                var result = await _deepSeekService.ProcessPdfDataAsync(request.Query, language);
+                var successMessage = _localizationService.GetMessage("QueryProcessed", "Messages", language);
+                return Ok(BaseResponse<string>.SuccessResponse(result, successMessage));
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error processing query");
-                var errorMessage = _localizationService.GetMessage("ApiError", "Errors", language);
-                return StatusCode(500, new { error = errorMessage });
+                _logger.LogError(ex, "خطأ أثناء معالجة الاستعلام");
+                var errorMessage = _localizationService.GetMessage("QueryProcessingError", "Errors", language);
+                return StatusCode(500, BaseResponse.FailureResponse(errorMessage, 500));
             }
         }
-    }
 
-    public class QueryRequest
-    {
-        public string Query { get; set; }
+        /// <summary>
+        /// إجراء استعلام قانوني مع نص سياق محدد
+        /// </summary>
+        [HttpPost]
+        [Authorize]
+        [ProducesDefaultResponseType(typeof(BaseResponse<string>))]
+        public async Task<IActionResult> LegalQuery([FromBody] LegalQueryRequestDTO request)
+        {
+            // استخراج اللغة المفضلة من رأس الطلب
+            string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
+
+            try
+            {
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userIdClaim) || !long.TryParse(userIdClaim, out long userId))
+                {
+                    var errorMessage = _localizationService.GetMessage("UserIdRequired", "Errors", language);
+                    return BadRequest(BaseResponse.FailureResponse(errorMessage, 400));
+                }
+
+                _logger.LogInformation("تمت معالجة طلب استعلام قانوني من المستخدم {UserId}", userId);
+
+                if (string.IsNullOrEmpty(request.Query))
+                {
+                    var errorMessage = _localizationService.GetMessage("EmptyQuery", "Errors", language);
+                    return BadRequest(BaseResponse.FailureResponse(errorMessage, 400));
+                }
+
+                var result = await _deepSeekService.ExecuteLegalQueryAsync(request.Query, request.Context ?? "", language);
+                var successMessage = _localizationService.GetMessage("LegalQueryProcessed", "Messages", language);
+                return Ok(BaseResponse<string>.SuccessResponse(result, successMessage));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "خطأ أثناء معالجة الاستعلام القانوني");
+                var errorMessage = _localizationService.GetMessage("LegalQueryError", "Errors", language);
+                return StatusCode(500, BaseResponse.FailureResponse(errorMessage, 500));
+            }
+        }
+
+        /// <summary>
+        /// الحصول على معلومات حول إجراء حكومي
+        /// </summary>
+        [HttpGet]
+        [Authorize]
+        [ProducesDefaultResponseType(typeof(BaseResponse<string>))]
+        public async Task<IActionResult> GovernmentProcedure([FromQuery] string service)
+        {
+            // استخراج اللغة المفضلة من رأس الطلب
+            string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
+
+            try
+            {
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userIdClaim) || !long.TryParse(userIdClaim, out long userId))
+                {
+                    var errorMessage = _localizationService.GetMessage("UserIdRequired", "Errors", language);
+                    return BadRequest(BaseResponse.FailureResponse(errorMessage, 400));
+                }
+
+                _logger.LogInformation("تم طلب معلومات إجراء حكومي من المستخدم {UserId}", userId);
+
+                if (string.IsNullOrEmpty(service))
+                {
+                    var errorMessage = _localizationService.GetMessage("EmptyServiceName", "Errors", language);
+                    return BadRequest(BaseResponse.FailureResponse(errorMessage, 400));
+                }
+
+                var result = await _deepSeekService.GetGovernmentProcedureAsync(service, language);
+                var successMessage = _localizationService.GetMessage("GovernmentProcedureRetrieved", "Messages", language);
+                return Ok(BaseResponse<string>.SuccessResponse(result, successMessage));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "خطأ أثناء الحصول على معلومات الإجراء الحكومي");
+                var errorMessage = _localizationService.GetMessage("GovernmentProcedureError", "Errors", language);
+                return StatusCode(500, BaseResponse.FailureResponse(errorMessage, 500));
+            }
+        }
     }
 }

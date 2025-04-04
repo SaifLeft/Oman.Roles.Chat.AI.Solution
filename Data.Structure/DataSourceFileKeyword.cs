@@ -13,5 +13,13 @@ public partial class DataSourceFileKeyword
 
     public string Keyword { get; set; }
 
+    public long CreatedByUserId { get; set; }
+
+    public DateTime CreateDate { get; set; }
+
+    public bool IsDeleted { get; set; }
+
+    public DateTime? DeletedAt { get; set; }
+
     public virtual DataSourceFile File { get; set; }
 }

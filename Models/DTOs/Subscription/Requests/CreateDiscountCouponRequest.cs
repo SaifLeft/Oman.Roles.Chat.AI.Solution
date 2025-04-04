@@ -3,8 +3,8 @@ using System.Text.Json.Serialization;
 namespace Models.DTOs.Subscription.Requests
 {
     /// <summary>
-    /// نموذج طلب إنشاء كوبون خصم جديد
-    /// Model for creating a new discount coupon
+    /// نموذج طلب إنشاء كوبون خصم
+    /// Model for creating a discount coupon
     /// </summary>
     public class CreateDiscountCouponRequestDTO
     {
@@ -27,7 +27,7 @@ namespace Models.DTOs.Subscription.Requests
         /// Discount type (percentage or fixed amount)
         /// </summary>
         [JsonPropertyName("discountType")]
-        public DiscountType DiscountType { get; set; } = DiscountType.Percentage;
+        public string DiscountType { get; set; } = string.Empty;
 
         /// <summary>
         /// تاريخ انتهاء الصلاحية
@@ -41,14 +41,14 @@ namespace Models.DTOs.Subscription.Requests
         /// Is the coupon active
         /// </summary>
         [JsonPropertyName("isActive")]
-        public bool IsActive { get; set; } = true;
+        public bool IsActive { get; set; }
 
         /// <summary>
         /// علامات الكوبون
         /// Coupon tags
         /// </summary>
         [JsonPropertyName("tags")]
-        public List<string> Tags { get; set; } = new List<string>();
+        public List<string>? Tags { get; set; }
 
         /// <summary>
         /// وصف الكوبون
@@ -62,7 +62,7 @@ namespace Models.DTOs.Subscription.Requests
         /// Start date
         /// </summary>
         [JsonPropertyName("startDate")]
-        public DateTime? StartDate { get; set; }
+        public DateTime StartDate { get; set; }
 
         /// <summary>
         /// الحد الأقصى لعدد مرات الاستخدام
@@ -76,6 +76,20 @@ namespace Models.DTOs.Subscription.Requests
         /// IDs of subscription plans the coupon can be applied to
         /// </summary>
         [JsonPropertyName("applicablePlanIds")]
-        public List<string> ApplicablePlanIds { get; set; } = new List<string>();
+        public List<string>? ApplicablePlanIds { get; set; }
+        
+        /// <summary>
+        /// تاريخ نهاية الصلاحية
+        /// End date
+        /// </summary>
+        [JsonPropertyName("endDate")]
+        public DateTime EndDate { get; set; }
+        
+        /// <summary>
+        /// معرفات خطط الاشتراك
+        /// Plan IDs
+        /// </summary>
+        [JsonPropertyName("planIds")]
+        public List<string>? PlanIds { get; set; }
     }
 }

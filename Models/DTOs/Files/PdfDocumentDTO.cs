@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Models
+namespace Models.DTOs.Files
 {
     /// <summary>
     /// نموذج ملف PDF
@@ -8,7 +8,7 @@ namespace Models
     /// <summary>
     /// نموذج ملف PDF
     /// </summary>
-    public class DataFileDTO
+    public class PdfDocumentDTO
     {
         /// <summary>
         /// معرف الملف
@@ -92,7 +92,7 @@ namespace Models
         /// قائمة الملفات
         /// </summary>
         [JsonPropertyName("files")]
-        public List<DataFileDTO> Files { get; set; } = new();
+        public List<PdfDocumentDTO> Files { get; set; } = new();
 
         /// <summary>
         /// إجمالي عدد الملفات

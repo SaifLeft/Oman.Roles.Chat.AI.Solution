@@ -19,11 +19,15 @@ public partial class SubscriptionPlan
 
     public bool IsActive { get; set; }
 
-    public long? AllowedChatRooms { get; set; }
+    public long AllowedChatRooms { get; set; }
 
-    public long? AllowedFiles { get; set; }
+    public long AllowedFiles { get; set; }
 
     public long? AllowedFileSizeMb { get; set; }
+
+    public long MaxQueriesPerDay { get; set; }
+
+    public long MaxQueriesPerMonth { get; set; }
 
     public bool IsTrial { get; set; }
 
@@ -40,6 +44,8 @@ public partial class SubscriptionPlan
     public bool IsDeleted { get; set; }
 
     public DateTime? DeletedAt { get; set; }
+
+    public virtual ICollection<AnalyticsRevenueLog> AnalyticsRevenueLogs { get; set; } = new List<AnalyticsRevenueLog>();
 
     public virtual ICollection<CouponPlan> CouponPlans { get; set; } = new List<CouponPlan>();
 
