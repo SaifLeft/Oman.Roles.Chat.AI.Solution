@@ -1,0 +1,21 @@
+﻿@namespace Mohami.AI.Maui.Shared.Components
+@using Mohami.AI.Maui.Shared.Infrastructure
+@inherits MudComponentBase
+
+<NavLink @onclick="@HandleNavigation"
+         @attributes="@Attributes"         
+         Match="@Match"
+         ActiveClass="active-nav">
+    @if (!string.IsNullOrEmpty(Icon))
+    {
+        <MudIcon Icon="@Icon" Color="@IconColor" />
+    }
+
+    @if (Parent.ShowMenuTitle)
+    {
+        <span>@Title</span>
+    }
+
+    <strong></strong>
+
+</NavLink>
