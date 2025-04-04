@@ -1,8 +1,4 @@
-﻿// This file is temporarily commented out due to missing methods in ISubscriptionService
-// Please update the ISubscriptionService interface to include the required methods.
-
-/*
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Models.Common;
 using Models.DTOs.Subscription;
@@ -14,7 +10,28 @@ namespace Services
     /// <summary>
     /// خدمة التكامل بين نظام الدردشة ونظام الاشتراك
     /// </summary>
-    public class ChatSubscriptionService
+    public interface IChatSubscriptionService
+    {
+        /// <summary>
+        /// التحقق من إمكانية إنشاء غرفة دردشة جديدة بناءً على اشتراك المستخدم
+        /// </summary>
+        Task<BaseResponse<bool>> CanCreateChatRoomAsync(string userId, string language);
+
+        /// <summary>
+        /// التحقق من إمكانية إضافة ملفات PDF بناءً على اشتراك المستخدم
+        /// </summary>
+        Task<BaseResponse<bool>> CanAddPdfFilesAsync(string userId, int fileCount, long totalSizeBytes, string language);
+
+        /// <summary>
+        /// إنشاء اشتراك تجريبي للمستخدم تلقائيًا
+        /// </summary>
+        Task<BaseResponse<UserSubscriptionDTO>> CreateTrialSubscriptionAsync(string userId, string language);
+    }
+    
+    /// <summary>
+    /// خدمة التكامل بين نظام الدردشة ونظام الاشتراك
+    /// </summary>
+    public class ChatSubscriptionService : IChatSubscriptionService
     {
         private readonly IChatDbService _chatService;
         private readonly ISubscriptionService _subscriptionService;
@@ -56,14 +73,14 @@ namespace Services
                 var subscription = subscriptionResponse.Data;
 
                 // التحقق من أن الاشتراك نشط
-                if (subscription.Status != SubscriptionStatus.Active && subscription.Status != SubscriptionStatus.Trial)
+                if (subscription.Status != "Active" && subscription.Status != "Trial")
                 {
                     var errorMessage = _localizationService.GetMessage("ActiveSubscriptionRequired", "Errors", language);
                     return BaseResponse<bool>.FailureResponse(errorMessage, 403);
                 }
 
                 // الحصول على خطة الاشتراك
-                var planResponse = await _subscriptionService.GetPlanByIdAsync(subscription.PlanId, language);
+                var planResponse = await _subscriptionService.GetPlanByIdAsync(subscription.PlanId.ToString(), language);
 
                 if (!planResponse.Success)
                 {
@@ -74,7 +91,7 @@ namespace Services
                 var plan = planResponse.Data;
 
                 // الحصول على عدد غرف الدردشة الحالية للمستخدم
-                var userRoomsResponse = await _chatService.GetChatRoomsByUserIdAsync(long.Parse(userId));
+                var userRoomsResponse = await _chatService.GetChatRoomsByUserIdAsync(Convert.ToInt64(userId));
                 int currentRoomCount = userRoomsResponse.Count;
 
                 // التحقق مما إذا كان المستخدم قد وصل إلى الحد الأقصى من غرف الدردشة
@@ -117,14 +134,14 @@ namespace Services
                 var subscription = subscriptionResponse.Data;
 
                 // التحقق من أن الاشتراك نشط
-                if (subscription.Status != SubscriptionStatus.Active && subscription.Status != SubscriptionStatus.Trial)
+                if (subscription.Status != "Active" && subscription.Status != "Trial")
                 {
                     var errorMessage = _localizationService.GetMessage("ActiveSubscriptionRequired", "Errors", language);
                     return BaseResponse<bool>.FailureResponse(errorMessage, 403);
                 }
 
                 // الحصول على خطة الاشتراك
-                var planResponse = await _subscriptionService.GetPlanByIdAsync(subscription.PlanId, language);
+                var planResponse = await _subscriptionService.GetPlanByIdAsync(subscription.PlanId.ToString(), language);
 
                 if (!planResponse.Success)
                 {
@@ -194,7 +211,7 @@ namespace Services
                 var request = new CreateSubscriptionRequestDTO
                 {
                     PlanId = trialPlan.Id,
-                    PeriodType = SubscriptionPeriodType.Monthly,
+                    PeriodType = "Monthly",
                     AutoRenew = false // عدم تجديد الاشتراك التجريبي تلقائيًا
                 };
 
@@ -210,4 +227,3 @@ namespace Services
         }
     }
 }
-*/

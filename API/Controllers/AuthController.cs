@@ -19,19 +19,22 @@ namespace API.Controllers
         private readonly ILogger<UserController> _logger;
         private readonly ILocalizationService _localizationService;
         private readonly IConfiguration _configuration;
+        private readonly IGoogleAuthService _googleAuthService;
 
         public UserController(
             IUserService userService,
             IJwtService jwtService,
             ILogger<UserController> logger,
             ILocalizationService localizationService,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IGoogleAuthService googleAuthService)
         {
             _userService = userService;
             _jwtService = jwtService;
             _logger = logger;
             _localizationService = localizationService;
             _configuration = configuration;
+            _googleAuthService = googleAuthService;
         }
 
         /// <summary>
@@ -54,40 +57,58 @@ namespace API.Controllers
         [ProducesDefaultResponseType(typeof(BaseResponse<UserDTO>))]
         public async Task<IActionResult> RegisterWithPhone([FromBody] UserPhoneRegistrationDto registrationDto)
         {
-            // Temporarily commented out due to type mismatches
-            return BadRequest(new { message = "This endpoint is temporarily disabled for maintenance." });
-            /*
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
-            registrationDto.IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
-            registrationDto.UserAgent = Request.Headers["User-Agent"].ToString();
-
-            var result = await _userService.RegisterWithPhoneAsync(registrationDto, language);
-            return result.Succeeded 
-                ? Ok(new AuthResponse(result.Token, result.RefreshToken)) 
-                : BadRequest(result.Errors);
-            */
+            
+            try {
+                // Set IP address and user agent information
+                registrationDto.IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+                registrationDto.UserAgent = Request.Headers["User-Agent"].ToString();
+                
+                // Convert from UserPhoneRegistrationDto to UserPhoneRegistrationDTO
+                var registrationDTO = new Models.DTOs.Authorization.UserPhoneRegistrationDTO
+                {
+                    PhoneNumber = long.Parse(registrationDto.PhoneNumber.Replace("+", "")),
+                    Password = registrationDto.Password,
+                    ConfirmationCode = registrationDto.ConfirmationCode
+                };
+                
+                // Call the service method
+                var result = await _userService.RegisterWithPhoneAsync(registrationDTO, language);
+                return StatusCode(result.StatusCode, result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error during phone registration: {Message}", ex.Message);
+                return BadRequest(BaseResponse.FailureResponse(
+                    _localizationService.GetMessage("RegistrationError", "Errors", language), 400));
+            }
         }
 
         [HttpPost]
         [ProducesDefaultResponseType(typeof(BaseResponse<AuthResponse>))]
         public async Task<IActionResult> GoogleAuth([FromBody] GoogleAuthDto authDto)
         {
-            // Temporarily commented out due to missing service implementations
-            return BadRequest(new { message = "This endpoint is temporarily disabled for maintenance." });
-            /*
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
-            var validationResult = await _googleAuthService.ValidateTokenAsync(authDto.Token);
-            if (!validationResult.IsValid)
-                return Unauthorized(BaseResponse.FailureResponse(_localizationService.GetMessage("InvalidGoogleToken", "Errors", language), 401));
-
-            var user = await _userService.GetOrCreateGoogleUserAsync(validationResult, language);
-            var tokens = await _jwtService.GenerateTokens(user);
-            return Ok(BaseResponse<AuthResponse>.SuccessResponse(new AuthResponse(tokens.Token, tokens.RefreshToken), 
-                _localizationService.GetMessage("GoogleAuthSuccess", "Messages", language)));
-            */
+            
+            try {
+                // Get the redirect URI from configuration or use a default
+                string redirectUri = _configuration["Authentication:Google:RedirectUri"] ?? "https://localhost";
+                
+                // Validate and process the Google token
+                var userInfo = await _googleAuthService.AuthenticateAsync(authDto.Token, redirectUri);
+                if (userInfo == null)
+                    return Unauthorized(BaseResponse.FailureResponse(_localizationService.GetMessage("InvalidGoogleToken", "Errors", language), 401));
+                
+                // Generate JWT tokens
+                var tokens = await _jwtService.GenerateJwtToken(userInfo.Id);
+                return Ok(BaseResponse<LoginResponse>.SuccessResponse(tokens, 
+                    _localizationService.GetMessage("GoogleAuthSuccess", "Messages", language)));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error during Google authentication");
+                return Unauthorized(BaseResponse.FailureResponse(_localizationService.GetMessage("GoogleAuthError", "Errors", language), 401));
+            }
         }
 
         /// <summary>

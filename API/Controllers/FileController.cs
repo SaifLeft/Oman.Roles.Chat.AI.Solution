@@ -389,6 +389,7 @@ namespace API.Controllers
         /// Get PDF file by ID
         /// </summary>
         [HttpGet]
+        [ProducesDefaultResponseType(typeof(BaseResponse<PdfDocumentDTO>))]
         public async Task<IActionResult> GetPdfFile([FromQuery] string id)
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
@@ -461,6 +462,7 @@ namespace API.Controllers
         /// Get available PDF files
         /// </summary>
         [HttpGet]
+        [ProducesDefaultResponseType(typeof(BaseResponse<List<Models.DTOs.Files.DataFileDTO>>))]
         public async Task<IActionResult> GetAvailablePdfFiles()
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
@@ -482,6 +484,7 @@ namespace API.Controllers
         /// Get PDF file information
         /// </summary>
         [HttpGet]
+        [ProducesDefaultResponseType(typeof(BaseResponse<PdfDocumentDTO>))]
         public async Task<IActionResult> GetPdfFileInfo(string fileName)
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
@@ -508,6 +511,7 @@ namespace API.Controllers
         /// </summary>
         [Authorize]
         [HttpPut]
+        [ProducesDefaultResponseType(typeof(BaseResponse<PdfDocumentDTO>))]
         public async Task<IActionResult> UpdatePdfInfo(string fileName, [FromBody] UpdateFileInfoRequestDTO request)
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
@@ -626,6 +630,7 @@ namespace API.Controllers
         /// </summary>
         [Authorize]
         [HttpDelete]
+        [ProducesDefaultResponseType(typeof(BaseResponse<bool>))]
         public async Task<IActionResult> DeletePdfFile([FromQuery] string id)
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);

@@ -117,7 +117,7 @@ namespace Services
                 // إنشاء طلب إنشاء جلسة دفع
                 var sessionRequest = new ThawaniSessionRequest
                 {
-                    ClientReferenceId = $"sub_{customerId}_{subscriptionPlanId}_{DateTime.UtcNow:yyyyMMddHHmmss}",
+                    ClientReferenceId = $"sub_{customerId}_{subscriptionPlanId}_{DateTime.Now:yyyyMMddHHmmss}",
                     Products = new List<ThawaniProduct>
                     {
                         new ThawaniProduct

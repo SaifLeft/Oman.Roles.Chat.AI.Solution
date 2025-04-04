@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Models.Common;
+using Models.DTOs.Subscription;
 using Services;
 
 namespace API.Controllers
@@ -23,11 +24,47 @@ namespace API.Controllers
         }
 
         /// <summary>
+        /// بدء عملية دفع جديدة
+        /// Initialize a new payment process
+        /// </summary>
+        /// <param name="request">بيانات طلب الدفع</param>
+        /// <returns>معلومات جلسة الدفع</returns>
+        [HttpPost]
+        [ProducesDefaultResponseType(typeof(BaseResponse<ThawaniSessionResponse>))]
+        public async Task<IActionResult> InitializePayment([FromBody] PaymentInitRequest request)
+        {
+            try
+            {
+                _logger.LogInformation("Initializing payment for user: {UserId}", request.UserId);
+                
+                string language = Request.Headers["Accept-Language"].ToString() ?? "en";
+                
+                var result = await _thawaniPaymentService.CreatePaymentSessionAsync(
+                    request.Amount,
+                    request.UserId,
+                    request.Email,
+                    request.Name,
+                    request.SubscriptionPlanId,
+                    language);
+                
+                return StatusCode(result.StatusCode, result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error initializing payment");
+                string language = Request.Headers["Accept-Language"].ToString() ?? "en";
+                var errorMessage = _localizationService.GetMessage("GeneralError", "Errors", language);
+                return StatusCode(500, BaseResponse<ThawaniSessionResponse>.FailureResponse(errorMessage, 500));
+            }
+        }
+
+        /// <summary>
         /// معالجة إشعارات الدفع من بوابة ثواني
         /// Handle payment webhooks from Thawani payment gateway
         /// </summary>
         /// <returns>نتيجة معالجة الإشعار</returns>
         [HttpPost]
+        [ProducesDefaultResponseType(typeof(BaseResponse<bool>))]
         public async Task<IActionResult> HandleWebhook()
         {
             try
@@ -49,7 +86,7 @@ namespace API.Controllers
                 _logger.LogError(ex, "Error handling payment webhook");
                 string language = Request.Headers["Accept-Language"].ToString() ?? "en";
                 var errorMessage = _localizationService.GetMessage("GeneralError", "Errors", language);
-                return StatusCode(500, BaseResponse<object>.FailureResponse(errorMessage, 500));
+                return StatusCode(500, BaseResponse<bool>.FailureResponse(errorMessage, 500));
             }
         }
 
@@ -60,6 +97,7 @@ namespace API.Controllers
         /// <param name="sessionId">معرف جلسة الدفع</param>
         /// <returns>حالة الدفع</returns>
         [HttpGet]
+        [ProducesDefaultResponseType(typeof(BaseResponse<ThawaniPaymentStatusResponse>))]
         public async Task<IActionResult> CheckPaymentStatus(string sessionId)
         {
             try
@@ -76,8 +114,17 @@ namespace API.Controllers
                 _logger.LogError(ex, "Error checking payment status: {SessionId}", sessionId);
                 string language = Request.Headers["Accept-Language"].ToString() ?? "en";
                 var errorMessage = _localizationService.GetMessage("GeneralError", "Errors", language);
-                return StatusCode(500, BaseResponse<object>.FailureResponse(errorMessage, 500));
+                return StatusCode(500, BaseResponse<ThawaniPaymentStatusResponse>.FailureResponse(errorMessage, 500));
             }
         }
+    }
+
+    public class PaymentInitRequest
+    {
+        public decimal Amount { get; set; }
+        public string UserId { get; set; }
+        public string Email { get; set; }
+        public string Name { get; set; }
+        public string SubscriptionPlanId { get; set; }
     }
 }

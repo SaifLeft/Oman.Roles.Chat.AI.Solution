@@ -94,8 +94,7 @@ namespace Services
         private readonly ILocalizationService _localizationService;
         private readonly IJwtService _jwtService;
         private readonly IMapper _mapper;
-        // Temporarily commented out due to ISmsService being commented out
-        //private readonly ISmsService _smsService;
+        private readonly ISmsService _smsService;
 
         public UserService(
             MuhamiContext context,
@@ -103,10 +102,8 @@ namespace Services
             ILogger<UserService> logger,
             ILocalizationService localizationService,
             IJwtService jwtService,
-            IMapper mapper
-            // Temporarily commented out due to ISmsService being commented out
-            //ISmsService smsService
-            )
+            IMapper mapper,
+            ISmsService smsService)
         {
             _context = context;
             _configuration = configuration;
@@ -114,8 +111,7 @@ namespace Services
             _localizationService = localizationService;
             _jwtService = jwtService;
             _mapper = mapper;
-            // Temporarily commented out due to ISmsService being commented out
-            //_smsService = smsService;
+            _smsService = smsService;
         }
 
         /// <summary>
@@ -220,16 +216,12 @@ namespace Services
             try
             {
                 // Validate confirmation code
-                // Temporarily commented out due to ISmsService being commented out
-                /*
                 if (!await _smsService.VerifyConfirmationCode(registrationDto.PhoneNumber, registrationDto.ConfirmationCode))
                 {
                     var errorMessage = _localizationService.GetMessage("InvalidConfirmationCode", "Errors", language);
                     return BaseResponse<LoginResponse>.FailureResponse(errorMessage, 400);
                 }
-                */
 
-                // For now, assume the confirmation code is valid
                 // Check if phone number already exists
                 if (await _context.Users.AnyAsync(u => u.PhoneNumber == registrationDto.PhoneNumber && u.IsDeleted != true))
                 {

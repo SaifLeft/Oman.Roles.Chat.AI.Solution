@@ -33,6 +33,7 @@ namespace API.Controllers
         /// الحصول على القواعد الافتراضية
         /// </summary>
         [HttpGet]
+        [ProducesDefaultResponseType(typeof(BaseResponse<string>))]
         public IActionResult GetDefaultRules()
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
@@ -54,6 +55,7 @@ namespace API.Controllers
         /// تحديث القواعد الافتراضية
         /// </summary>
         [HttpPut]
+        [ProducesDefaultResponseType(typeof(BaseResponse<bool>))]
         public IActionResult UpdateDefaultRules([FromBody] UpdateRulesRequest request)
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
@@ -90,6 +92,7 @@ namespace API.Controllers
         /// الحصول على قائمة القواعد المتاحة
         /// </summary>
         [HttpGet]
+        [ProducesDefaultResponseType(typeof(BaseResponse<Dictionary<string, string>>))]
         public IActionResult GetAvailableRulesets()
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
@@ -111,6 +114,7 @@ namespace API.Controllers
         /// إضافة مجموعة قواعد جديدة
         /// </summary>
         [HttpPost]
+        [ProducesDefaultResponseType(typeof(BaseResponse<bool>))]
         public IActionResult AddRuleset([FromBody] AddRulesetRequest request)
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
@@ -147,6 +151,7 @@ namespace API.Controllers
         /// حذف مجموعة قواعد
         /// </summary>
         [HttpDelete]
+        [ProducesDefaultResponseType(typeof(BaseResponse<bool>))]
         public IActionResult DeleteRuleset(string name)
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);

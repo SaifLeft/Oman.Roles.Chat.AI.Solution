@@ -2,6 +2,7 @@ using API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Common;
+using Models.DTOs.Subscription;
 using Models.DTOs.Subscription.Requests;
 using Services;
 using Services.Common;
@@ -39,6 +40,7 @@ namespace API.Controllers
         /// <param name="pageSize">حجم الصفحة</param>
         /// <returns>قائمة بالاشتراكات</returns>
         [HttpGet]
+        [ProducesResponseType(typeof(BaseResponse<List<UserSubscriptionDTO>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllSubscriptions([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
             try
@@ -63,6 +65,7 @@ namespace API.Controllers
         /// <param name="id">معرف الاشتراك</param>
         /// <returns>تفاصيل الاشتراك</returns>
         [HttpGet]
+        [ProducesResponseType(typeof(BaseResponse<UserSubscriptionDTO>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetSubscription(string id)
         {
             try
@@ -87,6 +90,7 @@ namespace API.Controllers
         /// <param name="userId">معرف المستخدم</param>
         /// <returns>قائمة باشتراكات المستخدم</returns>
         [HttpGet]
+        [ProducesResponseType(typeof(BaseResponse<List<UserSubscriptionDTO>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUserSubscriptions(string userId)
         {
             try
@@ -111,6 +115,7 @@ namespace API.Controllers
         /// <param name="request">بيانات خطة الاشتراك</param>
         /// <returns>خطة الاشتراك المنشأة</returns>
         [HttpPost]
+        [ProducesResponseType(typeof(BaseResponse<SubscriptionPlanDTO>), StatusCodes.Status200OK)]
         public async Task<IActionResult> CreateSubscriptionPlan([FromBody] CreateSubscriptionPlanRequestDTO request)
         {
             try
@@ -137,6 +142,7 @@ namespace API.Controllers
         /// <param name="request">بيانات تحديث خطة الاشتراك</param>
         /// <returns>خطة الاشتراك المحدثة</returns>
         [HttpPut]
+        [ProducesResponseType(typeof(BaseResponse<SubscriptionPlanDTO>), StatusCodes.Status200OK)]
         public async Task<IActionResult> UpdateSubscriptionPlan(string id, [FromBody] UpdateSubscriptionPlanRequestDTO request)
         {
             try
@@ -162,6 +168,7 @@ namespace API.Controllers
         /// <param name="request">بيانات كوبون الخصم</param>
         /// <returns>كوبون الخصم المنشأ</returns>
         [HttpPost]
+        [ProducesResponseType(typeof(BaseResponse<DiscountCouponDTO>), StatusCodes.Status200OK)]
         public async Task<IActionResult> CreateDiscountCoupon([FromBody] CreateDiscountCouponRequestDTO request)
         {
             try
@@ -188,6 +195,7 @@ namespace API.Controllers
         /// <param name="pageSize">حجم الصفحة</param>
         /// <returns>قائمة بكوبونات الخصم</returns>
         [HttpGet]
+        [ProducesResponseType(typeof(BaseResponse<List<DiscountCouponDTO>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllDiscountCoupons([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
             try
@@ -213,6 +221,7 @@ namespace API.Controllers
         /// <param name="request">بيانات تحديث كوبون الخصم</param>
         /// <returns>كوبون الخصم المحدث</returns>
         [HttpPut]
+        [ProducesResponseType(typeof(BaseResponse<DiscountCouponDTO>), StatusCodes.Status200OK)]
         public async Task<IActionResult> UpdateDiscountCoupon(string id, [FromBody] UpdateDiscountCouponRequestDTO request)
         {
             try
@@ -239,6 +248,7 @@ namespace API.Controllers
         /// <param name="endDate">تاريخ النهاية</param>
         /// <returns>تقارير الاشتراكات</returns>
         [HttpGet]
+        [ProducesResponseType(typeof(BaseResponse<List<SubscriptionReportDTO>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetSubscriptionReports([FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate)
         {
             try

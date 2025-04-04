@@ -125,7 +125,7 @@ namespace Services
                     Name = folderName,
                     UserId = userId,
                     ParentFolderId = parentFolderId,
-                    CreateDate = DateTime.UtcNow
+                    CreateDate = DateTime.Now
                 };
 
                 _context.ChatRoomFolders.Add(newFolder);
@@ -232,7 +232,7 @@ namespace Services
                 }
 
                 // تحديث آخر نشاط
-                conversation.LastActivityAt = DateTime.UtcNow;
+                conversation.LastActivityAt = DateTime.Now;
 
                 await _context.SaveChangesAsync();
 
@@ -266,7 +266,7 @@ namespace Services
 
                 // تحديث العنوان
                 conversation.Title = title;
-                conversation.LastActivityAt = DateTime.UtcNow;
+                conversation.LastActivityAt = DateTime.Now;
 
                 await _context.SaveChangesAsync();
 
@@ -300,7 +300,7 @@ namespace Services
 
                 // تحويل قائمة الوسوم إلى نص مفصول بفواصل
                 conversation.Tags = string.Join(",", tags);
-                conversation.LastActivityAt = DateTime.UtcNow;
+                conversation.LastActivityAt = DateTime.Now;
 
                 await _context.SaveChangesAsync();
 
@@ -334,7 +334,7 @@ namespace Services
 
                 // تبديل حالة المفضلة
                 conversation.IsFavorite = !conversation.IsFavorite;
-                conversation.LastActivityAt = DateTime.UtcNow;
+                conversation.LastActivityAt = DateTime.Now;
 
                 await _context.SaveChangesAsync();
 
@@ -377,7 +377,7 @@ namespace Services
 
                 // تحديث الحالة
                 conversation.Status = status;
-                conversation.LastActivityAt = DateTime.UtcNow;
+                conversation.LastActivityAt = DateTime.Now;
 
                 await _context.SaveChangesAsync();
 

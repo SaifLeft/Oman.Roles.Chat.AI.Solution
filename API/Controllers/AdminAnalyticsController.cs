@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Common;
+using Models.DTOs.Admin;
 using Services;
 using Services.Common;
+using System.Security.Claims;
 
 namespace API.Controllers
 {
@@ -44,13 +46,14 @@ namespace API.Controllers
         /// </summary>
         /// <param name="query">معلمات التاريخ واللغة</param>
         /// <returns>ملخص لوحة التحكم</returns>
-        [HttpGet("dashboard")]
+        [HttpGet]
+        [ProducesResponseType(typeof(BaseResponse<DashboardSummaryDTO>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetDashboardSummary([FromQuery] AnalyticsPeriodQuery query)
         {
             try
             {
                 // استخراج معرف المستخدم من التوكن
-                var userId = User.Claims.FirstOrDefault(c => c.Type == CustomClaimTypes.UserId)?.Value;
+                var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
                 if (string.IsNullOrEmpty(userId))
                 {
                     var errorMessage = _localizationService.GetMessage("InvalidUser", "Errors", query.Language);
@@ -58,8 +61,8 @@ namespace API.Controllers
                 }
 
                 // تعيين قيم افتراضية للتواريخ إذا لم يتم توفيرها
-                var fromDate = query.FromDate == default ? DateTime.UtcNow.AddDays(-30) : query.FromDate;
-                var toDate = query.ToDate == default ? DateTime.UtcNow : query.ToDate;
+                var fromDate = query.FromDate == default ? DateTime.Now.AddDays(-30) : query.FromDate;
+                var toDate = query.ToDate == default ? DateTime.Now : query.ToDate;
 
                 var result = await _analyticsService.GetDashboardSummaryAsync(fromDate, toDate, query.Language);
 
@@ -83,13 +86,14 @@ namespace API.Controllers
         /// </summary>
         /// <param name="query">معلمات التاريخ واللغة</param>
         /// <returns>إحصائيات المستخدمين</returns>
-        [HttpGet("users")]
+        [HttpGet]
+        [ProducesResponseType(typeof(BaseResponse<UserAnalyticsDTO>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUserAnalytics([FromQuery] AnalyticsPeriodQuery query)
         {
             try
             {
                 // استخراج معرف المستخدم من التوكن
-                var userId = User.Claims.FirstOrDefault(c => c.Type == CustomClaimTypes.UserId)?.Value;
+                var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
                 if (string.IsNullOrEmpty(userId))
                 {
                     var errorMessage = _localizationService.GetMessage("InvalidUser", "Errors", query.Language);
@@ -97,8 +101,8 @@ namespace API.Controllers
                 }
 
                 // تعيين قيم افتراضية للتواريخ إذا لم يتم توفيرها
-                var fromDate = query.FromDate == default ? DateTime.UtcNow.AddDays(-30) : query.FromDate;
-                var toDate = query.ToDate == default ? DateTime.UtcNow : query.ToDate;
+                var fromDate = query.FromDate == default ? DateTime.Now.AddDays(-30) : query.FromDate;
+                var toDate = query.ToDate == default ? DateTime.Now : query.ToDate;
 
                 var result = await _analyticsService.GetUserAnalyticsAsync(fromDate, toDate, query.Language);
 
@@ -122,13 +126,14 @@ namespace API.Controllers
         /// </summary>
         /// <param name="query">معلمات التاريخ واللغة</param>
         /// <returns>إحصائيات الاشتراكات</returns>
-        [HttpGet("subscriptions")]
+        [HttpGet]
+        [ProducesResponseType(typeof(BaseResponse<SubscriptionAnalyticsDTO>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetSubscriptionAnalytics([FromQuery] AnalyticsPeriodQuery query)
         {
             try
             {
                 // استخراج معرف المستخدم من التوكن
-                var userId = User.Claims.FirstOrDefault(c => c.Type == CustomClaimTypes.UserId)?.Value;
+                var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
                 if (string.IsNullOrEmpty(userId))
                 {
                     var errorMessage = _localizationService.GetMessage("InvalidUser", "Errors", query.Language);
@@ -136,8 +141,8 @@ namespace API.Controllers
                 }
 
                 // تعيين قيم افتراضية للتواريخ إذا لم يتم توفيرها
-                var fromDate = query.FromDate == default ? DateTime.UtcNow.AddDays(-30) : query.FromDate;
-                var toDate = query.ToDate == default ? DateTime.UtcNow : query.ToDate;
+                var fromDate = query.FromDate == default ? DateTime.Now.AddDays(-30) : query.FromDate;
+                var toDate = query.ToDate == default ? DateTime.Now : query.ToDate;
 
                 var result = await _analyticsService.GetSubscriptionAnalyticsAsync(fromDate, toDate, query.Language);
 
@@ -161,13 +166,14 @@ namespace API.Controllers
         /// </summary>
         /// <param name="query">معلمات التاريخ واللغة</param>
         /// <returns>إحصائيات الاستعلامات</returns>
-        [HttpGet("queries")]
+        [HttpGet]
+        [ProducesResponseType(typeof(BaseResponse<QueryAnalyticsDTO>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetQueryAnalytics([FromQuery] AnalyticsPeriodQuery query)
         {
             try
             {
                 // استخراج معرف المستخدم من التوكن
-                var userId = User.Claims.FirstOrDefault(c => c.Type == CustomClaimTypes.UserId)?.Value;
+                var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
                 if (string.IsNullOrEmpty(userId))
                 {
                     var errorMessage = _localizationService.GetMessage("InvalidUser", "Errors", query.Language);
@@ -175,8 +181,8 @@ namespace API.Controllers
                 }
 
                 // تعيين قيم افتراضية للتواريخ إذا لم يتم توفيرها
-                var fromDate = query.FromDate == default ? DateTime.UtcNow.AddDays(-30) : query.FromDate;
-                var toDate = query.ToDate == default ? DateTime.UtcNow : query.ToDate;
+                var fromDate = query.FromDate == default ? DateTime.Now.AddDays(-30) : query.FromDate;
+                var toDate = query.ToDate == default ? DateTime.Now : query.ToDate;
 
                 var result = await _analyticsService.GetQueryAnalyticsAsync(fromDate, toDate, query.Language);
 
@@ -200,13 +206,14 @@ namespace API.Controllers
         /// </summary>
         /// <param name="query">معلمات التاريخ واللغة</param>
         /// <returns>إحصائيات المبيعات والإيرادات</returns>
-        [HttpGet("revenue")]
+        [HttpGet]
+        [ProducesResponseType(typeof(BaseResponse<RevenueAnalyticsDTO>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetRevenueAnalytics([FromQuery] AnalyticsPeriodQuery query)
         {
             try
             {
                 // استخراج معرف المستخدم من التوكن
-                var userId = User.Claims.FirstOrDefault(c => c.Type == CustomClaimTypes.UserId)?.Value;
+                var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
                 if (string.IsNullOrEmpty(userId))
                 {
                     var errorMessage = _localizationService.GetMessage("InvalidUser", "Errors", query.Language);
@@ -214,8 +221,8 @@ namespace API.Controllers
                 }
 
                 // تعيين قيم افتراضية للتواريخ إذا لم يتم توفيرها
-                var fromDate = query.FromDate == default ? DateTime.UtcNow.AddDays(-30) : query.FromDate;
-                var toDate = query.ToDate == default ? DateTime.UtcNow : query.ToDate;
+                var fromDate = query.FromDate == default ? DateTime.Now.AddDays(-30) : query.FromDate;
+                var toDate = query.ToDate == default ? DateTime.Now : query.ToDate;
 
                 var result = await _analyticsService.GetRevenueAnalyticsAsync(fromDate, toDate, query.Language);
 

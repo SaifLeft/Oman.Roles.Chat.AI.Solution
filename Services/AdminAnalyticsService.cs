@@ -85,7 +85,7 @@ namespace Services
                 
                 // إجمالي الاشتراكات النشطة
                 var activeSubscriptions = await _context.UserSubscriptions
-                    .CountAsync(s => s.Status == "Active" && !s.IsDeleted && s.EndDate > DateTime.UtcNow);
+                    .CountAsync(s => s.Status == "Active" && !s.IsDeleted && s.EndDate > DateTime.Now);
                 
                 // إجمالي الإيرادات في الفترة المحددة
                 var totalRevenue = await _context.UserSubscriptions

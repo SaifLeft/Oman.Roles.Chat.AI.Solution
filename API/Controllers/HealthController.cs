@@ -7,9 +7,10 @@ namespace API.Controllers
     public class HealthController : ControllerBase
     {
         [HttpGet]
+        [ProducesDefaultResponseType(typeof(object))]
         public IActionResult Get()
         {
-            return Ok(new { status = "Healthy", timestamp = DateTime.UtcNow });
+            return Ok(new { status = "Healthy", timestamp = DateTime.Now });
         }
     }
-} 
+}

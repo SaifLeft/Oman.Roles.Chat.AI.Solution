@@ -47,7 +47,7 @@ namespace Models.DTOs.Files
         /// تاريخ رفع الملف
         /// </summary>
         [JsonPropertyName("uploadDate")]
-        public DateTime UploadDate { get; set; } = DateTime.UtcNow;
+        public DateTime UploadDate { get; set; } = DateTime.Now;
 
         /// <summary>
         /// هل الملف نشط

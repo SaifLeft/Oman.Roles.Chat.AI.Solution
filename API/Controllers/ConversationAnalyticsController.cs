@@ -35,6 +35,7 @@ namespace API.Controllers
         /// Get user's conversation history
         /// </summary>
         [HttpGet]
+        [ProducesDefaultResponseType(typeof(BaseResponse<List<ConversationTrackingDTO>>))]
         public async Task<IActionResult> GetUserConversationHistory([FromQuery] int limit = 20, [FromQuery] int offset = 0)
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
@@ -50,7 +51,7 @@ namespace API.Controllers
             try
             {
                 var conversations = await _conversationTrackingService.GetUserConversationsAsync(userIdClaim, limit, offset);
-                return Ok(BaseResponse<List<ConversationTrackingDTO>>.SuccessResponse(conversations));
+                return Ok(BaseResponse<List<ConversationTrackingDTO>>.SuccessResponse(conversations.Data));
             }
             catch (Exception ex)
             {
@@ -64,6 +65,7 @@ namespace API.Controllers
         /// Get room conversation history
         /// </summary>
         [HttpGet]
+        [ProducesDefaultResponseType(typeof(BaseResponse<List<ConversationTrackingDTO>>))]
         public async Task<IActionResult> GetRoomConversationHistory(string roomId, [FromQuery] int limit = 20, [FromQuery] int offset = 0)
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
@@ -77,7 +79,7 @@ namespace API.Controllers
             try
             {
                 var conversations = await _conversationTrackingService.GetRoomConversationsAsync(roomId, limit, offset);
-                return Ok(BaseResponse<List<ConversationTrackingDTO>>.SuccessResponse(conversations));
+                return Ok(BaseResponse<List<ConversationTrackingDTO>>.SuccessResponse(conversations.Data));
             }
             catch (Exception ex)
             {
@@ -91,6 +93,7 @@ namespace API.Controllers
         /// Get user's conversation analytics
         /// </summary>
         [HttpGet]
+        [ProducesDefaultResponseType(typeof(BaseResponse<ConversationAnalyticsDTO>))]
         public async Task<IActionResult> GetUserAnalytics([FromQuery] DateTime? fromDate = null, [FromQuery] DateTime? toDate = null)
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
@@ -106,7 +109,7 @@ namespace API.Controllers
             try
             {
                 var analytics = await _conversationTrackingService.GetUserAnalyticsAsync(userIdClaim, fromDate, toDate);
-                return Ok(BaseResponse<ConversationAnalyticsDTO>.SuccessResponse(analytics));
+                return Ok(BaseResponse<ConversationAnalyticsDTO>.SuccessResponse(analytics.Data));
             }
             catch (Exception ex)
             {
@@ -121,6 +124,7 @@ namespace API.Controllers
         /// </summary>
         [Authorize(Roles = nameof(UserRole.ADMIN))]
         [HttpGet]
+        [ProducesDefaultResponseType(typeof(BaseResponse<ConversationAnalyticsDTO>))]
         public async Task<IActionResult> GetGlobalAnalytics([FromQuery] DateTime? fromDate = null, [FromQuery] DateTime? toDate = null)
         {
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
@@ -128,7 +132,7 @@ namespace API.Controllers
             try
             {
                 var analytics = await _conversationTrackingService.GetAnalyticsAsync(fromDate, toDate);
-                return Ok(BaseResponse<ConversationAnalyticsDTO>.SuccessResponse(analytics));
+                return Ok(BaseResponse<ConversationAnalyticsDTO>.SuccessResponse(analytics.Data));
             }
             catch (Exception ex)
             {

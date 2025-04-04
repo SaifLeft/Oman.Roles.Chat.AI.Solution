@@ -93,14 +93,36 @@ namespace Services
 
         public string GetMessage(string key, string category = "Messages", string language = "en")
         {
-            if (_resources.TryGetValue(language.ToLower(), out var languageResources) &&
+            try
+            {
+                if (_resources.TryGetValue(language.ToLower(), out var languageResources) &&
                 languageResources.TryGetValue(category, out var categoryResources) &&
                 categoryResources.TryGetValue(key, out var message))
-            {
-                return message;
-            }
+                {
+                    return message;
+                }
 
-            return _resources["en"]["Messages"]["GenericError"];
+                return _resources["en"]["Messages"]["GenericError"];
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading localization resources");
+                // Add default fallback resources
+                _resources["en"] = new Dictionary<string, Dictionary<string, string>>
+                {
+                    ["Errors"] = new Dictionary<string, string>
+                    {
+                        ["GenericError"] = "An error occurred",
+                        ["ServiceUnavailable"] = "Service unavailable"
+                    },
+                    ["Messages"] = new Dictionary<string, string>
+                    {
+                        ["Success"] = "Success"
+                    }
+                };
+
+                return _resources["en"]["Messages"]["GenericError"];
+            }
         }
 
         /// <summary>

@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Logging;
 using Models;
 using Models.Common;
+using Models.DTOs.AIChat;
+using System.Text;
 
 namespace Services
 {
@@ -265,7 +267,8 @@ namespace Services
 
                 // الحصول على رد من نموذج الذكاء الاصطناعي
                 _logger.LogInformation("جاري الحصول على الرد من نموذج الذكاء الاصطناعي");
-                var aiResponse = await _deepSeekService.ProcessPdfDataAsync(enrichedContext, language);
+                var aiResponseObj = await _deepSeekService.ProcessPdfDataAsync(enrichedContext, language);
+                var aiResponse = aiResponseObj.Data ?? "عذراً، لم أتمكن من معالجة طلبك.";
 
                 // إضافة رد النظام إلى قاعدة البيانات
                 long systemMessageId = await _chatDbService.AddChatMessageAsync(
@@ -290,13 +293,14 @@ namespace Services
                     ["language"] = language
                 };
 
-                string conversationId = await _conversationTrackingService.LogConversationAsync(
+                var conversationResponse = await _conversationTrackingService.LogConversationAsync(
                     userId,
                     request.RoomId,
                     request.Content,
-                    aiResponse,
+                    aiResponse.ToString(),
                     metadata
                 );
+                string conversationId = conversationResponse.Data;
 
                 // تتبع الكلمات المفتاحية
                 if (keywords.Count > 0)
@@ -470,6 +474,16 @@ namespace Services
 
             // البحث عن الرسالة المطلوبة
             return messages.FirstOrDefault(m => m.Id == messageId);
+        }
+
+        /// <summary>
+        /// الحصول على رسالة خطأ افتراضية
+        /// </summary>
+        private string GetDefaultErrorMessage(string language)
+        {
+            return language.ToLower() == "ar" 
+                ? "عذراً، لم أتمكن من معالجة طلبك. يرجى إعادة المحاولة لاحقاً."
+                : "Sorry, I couldn't process your request. Please try again later.";
         }
 
         #endregion

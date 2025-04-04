@@ -43,6 +43,14 @@ namespace Services
         /// <param name="language">اللغة المفضلة</param>
         /// <returns>نتيجة إعادة التعيين</returns>
         Task<BaseResponse<bool>> ResetMonthlyQueryCountersAsync(long? userId, string language);
+        
+        /// <summary>
+        /// الحصول على استخدام الاستعلامات للمستخدم
+        /// </summary>
+        /// <param name="userId">معرف المستخدم</param>
+        /// <param name="language">اللغة المفضلة</param>
+        /// <returns>معلومات استخدام الاستعلامات</returns>
+        Task<BaseResponse<QueryUsageDTO>> GetQueryUsageAsync(long userId, string language);
     }
 
     /// <summary>
@@ -88,7 +96,7 @@ namespace Services
                 }
 
                 // تحقق من انتهاء صلاحية الاشتراك
-                return activeSubscription.EndDate > DateTime.UtcNow;
+                return activeSubscription.EndDate > DateTime.Now;
             }
             catch (Exception ex)
             {
@@ -122,7 +130,7 @@ namespace Services
                 var status = new SubscriptionStatusDTO
                 {
                     UserId = userId,
-                    IsActive = activeSubscription != null && activeSubscription.EndDate > DateTime.UtcNow,
+                    IsActive = activeSubscription != null && activeSubscription.EndDate > DateTime.Now,
                     PlanName = activeSubscription?.Plan.Name ?? "Free"
                 };
 
@@ -130,14 +138,14 @@ namespace Services
                 {
                     status.StartDate = activeSubscription.StartDate;
                     status.EndDate = activeSubscription.EndDate;
-                    status.DaysRemaining = (int)Math.Max(0, (activeSubscription.EndDate.Value - DateTime.UtcNow).TotalDays);
+                    status.DaysRemaining = (int)Math.Max(0, (activeSubscription.EndDate.Value - DateTime.Now).TotalDays);
                     status.Features = await GetSubscriptionFeaturesAsync(activeSubscription.PlanId);
                 }
                 else
                 {
                     // الخطة المجانية
-                    status.StartDate = DateTime.UtcNow;
-                    status.EndDate = DateTime.UtcNow.AddYears(100); // الخطة المجانية لا تنتهي
+                    status.StartDate = DateTime.Now;
+                    status.EndDate = DateTime.Now.AddYears(100); // الخطة المجانية لا تنتهي
                     status.DaysRemaining = 36500; // حوالي 100 سنة
                     status.Features = await GetFreePlanFeaturesAsync();
                 }
@@ -172,7 +180,7 @@ namespace Services
                     UserId = userId
                 };
 
-                if (activeSubscription != null && activeSubscription.EndDate > DateTime.UtcNow)
+                if (activeSubscription != null && activeSubscription.EndDate > DateTime.Now)
                 {
                     // اشتراك مدفوع
                     queryUsage.IsPremium = true;
@@ -213,10 +221,10 @@ namespace Services
                     .OrderByDescending(s => s.EndDate)
                     .FirstOrDefaultAsync();
 
-                if (activeSubscription != null && activeSubscription.EndDate > DateTime.UtcNow)
+                if (activeSubscription != null && activeSubscription.EndDate > DateTime.Now)
                 {
                     // تحديث استخدام الاستعلامات للمشترك المدفوع
-                    var today = DateTime.UtcNow.Date;
+                    var today = DateTime.Now.Date;
                     var firstDayOfMonth = new DateTime(today.Year, today.Month, 1);
 
                     // إعادة تعيين العداد اليومي إذا كان آخر استعلام في يوم سابق
@@ -234,7 +242,7 @@ namespace Services
                     // زيادة العدادات
                     activeSubscription.QueriesUsedToday = (activeSubscription.QueriesUsedToday != null ? activeSubscription.QueriesUsedToday : 0) + 1;
                     activeSubscription.QueriesUsedThisMonth = (activeSubscription.QueriesUsedThisMonth != null ? activeSubscription.QueriesUsedThisMonth : 0) + 1;
-                    activeSubscription.LastQueryDate = DateTime.UtcNow;
+                    activeSubscription.LastQueryDate = DateTime.Now;
 
                     await _context.SaveChangesAsync();
                     return true;
@@ -242,7 +250,7 @@ namespace Services
                 else
                 {
                     // تحديث استخدام الاستعلامات للمستخدم المجاني
-                    var today = DateTime.UtcNow.Date;
+                    var today = DateTime.Now.Date;
                     var queryKey = $"free_query_usage:{userId}:{today:yyyy-MM-dd}";
                     var monthlyQueryKey = $"free_query_usage:{userId}:{today:yyyy-MM}";
 
@@ -278,7 +286,7 @@ namespace Services
                     .OrderByDescending(s => s.EndDate)
                     .FirstOrDefaultAsync();
 
-                if (activeSubscription != null && activeSubscription.EndDate > DateTime.UtcNow)
+                if (activeSubscription != null && activeSubscription.EndDate > DateTime.Now)
                 {
                     // التحقق من حدود الاستخدام للمشترك المدفوع
                     var queryUsage = activeSubscription.QueriesUsedToday != null ? activeSubscription.QueriesUsedToday : 0;
@@ -316,20 +324,20 @@ namespace Services
             try
             {
                 // الحصول على الاشتراكات التي ستنتهي خلال الأيام القادمة
-                var in3Days = DateTime.UtcNow.AddDays(3);
-                var in7Days = DateTime.UtcNow.AddDays(7);
+                var in3Days = DateTime.Now.AddDays(3);
+                var in7Days = DateTime.Now.AddDays(7);
 
                 var expiringSubscriptions = await _context.UserSubscriptions
                     .Include(s => s.User)
                     .Include(s => s.Plan)
                     .Where(s => s.Status == "Active" && !s.IsDeleted &&
-                           s.EndDate > DateTime.UtcNow &&
+                           s.EndDate > DateTime.Now &&
                            (s.EndDate <= in3Days || s.EndDate <= in7Days))
                     .ToListAsync();
 
                 foreach (var subscription in expiringSubscriptions)
                 {
-                    var daysLeft = (int)(subscription.EndDate.Value - DateTime.UtcNow).TotalDays;
+                    var daysLeft = (int)(subscription.EndDate.Value - DateTime.Now).TotalDays;
 
                     // إضافة منطق لإرسال إشعارات البريد الإلكتروني/الرسائل النصية هنا
                     _logger.LogInformation("إرسال إشعار انتهاء الاشتراك للمستخدم {UserId}. أيام متبقية: {DaysLeft}",
@@ -367,7 +375,7 @@ namespace Services
                 var status = new SubscriptionStatusDTO
                 {
                     UserId = userId,
-                    IsActive = activeSubscription != null && activeSubscription.EndDate > DateTime.UtcNow,
+                    IsActive = activeSubscription != null && activeSubscription.EndDate > DateTime.Now,
                     PlanName = activeSubscription?.Plan.Name ?? "Free",
                     Status = activeSubscription?.Status ?? "Free"
                 };
@@ -376,7 +384,7 @@ namespace Services
                 {
                     status.StartDate = activeSubscription.StartDate;
                     status.EndDate = activeSubscription.EndDate;
-                    status.DaysRemaining = activeSubscription.EndDate.HasValue ? (long)(activeSubscription.EndDate.Value - DateTime.UtcNow).TotalDays : 0;
+                    status.DaysRemaining = activeSubscription.EndDate.HasValue ? (long)(activeSubscription.EndDate.Value - DateTime.Now).TotalDays : 0;
                     status.MonthlyQueryLimit = activeSubscription.Plan.MaxQueriesPerMonth;
                     status.QueriesUsedThisMonth = activeSubscription.QueriesUsedThisMonth;
                     //status.FileUploadSizeLimitMB = activeSubscription.Plan.MaxFileUploadSizeMB;
@@ -385,8 +393,8 @@ namespace Services
                 else
                 {
                     // الخطة المجانية
-                    status.StartDate = DateTime.UtcNow;
-                    status.EndDate = DateTime.UtcNow.AddYears(100); // الخطة المجانية لا تنتهي
+                    status.StartDate = DateTime.Now;
+                    status.EndDate = DateTime.Now.AddYears(100); // الخطة المجانية لا تنتهي
                     status.DaysRemaining = 36500; // حوالي 100 سنة
                     status.MonthlyQueryLimit = GetFreeQueryLimit();
                     status.QueriesUsedThisMonth = await GetFreeMonthlyQueryUsageAsync(userId);
@@ -419,12 +427,12 @@ namespace Services
                     .OrderByDescending(s => s.EndDate)
                     .FirstOrDefaultAsync();
 
-                if (activeSubscription != null && activeSubscription.EndDate > DateTime.UtcNow)
+                if (activeSubscription != null && activeSubscription.EndDate > DateTime.Now)
                 {
                     // تحديث عدد الاستعلامات المستخدمة
                     activeSubscription.QueriesUsedThisMonth = (activeSubscription.QueriesUsedThisMonth) + 1;
                     activeSubscription.QueriesUsedToday = (activeSubscription.QueriesUsedToday) + 1;
-                    activeSubscription.LastQueryDate = DateTime.UtcNow;
+                    activeSubscription.LastQueryDate = DateTime.Now;
 
                     await _context.SaveChangesAsync();
                 }
@@ -536,7 +544,7 @@ namespace Services
         /// </summary>
         private async Task<int> GetFreeQueryUsageAsync(long userId)
         {
-            var today = DateTime.UtcNow.Date;
+            var today = DateTime.Now.Date;
             var queryKey = $"free_query_usage:{userId}:{today:yyyy-MM-dd}";
 
             // في التنفيذ الفعلي، يمكن استخدام Redis/Memcached
@@ -555,7 +563,7 @@ namespace Services
         /// </summary>
         private async Task<int> GetFreeMonthlyQueryUsageAsync(long userId)
         {
-            var today = DateTime.UtcNow.Date;
+            var today = DateTime.Now.Date;
             var firstDayOfMonth = new DateTime(today.Year, today.Month, 1);
             var monthlyQueryKey = $"free_query_usage:{userId}:{today:yyyy-MM}";
 

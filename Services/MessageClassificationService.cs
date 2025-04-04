@@ -131,7 +131,7 @@ namespace Services
                     LegalCategoryId = topCategory.CategoryId,
                     Confidence = (decimal)topCategory.Confidence,
                     IsAutoClassified = true,
-                    CreateDate = DateTime.UtcNow,
+                    CreateDate = DateTime.Now,
                     CreatedByUserId = message.CreatedByUserId
                 };
 
@@ -298,7 +298,7 @@ namespace Services
                     existingCategory.LegalCategoryId = categoryId;
                     existingCategory.Confidence = (decimal)1.0f; // ثقة كاملة للتصنيف اليدوي
                     existingCategory.IsAutoClassified = false;
-                    existingCategory.ModifiedDate = DateTime.UtcNow;
+                    existingCategory.ModifiedDate = DateTime.Now;
 
                     await _context.SaveChangesAsync();
 
@@ -325,7 +325,7 @@ namespace Services
                         LegalCategoryId = categoryId,
                         Confidence = (decimal)1.0f, // ثقة كاملة للتصنيف اليدوي
                         IsAutoClassified = false,
-                        CreateDate = DateTime.UtcNow,
+                        CreateDate = DateTime.Now,
                         CreatedByUserId = message.CreatedByUserId
                     };
 

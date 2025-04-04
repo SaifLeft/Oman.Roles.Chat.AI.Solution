@@ -106,10 +106,10 @@ namespace Services
                     {
                         PhoneNumber = phoneNumber,
                         Code = "twilio-verify", // لا نملك الرمز الفعلي لأن Twilio تتعامل معه
-                        ExpirationTime = DateTime.UtcNow.AddMinutes(10), // صلاحية الرمز 10 دقائق (قابل للتعديل)
+                        ExpirationTime = DateTime.Now.AddMinutes(10), // صلاحية الرمز 10 دقائق (قابل للتعديل)
                         IsUsed = false,
                         CreatedByUserId = 1, // يمكن تغييره حسب حالة الاستخدام
-                        CreateDate = DateTime.UtcNow
+                        CreateDate = DateTime.Now
                     };
 
                     // حفظ سجل محاولة التحقق في قاعدة البيانات
@@ -208,7 +208,7 @@ namespace Services
                     if (otpRecord != null)
                     {
                         otpRecord.IsUsed = true;
-                        otpRecord.ModifiedDate = DateTime.UtcNow;
+                        otpRecord.ModifiedDate = DateTime.Now;
                         await _context.SaveChangesAsync();
                     }
 

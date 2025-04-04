@@ -25,7 +25,7 @@ namespace API.Middleware
             _next = next;
             _cache = cache;
             _logger = logger;
-            
+
             // استخراج إعدادات الحد من التكوين
             var rateLimitSettings = configuration.GetSection("RateLimitSettings");
             _maxRequests = rateLimitSettings.GetValue<int>("MaxRequests", 100); // افتراضي: 100 طلب
@@ -37,50 +37,50 @@ namespace API.Middleware
         {
             // استخراج عنوان IP للطلب
             var ipAddress = GetClientIpAddress(context);
-            
+
             // استخراج مسار الطلب
             var path = context.Request.Path.ToString();
-            
+
             // إنشاء مفتاح فريد للمستخدم والمسار
             var key = $"{ipAddress}_{path}";
-            
+
             // الحصول على عداد الطلبات الحالي
             var counter = _cache.GetOrCreate(key, entry =>
             {
                 entry.SetAbsoluteExpiration(_timeWindow);
-                return new RateLimitCounter { Count = 0, FirstRequest = DateTime.UtcNow };
+                return new RateLimitCounter { Count = 0, FirstRequest = DateTime.Now };
             });
 
             // زيادة العداد
             counter.Count++;
-            
+
             // تحديث الذاكرة المؤقتة
             _cache.Set(key, counter, _timeWindow);
-            
+
             // إضافة رؤوس الاستجابة للحد من المعدل
             context.Response.Headers.Add("X-Rate-Limit-Limit", _maxRequests.ToString());
             context.Response.Headers.Add("X-Rate-Limit-Remaining", Math.Max(0, _maxRequests - counter.Count).ToString());
-            context.Response.Headers.Add("X-Rate-Limit-Reset", (counter.FirstRequest.Add(_timeWindow) - DateTime.UtcNow).TotalSeconds.ToString());
-            
+            context.Response.Headers.Add("X-Rate-Limit-Reset", (counter.FirstRequest.Add(_timeWindow) - DateTime.Now).TotalSeconds.ToString());
+
             // التحقق من تجاوز الحد
             if (counter.Count > _maxRequests)
             {
                 _logger.LogWarning("Rate limit exceeded for IP {IpAddress} on path {Path}", ipAddress, path);
-                
+
                 // إنشاء استجابة خطأ
                 var response = BaseResponse.FailureResponse(
                     "لقد تجاوزت الحد الأقصى للطلبات. يرجى المحاولة مرة أخرى لاحقاً.",
                     (int)HttpStatusCode.TooManyRequests);
-                
+
                 // تعيين حالة الاستجابة ونوع المحتوى
                 context.Response.StatusCode = (int)HttpStatusCode.TooManyRequests;
                 context.Response.ContentType = "application/json";
-                
+
                 // إرسال استجابة الخطأ كـ JSON
                 await context.Response.WriteAsync(JsonSerializer.Serialize(response));
                 return;
             }
-            
+
             // تنفيذ الميدلوير التالي في السلسلة
             await _next(context);
         }
@@ -93,13 +93,13 @@ namespace API.Middleware
             // محاولة الحصول على عنوان IP من الرؤوس الشائعة
             string? ipAddress = context.Request.Headers["X-Forwarded-For"].FirstOrDefault() ??
                                context.Request.Headers["X-Real-IP"].FirstOrDefault();
-            
+
             // إذا لم يتم العثور على عنوان IP في الرؤوس، استخدم عنوان RemoteIpAddress
             if (string.IsNullOrEmpty(ipAddress))
             {
                 ipAddress = context.Connection.RemoteIpAddress?.ToString();
             }
-            
+
             // إذا لا يزال فارغًا، استخدم عنوانًا افتراضيًا
             return ipAddress ?? "0.0.0.0";
         }
@@ -124,4 +124,4 @@ namespace API.Middleware
         public int Count { get; set; }
         public DateTime FirstRequest { get; set; }
     }
-} 
+}

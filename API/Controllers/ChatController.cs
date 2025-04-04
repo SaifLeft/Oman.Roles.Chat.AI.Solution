@@ -2,10 +2,9 @@ using API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Models.Common;
 using Services;
 using System.Security.Claims;
-using System.Linq;
-using Models.Common;
 
 namespace API.Controllers
 {
@@ -39,12 +38,10 @@ namespace API.Controllers
         /// ����� ���� ����� �����
         /// </summary>
         [HttpPost]
+        [ProducesDefaultResponseType(typeof(BaseResponse<ChatRoomDTO>))]
         public async Task<IActionResult> CreateChatRoom([FromBody] CreateChatRoomRequest request)
         {
-            // ������� ����� ������� �� ��� �����
             string language = LanguageHelper.GetPreferredLanguage(Request, _configuration);
-
-            // ������� ���� �������� �� ����� ������
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
             {
@@ -59,7 +56,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "��� ��� ����� ����� ���� �����");
+                _logger.LogError(ex, "��� ��� ����� ������ ��� ���� �������");
                 var errorMessage = _localizationService.GetMessage("ChatRoomCreationError", "Errors", language);
                 return StatusCode(500, BaseResponse.FailureResponse(errorMessage, 500));
             }
@@ -69,6 +66,7 @@ namespace API.Controllers
         /// ������ ��� ���� ����� ������ ������
         /// </summary>
         [HttpGet]
+        [ProducesDefaultResponseType(typeof(BaseResponse<ChatRoomDTO>))]
         public async Task<IActionResult> GetChatRoom(string roomId)
         {
             // ������� ����� ������� �� ��� �����
@@ -98,6 +96,7 @@ namespace API.Controllers
         /// ������ ��� ����� ��� ������� �������� ������
         /// </summary>
         [HttpGet]
+        [ProducesDefaultResponseType(typeof(BaseResponse<List<ChatRoomDTO>>))]
         public async Task<IActionResult> GetUserChatRooms()
         {
             // ������� ����� ������� �� ��� �����
@@ -128,6 +127,7 @@ namespace API.Controllers
         /// ����� ����� �� ���� �����
         /// </summary>
         [HttpPost]
+        [ProducesDefaultResponseType(typeof(BaseResponse<ChatResponseModel>))]
         public async Task<IActionResult> SendMessage([FromBody] SendMessageRequest request)
         {
             // ������� ����� ������� �� ��� �����
@@ -158,6 +158,7 @@ namespace API.Controllers
         /// ��� ���� �����
         /// </summary>
         [HttpDelete]
+        [ProducesDefaultResponseType(typeof(BaseResponse<bool>))]
         public async Task<IActionResult> DeleteChatRoom(string roomId)
         {
             // ������� ����� ������� �� ��� �����

@@ -280,8 +280,8 @@ namespace Services
                         UserId = id,
                         PlanName = "Free",
                         Status = "Free",
-                        StartDate = DateTime.UtcNow,
-                        EndDate = DateTime.UtcNow.AddYears(100),
+                        StartDate = DateTime.Now,
+                        EndDate = DateTime.Now.AddYears(100),
                         MonthlyQueryLimit = 5, // Default free limit
                         QueriesUsedThisMonth = 0
                     }, noSubscriptionMessage);
@@ -295,7 +295,7 @@ namespace Services
                     PlanId = subscription.PlanId,
                     PlanName = subscription.Plan.Name,
                     StartDate = subscription.StartDate,
-                    EndDate = subscription.EndDate ?? DateTime.UtcNow.AddYears(100),
+                    EndDate = subscription.EndDate ?? DateTime.Now.AddYears(100),
                     Status = subscription.Status,
                     QueriesUsedThisMonth = (int)subscription.QueriesUsedThisMonth,
                     MonthlyQueryLimit = (int)subscription.Plan.MaxQueriesPerMonth,
@@ -351,7 +351,7 @@ namespace Services
                 }
 
                 // Set start and end dates
-                var startDate = DateTime.UtcNow;
+                var startDate = DateTime.Now;
                 var endDate = request.IsYearly
                     ? startDate.AddYears(1)
                     : startDate.AddMonths(1);
@@ -364,7 +364,7 @@ namespace Services
                 {
                     var coupon = await _context.DiscountCoupons
                         .Where(c => c.Code == request.CouponCode && c.IsActive && (c.IsDeleted != true) &&
-                               c.EndDate > DateTime.UtcNow &&
+                               c.EndDate > DateTime.Now &&
                                (c.MaxUses == null || c.CurrentUses < c.MaxUses))
                         .FirstOrDefaultAsync();
 
@@ -405,7 +405,7 @@ namespace Services
                     QueriesUsedThisMonth = 0,
                     QueriesUsedToday = 0,
                     PeriodType = request.IsYearly ? "Yearly" : "Monthly",
-                    CreateDate = DateTime.UtcNow,
+                    CreateDate = DateTime.Now,
                     CreatedByUserId = id,
                     AutoRenew = request.AutoRenew.GetValueOrDefault(),
                     PaymentMethod = request.PaymentMethod ?? "Unknown",
@@ -421,15 +421,15 @@ namespace Services
                 {
                     UserId = id,
                     PlanId = plan.Id,
-                    InvoiceNumber = $"INV-{DateTime.UtcNow:yyyyMMdd}-{newSubscription.Id}",
+                    InvoiceNumber = $"INV-{DateTime.Now:yyyyMMdd}-{newSubscription.Id}",
                     Amount = (double)price,
                     TotalAmount = (double)price,
-                    TransactionDate = DateTime.UtcNow,
+                    TransactionDate = DateTime.Now,
                     Status = "Completed",
                     Type = "NewSubscription",
                     PaymentMethod = request.PaymentMethod ?? "Unknown",
                     PaymentGatewayTransactionId = request.PaymentGatewayTransactionId,
-                    CreateDate = DateTime.UtcNow,
+                    CreateDate = DateTime.Now,
                     CreatedByUserId = id
                 };
 
@@ -448,7 +448,7 @@ namespace Services
                     PlanId = newSubscription.PlanId,
                     PlanName = plan.Name,
                     StartDate = newSubscription.StartDate,
-                    EndDate = newSubscription.EndDate ?? DateTime.UtcNow.AddYears(100),
+                    EndDate = newSubscription.EndDate ?? DateTime.Now.AddYears(100),
                     Status = newSubscription.Status,
                     QueriesUsedThisMonth = (int)newSubscription.QueriesUsedThisMonth,
                     MonthlyQueryLimit = (int)plan.MaxQueriesPerMonth,
@@ -579,7 +579,7 @@ namespace Services
                     PlanId = s.PlanId,
                     PlanName = s.Plan.Name,
                     StartDate = s.StartDate,
-                    EndDate = s.EndDate ?? DateTime.UtcNow.AddYears(100),
+                    EndDate = s.EndDate ?? DateTime.Now.AddYears(100),
                     Status = s.Status,
                     QueriesUsedThisMonth = (int)s.QueriesUsedThisMonth,
                     MonthlyQueryLimit = (int)s.Plan.MaxQueriesPerMonth,
@@ -655,7 +655,7 @@ namespace Services
                     coupon.MaxUses = request.MaxUses.Value;
 
                 coupon.ModifiedByUserId = adminIdLong;
-                coupon.ModifiedDate = DateTime.UtcNow;
+                coupon.ModifiedDate = DateTime.Now;
 
                 // Save changes
                 await _context.SaveChangesAsync();
@@ -682,7 +682,7 @@ namespace Services
                                 {
                                     CouponId = couponId,
                                     PlanId = planIdLong,
-                                    CreateDate = DateTime.UtcNow,
+                                    CreateDate = DateTime.Now,
                                     CreatedByUserId = adminIdLong
                                 });
                             }
@@ -703,7 +703,7 @@ namespace Services
                     DiscountType = discountTypeEnum,
                     DiscountValue = (decimal)coupon.DiscountValue,
                     StartDate = coupon.StartDate,
-                    EndDate = coupon.EndDate.HasValue ? coupon.EndDate.Value : DateTime.UtcNow,
+                    EndDate = coupon.EndDate.HasValue ? coupon.EndDate.Value : DateTime.Now,
                     MaxUses = coupon.MaxUses.HasValue ? (int?)coupon.MaxUses.Value : null,
                     CurrentUses = (int)coupon.CurrentUses,
                     IsActive = coupon.IsActive
@@ -730,8 +730,8 @@ namespace Services
                 _logger.LogInformation("Retrieving subscription reports");
 
                 // Use default date range if not specified
-                var start = startDate ?? DateTime.UtcNow.AddMonths(-1);
-                var end = endDate ?? DateTime.UtcNow;
+                var start = startDate ?? DateTime.Now.AddMonths(-1);
+                var end = endDate ?? DateTime.Now;
 
                 // Get active subscriptions
                 var activeSubscriptions = await _context.UserSubscriptions
@@ -836,7 +836,7 @@ namespace Services
                     MaxUses = request.MaxUses.HasValue ? request.MaxUses.Value : null,
                     CurrentUses = 0,
                     IsActive = request.IsActive,
-                    CreateDate = DateTime.UtcNow,
+                    CreateDate = DateTime.Now,
                     CreatedByUserId = adminIdLong
                 };
 
@@ -857,7 +857,7 @@ namespace Services
                                 {
                                     CouponId = coupon.Id,
                                     PlanId = planIdLong,
-                                    CreateDate = DateTime.UtcNow,
+                                    CreateDate = DateTime.Now,
                                     CreatedByUserId = adminIdLong
                                 });
                             }
@@ -878,7 +878,7 @@ namespace Services
                     DiscountType = discountTypeEnum,
                     DiscountValue = (decimal)coupon.DiscountValue,
                     StartDate = coupon.StartDate,
-                    EndDate = coupon.EndDate.HasValue ? coupon.EndDate.Value : DateTime.UtcNow,
+                    EndDate = coupon.EndDate.HasValue ? coupon.EndDate.Value : DateTime.Now,
                     MaxUses = coupon.MaxUses.HasValue ? (int?)coupon.MaxUses.Value : null,
                     CurrentUses = (int)coupon.CurrentUses,
                     IsActive = coupon.IsActive
@@ -959,7 +959,7 @@ namespace Services
                 plan.IsTrial = request.IsTrial ?? plan.IsTrial;
 
                 plan.ModifiedByUserId = adminIdLong;
-                plan.ModifiedDate = DateTime.UtcNow;
+                plan.ModifiedDate = DateTime.Now;
 
                 // Save changes
                 await _context.SaveChangesAsync();
@@ -975,14 +975,14 @@ namespace Services
                     foreach (var feature in existingFeatures)
                     {
                         feature.IsDeleted = true;
-                        feature.DeletedAt = DateTime.UtcNow;
+                        feature.DeletedAt = DateTime.Now;
                         // Use reflection or method calls instead of direct property access if they don't exist
                         try
                         {
                             // Try to set the properties but catch any exceptions
                             // These fields may not exist in the PlanFeature class
                             feature.GetType().GetProperty("ModifiedByUserId")?.SetValue(feature, adminIdLong);
-                            feature.GetType().GetProperty("ModifiedDate")?.SetValue(feature, DateTime.UtcNow);
+                            feature.GetType().GetProperty("ModifiedDate")?.SetValue(feature, DateTime.Now);
                         }
                         catch { }
                     }
@@ -994,7 +994,7 @@ namespace Services
                         {
                             PlanId = planId,
                             Feature = featureName,
-                            CreateDate = DateTime.UtcNow,
+                            CreateDate = DateTime.Now,
                             CreatedByUserId = adminIdLong
                         });
                     }
@@ -1079,7 +1079,7 @@ namespace Services
                     TrialDays = request.TrialDays,
                     IsActive = request.IsActive,
                     IsTrial = request.IsTrial,
-                    CreateDate = DateTime.UtcNow,
+                    CreateDate = DateTime.Now,
                     CreatedByUserId = adminIdLong
                 };
 
@@ -1095,7 +1095,7 @@ namespace Services
                         {
                             PlanId = plan.Id,
                             Feature = featureName,
-                            CreateDate = DateTime.UtcNow,
+                            CreateDate = DateTime.Now,
                             CreatedByUserId = adminIdLong
                         });
                     }
@@ -1184,7 +1184,7 @@ namespace Services
                     PlanId = s.PlanId,
                     PlanName = s.Plan.Name,
                     StartDate = s.StartDate,
-                    EndDate = s.EndDate ?? DateTime.UtcNow.AddYears(100),
+                    EndDate = s.EndDate ?? DateTime.Now.AddYears(100),
                     Status = s.Status,
                     QueriesUsedThisMonth = (int)s.QueriesUsedThisMonth,
                     MonthlyQueryLimit = (int)s.Plan.MaxQueriesPerMonth,
@@ -1239,7 +1239,7 @@ namespace Services
                     PlanId = subscription.PlanId,
                     PlanName = subscription.Plan.Name,
                     StartDate = subscription.StartDate,
-                    EndDate = subscription.EndDate ?? DateTime.UtcNow.AddYears(100),
+                    EndDate = subscription.EndDate ?? DateTime.Now.AddYears(100),
                     Status = subscription.Status,
                     QueriesUsedThisMonth = (int)subscription.QueriesUsedThisMonth,
                     MonthlyQueryLimit = (int)subscription.Plan.MaxQueriesPerMonth,
@@ -1316,7 +1316,7 @@ namespace Services
                         DiscountType = discountTypeEnum,
                         DiscountValue = (decimal)c.DiscountValue,
                         StartDate = c.StartDate,
-                        EndDate = c.EndDate.HasValue ? c.EndDate.Value : DateTime.UtcNow,
+                        EndDate = c.EndDate.HasValue ? c.EndDate.Value : DateTime.Now,
                         MaxUses = c.MaxUses.HasValue ? (int?)c.MaxUses.Value : null,
                         CurrentUses = (int)c.CurrentUses,
                         IsActive = c.IsActive,

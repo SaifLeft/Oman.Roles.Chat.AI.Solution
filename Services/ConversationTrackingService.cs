@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Models.Common;
 
 namespace Services
 {
@@ -28,7 +29,7 @@ namespace Services
         /// <param name="aiResponse">AI's response</param>
         /// <param name="metadata">Additional metadata about the conversation</param>
         /// <returns>The conversation ID</returns>
-        Task<string> LogConversationAsync(
+        Task<BaseResponse<string>> LogConversationAsync(
             string userId,
             string roomId,
             string userQuery,
@@ -40,14 +41,14 @@ namespace Services
         /// </summary>
         /// <param name="conversationId">Conversation ID</param>
         /// <param name="keywords">List of keywords</param>
-        Task TrackKeywordsAsync(string conversationId, List<string> keywords);
+        Task<BaseResponse<bool>> TrackKeywordsAsync(string conversationId, List<string> keywords);
 
         /// <summary>
         /// Track PDF references used in a conversation
         /// </summary>
         /// <param name="conversationId">Conversation ID</param>
         /// <param name="pdfReferences">Dictionary of PDF filenames and relevance scores</param>
-        Task TrackPdfReferencesAsync(string conversationId, Dictionary<string, int> pdfReferences);
+        Task<BaseResponse<bool>> TrackPdfReferencesAsync(string conversationId, Dictionary<string, int> pdfReferences);
 
         /// <summary>
         /// Get conversation history for a user
@@ -56,7 +57,7 @@ namespace Services
         /// <param name="limit">Maximum number of conversations to retrieve</param>
         /// <param name="offset">Offset for pagination</param>
         /// <returns>List of conversations</returns>
-        Task<List<ConversationTrackingDTO>> GetUserConversationsAsync(string userId, int limit = 20, int offset = 0);
+        Task<BaseResponse<List<ConversationTrackingDTO>>> GetUserConversationsAsync(string userId, int limit = 20, int offset = 0);
 
         /// <summary>
         /// Get conversation history for a chat room
@@ -65,7 +66,7 @@ namespace Services
         /// <param name="limit">Maximum number of conversations to retrieve</param>
         /// <param name="offset">Offset for pagination</param>
         /// <returns>List of conversations</returns>
-        Task<List<ConversationTrackingDTO>> GetRoomConversationsAsync(string roomId, int limit = 20, int offset = 0);
+        Task<BaseResponse<List<ConversationTrackingDTO>>> GetRoomConversationsAsync(string roomId, int limit = 20, int offset = 0);
 
         /// <summary>
         /// Get analytics data for all conversations
@@ -73,7 +74,7 @@ namespace Services
         /// <param name="fromDate">Start date for analytics</param>
         /// <param name="toDate">End date for analytics</param>
         /// <returns>Analytics data</returns>
-        Task<ConversationAnalyticsDTO> GetAnalyticsAsync(DateTime? fromDate = null, DateTime? toDate = null);
+        Task<BaseResponse<ConversationAnalyticsDTO>> GetAnalyticsAsync(DateTime? fromDate = null, DateTime? toDate = null);
 
         /// <summary>
         /// Get analytics data for a specific user's conversations
@@ -82,7 +83,7 @@ namespace Services
         /// <param name="fromDate">Start date for analytics</param>
         /// <param name="toDate">End date for analytics</param>
         /// <returns>Analytics data</returns>
-        Task<ConversationAnalyticsDTO> GetUserAnalyticsAsync(string userId, DateTime? fromDate = null, DateTime? toDate = null);
+        Task<BaseResponse<ConversationAnalyticsDTO>> GetUserAnalyticsAsync(string userId, DateTime? fromDate = null, DateTime? toDate = null);
 
         /// <summary>
         /// تتبع محادثة المستخدم مع الذكاء الاصطناعي
@@ -94,7 +95,7 @@ namespace Services
         /// <param name="topic">موضوع المحادثة</param>
         /// <param name="language">لغة المحادثة</param>
         /// <returns>هل تم التتبع بنجاح</returns>
-        Task<bool> TrackConversationAsync(string conversationId, long userId, string userQuery, string aiResponse, string topic, string language);
+        Task<BaseResponse<bool>> TrackConversationAsync(string conversationId, long userId, string userQuery, string aiResponse, string topic, string language);
     }
 
     /// <summary>
@@ -106,23 +107,26 @@ namespace Services
         private readonly IMapper _mapper;
         private readonly ILogger<ConversationTrackingService> _logger;
         private readonly IConfiguration _configuration;
+        private readonly ILocalizationService _localizationService;
 
         public ConversationTrackingService(
             MuhamiContext context,
             IMapper mapper,
             ILogger<ConversationTrackingService> logger,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            ILocalizationService localizationService)
         {
             _context = context;
             _mapper = mapper;
             _logger = logger;
             _configuration = configuration;
+            _localizationService = localizationService;
         }
 
         /// <summary>
         /// Log a conversation between a user and the AI
         /// </summary>
-        public async Task<string> LogConversationAsync(
+        public async Task<BaseResponse<string>> LogConversationAsync(
             string userId,
             string roomId,
             string userQuery,
@@ -182,27 +186,32 @@ namespace Services
                     await TrackPdfReferencesAsync(conversationId, pdfReferences);
                 }
 
-                return conversationId;
+                var successMessage = _localizationService.GetMessage("ConversationLoggedSuccessfully", "Messages", language);
+                return BaseResponse<string>.SuccessResponse(conversationId, successMessage, 200);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error logging conversation for user {UserId} in room {RoomId}", userId, roomId);
-                return string.Empty;
+                var language = metadata != null && metadata.TryGetValue("language", out var languageObj) ? languageObj.ToString() : "ar";
+                var errorMessage = _localizationService.GetMessage("ConversationLoggingError", "Errors", language);
+                return BaseResponse<string>.FailureResponse(errorMessage, 500);
             }
         }
 
         /// <summary>
         /// Track keywords associated with a conversation
         /// </summary>
-        public async Task TrackKeywordsAsync(string conversationId, List<string> keywords)
+        public async Task<BaseResponse<bool>> TrackKeywordsAsync(string conversationId, List<string> keywords)
         {
-            if (string.IsNullOrEmpty(conversationId) || keywords == null || keywords.Count == 0)
-            {
-                return;
-            }
-
+            string language = "ar"; // Default language
             try
             {
+                if (string.IsNullOrEmpty(conversationId) || keywords == null || keywords.Count == 0)
+                {
+                    var invalidDataMessage = _localizationService.GetMessage("InvalidConversationOrKeywords", "Errors", language);
+                    return BaseResponse<bool>.FailureResponse(invalidDataMessage, 400);
+                }
+
                 // Find the conversation
                 var conversation = await _context.ConversationTrackings
                     .FirstOrDefaultAsync(c => c.ConversationId == conversationId && c.IsDeleted != true);
@@ -210,8 +219,12 @@ namespace Services
                 if (conversation == null)
                 {
                     _logger.LogWarning("Conversation not found: {ConversationId}", conversationId);
-                    return;
+                    var notFoundMessage = _localizationService.GetMessage("ConversationNotFound", "Errors", language);
+                    return BaseResponse<bool>.FailureResponse(notFoundMessage, 404);
                 }
+
+                // Update language from conversation
+                language = conversation.Language;
 
                 // Group keywords to count occurrences
                 var keywordGroups = keywords
@@ -247,25 +260,31 @@ namespace Services
                 }
 
                 await _context.SaveChangesAsync();
+                var successMessage = _localizationService.GetMessage("KeywordsTrackedSuccessfully", "Messages", language);
+                return BaseResponse<bool>.SuccessResponse(true, successMessage, 200);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error tracking keywords for conversation {ConversationId}", conversationId);
+                var errorMessage = _localizationService.GetMessage("KeywordTrackingError", "Errors", language);
+                return BaseResponse<bool>.FailureResponse(errorMessage, 500);
             }
         }
 
         /// <summary>
         /// Track PDF references used in a conversation
         /// </summary>
-        public async Task TrackPdfReferencesAsync(string conversationId, Dictionary<string, int> pdfReferences)
+        public async Task<BaseResponse<bool>> TrackPdfReferencesAsync(string conversationId, Dictionary<string, int> pdfReferences)
         {
-            if (string.IsNullOrEmpty(conversationId) || pdfReferences == null || pdfReferences.Count == 0)
-            {
-                return;
-            }
-
+            string language = "ar"; // Default language
             try
             {
+                if (string.IsNullOrEmpty(conversationId) || pdfReferences == null || pdfReferences.Count == 0)
+                {
+                    var invalidDataMessage = _localizationService.GetMessage("InvalidConversationOrPdfReferences", "Errors", language);
+                    return BaseResponse<bool>.FailureResponse(invalidDataMessage, 400);
+                }
+
                 // Find the conversation
                 var conversation = await _context.ConversationTrackings
                     .FirstOrDefaultAsync(c => c.ConversationId == conversationId && c.IsDeleted != true);
@@ -273,8 +292,12 @@ namespace Services
                 if (conversation == null)
                 {
                     _logger.LogWarning("Conversation not found: {ConversationId}", conversationId);
-                    return;
+                    var notFoundMessage = _localizationService.GetMessage("ConversationNotFound", "Errors", language);
+                    return BaseResponse<bool>.FailureResponse(notFoundMessage, 404);
                 }
+
+                // Update language from conversation
+                language = conversation.Language;
 
                 // Get all PDF files
                 var fileNames = pdfReferences.Keys.ToList();
@@ -321,24 +344,30 @@ namespace Services
                 }
 
                 await _context.SaveChangesAsync();
+                var successMessage = _localizationService.GetMessage("PdfReferencesTrackedSuccessfully", "Messages", language);
+                return BaseResponse<bool>.SuccessResponse(true, successMessage, 200);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error tracking PDF references for conversation {ConversationId}", conversationId);
+                var errorMessage = _localizationService.GetMessage("PdfReferenceTrackingError", "Errors", language);
+                return BaseResponse<bool>.FailureResponse(errorMessage, 500);
             }
         }
 
         /// <summary>
         /// Get conversation history for a user
         /// </summary>
-        public async Task<List<ConversationTrackingDTO>> GetUserConversationsAsync(string userId, int limit = 20, int offset = 0)
+        public async Task<BaseResponse<List<ConversationTrackingDTO>>> GetUserConversationsAsync(string userId, int limit = 20, int offset = 0)
         {
+            string language = "ar"; // Default language
             try
             {
                 if (!long.TryParse(userId, out long userIdLong))
                 {
                     _logger.LogWarning("Invalid user ID format: {UserId}", userId);
-                    return new List<ConversationTrackingDTO>();
+                    var invalidIdMessage = _localizationService.GetMessage("InvalidUserId", "Errors", language);
+                    return BaseResponse<List<ConversationTrackingDTO>>.FailureResponse(invalidIdMessage, 400);
                 }
 
                 // Get the conversations
@@ -349,6 +378,12 @@ namespace Services
                     .Take(limit)
                     .ToListAsync();
 
+                // Try to get language from first conversation
+                if (conversations.Any())
+                {
+                    language = conversations.First().Language;
+                }
+
                 // Map to DTOs and load related data
                 var conversationDtos = new List<ConversationTrackingDTO>();
                 foreach (var conversation in conversations)
@@ -405,20 +440,23 @@ namespace Services
                     conversationDtos.Add(dto);
                 }
 
-                return conversationDtos;
+                var successMessage = _localizationService.GetMessage("UserConversationsRetrievedSuccessfully", "Messages", language);
+                return BaseResponse<List<ConversationTrackingDTO>>.SuccessResponse(conversationDtos, successMessage, 200);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving conversations for user {UserId}", userId);
-                return new List<ConversationTrackingDTO>();
+                var errorMessage = _localizationService.GetMessage("UserConversationsRetrievalError", "Errors", language);
+                return BaseResponse<List<ConversationTrackingDTO>>.FailureResponse(errorMessage, 500);
             }
         }
 
         /// <summary>
         /// Get conversation history for a chat room
         /// </summary>
-        public async Task<List<ConversationTrackingDTO>> GetRoomConversationsAsync(string roomId, int limit = 20, int offset = 0)
+        public async Task<BaseResponse<List<ConversationTrackingDTO>>> GetRoomConversationsAsync(string roomId, int limit = 20, int offset = 0)
         {
+            string language = "ar"; // Default language
             try
             {
                 // Get the conversations
@@ -429,6 +467,12 @@ namespace Services
                     .Take(limit)
                     .ToListAsync();
 
+                // Try to get language from first conversation
+                if (conversations.Any())
+                {
+                    language = conversations.First().Language;
+                }
+
                 // Map to DTOs and load related data
                 var conversationDtos = new List<ConversationTrackingDTO>();
                 foreach (var conversation in conversations)
@@ -485,20 +529,23 @@ namespace Services
                     conversationDtos.Add(dto);
                 }
 
-                return conversationDtos;
+                var successMessage = _localizationService.GetMessage("RoomConversationsRetrievedSuccessfully", "Messages", language);
+                return BaseResponse<List<ConversationTrackingDTO>>.SuccessResponse(conversationDtos, successMessage, 200);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving conversations for room {RoomId}", roomId);
-                return new List<ConversationTrackingDTO>();
+                var errorMessage = _localizationService.GetMessage("RoomConversationsRetrievalError", "Errors", language);
+                return BaseResponse<List<ConversationTrackingDTO>>.FailureResponse(errorMessage, 500);
             }
         }
 
         /// <summary>
         /// Get analytics data for all conversations
         /// </summary>
-        public async Task<ConversationAnalyticsDTO> GetAnalyticsAsync(DateTime? fromDate = null, DateTime? toDate = null)
+        public async Task<BaseResponse<ConversationAnalyticsDTO>> GetAnalyticsAsync(DateTime? fromDate = null, DateTime? toDate = null)
         {
+            string language = "ar"; // Default language
             try
             {
                 // Apply date filters if provided
@@ -569,7 +616,7 @@ namespace Services
                     : 0;
 
                 // Create and return the analytics DTO
-                return new ConversationAnalyticsDTO
+                var analytics = new ConversationAnalyticsDTO
                 {
                     ConversationCount = conversationCount,
                     TopTopics = topicStats,
@@ -577,39 +624,31 @@ namespace Services
                     TopReferencedPdfs = pdfStats,
                     AverageMessagesPerConversation = averageMessages
                 };
+
+                var successMessage = _localizationService.GetMessage("AnalyticsRetrievedSuccessfully", "Messages", language);
+                return BaseResponse<ConversationAnalyticsDTO>.SuccessResponse(analytics, successMessage, 200);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error generating analytics");
-                return new ConversationAnalyticsDTO
-                {
-                    ConversationCount = 0,
-                    TopTopics = new List<TopicStat>(),
-                    TopKeywords = new List<KeywordStat>(),
-                    TopReferencedPdfs = new List<PdfReferenceStat>(),
-                    AverageMessagesPerConversation = 0
-                };
+                var errorMessage = _localizationService.GetMessage("AnalyticsRetrievalError", "Errors", language);
+                return BaseResponse<ConversationAnalyticsDTO>.FailureResponse(errorMessage, 500);
             }
         }
 
         /// <summary>
         /// Get analytics data for a specific user's conversations
         /// </summary>
-        public async Task<ConversationAnalyticsDTO> GetUserAnalyticsAsync(string userId, DateTime? fromDate = null, DateTime? toDate = null)
+        public async Task<BaseResponse<ConversationAnalyticsDTO>> GetUserAnalyticsAsync(string userId, DateTime? fromDate = null, DateTime? toDate = null)
         {
+            string language = "ar"; // Default language
             try
             {
                 if (!long.TryParse(userId, out long userIdLong))
                 {
                     _logger.LogWarning("Invalid user ID format: {UserId}", userId);
-                    return new ConversationAnalyticsDTO
-                    {
-                        ConversationCount = 0,
-                        TopTopics = new List<TopicStat>(),
-                        TopKeywords = new List<KeywordStat>(),
-                        TopReferencedPdfs = new List<PdfReferenceStat>(),
-                        AverageMessagesPerConversation = 0
-                    };
+                    var invalidIdMessage = _localizationService.GetMessage("InvalidUserId", "Errors", language);
+                    return BaseResponse<ConversationAnalyticsDTO>.FailureResponse(invalidIdMessage, 400);
                 }
 
                 // Apply user and date filters
@@ -623,6 +662,13 @@ namespace Services
                 if (toDate.HasValue)
                 {
                     query = query.Where(c => c.Timestamp <= toDate.Value);
+                }
+
+                // Try to get language from first conversation
+                var firstConversation = await query.FirstOrDefaultAsync();
+                if (firstConversation != null)
+                {
+                    language = firstConversation.Language;
                 }
 
                 // Calculate basic metrics
@@ -681,7 +727,7 @@ namespace Services
                     : 0;
 
                 // Create and return the analytics DTO
-                return new ConversationAnalyticsDTO
+                var analytics = new ConversationAnalyticsDTO
                 {
                     ConversationCount = conversationCount,
                     TopTopics = topicStats,
@@ -689,18 +735,15 @@ namespace Services
                     TopReferencedPdfs = pdfStats,
                     AverageMessagesPerConversation = averageMessages
                 };
+
+                var successMessage = _localizationService.GetMessage("UserAnalyticsRetrievedSuccessfully", "Messages", language);
+                return BaseResponse<ConversationAnalyticsDTO>.SuccessResponse(analytics, successMessage, 200);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error generating analytics for user {UserId}", userId);
-                return new ConversationAnalyticsDTO
-                {
-                    ConversationCount = 0,
-                    TopTopics = new List<TopicStat>(),
-                    TopKeywords = new List<KeywordStat>(),
-                    TopReferencedPdfs = new List<PdfReferenceStat>(),
-                    AverageMessagesPerConversation = 0
-                };
+                var errorMessage = _localizationService.GetMessage("UserAnalyticsRetrievalError", "Errors", language);
+                return BaseResponse<ConversationAnalyticsDTO>.FailureResponse(errorMessage, 500);
             }
         }
 
@@ -714,7 +757,7 @@ namespace Services
         /// <param name="topic">موضوع المحادثة</param>
         /// <param name="language">لغة المحادثة</param>
         /// <returns>هل تم التتبع بنجاح</returns>
-        public async Task<bool> TrackConversationAsync(string conversationId, long userId, string userQuery, string aiResponse, string topic, string language)
+        public async Task<BaseResponse<bool>> TrackConversationAsync(string conversationId, long userId, string userQuery, string aiResponse, string topic, string language)
         {
             try
             {
@@ -729,20 +772,22 @@ namespace Services
                     Topic = topic,
                     Language = language,
                     CreatedByUserId = userId,
-                    CreateDate = DateTime.UtcNow,
-                    Timestamp = DateTime.UtcNow,
+                    CreateDate = DateTime.Now,
+                    Timestamp = DateTime.Now,
                     RoomId = 1 // Default room ID if not provided
                 };
 
                 await _context.ConversationTrackings.AddAsync(tracking);
                 await _context.SaveChangesAsync();
 
-                return true;
+                var successMessage = _localizationService.GetMessage("ConversationTrackedSuccessfully", "Messages", language);
+                return BaseResponse<bool>.SuccessResponse(true, successMessage, 200);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error tracking conversation: {ex.Message}");
-                return false;
+                var errorMessage = _localizationService.GetMessage("ConversationTrackingError", "Errors", language);
+                return BaseResponse<bool>.FailureResponse(errorMessage, 500);
             }
         }
     }

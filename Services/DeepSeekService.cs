@@ -28,7 +28,7 @@ namespace Services
         /// <param name="language">اللغة المطلوبة</param>
         /// <returns>استجابة قانونية</returns>
         Task<string> ExecuteLegalQueryAsync(string query, string context, string language = "ar");
-        Task<string> ProcessPdfDataAsync(string enrichedContext, string language);
+        Task<Models.Common.BaseResponse<string>> ProcessPdfDataAsync(string enrichedContext, string language);
     }
 
     /// <summary>
@@ -226,7 +226,7 @@ namespace Services
         /// <param name="enrichedContext">محتوى مثرى من الملفات</param>
         /// <param name="language">اللغة المطلوبة</param>
         /// <returns>استجابة لمعالجة البيانات من الذكاء الاصطناعي</returns>
-        public async Task<string> ProcessPdfDataAsync(string enrichedContext, string language)
+        public async Task<Models.Common.BaseResponse<string>> ProcessPdfDataAsync(string enrichedContext, string language)
         {
             try
             {
@@ -244,16 +244,28 @@ namespace Services
                 if (response != null)
                 {
                     _logger.LogInformation("PDF data processed successfully");
-                    return response.Content;
+                    return new Models.Common.BaseResponse<string>
+                    {
+                        Success = true,
+                        Data = response.Content
+                    };
                 }
 
                 _logger.LogWarning("DeepSeek returned null response for PDF data processing");
-                return GetErrorMessage(language);
+                return new Models.Common.BaseResponse<string>
+                {
+                    Success = false,
+                    Message = GetErrorMessage(language)
+                };
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error processing PDF data with DeepSeek API");
-                return GetErrorMessage(language);
+                return new Models.Common.BaseResponse<string>
+                {
+                    Success = false,
+                    Message = GetErrorMessage(language)
+                };
             }
         }
 

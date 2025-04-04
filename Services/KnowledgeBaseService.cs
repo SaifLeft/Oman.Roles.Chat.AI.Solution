@@ -266,7 +266,10 @@ namespace Services
                 string preparedContext = $"السؤال: {query}\n\nالمعلومات المتاحة من المستندات:\n{enrichedContext}";
 
                 // الحصول على الرد من نموذج الذكاء الاصطناعي
-                var aiResponse = await _deepSeekService.ProcessPdfDataAsync(preparedContext, language);
+                var aiResponseObj = await _deepSeekService.ProcessPdfDataAsync(preparedContext, language);
+                var aiResponse = aiResponseObj.Data ?? (language == "ar" 
+                    ? "عذراً، لم أتمكن من معالجة طلبك. يرجى المحاولة مرة أخرى."
+                    : "Sorry, I couldn't process your request. Please try again.");
 
                 // الحصول على الوثائق ذات الصلة لإرفاقها بالرد
                 var relevantDocuments = await GetRelevantDocumentsAsync(query, userId, roomId, 5, language);

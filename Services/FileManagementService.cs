@@ -175,7 +175,7 @@ namespace Services
                     IsPublic = false,
                     IsActive = true,
                     CreatedByUserId = userId,
-                    CreateDate = DateTime.UtcNow
+                    CreateDate = DateTime.Now
                 };
 
                 _context.DataSourceFiles.Add(dataSourceFile);
@@ -241,7 +241,7 @@ namespace Services
                     IsPublic = false,
                     IsActive = true,
                     CreatedByUserId = userId,
-                    CreateDate = DateTime.UtcNow
+                    CreateDate = DateTime.Now
                 };
 
                 _context.DataSourceFiles.Add(dataSourceFile);
@@ -388,9 +388,9 @@ namespace Services
                 // حذف منطقي للملف
                 file.IsActive = false;
                 file.IsDeleted = true;
-                file.DeletedAt = DateTime.UtcNow;
+                file.DeletedAt = DateTime.Now;
                 file.ModifiedByUserId = userId;
-                file.ModifiedDate = DateTime.UtcNow;
+                file.ModifiedDate = DateTime.Now;
 
                 await _context.SaveChangesAsync();
 

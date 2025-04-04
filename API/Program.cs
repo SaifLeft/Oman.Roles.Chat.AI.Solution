@@ -122,6 +122,7 @@ builder.Services.AddScoped<IThawaniPaymentService, ThawaniPaymentService>();
 // Uncommented services that were previously commented out
 builder.Services.AddScoped<ISubscriptionStatusService, SubscriptionStatusService>();
 builder.Services.AddScoped<IAdminAnalyticsService, AdminAnalyticsService>();
+builder.Services.AddScoped<IChatSubscriptionService, ChatSubscriptionService>();
 
 // Register new AI services using existing interfaces (not from Interfaces namespace)
 builder.Services.AddScoped<Services.IChatAIService, Services.ChatAIService>();
@@ -241,7 +242,7 @@ app.UseCors("AllowAll");
 app.UseHttpsRedirection();
 
 // Add explicit health check endpoint
-app.MapGet("/health", () => Results.Ok(new { status = "Healthy", timestamp = DateTime.UtcNow }));
+app.MapGet("/health", () => Results.Ok(new { status = "Healthy", timestamp = DateTime.Now }));
 
 // Enable authentication and authorization
 app.UseAuthentication();

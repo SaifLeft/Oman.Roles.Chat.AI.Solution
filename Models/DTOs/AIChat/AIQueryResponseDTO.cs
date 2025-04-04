@@ -35,7 +35,7 @@ namespace Models.DTOs.AIChat
         /// وقت الإنشاء
         /// </summary>
         [JsonPropertyName("createdAt")]
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         /// <summary>
         /// النموذج المستخدم للإجابة

@@ -1,9 +1,4 @@
-﻿// This file is temporarily commented out because it depends on ISubscriptionService methods
-// that don't exist in the current implementation.
-// Please update the ISubscriptionService interface to include the required methods.
-
-/*
-using API.Helpers;
+﻿using API.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Services;
@@ -43,20 +38,18 @@ namespace API.Controllers
         /// Get all available subscription plans
         /// </summary>
         /// <returns>قائمة بخطط الاشتراك المتاحة</returns>
-        [HttpGet("plans")]
-        public async Task<IActionResult> GetPlans()
+        [HttpGet]
+        public async Task<IActionResult> GetSubscriptionPlans([FromQuery] string language = "ar")
         {
             try
             {
-                string language = Request.Headers["Accept-Language"].ToString() ?? "en";
                 var result = await _subscriptionService.GetAllPlansAsync(language);
                 return StatusCode(result.StatusCode, result);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting subscription plans");
-                string language = Request.Headers["Accept-Language"].ToString() ?? "en";
-                var errorMessage = _localizationService.GetMessage("GeneralError", "Errors", language);
+                string errorMessage = _localizationService.GetMessage("GeneralError", "Errors", language);
                 return StatusCode(500, BaseResponse<object>.FailureResponse(errorMessage, 500));
             }
         }
@@ -68,19 +61,17 @@ namespace API.Controllers
         /// <param name="id">معرف خطة الاشتراك</param>
         /// <returns>تفاصيل خطة الاشتراك</returns>
         [HttpGet("plans/{id}")]
-        public async Task<IActionResult> GetPlan(string id)
+        public async Task<IActionResult> GetSubscriptionPlanById(int id, [FromQuery] string language = "ar")
         {
             try
             {
-                string language = Request.Headers["Accept-Language"].ToString() ?? "en";
-                var result = await _subscriptionService.GetPlanByIdAsync(id, language);
+                var result = await _subscriptionService.GetPlanByIdAsync(id.ToString(), language);
                 return StatusCode(result.StatusCode, result);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting subscription plan: {PlanId}", id);
-                string language = Request.Headers["Accept-Language"].ToString() ?? "en";
-                var errorMessage = _localizationService.GetMessage("GeneralError", "Errors", language);
+                string errorMessage = _localizationService.GetMessage("GeneralError", "Errors", language);
                 return StatusCode(500, BaseResponse<object>.FailureResponse(errorMessage, 500));
             }
         }
@@ -92,27 +83,24 @@ namespace API.Controllers
         /// <returns>تفاصيل اشتراك المستخدم</returns>
         [Authorize]
         [HttpGet("current")]
-        public async Task<IActionResult> GetCurrentSubscription()
+        public async Task<IActionResult> GetCurrentSubscription([FromQuery] string language = "ar")
         {
             try
             {
                 string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
                 if (string.IsNullOrEmpty(userId))
                 {
-                    string language = Request.Headers["Accept-Language"].ToString() ?? "en";
-                    var errorMessage = _localizationService.GetMessage("Unauthorized", "Errors", language);
+                    string errorMessage = _localizationService.GetMessage("Unauthorized", "Errors", language);
                     return StatusCode(401, BaseResponse<object>.FailureResponse(errorMessage, 401));
                 }
 
-                string language = Request.Headers["Accept-Language"].ToString() ?? "en";
                 var result = await _subscriptionService.GetUserSubscriptionAsync(userId, language);
                 return StatusCode(result.StatusCode, result);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting user subscription");
-                string language = Request.Headers["Accept-Language"].ToString() ?? "en";
-                var errorMessage = _localizationService.GetMessage("GeneralError", "Errors", language);
+                string errorMessage = _localizationService.GetMessage("GeneralError", "Errors", language);
                 return StatusCode(500, BaseResponse<object>.FailureResponse(errorMessage, 500));
             }
         }
@@ -125,20 +113,17 @@ namespace API.Controllers
         /// <returns>معلومات جلسة الدفع</returns>
         [Authorize]
         [HttpPost("subscribe")]
-        public async Task<IActionResult> Subscribe([FromBody] SubscribeRequest request)
+        public async Task<IActionResult> SubscribeToPlan([FromBody] SubscriptionRequestDTO request, [FromQuery] string language = "ar")
         {
             try
             {
                 string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
                 if (string.IsNullOrEmpty(userId))
                 {
-                    string language = Request.Headers["Accept-Language"].ToString() ?? "en";
-                    var errorMessage = _localizationService.GetMessage("Unauthorized", "Errors", language);
+                    string errorMessage = _localizationService.GetMessage("Unauthorized", "Errors", language);
                     return StatusCode(401, BaseResponse<object>.FailureResponse(errorMessage, 401));
                 }
 
-                string language = Request.Headers["Accept-Language"].ToString() ?? "en";
-                
                 // Get the plan details
                 var planResult = await _subscriptionService.GetPlanByIdAsync(request.PlanId, language);
                 if (!planResult.Success)
@@ -150,192 +135,55 @@ namespace API.Controllers
                 var userEmail = User.FindFirst(ClaimTypes.Email)?.Value ?? "";
                 var userName = User.FindFirst(ClaimTypes.Name)?.Value ?? "";
 
-                // Calculate amount based on period type
-                decimal amount = request.PeriodType == SubscriptionPeriodType.Monthly 
-                    ? planResult.Data.PriceMonthly 
-                    : planResult.Data.PriceYearly;
-
-                // Apply coupon if provided
-                if (!string.IsNullOrEmpty(request.CouponCode))
+                // Convert the SubscriptionRequestDTO to CreateSubscriptionRequestDTO
+                var subscriptionRequest = new CreateSubscriptionRequestDTO
                 {
-                    var couponResult = await _subscriptionService.ValidateCouponAsync(
-                        new ValidateCouponRequest { CouponCode = request.CouponCode, PlanId = request.PlanId },
-                        language);
+                    PlanId = long.Parse(request.PlanId),
+                    PeriodType = request.PeriodType.ToString(),
+                    CouponCode = request.CouponCode,
+                    AutoRenew = true
+                };
 
-                    if (couponResult.Success && couponResult.Data.IsValid)
-                    {
-                        amount = couponResult.Data.DiscountedPrice;
-                    }
-                }
-
-                // Create payment session
-                var paymentResult = await _thawaniPaymentService.CreatePaymentSessionAsync(
-                    amount,
-                    userId,
-                    userEmail,
-                    userName,
-                    request.PlanId,
-                    language);
-
-                return StatusCode(paymentResult.StatusCode, paymentResult);
+                // Create the subscription directly through the service
+                var subscriptionResult = await _subscriptionService.CreateSubscription(userId, subscriptionRequest, language);
+                
+                return StatusCode(subscriptionResult.StatusCode, subscriptionResult);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error creating subscription payment session");
-                string language = Request.Headers["Accept-Language"].ToString() ?? "en";
-                var errorMessage = _localizationService.GetMessage("GeneralError", "Errors", language);
+                _logger.LogError(ex, "Error creating subscription");
+                string errorMessage = _localizationService.GetMessage("GeneralError", "Errors", language);
                 return StatusCode(500, BaseResponse<object>.FailureResponse(errorMessage, 500));
             }
         }
 
         /// <summary>
-        /// التحقق من حالة الدفع
-        /// Check payment status
+        /// الحصول على تاريخ اشتراكات المستخدم
+        /// Get user's subscription history
         /// </summary>
-        /// <param name="sessionId">معرف جلسة الدفع</param>
-        /// <returns>حالة الدفع</returns>
+        /// <returns>تاريخ اشتراكات المستخدم</returns>
         [Authorize]
-        [HttpGet("payment-status/{sessionId}")]
-        public async Task<IActionResult> CheckPaymentStatus(string sessionId)
-        {
-            try
-            {
-                string language = Request.Headers["Accept-Language"].ToString() ?? "en";
-                var result = await _thawaniPaymentService.CheckPaymentStatusAsync(sessionId, language);
-                return StatusCode(result.StatusCode, result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error checking payment status: {SessionId}", sessionId);
-                string language = Request.Headers["Accept-Language"].ToString() ?? "en";
-                var errorMessage = _localizationService.GetMessage("GeneralError", "Errors", language);
-                return StatusCode(500, BaseResponse<object>.FailureResponse(errorMessage, 500));
-            }
-        }
-
-        /// <summary>
-        /// إلغاء التجديد التلقائي للاشتراك
-        /// Cancel subscription auto-renewal
-        /// </summary>
-        /// <param name="subscriptionId">معرف الاشتراك</param>
-        /// <returns>حالة الاشتراك بعد الإلغاء</returns>
-        [Authorize]
-        [HttpPost("cancel-auto-renewal/{subscriptionId}")]
-        public async Task<IActionResult> CancelAutoRenewal(string subscriptionId)
+        [HttpGet("history")]
+        public async Task<IActionResult> GetSubscriptionHistory([FromQuery] string language = "ar")
         {
             try
             {
                 string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
                 if (string.IsNullOrEmpty(userId))
                 {
-                    string language = Request.Headers["Accept-Language"].ToString() ?? "en";
-                    var errorMessage = _localizationService.GetMessage("Unauthorized", "Errors", language);
+                    string errorMessage = _localizationService.GetMessage("Unauthorized", "Errors", language);
                     return StatusCode(401, BaseResponse<object>.FailureResponse(errorMessage, 401));
                 }
 
-                string language = Request.Headers["Accept-Language"].ToString() ?? "en";
-                var result = await _subscriptionService.CancelAutoRenewalAsync(userId, subscriptionId, language);
+                var result = await _subscriptionService.GetUserSubscriptionsHistoryAsync(userId, language);
                 return StatusCode(result.StatusCode, result);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error cancelling subscription auto-renewal: {SubscriptionId}", subscriptionId);
-                string language = Request.Headers["Accept-Language"].ToString() ?? "en";
-                var errorMessage = _localizationService.GetMessage("GeneralError", "Errors", language);
+                _logger.LogError(ex, "Error getting subscription history");
+                string errorMessage = _localizationService.GetMessage("GeneralError", "Errors", language);
                 return StatusCode(500, BaseResponse<object>.FailureResponse(errorMessage, 500));
             }
         }
-
-        /// <summary>
-        /// إلغاء الاشتراك
-        /// Cancel subscription
-        /// </summary>
-        /// <param name="subscriptionId">معرف الاشتراك</param>
-        /// <returns>حالة الاشتراك بعد الإلغاء</returns>
-        [Authorize]
-        [HttpPost("cancel/{subscriptionId}")]
-        public async Task<IActionResult> CancelSubscription(string subscriptionId)
-        {
-            try
-            {
-                string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
-                if (string.IsNullOrEmpty(userId))
-                {
-                    string language = Request.Headers["Accept-Language"].ToString() ?? "en";
-                    var errorMessage = _localizationService.GetMessage("Unauthorized", "Errors", language);
-                    return StatusCode(401, BaseResponse<object>.FailureResponse(errorMessage, 401));
-                }
-
-                string language = Request.Headers["Accept-Language"].ToString() ?? "en";
-                var result = await _subscriptionService.CancelSubscriptionAsync(userId, subscriptionId, language);
-                return StatusCode(result.StatusCode, result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error cancelling subscription: {SubscriptionId}", subscriptionId);
-                string language = Request.Headers["Accept-Language"].ToString() ?? "en";
-                var errorMessage = _localizationService.GetMessage("GeneralError", "Errors", language);
-                return StatusCode(500, BaseResponse<object>.FailureResponse(errorMessage, 500));
-            }
-        }
-
-        /// <summary>
-        /// الحصول على سجل المعاملات المالية للمستخدم
-        /// Get user's transaction history
-        /// </summary>
-        /// <returns>قائمة بالمعاملات المالية</returns>
-        [Authorize]
-        [HttpGet("transaction-history")]
-        public async Task<IActionResult> GetTransactionHistory()
-        {
-            try
-            {
-                string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
-                if (string.IsNullOrEmpty(userId))
-                {
-                    string language = Request.Headers["Accept-Language"].ToString() ?? "en";
-                    var errorMessage = _localizationService.GetMessage("Unauthorized", "Errors", language);
-                    return StatusCode(401, BaseResponse<object>.FailureResponse(errorMessage, 401));
-                }
-
-                string language = Request.Headers["Accept-Language"].ToString() ?? "en";
-                var result = await _subscriptionService.GetUserTransactionsAsync(userId, language);
-                return StatusCode(result.StatusCode, result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error getting transaction history");
-                string language = Request.Headers["Accept-Language"].ToString() ?? "en";
-                var errorMessage = _localizationService.GetMessage("GeneralError", "Errors", language);
-                return StatusCode(500, BaseResponse<object>.FailureResponse(errorMessage, 500));
-            }
-        }
-
-        /// <summary>
-        /// التحقق من صلاحية كوبون خصم
-        /// Validate discount coupon
-        /// </summary>
-        /// <param name="request">بيانات طلب التحقق من الكوبون</param>
-        /// <returns>نتيجة التحقق من الكوبون</returns>
-        [HttpPost("validate-coupon")]
-        public async Task<IActionResult> ValidateCoupon([FromBody] ValidateCouponRequest request)
-        {
-            try
-            {
-                string language = Request.Headers["Accept-Language"].ToString() ?? "en";
-                var result = await _subscriptionService.ValidateCouponAsync(request, language);
-                return StatusCode(result.StatusCode, result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error validating coupon: {CouponCode}", request.CouponCode);
-                string language = Request.Headers["Accept-Language"].ToString() ?? "en";
-                var errorMessage = _localizationService.GetMessage("GeneralError", "Errors", language);
-                return StatusCode(500, BaseResponse<object>.FailureResponse(errorMessage, 500));
-            }
-        }
-
-        // Payment webhook handling has been moved to PaymentController
     }
 }
-*/
