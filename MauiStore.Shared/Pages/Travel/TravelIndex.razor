@@ -1,0 +1,123 @@
+﻿@page "/travel"
+
+@if (!_loaded)
+{
+    <Spinner></Spinner>
+}
+else
+{
+    <MudGrid Class="mt-5 pt-0 mb-3" Spacing="2">
+        <MudItem xs="12">
+            <MudCard Elevation="1" Class="rounded-lg py-2">
+                <MudCardContent>
+                    <MudText Color="Color.Default" Align="Align.Left" Typo="Typo.body2">Awesome pre-built pages that are highly customizable and blazing fast to load.<br>Templates that are categorized by purpose to make it easier for you to use.</MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+
+    <MudGrid Class="mb-5" Spacing="3">
+        <MudItem xs="6" sm="6" md="6">
+            <MudCard Elevation="1" Class="rounded-lg" Style="" @onclick="@(() => NavigateToHomePage())">
+                <MudCardContent Class="d-flex flex-column pa-3" Style="">
+                    <MudImage Src="images/travel/pr-1.png" Class="rounded-lg" Fluid="true" />
+                    <MudText Typo="Typo.subtitle2" Style="font-weight: 600;" Class="mt-3 align-self-center" Color="@Color.Surface"> Home Page </MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="6" sm="6" md="6">
+            <MudCard Elevation="1" Class="rounded-lg" Style="" @onclick="@(() => NavigateToPlaceListingPage())">
+                <MudCardContent Class="d-flex flex-column pa-3" Style="">
+                    <MudImage Src="images/travel/pr-2.png" Class="rounded-lg" Fluid="true" />
+                    <MudText Typo="Typo.subtitle2" Style="font-weight: 600;" Class="mt-3 align-self-center" Color="@Color.Surface"> Place Listing </MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="6" sm="6" md="6">
+            <MudCard Elevation="1" Class="rounded-lg" Style="" @onclick="@(() => NavigateToExperiencesPage())">
+                <MudCardContent Class="d-flex flex-column pa-3" Style="">
+                    <MudImage Src="images/travel/pr-3.png" Class="rounded-lg" Fluid="true" />
+                    <MudText Typo="Typo.subtitle2" Style="font-weight: 600;" Class="mt-3 align-self-center" Color="@Color.Surface"> Experience Tours </MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="6" sm="6" md="6">
+            <MudCard Elevation="1" Class="rounded-lg" Style="" @onclick="@(() => NavigateToRoomBookingPage())">
+                <MudCardContent Class="d-flex flex-column pa-3" Style="">
+                    <MudImage Src="images/travel/pr-4.png" Class="rounded-lg" Fluid="true" />
+                    <MudText Typo="Typo.subtitle2" Style="font-weight: 600;" Class="mt-3 align-self-center" Color="@Color.Surface"> Room Booking </MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="6" sm="6" md="6">
+            <MudCard Elevation="1" Class="rounded-lg" Style="" @onclick="@(() => NavigateToTourDetailsPage())">
+                <MudCardContent Class="d-flex flex-column pa-3" Style="">
+                    <MudImage Src="images/travel/pr-5.png" Class="rounded-lg" Fluid="true" />
+                    <MudText Typo="Typo.subtitle2" Style="font-weight: 600;" Class="mt-3 align-self-center" Color="@Color.Surface"> Tour Details </MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="6" sm="6" md="6">
+            <MudCard Elevation="1" Class="rounded-lg" Style="" @onclick="@(() => NavigateToConfirmationPage())">
+                <MudCardContent Class="d-flex flex-column pa-3" Style="">
+                    <MudImage Src="images/travel/pr-6.png" Class="rounded-lg" Fluid="true" />
+                    <MudText Typo="Typo.subtitle2" Style="font-weight: 600;" Class="mt-3 align-self-center" Color="@Color.Surface"> Payment Page </MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        @*<MudItem xs="6" sm="6" md="6">
+            <MudCard Elevation="1" Class=" rounded-lg" Style="">
+                <MudCardContent Class="d-flex flex-column pa-3" Style="">
+                    <MudImage Src="images/pictures/5l.jpg" Class="rounded-lg" Style="height: 150px; width: 100%;" />
+                    <MudText Typo="Typo.subtitle2" Style="font-weight: 600;" Class="mt-3 align-self-center" Color="@Color.Surface"> Account Page </MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="6" sm="6" md="6">
+            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                <MudCardContent Class="d-flex flex-column pa-3" Style="">
+                    <MudImage Src="images/pictures/6l.jpg" Class="rounded-lg" Style="height: 150px; width: 100%;" />
+                    <MudText Typo="Typo.subtitle2" Style="font-weight: 600;" Class="mt-3 align-self-center" Color="@Color.Surface"> Settings Page </MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>*@
+    </MudGrid>
+}
+@code {
+    
+    private bool _loaded;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _loaded = true;
+    }
+    public void NavigateToHomePage()
+    {
+        _navigationManager.NavigateTo("/travel/home");
+    }
+
+    public void NavigateToPlaceListingPage()
+    {
+        _navigationManager.NavigateTo("/travel/place-listing");
+    }
+
+    public void NavigateToExperiencesPage()
+    {
+        _navigationManager.NavigateTo("/travel/experiences");
+    }
+
+    public void NavigateToRoomBookingPage()
+    {
+        _navigationManager.NavigateTo("/travel/room-booking");
+    }
+
+    public void NavigateToTourDetailsPage()
+    {
+        _navigationManager.NavigateTo("/travel/tour-details");
+    }
+
+    public void NavigateToConfirmationPage()
+    {
+        _navigationManager.NavigateTo("/travel/confirmation");
+    }
+}

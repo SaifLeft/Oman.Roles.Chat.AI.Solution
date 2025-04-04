@@ -1,0 +1,465 @@
+﻿@page "/travel/home"
+
+<style>
+   .max-line-2 {
+      display: block; /* Fallback for non-webkit */
+      display: -webkit-box;
+      height: 2.6em; /* Fallback for non-webkit, line-height * 2 */
+      line-height: 1.3em;
+      -webkit-line-clamp: 2; /* if you change this, make sure to change the fallback line-height and height */
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+</style>
+
+<MudPaper Elevation="3" Class="px-lg-6 px-4 mx-lg-n6 mx-n4 mt-n8 pt-5 pb-15 mud-theme-primary" Style="border-radius: 0px 0px 30px 30px;" Outlined="false">
+    <MudGrid>
+        <MudItem xs="12">
+            @*<MudPaper Elevation="0" Class="d-flex flex-row px-2" Style="background-color: var(--mud-palette-background-grey); border-radius: 5px; margin-top:5px; height: 50px">
+                <MudTextField T="string" Placeholder="@_localizer["Enter your destination..."]" Margin="Margin.Dense"
+                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary"
+                Underline ="false" Class="py-2 mt-n3 mx-2"/>
+            </MudPaper>*@
+        </MudItem>
+    </MudGrid>
+</MudPaper>
+
+<MudGrid Class="pt-4">
+    <MudItem xs="12">
+        <!--Large Devices-->
+        <MudHidden Breakpoint="Breakpoint.MdAndDown" Invert="false">
+            <MudCarousel Class="mt-n15" Style="height:550px;" ShowArrows="true" ShowBullets="true" AutoCycle="false" TData="object">
+                <BulletTemplate Context="selected">
+                    <div Class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                        <span class="mud-icon-button-label">
+                            <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: var(--mud-palette-primary); font-size: 0.725rem !important;" />
+                        </span>
+                    </div>
+                </BulletTemplate>
+                <ChildContent>
+                    <MudCarouselItem Transition="Transition.Slide">
+                        <MudCard Elevation="1" Class="rounded-lg">
+                            <MudCardMedia Class="" Image="/images/travel/singapore.jpg" Height="450" />
+                            <MudCardContent>
+                                <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">Singapore</MudText>
+                                <MudText Class="max-line-2" Typo="Typo.body2">At only 725 sq. km., Singapore is one of the smallest countries in the world, but it packs a major punch in terms of reasons to visit. </MudText>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudCarouselItem>
+                    <MudCarouselItem Transition="Transition.Slide">
+                        <MudCard Elevation="1" Class="rounded-lg">
+                            <MudCardMedia Class="" Image="/images/travel/dubai.jpg" Height="450" />
+                            <MudCardContent>
+                                <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">Dubai</MudText>
+                                <MudText Class="max-line-2" Typo="Typo.body2">A melting pot of cultures, Dubai is the most advanced city in the Arab world. Lined with luxury resorts, there are activities for every interest, from camel racing to fossil cliffs to extravagant shopping opportunities.</MudText>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudCarouselItem>
+                    <MudCarouselItem Transition="Transition.Slide">
+                        <MudCard Elevation="1" Class="rounded-lg">
+                            <MudCardMedia Class="" Image="/images/travel/fuji.jpg" Height="450" />
+                            <MudCardContent>
+                                <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">Mount Fuji</MudText>
+                                <MudText Class="max-line-2" Typo="Typo.body2">Japan most famous, holy mountain dominates the landscape of three prefectures when you can see it. Fuji-san is shy and often obscured by clouds, but take the slow train through Shizuoka, or go shopping at the grand Gotemba outlet mall and you might get lucky </MudText>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudCarouselItem>
+                    <MudCarouselItem Transition="Transition.Slide">
+                        <MudCard Elevation="1" Class="rounded-lg">
+                            <MudCardMedia Class="" Image="/images/travel/london.jpg" Height="450" />
+                            <MudCardContent>
+                                <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">London</MudText>
+                                <MudText Class="max-line-2" Typo="Typo.body2">The bustling capital of the United Kingdom has enough historical landmarks, architectural beauties, and free museums to keep even the pickiest traveler occupied for days, if not weeks. </MudText>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudCarouselItem>
+                    <MudCarouselItem Transition="Transition.Slide">
+                        <MudCard Elevation="1" Class="rounded-lg">
+                            <MudCardMedia Class="" Image="/images/travel/hongkong.jpg" Height="450" />
+                            <MudCardContent>
+                                <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">HongKong</MudText>
+                                <MudText Class="max-line-2" Typo="Typo.body2">The bustling capital of the United Kingdom has enough historical landmarks, architectural beauties, and free museums to keep even the pickiest traveler occupied for days, if not weeks. </MudText>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudCarouselItem>
+                </ChildContent>
+            </MudCarousel>
+        </MudHidden>
+
+        <!--Responsive Devices-->
+        <MudHidden Breakpoint="Breakpoint.MdAndDown" Invert="true">
+            <MudCarousel Class="mt-n15" Style="height:530px;" ShowArrows="false" ShowBullets="true" AutoCycle="false" TData="object">
+                <BulletTemplate Context="selected">
+                    <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                        <span class="mud-icon-button-label">
+                            <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: var(--mud-palette-primary); font-size: 0.725rem !important;" />
+                        </span>
+                    </div>
+                </BulletTemplate>
+                <ChildContent>
+                    <MudCarouselItem Transition="Transition.Slide">
+                        <MudCard Elevation="1" Class="rounded-lg" Style="">
+                            <MudCardMedia Class="" Image="/images/travel/singapore.jpg" Height="400" />
+                            <MudCardContent>
+                                <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">Singapore</MudText>
+                                <MudText Class="max-line-2" Typo="Typo.body2">At only 725 sq. km., Singapore is one of the smallest countries in the world, but it packs a major punch in... </MudText>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudCarouselItem>
+
+                    <MudCarouselItem Transition="Transition.Slide">
+                        <MudCard Elevation="1" Class="rounded-lg" Style="">
+                            <MudCardMedia Class="" Image="/images/travel/dubai.jpg" Height="400" />
+                            <MudCardContent>
+                                <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">Dubai</MudText>
+                                <MudText Class="max-line-2" Typo="Typo.body2">A melting pot of cultures, Dubai is the most advanced city in the Arab world. Lined with luxury resorts, there are activities for every interest, from camel racing to fossil cliffs to extravagant shopping opportunities. </MudText>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudCarouselItem>
+
+                    <MudCarouselItem Transition="Transition.Slide">
+                        <MudCard Elevation="1" Class="rounded-lg" Style="">
+                            <MudCardMedia Class="" Image="/images/travel/fuji.jpg" Height="400" />
+                            <MudCardContent>
+                                <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">Mount Fuji</MudText>
+                                <MudText Class="max-line-2" Typo="Typo.body2">Japan most famous, holy mountain dominates the landscape of three prefectures when you can see it. Fuji-san is shy and often obscured by clouds, but take the slow train through Shizuoka, or go shopping at the grand Gotemba outlet mall and you might get lucky </MudText>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudCarouselItem>
+
+                    <MudCarouselItem Transition="Transition.Slide">
+                        <MudCard Elevation="1" Class="rounded-lg" Style="">
+                            <MudCardMedia Class="" Image="/images/travel/london.jpg" Height="400" />
+                            <MudCardContent>
+                                <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">London</MudText>
+                                <MudText Class="max-line-2" Typo="Typo.body2">The bustling capital of the United Kingdom has enough historical landmarks, architectural beauties, and free museums to keep even the pickiest traveler occupied for days, if not weeks. </MudText>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudCarouselItem>
+
+                    <MudCarouselItem Transition="Transition.Slide">
+                        <MudCard Elevation="1" Class="rounded-lg" Style="">
+                            <MudCardMedia Class="" Image="/images/travel/hongkong.jpg" Height="400" />
+                            <MudCardContent>
+                                <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">HongKong</MudText>
+                                <MudText Class="max-line-2" Typo="Typo.body2">At only 725 sq. km., Singapore is one of the smallest countries in the world, but it packs a major punch in terms of reasons to visit. </MudText>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudCarouselItem>
+                </ChildContent>
+            </MudCarousel>
+        </MudHidden>
+    </MudItem>
+</MudGrid>
+
+<div class="d-flex flex-row justify-space-between mt-5 mb-2">
+    <div class="d-flex">
+        <MudIconButton Icon="fad fa-location-arrow" Color="Color.Secondary" Size="Size.Small"></MudIconButton>
+        <MudText Color="Color.Default" Class="mx-2" Style="font-weight: 500;" Typo="Typo.subtitle1">Top Destinations</MudText>
+    </div>
+    <MudText Color="Color.Primary" Class="align-self-center" Typo="Typo.subtitle2">View All</MudText>
+</div>
+<MudGrid Class="mb-5 pt-0 mb-1">
+    <MudItem xs="12">
+        <div class="hz-container px-1 py-2">
+            <MudCard Class="rounded-lg mr-5" Style="width: 250px">
+                <MudCardMedia Image="images/travel/Venice.jpeg" Height="160" />
+                <MudCardContent Class="py-0" Style="width: 250px">
+                    <div class="d-flex justify-space-between">
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Class="align-self-center">Venice, Italy</MudText>
+                        <MudToggleIconButton @bind-Toggled="@IsFavorite1" Edge="Edge.End"
+                                Icon="@Icons.Material.Filled.FavoriteBorder" Color="@Color.Default" title="Add to favorite"
+                                ToggledIcon="@Icons.Material.Filled.Favorite" ToggledColor="@Color.Error" />
+                    </div>
+                    <MudText Class="max-line-2" Typo="Typo.body2">Venice is arguably the most beautiful city in the world. The world seems to agree, sending 30 million tourists to walk its cobblestone streets, cross its ornate bridges, and sail down its elegant canals every year.</MudText>
+                </MudCardContent>
+                <MudCardActions Class="d-flex justify-space-between px-4 py-3">
+                    <MudText Typo="Typo.h6" Style="font-weight: 600;" Class="align-self-center" Color="Color.Error"> $999 </MudText>
+                    <MudIcon Icon="fal fa-arrow-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCardActions>
+            </MudCard>
+
+            <MudCard Class="rounded-lg mr-5" Style="width: 250px">
+                <MudCardMedia Image="images/travel/Santorini-greece.jpeg" Height="160" />
+                <MudCardContent Class="py-0" Style="width: 250px">
+                    <div class="d-flex justify-space-between">
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Class="align-self-center">Santorini, Greece</MudText>
+                        <MudToggleIconButton @bind-Toggled="@IsFavorite2" Edge="Edge.End"
+                                Icon="@Icons.Material.Filled.FavoriteBorder" Color="@Color.Default" title="Add to favorite"
+                                ToggledIcon="@Icons.Material.Filled.Favorite" ToggledColor="@Color.Error" />
+                    </div>
+                    <MudText Class="max-line-2" Typo="Typo.body2">The result of volcanic eruptions that devastated ancient civilizations, Santorini, locally known as Thira, is now a tourism must-do. The white buildings and blue roofs of Oia town are an icon of Greece itself.</MudText>
+                </MudCardContent>
+                <MudCardActions Class="d-flex justify-space-between px-4 py-3">
+                    <MudText Typo="Typo.h6" Style="font-weight: 600;" Class="align-self-center" Color="Color.Error"> $999 </MudText>
+                    <MudIcon Icon="fal fa-arrow-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCardActions>
+            </MudCard>
+
+            <MudCard Class="rounded-lg mr-5" Style="width: 250px">
+                <MudCardMedia Image="images/travel/Salt-Pond-Bay-Thailand.jpeg" Height="160" />
+                <MudCardContent Class="py-0" Style="width: 250px">
+                    <div class="d-flex justify-space-between">
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Class="align-self-center">Maya Beach, Thailand</MudText>
+                        <MudToggleIconButton @bind-Toggled="@IsFavorite3" Edge="Edge.End"
+                                Icon="@Icons.Material.Filled.FavoriteBorder" Color="@Color.Default" title="Add to favorite"
+                                ToggledIcon="@Icons.Material.Filled.Favorite" ToggledColor="@Color.Error" />
+                    </div>
+                    <MudText Class="max-line-2" Typo="Typo.body2">The crystal blue waters of this cove were made famous by the 2000 movie The Beach. Surrounded by dramatic cliffs and a white-sand beach, Maya Beach is a popular day trip.</MudText>
+                </MudCardContent>
+                <MudCardActions Class="d-flex justify-space-between px-4 py-3">
+                    <MudText Typo="Typo.h6" Style="font-weight: 600;" Class="align-self-center" Color="Color.Error"> $999 </MudText>
+                    <MudIcon Icon="fal fa-arrow-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCardActions>
+            </MudCard>
+
+            <MudCard Class="rounded-lg mr-5" Style="width: 250px">
+                <MudCardMedia Image="images/travel/Gran-via-Valencia.jpeg" Height="160" />
+                <MudCardContent Class="py-0" Style="width: 250px">
+                    <div class="d-flex justify-space-between">
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Class="align-self-center">Madrid, Spain</MudText>
+                        <MudToggleIconButton @bind-Toggled="@IsFavorite4" Edge="Edge.End"
+                                Icon="@Icons.Material.Filled.FavoriteBorder" Color="@Color.Default" title="Add to favorite"
+                                ToggledIcon="@Icons.Material.Filled.Favorite" ToggledColor="@Color.Error" />
+                    </div>
+                    <MudText Class="max-line-2" Typo="Typo.body2">The capital of Spain tends to be overlooked in favor of the colorful Barcelona, but this city has a glamor of its own.</MudText>
+                </MudCardContent>
+                <MudCardActions Class="d-flex justify-space-between px-4 py-3">
+                    <MudText Typo="Typo.h6" Style="font-weight: 600;" Class="align-self-center" Color="Color.Error"> $999 </MudText>
+                    <MudIcon Icon="fal fa-arrow-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCardActions>
+            </MudCard>
+        </div>
+    </MudItem>
+</MudGrid>
+
+<div class="d-flex flex-row justify-space-between mt-5 mb-2">
+    <div class="d-flex">
+        <MudIconButton Icon="fad fa-location-arrow" Color="Color.Secondary" Size="Size.Small"></MudIconButton>
+        <MudText Color="Color.Default" Class="mx-2" Style="font-weight: 500;" Typo="Typo.subtitle1">Best Places</MudText>
+    </div>
+    <MudText Color="Color.Primary" Class="align-self-center" Typo="Typo.subtitle2">View All</MudText>
+</div>
+<MudGrid Class="mb-5 pt-0 mb-1">
+    <MudItem xs="12">
+        <div class="hz-container px-1 py-2">
+            <MudPaper Class="pa-0 rounded-lg mr-5 mud-theme-primary" Style="height: 300px; width: 200px; position: relative;">
+                <MudImage Style="height: 300px; width: 200px;" Src="/images/travel/Salt-Pond-Bay-Thailand.jpeg" Alt="" Class="rounded-lg" ObjectPosition="ObjectPosition.Center" ObjectFit="ObjectFit.Fill" />
+                <MudOverlay Visible="true" DarkBackground="true" Absolute="true" Style="height: 300px; min-width: 200px;">
+                    <div class="d-flex flex-column justify-space-between" style="height: 280px;width: 180px;">
+                        <div class="align-self-end ma-n2">
+                            <MudToggleIconButton @bind-Toggled="@IsFavorite5"
+                                Icon="@Icons.Material.Filled.FavoriteBorder" Color="Color.Inherit" title="Add to favorite"
+                                ToggledIcon="@Icons.Material.Filled.Favorite" ToggledColor="@Color.Error" />
+                        </div>
+
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600; color: white">Maya Bay, Thailand</MudText>
+                    </div>
+                </MudOverlay>
+            </MudPaper>
+
+            <MudPaper Class="pa-0 rounded-lg mr-5 mud-theme-primary" Style="height: 300px; width: 200px; position: relative;">
+                <MudImage Style="height: 300px; width: 200px;" Src="/images/travel/Gran-via-Valencia.jpeg" Alt="" Class="rounded-lg" ObjectPosition="ObjectPosition.Center" ObjectFit="ObjectFit.Fill" />
+                <MudOverlay Visible="true" DarkBackground="true" Absolute="true" Style="height: 300px; min-width: 200px;">
+                    <div class="d-flex flex-column justify-space-between" style="height: 280px;width: 180px;">
+                        <div class="align-self-end ma-n2">
+                            <MudToggleIconButton @bind-Toggled="@IsFavorite6"
+                                Icon="@Icons.Material.Filled.FavoriteBorder" Color="Color.Inherit" title="Add to favorite"
+                                ToggledIcon="@Icons.Material.Filled.Favorite" ToggledColor="@Color.Error" />
+                        </div>
+
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600; color: white">Madrid, Spain</MudText>
+                    </div>
+                </MudOverlay>
+            </MudPaper>
+
+            <MudPaper Class="pa-0 rounded-lg mr-5 mud-theme-primary" Style="height: 300px; width: 200px; position: relative;">
+                <MudImage Style="height: 300px; width: 200px;" Src="/images/travel/Venice.jpeg" Alt="" Class="rounded-lg" ObjectPosition="ObjectPosition.Center" ObjectFit="ObjectFit.Fill" />
+                <MudOverlay Visible="true" DarkBackground="true" Absolute="true" Style="height: 300px; min-width: 200px;">
+                    <div class="d-flex flex-column justify-space-between" style="height: 280px;width: 180px;">
+                        <div class="align-self-end ma-n2">
+                            <MudToggleIconButton @bind-Toggled="@IsFavorite7"
+                                Icon="@Icons.Material.Filled.FavoriteBorder" Color="Color.Inherit" title="Add to favorite"
+                                ToggledIcon="@Icons.Material.Filled.Favorite" ToggledColor="@Color.Error" />
+                        </div>
+
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600; color: white">Venice, Italy</MudText>
+                    </div>
+                </MudOverlay>
+            </MudPaper>
+
+            <MudPaper Class="pa-0 rounded-lg mr-5 mud-theme-primary" Style="height: 300px; width: 200px; position: relative;">
+                <MudImage Style="height: 300px; width: 200px;" Src="/images/travel/Santorini-greece.jpeg" Alt="" Class="rounded-lg" ObjectPosition="ObjectPosition.Center" ObjectFit="ObjectFit.Fill" />
+                <MudOverlay Visible="true" DarkBackground="true" Absolute="true" Style="height: 300px; min-width: 200px;">
+                    <div class="d-flex flex-column justify-space-between" style="height: 280px;width: 180px;">
+                        <div class="align-self-end ma-n2">
+                            <MudToggleIconButton @bind-Toggled="@IsFavorite8"
+                                Icon="@Icons.Material.Filled.FavoriteBorder" Color="Color.Inherit" title="Add to favorite"
+                                ToggledIcon="@Icons.Material.Filled.Favorite" ToggledColor="@Color.Error" />
+                        </div>
+
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600; color: white">Santorini, Greece</MudText>
+                    </div>
+                </MudOverlay>
+            </MudPaper>
+        </div>
+    </MudItem>
+</MudGrid>
+
+
+<MudCard Elevation="0" Outlined="false" Square="true" Class="mx-n4">
+    <MudCardContent>
+        <MudText Typo="Typo.h6" Class="align-self-center mt-3" Style="font-weight:500"> Experience Tours </MudText>
+
+        <div class="hz-container pb-3 pt-5">
+            <MudPaper Class="mr-3" Elevation="0">
+                <MudImage Class="rounded-lg" Elevation="0" Src="/images/travel/11.jpg" Style="height:220px; width:180px" />
+                <MudPaper Class="mt-3" Elevation="0" Style="background-color: transparent;">
+                    <div class="d-flex">
+                        <MudIcon Icon="@Icons.Material.Filled.Star" Color="Color.Error" Size="Size.Small" />
+                        <MudText Typo="Typo.body2" Style="font-weight:400"> 5.00 <MudText Typo="Typo.body2" Style="font-weight:400" Inline="true">(54)</MudText> </MudText> 
+                    </div>
+                    <MudText Typo="Typo.body1" Class="max-line-2" Style="font-weight: 400;"> Local Street Food with Hanoian </MudText>
+                    <MudText Typo="Typo.body1"> <strong> From $28 </strong> / person </MudText>
+                </MudPaper>
+            </MudPaper>
+
+            <MudPaper Class="mr-3" Elevation="0">
+                <MudImage Class="rounded-lg" Elevation="0" Src="/images/travel/10.jpg" Style="height:220px; width:180px" />
+                <MudPaper Class="mt-3" Elevation="0" Style="background-color: transparent;">
+                    <div class="d-flex">
+                        <MudIcon Icon="@Icons.Material.Filled.Star" Color="Color.Error" Size="Size.Small" />
+                        <MudText Typo="Typo.body2" Style="font-weight:400"> 4.58 <MudText Typo="Typo.body2" Style="font-weight:400" Inline="true">(145)</MudText> </MudText> 
+                    </div>
+                    <MudText Typo="Typo.body1" Class="max-line-2" Style="font-weight: 400;"> Homestay Trekking in Northern Vietnam </MudText>
+                    <MudText Typo="Typo.body1"> <strong> From $27 </strong> / person </MudText>
+                </MudPaper>
+            </MudPaper>
+
+            <MudPaper Class="mr-3" Elevation="0">
+                <MudImage Class="rounded-lg" Elevation="0" Src="/images/travel/15.jpg" Style="height:220px; width:180px" />
+                <MudPaper Class="mt-3" Elevation="0" Style="background-color: transparent;">
+                    <div class="d-flex">
+                        <MudIcon Icon="@Icons.Material.Filled.Star" Color="Color.Error" Size="Size.Small" />
+                        <MudText Typo="Typo.body2" Style="font-weight:400"> 5.00 <MudText Typo="Typo.body2" Style="font-weight:400" Inline="true">(76)</MudText> </MudText> 
+                    </div>
+                    <MudText Typo="Typo.body1" Class="max-line-2" Style="font-weight: 400;"> Enjoy Hanoi Old Quarter With A Photographer </MudText>
+                    <MudText Typo="Typo.body1"> <strong> From $33 </strong> / person </MudText>
+                </MudPaper>
+            </MudPaper>
+
+            <MudPaper Class="mr-3" Elevation="0">
+                <MudImage Class="rounded-lg" Elevation="0" Src="/images/travel/dubai.jpg" Style="height:220px; width:180px" />
+                <MudPaper Class="mt-3" Elevation="0" Style="background-color: transparent;">
+                    <div class="d-flex">
+                        <MudIcon Icon="@Icons.Material.Filled.Star" Color="Color.Error" Size="Size.Small" />
+                        <MudText Typo="Typo.body2" Style="font-weight:400"> 5.00 <MudText Typo="Typo.body2" Style="font-weight:400" Inline="true">(54)</MudText> </MudText> 
+                    </div>
+                    <MudText Typo="Typo.body1" Class="max-line-2" Style="font-weight: 400;"> The Fammous Ha Giang Loop Adventure </MudText>
+                    <MudText Typo="Typo.body1"> <strong> From $38 </strong> / person </MudText>
+                </MudPaper>
+            </MudPaper>
+
+            <MudPaper Class="mr-3" Elevation="0">
+                <MudImage Class="rounded-lg" Elevation="0" Src="/images/travel/17.jpg" Style="height:220px; width:180px" />
+                <MudPaper Class="mt-3" Elevation="0" Style="background-color: transparent;">
+                    <div class="d-flex">
+                        <MudIcon Icon="@Icons.Material.Filled.Star" Color="Color.Error" Size="Size.Small" />
+                        <MudText Typo="Typo.body2" Style="font-weight:400"> 4.98 <MudText Typo="Typo.body2" Style="font-weight:400" Inline="true">(688)</MudText> </MudText> 
+                    </div>
+                    <MudText Typo="Typo.body1" Class="max-line-2" Style="font-weight: 400;"> Hanoi Walking Street Food </MudText>
+                    <MudText Typo="Typo.body1"> <strong> From $25 </strong> / person </MudText>
+                </MudPaper>
+            </MudPaper>
+
+            <MudPaper Class="mr-3" Elevation="0">
+                <MudImage Class="rounded-lg" Elevation="0" Src="/images/travel/18.jpg" Style="height:220px; width:180px" />
+                <MudPaper Class="mt-3" Elevation="0" Style="background-color: transparent;">
+                    <div class="d-flex">
+                        <MudIcon Icon="@Icons.Material.Filled.Star" Color="Color.Error" Size="Size.Small" />
+                        <MudText Typo="Typo.body2" Style="font-weight:400"> 4.58 <MudText Typo="Typo.body2" Style="font-weight:400" Inline="true">(455)</MudText> </MudText> 
+                    </div>
+                    <MudText Typo="Typo.body1" Class="max-line-2" Style="font-weight: 400;"> HanoiSoul-Street Food With Local Guide </MudText>
+                    <MudText Typo="Typo.body1"> <strong> From $29 </strong> / person </MudText>
+                </MudPaper>
+            </MudPaper>
+        </div>
+
+        <MudDivider Class="mt-5"></MudDivider>
+
+        <MudText Typo="Typo.h6" Class="align-self-center mt-8" Style="font-weight:500"> Keep exploring in Hanoi </MudText>
+        <div class="hz-container pb-3 pt-5">
+            <MudPaper Elevation="1" Height="90px" MinWidth="150px" Class="mud-paper-outlined d-flex align-content-center rounded-lg mr-3 pa-3">
+                <MudPaper Class="align-self-center" Elevation="0">
+                    <MudText Typo="Typo.body2" Style="font-weight: 500;"> Food and drink </MudText>
+                    <MudText Typo="Typo.body2"> 53 experiences </MudText>
+                </MudPaper>
+            </MudPaper>
+
+            <MudPaper Elevation="1" Height="90px" MinWidth="150px" Class="mud-paper-outlined d-flex align-content-center rounded-lg mr-3 pa-3">
+                <MudPaper Class="align-self-center" Elevation="0">
+                    <MudText Typo="Typo.body2" Style="font-weight: 500;"> Art and culture </MudText>
+                    <MudText Typo="Typo.body2"> 30 experiences </MudText>
+                </MudPaper>
+            </MudPaper>
+
+            <MudPaper Elevation="1" Height="90px" MinWidth="150px" Class="mud-paper-outlined d-flex align-content-center rounded-lg mr-3 pa-3">
+                <MudPaper Class="align-self-center" Elevation="0">
+                    <MudText Typo="Typo.body2" Style="font-weight: 500;"> Nature and outdoors </MudText>
+                    <MudText Typo="Typo.body2"> 13 experiences </MudText>
+                </MudPaper>
+            </MudPaper>
+
+            <MudPaper Elevation="1" Height="90px" MinWidth="150px" Class="mud-paper-outlined d-flex align-content-center rounded-lg mr-3 pa-3">
+                <MudPaper Class="align-self-center" Elevation="0">
+                    <MudText Typo="Typo.body2" Style="font-weight: 500;"> Sightseeing </MudText>
+                    <MudText Typo="Typo.body2"> 8 experiences </MudText>
+                </MudPaper>
+            </MudPaper>
+
+            <MudPaper Elevation="1" Height="90px" MinWidth="150px" Class="mud-paper-outlined d-flex align-content-center rounded-lg mr-3 pa-3">
+                <MudPaper Class="align-self-center" Elevation="0">
+                    <MudText Typo="Typo.body2" Style="font-weight: 500;"> Transportation activities </MudText>
+                    <MudText Typo="Typo.body2"> 5 experiences </MudText>
+                </MudPaper>
+            </MudPaper>
+
+            <MudPaper Elevation="1" Height="90px" MinWidth="150px" Class="mud-paper-outlined d-flex align-content-center rounded-lg mr-3 pa-3">
+                <MudPaper Class="align-self-center" Elevation="0">
+                    <MudText Typo="Typo.body2" Style="font-weight: 500;"> Sports </MudText>
+                    <MudText Typo="Typo.body2"> 3 experiences </MudText>
+                </MudPaper>
+            </MudPaper>
+
+            <MudPaper Elevation="1" Height="90px" MinWidth="150px" Class="mud-paper-outlined d-flex align-content-center rounded-lg mr-3 pa-3">
+                <MudPaper Class="align-self-center" Elevation="0">
+                    <MudText Typo="Typo.body2" Style="font-weight: 500;"> Wellness </MudText>
+                    <MudText Typo="Typo.body2"> 2 experiences </MudText>
+                </MudPaper>
+            </MudPaper>
+
+            <MudPaper Elevation="1" Height="90px" MinWidth="150px" Class="mud-paper-outlined d-flex align-content-center rounded-lg mr-3 pa-3">
+                <MudPaper Class="align-self-center" Elevation="0">
+                    <MudText Typo="Typo.body2" Style="font-weight: 500;"> Entertainment </MudText>
+                    <MudText Typo="Typo.body2"> 1 experience </MudText>
+                </MudPaper>
+            </MudPaper>
+        </div>
+    </MudCardContent>
+</MudCard>
+@code {
+    public bool IsFavorite1 { get; set; }
+    public bool IsFavorite2 { get; set; }
+    public bool IsFavorite3 { get; set; }
+    public bool IsFavorite4 { get; set; }
+    public bool IsFavorite5 { get; set; }
+    public bool IsFavorite6 { get; set; }
+    public bool IsFavorite7 { get; set; }
+    public bool IsFavorite8 { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        
+    }
+}

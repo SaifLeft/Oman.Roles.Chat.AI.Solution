@@ -1,0 +1,244 @@
+﻿@page "/grocery/checkout"
+
+<MudPaper Elevation="3" Height="150" Class="px-4 mx-n4 mt-n10 py-10 mud-theme-primary" Style="border-radius: 0px 0px 45px 45px;" Outlined="false">
+    <MudPaper Elevation="0" Class="py-0">
+
+    </MudPaper>
+</MudPaper>
+
+<MudCard Elevation="1" Outlined="false" Class="mt-n7 rounded-lg">
+    <MudCardContent>
+        <MudGrid Class="mb-3">
+            <MudItem xs="12">
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">Order Summary</MudText>
+                <MudText Typo="Typo.caption">Finished Shopping? Let's checkout! Remember, this is just a template! </MudText>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudCard Elevation="0" Class="d-flex flex-row justify-space-between  pa-0" Style="height:120px;">
+                    <MudCardContent Class="pa-0">
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Color="@Color.Default">Wholegrain Bread, Locally Baked</MudText>
+                        <MudText Typo="Typo.h6" Style="font-weight: 600;" Color="@Color.Primary">$23.99</MudText>
+                    </MudCardContent>
+                    <MudImage Src="/images/grocery/4s.jpg" Class="rounded-lg ml-1" Style="height: 100px; min-width: 100px; max-width: 100px; " />
+                </MudCard>
+                <MudGrid Spacing="1">
+                    <MudItem xs="8">
+                        <MudSelect T="string" Label="Options" Strict="true" Variant="Variant.Outlined" Margin="Margin.Dense" Format="F2" AnchorOrigin="Origin.CenterCenter" TransformOrigin="Origin.CenterCenter">
+                            <MudSelectItem Value="@("Green Color")" />
+                            <MudSelectItem Value="@("Blue Coral")" />
+                            <MudSelectItem Value="@("Black")" />
+                            <MudSelectItem Value="@("Red")" />
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem xs="4">
+                        <MudNumericField @bind-Value="IntValue" Label="Q.ty" Variant="Variant.Outlined" Margin="Margin.Dense" Min="0" />
+                    </MudItem>
+                </MudGrid>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudCard Elevation="0" Class="d-flex flex-row justify-space-between  pa-0" Style="height:120px;">
+                    <MudCardContent Class="pa-0">
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Color="@Color.Default" >Red Fruit, European Import </MudText>
+                        <MudText Typo="Typo.h6" Style="font-weight: 600;" Color="@Color.Primary">$25.99</MudText>
+                    </MudCardContent>
+                    <MudImage Src="/images/grocery/7s.jpg" Class="rounded-lg ml-1" Style="height:100px; min-width: 100px; max-width:100px;" />
+                </MudCard>
+                <MudGrid Spacing="1">
+                    <MudItem xs="8">
+                        <MudSelect T="string" Label="Options" Strict="true" Variant="Variant.Outlined" Margin="Margin.Dense" Format="F2" AnchorOrigin="Origin.CenterCenter" TransformOrigin="Origin.CenterCenter">
+                            <MudSelectItem Value="@("Green Color")" />
+                            <MudSelectItem Value="@("Blue Coral")" />
+                            <MudSelectItem Value="@("Black")" />
+                            <MudSelectItem Value="@("Red")" />
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem xs="4">
+                        <MudNumericField @bind-Value="IntValue" Label="Q.ty" Variant="Variant.Outlined" Margin="Margin.Dense" Min="0" />
+                    </MudItem>
+                </MudGrid>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudCard Elevation="0" Class="d-flex flex-row justify-space-between  pa-0" Style="height:120px;">
+                    <MudCardContent Class="pa-0">
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Color="@Color.Default" >Local, Organic Cucumbers</MudText>
+                        <MudText Typo="Typo.h6" Style="font-weight: 600;" Color="@Color.Primary">$27.99</MudText>
+                    </MudCardContent>
+                    <MudImage Src="/images/grocery/9s.jpg" Class="rounded-lg ml-1" Style="height: 100px; min-width: 100px; max-width: 100px; " />
+                </MudCard>
+                <MudGrid Spacing="1">
+                    <MudItem xs="8">
+                        <MudSelect T="string" Label="Options" Strict="true" Variant="Variant.Outlined" Margin="Margin.Dense" Format="F2" AnchorOrigin="Origin.CenterCenter" TransformOrigin="Origin.CenterCenter">
+                            <MudSelectItem Value="@("Green Color")" />
+                            <MudSelectItem Value="@("Blue Coral")" />
+                            <MudSelectItem Value="@("Black")" />
+                            <MudSelectItem Value="@("Red")" />
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem xs="4">
+                        <MudNumericField @bind-Value="IntValue" Label="Q.ty" Variant="Variant.Outlined" Margin="Margin.Dense" Min="0" />
+                    </MudItem>
+                </MudGrid>
+            </MudItem>
+
+        </MudGrid>
+    </MudCardContent>
+</MudCard>
+
+<MudCard Elevation="1" Outlined="false" Class=" mt-5 rounded-lg">
+    <MudCardContent>
+        <MudGrid Class="mb-3">
+            <MudItem xs="12">
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Color="Color.Primary">Payment Method</MudText>
+                <MudText Typo="Typo.caption">Please select your payment method. This page is a dummy template.  </MudText>
+            </MudItem>
+            <MudItem xs="12">
+                <MudSelect T="string" Label="Payment type" Strict="true" Variant="Variant.Outlined" Margin="Margin.Dense" Format="F2" AnchorOrigin="Origin.CenterCenter" TransformOrigin="Origin.CenterCenter">
+                    <MudSelectItem Value="@("Credit Card")" />
+                    <MudSelectItem Value="@("Paypal")" />
+                    <MudSelectItem Value="@("Payoneer")" />
+                    <MudSelectItem Value="@("Strip")" />
+                </MudSelect>
+            </MudItem>
+        </MudGrid>
+    </MudCardContent>
+</MudCard>
+
+<MudCard Elevation="1" Outlined="false" Class="rounded-lg mt-5">
+    <MudCardContent>
+        <MudGrid Spacing="1" Class="mb-3">
+            <MudItem xs="12">
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Color="Color.Primary">Payment Details</MudText>
+                <MudText Typo="Typo.caption">Please fill your payment detail. This page is a dummy template.   </MudText>
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField @bind-Value="CardHolderName" Label="Cardholder Name" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField @bind-Value="CardNumber" Label="Card Number" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+            </MudItem>
+            <MudItem xs="7">
+                <MudTextField @bind-Value="ValidThru" Label="Valid Thru" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+            </MudItem>
+            <MudItem xs="5">
+                <MudTextField @bind-Value="CVV" Label="CVV" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+            </MudItem>
+        </MudGrid>
+    </MudCardContent>
+</MudCard>
+
+<MudCard Elevation="1" Outlined="false" Class="rounded-lg mt-5">
+    <MudCardContent>
+        <MudGrid Spacing="1" Class="mb-3">
+            <MudItem xs="12">
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Color="Color.Primary">Invoice Details</MudText>
+                <MudText Typo="Typo.caption">Let fill your invoice detail for contact info, shipping address ! </MudText>
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField @bind-Value="FirstName" Label="First Name" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField @bind-Value="LastName" Label="Last Name" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField @bind-Value="CompanyName" Label="Company Name" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+            </MudItem>
+            <MudItem xs="12">
+                <MudSelect T="string" Label="Country" Strict="true" Variant="Variant.Outlined" Margin="Margin.Dense" Format="F2" AnchorOrigin="Origin.CenterCenter" TransformOrigin="Origin.CenterCenter">
+                    <MudSelectItem Value="@("Singapore")" />
+                    <MudSelectItem Value="@("Malaysia")" />
+                    <MudSelectItem Value="@("Vietnam")" />
+                    <MudSelectItem Value="@("Philipine")" />
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField @bind-Value="State" Label="State" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField @bind-Value="Street" Label="Street Name" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField @bind-Value="Apartment" Label="Apartment, Unit, Floor..." Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+            </MudItem>
+        </MudGrid>
+    </MudCardContent>
+</MudCard>
+
+<MudPaper Elevation="0" Class="px-4 mx-n4 my-5 py-5 mud-theme-primary" Outlined="false" Square="true">
+    <MudText Typo="Typo.subtitle1" Style="font-weight: 600; text-align: center;">Submit Order</MudText>
+    <MudText Typo="Typo.caption" Align="Align.Center" Style="display: block">After tapping the purchase button we'll immediately start processing your order </MudText>
+
+    <MudCard Class="rounded-lg my-5">
+        <MudCardContent>
+            <MudGrid Spacing="2">
+                <MudItem xs="12">
+                    <div class="d-flex justify-space-between">
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;">Total</MudText>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">$77.99</MudText>
+                    </div>
+                </MudItem>
+
+                <MudItem xs="12">
+                    <div class="d-flex justify-space-between">
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;">Taxes</MudText>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">$7.99</MudText>
+                    </div>
+                </MudItem>
+
+                <MudItem xs="12">
+                    <div class="d-flex justify-space-between">
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;">Delivery Fee</MudText>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">$0</MudText>
+                    </div>
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudDivider Class="my-2"></MudDivider>
+                </MudItem>
+
+                <MudItem xs="12">
+                    <div class="d-flex justify-space-between">
+                        <MudText Typo="Typo.h6" Style="font-weight: 600;">Grand Total</MudText>
+                        <MudText Typo="Typo.h6" Style="font-weight: 600;" Color="@Color.Primary">86.99</MudText>
+                    </div>
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudDivider Class="my-2"></MudDivider>
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudContainer Fixed="true" Class="px-0">
+                        <MudButton FullWidth="true" Class="rounded-lg" Variant="Variant.Filled" Style="@($"color:{Colors.Shades.White}; background:{Theme.PaletteDark.SuccessDarken};")">Purchase Now</MudButton>
+                    </MudContainer>
+                </MudItem>
+            </MudGrid>
+        </MudCardContent>
+    </MudCard>
+</MudPaper>
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+
+    public MudTheme Theme = new MudTheme();
+
+    public int IntValue { get; set; } = 1;
+    public double DoubleValue { get; set; }
+    public decimal DecimalValue { get; set; }
+
+    public string CardHolderName { get; set; }
+    public string CardNumber { get; set; }
+    public string ValidThru { get; set; }
+    public string CVV { get; set; }
+
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string CompanyName { get; set; }
+    public string State { get; set; }
+    public string Street { get; set; }
+    public string Apartment { get; set; }
+}

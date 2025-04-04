@@ -1,0 +1,32 @@
+﻿<style>
+    .btn-flat-success {
+        background-color: var(--mud-palette-surface);
+        color: var(--mud-palette-success);
+        border: 0px solid transparent;
+    }
+</style>
+
+<MudDialog Class="ma-3 py-0 rounded-lg mud-theme-success">
+    <TitleContent>
+    </TitleContent>
+    <DialogContent>
+        <MudPaper Elevation="0" Class="d-flex flex-column gap-3 justify-center mud-theme-success">
+            <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Class="mt-3 fa-4x align-self-center" Size="Size.Large"></MudIcon>
+            <MudText Align="Align.Center" Typo="Typo.h6" Color="Color.Default" Style="font-weight: 600"> AWESOME! </MudText>
+            <MudText Align="Align.Center" Typo="Typo.body2" Class=""> You can continue with your previous actions. Easy to attach these to success calls. </MudText>
+        </MudPaper>
+        <div class="my-5 d-flex justify-center">
+            <MudButton Class="btn-flat-success px-15 rounded-lg" DropShadow="false" Variant="Variant.Filled" OnClick="Submit"> Ok </MudButton>
+        </div>
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
+
+    void Submit()
+    {
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+    void Cancel() => MudDialog.Cancel();
+}

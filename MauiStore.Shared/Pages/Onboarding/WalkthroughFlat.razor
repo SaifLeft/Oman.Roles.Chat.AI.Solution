@@ -1,0 +1,177 @@
+﻿@page "/walkthrough-flat"
+@attribute [Microsoft.AspNetCore.Authorization.AllowAnonymous]
+@inherits LayoutComponentBase
+
+<style>
+    .copyright-footer {
+        display: none;
+    }
+
+    .wk-container {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+
+    .first-card {
+        background-color: #EC3679;
+        background-image: linear-gradient(315deg, #EC3679 0%, rgba(38,132,255,1) 80%);
+    }
+
+    .second-card {
+        background-color: #f6be65;
+        background-image: linear-gradient(135deg, #f6be65 0, #e6603a 80%);
+    }
+
+    .third-card {
+        background-color: #e1358f;
+        background-image: linear-gradient(315deg, #e1358f 0, #7e6ce7 80%)
+    }
+
+    .btn-flat {
+        color: #fff;
+        border: 0px solid transparent;
+    }
+
+    .bounceIn {
+        opacity: 0;
+        animation-delay: 0.5s;
+        animation-duration: 0.5s;
+        animation-name: bounceIn;
+        animation-fill-mode: forwards;
+    }
+
+    .bounceOut {
+        animation-duration: 0.5s;
+        animation-name: bounceOut;
+        animation-fill-mode: forwards;
+    }
+
+    .backInDown {
+        opacity: 0;
+        animation-delay: 0.5s;
+        animation-duration: 0.5s;
+        animation-name: backInDown;
+        animation-fill-mode: forwards;
+    }
+
+    .backOutDown {
+        animation-duration: 0.5s;
+        animation-name: backOutDown;
+        animation-fill-mode: forwards;
+    }
+
+    .rotateIn {
+        opacity: 0;
+        animation-delay: 0.5s;
+        animation-duration: 0.5s;
+        animation-name: rotateIn;
+        animation-fill-mode: forwards;
+    }
+
+    .rotateOut {
+        animation-duration: 0.5s;
+        animation-name: rotateOut;
+        animation-fill-mode: forwards;
+    }
+</style>
+
+<MudCarousel @ref="_carousel" Class="wk-container" Style="width: 100%; height: 100%;" ShowArrows="false" ShowBullets="false" AutoCycle="false" TData="string">
+    <MudCarouselItem Transition="Transition.Slide" >
+        <MudCard Outlined="false" Square="true" Class="wk-container first-card border-0 d-flex flex-column justify-center">
+            <MudCardContent Class="d-flex flex-column align-self-center">
+                <MudPaper Elevation="0" Class="pa-15 align-self-center bounceIn" Style="height: 100%, width: 100%; border-radius: 50%; background-color: rgba(255, 255, 255, 0.1);">
+                    <MudPaper Elevation="0" Class="pa-10 align-self-center" Style="border-radius: 50%; background-color: rgba(255, 255, 255, 0.1);">
+                        <MudPaper Elevation="0" Class="pa-8" Style="border-radius: 50%; background-color: rgba(255, 255, 255, 0.1);">
+                            <MudPaper Elevation="1" Class="pa-3 d-flex align-self-center" Style="border-radius: 50%; background-color: rgba(255, 255, 255, 0.4);">
+                                <MudIcon Icon="@Icons.Material.Outlined.EmojiEmotions" Class="align-self-center fa-4x" Style="color: #ffffff;"></MudIcon>
+                                @*<MudText Class="fal fa-globe fa-3x align-self-center" Style="color: #ffffff;"></MudText>*@
+                            </MudPaper>
+                        </MudPaper>
+                    </MudPaper>
+                </MudPaper>
+
+                <div class="mt-10">
+                    <MudText Typo="Typo.h5" Class="backInDown" Style="font-weight: 700; color: #ffffff" Align="Align.Center">
+                        Welcome
+                    </MudText>
+                    <MudText Typo="Typo.body1" Class="mt-5" Align="Align.Center" Style="font-weight: 400; color: #ffffff;">
+                        To a new world of posibilities,<br> welcome to MauiStore.
+                    </MudText>
+                    <MudButton Class="btn-flat mt-10 rounded-lg" OnClick="NextAsync" FullWidth="true" Variant="Variant.Outlined" Size="Size.Medium" Style="@($"color:{Colors.Shades.White}; background-color: #9C27B0;")"> Next </MudButton>
+                </div>
+            </MudCardContent>
+        </MudCard>
+    </MudCarouselItem>
+    <MudCarouselItem Transition="Transition.Slide">
+        <MudCard Outlined="false" Square="true" Class="wk-container second-card border-0 d-flex flex-column justify-center">
+            <MudCardContent Class="d-flex flex-column align-self-center">
+                <MudPaper Elevation="0" Class="pa-15 align-self-center bounceIn" Style="height: 100%, width: 100%; border-radius: 50%; background-color: rgba(255, 255, 255, 0.1);">
+                    <MudPaper Elevation="0" Class="pa-10 align-self-center" Style="border-radius: 50%; background-color: rgba(255, 255, 255, 0.1);">
+                        <MudPaper Elevation="0" Class="pa-8" Style="border-radius: 50%; background-color: rgba(255, 255, 255, 0.1);">
+                            <MudPaper Elevation="1" Class="pa-3 d-flex align-self-center" Style="border-radius: 50%; background-color: rgba(255, 255, 255, 0.4);">
+                                <MudIcon Icon="@Icons.Material.Outlined.OfflineBolt" Class="align-self-center fa-4x" Style="color: #ffffff;"></MudIcon>
+                                @*<MudText Class="fal fa-bolt fa-3x align-self-center" Style="color: #ffffff;"></MudText>*@
+                            </MudPaper>
+                        </MudPaper>
+                    </MudPaper>
+                </MudPaper>
+
+                <div class="mt-10">
+                    <MudText Typo="Typo.h5" Class="backInDown" Style="font-weight: 700; color: #ffffff;" Align="Align.Center">
+                        Save Time
+                    </MudText>
+                    <MudText Typo="Typo.body1" Class="mt-5" Align="Align.Center" Style="font-weight: 400; color: #ffffff">
+                        Save countless hours of UI design.<br>Focus on your app functions.
+                    </MudText>
+                    <MudButton Class="btn-flat mt-10 rounded-lg" OnClick="NextAsync" FullWidth="true" Variant="Variant.Outlined" Size="Size.Medium" Style="@($"color:{Colors.Shades.White}; background-color: #536DFE;")"> Next </MudButton>
+                </div>
+            </MudCardContent>
+        </MudCard>
+    </MudCarouselItem>
+    <MudCarouselItem Transition="Transition.Slide">
+        <MudCard Outlined="false" Square="true" Class="wk-container third-card border-0 d-flex flex-column justify-center">
+            <MudCardContent Class="d-flex flex-column align-self-center">
+                <MudPaper Elevation="0" Class="pa-15 align-self-center bounceIn" Style="height: 100%, width: 100%; border-radius: 50%; background-color: rgba(255, 255, 255, 0.1);">
+                    <MudPaper Elevation="0" Class="pa-10 align-self-center" Style="border-radius: 50%; background-color: rgba(255, 255, 255, 0.1);">
+                        <MudPaper Elevation="0" Class="pa-8" Style="border-radius: 50%; background-color: rgba(255, 255, 255, 0.1);">
+                            <MudPaper Elevation="1" Class="pa-3 d-flex align-self-center" Style="border-radius: 50%; background-color: rgba(255, 255, 255, 0.4);">
+                                <MudIcon Icon="@Icons.Material.Outlined.Stars" Class="align-self-center fa-4x" Style="color: #ffffff;"></MudIcon>
+                                @*<MudText Class="fal fa-graduation-cap fa-3x align-self-center" Style="color: #ffffff;"></MudText>*@
+                            </MudPaper>
+                        </MudPaper>
+                    </MudPaper>
+                </MudPaper>
+
+                <div class="mt-10">
+                    <MudText Typo="Typo.h5" Class="backInDown" Style="font-weight: 700; color: #ffffff " Align="Align.Center">
+                            Learn
+                    </MudText>
+                    <MudText Typo="Typo.body1" Class="mt-5" Align="Align.Center" Style="font-weight: 400; color: #ffffff;">
+                        Learn while you work. <br>Tons of examples for you to explore.
+                    </MudText>
+                    <MudButton Class="btn-flat mt-10 rounded-lg" OnClick="FinishAsync" FullWidth="true" Variant="Variant.Outlined" Size="Size.Medium" Style="@($"color:{Colors.Shades.White}; background-color: #D5004E;")"> FINISH! </MudButton>
+                </div>
+            </MudCardContent>
+        </MudCard>
+    </MudCarouselItem>
+</MudCarousel>
+
+@code{
+    private MudCarousel<string> _carousel;
+
+    private async Task NextAsync()
+    {
+        _carousel.Next();
+    }
+
+    private async Task FinishAsync()
+    {
+        //Parent.IsFirstVisit = !Parent.IsFirstVisit;
+        //await ClientPreferences.ChangeFirstVisitAsync(Parent.IsFirstVisit);
+        await InvokeAsync(StateHasChanged);
+        _navigationManager.NavigateTo("/onboarding-index");
+    }
+}

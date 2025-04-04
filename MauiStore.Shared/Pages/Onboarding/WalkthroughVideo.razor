@@ -1,0 +1,127 @@
+﻿@page "/walkthrough-video"
+@attribute [Microsoft.AspNetCore.Authorization.AllowAnonymous]
+@inherits LayoutComponentBase
+
+<style>
+
+    .copyright-footer {
+        display: none;
+    }
+
+    .wk-container {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+
+    video {
+      object-fit: cover;
+      width: 100vw;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+
+    .bg-gradient-1 {
+        background: rgba(225, 53, 143, 0.3);  /* fallback for old browsers */
+        background: -webkit-linear-gradient(315deg, rgba(126, 108, 231, 0.3), rgba(225, 53, 143, 0.3));  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(315deg, rgba(126, 108, 231, 0.3), rgba(225, 53, 143, 0.3)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    }
+
+    .bg-gradient-2 {
+        background: rgba(236, 54, 121, 0.3);  /* fallback for old browsers */
+        background: -webkit-linear-gradient(315deg, rgba(38,132,255, 0.3), rgba(236, 54, 121, 0.3));  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(315deg, rgba(38,132,255, 0.3), rgba(236, 54, 121, 0.3)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    }
+
+    .bg-gradient-3 {
+        background: rgba(246, 190, 101, 0.3);  /* fallback for old browsers */
+        background: -webkit-linear-gradient(315deg, rgba(126, 108, 231, 0.3), rgba(246, 190, 101, 0.3));  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(315deg, rgba(126, 108, 231, 0.3), rgba(246, 190, 101, 0.3)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    }
+
+    .bg-gradient-4 {
+        background: rgba(230, 96, 58, 0.3);  /* fallback for old browsers */
+        background: -webkit-linear-gradient(315deg, rgba(246, 190, 101, 0.3), rgba(230, 96, 58, 0.3));  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(315deg, rgba(246, 190, 101, 0.3), rgba(230, 96, 58, 0.3)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    }
+</style>
+
+<div class="px-10 pt-15" style="height: 100vh; width: auto; position: relative;">
+    <video playsinline autoplay muted loop poster="/images/onboarding/welcome_bg_lg.jpg" id="bgvid">
+      <source src="/images/onboarding/local_video.mp4" type="video/mp4">
+    </video>
+
+    <MudOverlay Visible="true" Class="" DarkBackground="false" Absolute="true" Style="height: 100vh; min-width: 100%;">
+        <MudCarousel Class="wk-container" Style="width: 100%; height: 100%;" ShowArrows="true" ShowBullets="true" AutoCycle="false" TData="object">
+            <BulletTemplate Context="selected">
+                <div Class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                    <span class="mud-icon-button-label">
+                        <MudIcon Icon="@(selected ? "fad fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                    </span>
+                </div>
+            </BulletTemplate>
+            <ChildContent>
+                <MudCarouselItem Transition="Transition.Slide">
+                    <MudPaper Elevation="0" Square="true" Class="d-flex bg-gradient-1 justify-center" Style="background-color: transparent; height: 100%; width: 100%">
+                        <div class="align-self-center d-flex flex-column align-center px-10">
+                            <MudIcon Icon="fas fa-palette" Class="fa-5x" Style="color: #ffffff;"></MudIcon>
+                            <MudText Typo="Typo.h5" Class="mt-10" Style="font-weight: 600; color: #ffffff" Align="Align.Center">
+                                More Content
+                            </MudText>
+                            <MudText Typo="Typo.body2" Class="mt-3" Align="Align.Center" Style="display: block; color: #ffffff;">
+                                MauiStore UI Kit Flows, more themes, more pages, more layouts, more icons.
+                            </MudText>
+                        </div>
+                    </MudPaper>
+                </MudCarouselItem>
+                <MudCarouselItem Transition="Transition.Slide">
+                    <MudPaper Elevation="0" Square="true" Class="d-flex bg-gradient-2 justify-center" Style="background-color: transparent; height: 100%; width: 100%">
+                        <div class="align-self-center d-flex flex-column align-center px-10">
+                            <MudIcon Icon="fas fa-gem" Class="fa-5x" Style="color: #ffffff;"></MudIcon>
+                            <MudText Typo="Typo.h5" Class="mt-10" Style="font-weight: 600; color: #ffffff" Align="Align.Center">
+                                Richer Content
+                            </MudText>
+                            <MudText Typo="Typo.body2" Class="mt-3" Align="Align.Center" Style="display: block; color: #ffffff;">
+                                Fluid animations, flexible layouts, gradients support, more custom controls.
+                            </MudText>
+                        </div>
+                    </MudPaper>
+                </MudCarouselItem>
+                <MudCarouselItem Transition="Transition.Slide">
+                    <MudPaper Elevation="0" Square="true" Class="d-flex bg-gradient-3 justify-center" Style="background-color: transparent; height: 100%; width: 100%">
+                        <div class="align-self-center d-flex flex-column align-center px-10">
+                            <MudIcon Icon="fas fa-fire" Class="fa-5x" Style="color: #ffffff;"></MudIcon>
+                            <MudText Typo="Typo.h5" Class="mt-10" Style="font-weight: 600; color: #ffffff" Align="Align.Center">
+                                Faster Kickstart
+                            </MudText>
+                            <MudText Typo="Typo.body2" Class="mt-3" Align="Align.Center" Style="display: block; color: #ffffff;">
+                                Setup your project and create your own themes with MauiStore.
+                            </MudText>
+                        </div>
+                    </MudPaper>
+                </MudCarouselItem>
+                <MudCarouselItem Transition="Transition.Slide">
+                    <MudPaper Elevation="0" Square="true" Class="d-flex bg-gradient-4 justify-center" Style="background-color: transparent; height: 100%; width: 100%">
+                        <div class="align-self-center d-flex flex-column align-center px-10">
+                            <MudIcon Icon="fas fa-mug-hot" Class="fa-5x" Style="color: #ffffff;"></MudIcon>
+                            <MudText Typo="Typo.h5" Class="mt-10" Style="font-weight: 600; color: #ffffff" Align="Align.Center">
+                                MauiStore 2.0
+                            </MudText>
+                            <MudText Typo="Typo.body2" Class="mt-3" Align="Align.Center" Style="display: block; color: #ffffff;">
+                                The best UI Kit for Blazor WebAssembly
+                            </MudText>
+                        </div>
+                    </MudPaper>
+                </MudCarouselItem>
+            </ChildContent>
+        </MudCarousel>
+    </MudOverlay>
+</div>
+
+@code{
+    public MudTheme Theme = new MudTheme();
+}

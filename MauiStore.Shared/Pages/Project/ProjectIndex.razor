@@ -1,0 +1,147 @@
+﻿@page "/project"
+@using MauiStore.Data
+
+@if (!_loaded)
+{
+    <Spinner></Spinner>
+}
+else
+{
+<MudGrid Class="mt-5 pt-0 mb-1">
+    <MudItem xs="12">
+        <MudCard Elevation="1" Class="rounded-lg">
+            <MudCardContent>
+                <MudText Color="Color.Default" Align="Align.Left" Typo="Typo.body2" Style="font-weight: 400;">Prebuilt Project/ Tasks pages for your Web or Mobile apps.</MudText>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+<MudGrid Class="mb-5" Spacing="2">
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row rounded-lg" @onclick="@(() => NavigateToHome1())">
+            <MudIcon Icon="@Icons.Material.TwoTone.Home" Color="Color.Warning" Class="mx-3 my-5 align-self-center" Size="Size.Large"></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Home page 1 </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row rounded-lg" @onclick="@(() => NavigateToHome2())">
+            <MudIcon Icon="@Icons.Material.TwoTone.Home" Color="Color.Error" Class="mx-3 my-5 align-self-center" Size="Size.Large"></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Home page 2 </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row rounded-lg" @onclick="@(() => NavigateToHome3())">
+            <MudIcon Icon="@Icons.Material.TwoTone.Home" Color="Color.Secondary" Class="mx-3 my-5 align-self-center" Size="Size.Large"></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Home page 3 </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row rounded-lg" @onclick="@(() => NavigateToProject1())">
+            <MudIcon Icon="@Icons.Material.TwoTone.Task" Color="Color.Primary" Class="mx-3 my-5 align-self-center" Size="Size.Large"></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Project 1 </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row rounded-lg" @onclick="@(() => NavigateToProject2())">
+            <MudIcon Icon="@Icons.Material.TwoTone.NetworkCell" Color="Color.Info" Class="mx-3 my-5 align-self-center" Size="Size.Large"></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Project 2 </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row rounded-lg" @onclick="@(() => NavigateToTaskCards())">
+            <MudIcon Icon="@Icons.Material.TwoTone.AddTask" Color="Color.Secondary" Class="mx-3 my-5 align-self-center" Size="Size.Large"></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Task Cards </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+
+    @*<MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row rounded-lg" @onclick="@(() => NavigateToTaskList())">
+            <MudIcon Icon="@Icons.Material.TwoTone.List" Color="Color.Secondary" Class="mx-3 my-5 align-self-center" Size="Size.Large"></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Task List </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>*@
+
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row rounded-lg" @onclick="@(() => NavigateToTaskCategories())">
+            <MudIcon Icon="@Icons.Material.TwoTone.AddBox" Color="Color.Warning" Class="mx-3 my-5 align-self-center" Size="Size.Large"></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Task Categories </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row rounded-lg" @onclick="@(() => NavigateToToDoList())">
+            <MudIcon Icon="@Icons.Material.TwoTone.Checklist" Color="Color.Warning" Class="mx-3 my-5 align-self-center" Size="Size.Large"></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> To-Do List </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+}
+@code {
+    private bool _loaded;
+    private List<PostSummary> _postList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+        _loaded = true;
+    }
+
+    public void NavigateToHome1()
+    {
+        _navigationManager.NavigateTo("/project-home1");
+    }
+    public void NavigateToHome2()
+    {
+        _navigationManager.NavigateTo("/project-home2");
+    }
+
+    public void NavigateToHome3()
+    {
+        _navigationManager.NavigateTo("/project-home3");
+    }
+
+    public void NavigateToProject1()
+    {
+        _navigationManager.NavigateTo("/project-project1");
+    }
+
+    public void NavigateToProject2()
+    {
+        _navigationManager.NavigateTo("/project-project2");
+    }
+
+    public void NavigateToTaskCards()
+    {
+        _navigationManager.NavigateTo("/project-task-cards");
+    }
+
+    public void NavigateToTaskList()
+    {
+        _navigationManager.NavigateTo("/project-task-list");
+    }
+
+    public void NavigateToTaskCategories()
+    {
+        _navigationManager.NavigateTo("/project-task-categories");
+    }
+
+    public void NavigateToToDoList()
+    {
+        _navigationManager.NavigateTo("/project-todo-list");
+    }
+}

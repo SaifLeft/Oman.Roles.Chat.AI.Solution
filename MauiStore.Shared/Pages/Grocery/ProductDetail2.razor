@@ -1,0 +1,244 @@
+﻿@page "/grocery/productdetail-2"
+
+<MudPaper Elevation="1" Height="150" Class="px-4 mx-n4 mt-n10 py-10 mud-theme-primary" Style="border-radius: 0px 0px 45px 45px;" Outlined="false">
+    <div class="py-4">
+    </div>
+</MudPaper>
+
+
+<MudCard Elevation="0" Outlined="false" Class="mt-n15 rounded-lg">
+    <MudCardMedia Image="/images/grocery/4.jpg" Height="350" />
+</MudCard>
+
+<MudCard Elevation="1" Class="mt-n15 rounded-lg">
+    <MudCardContent >
+        <div class="d-flex justify-space-between mb-1">
+            <MudText Typo="Typo.h6" Style="font-weight: 600;">Fresh Cranberries</MudText>
+            <div>
+                <MudText Typo="Typo.h6" Style="font-weight: 600;" Color="@Color.Default">$23.99</MudText>
+                <MudText Align="Align.Center" Typo="Typo.caption" >per pack</MudText>
+            </div>
+        </div>
+        <MudText Typo="Typo.body2">Locally grown, organic with a perfectly balanced taste that will leave you craving for more.</MudText>    
+        <MudGrid Class="pt-3" Spacing="1">
+            <MudItem xs="6">
+                <MudButton Class="align-self-center rounded-lg" FullWidth="true" Color="Color.Primary" Variant="Variant.Outlined" Size="Size.Small">Add to Favorite</MudButton>
+            </MudItem>
+            <MudItem xs="6">
+                <MudButton Class="align-self-center rounded-lg" FullWidth="true" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Small">Add To Bag</MudButton>
+            </MudItem>
+        </MudGrid>
+    </MudCardContent>
+</MudCard>
+
+<MudCard Elevation="1" Outlined="false" Class="rounded-lg mt-5">
+    <MudCardContent>
+        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">Image Gallery</MudText>
+        <MudText Typo="Typo.caption">A gallery showcasing our product in a better view for you to see.</MudText>
+
+        <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+            <MudGrid Spacing="3" Class="d-flex align-content-center justify-space-xs-between flex-wrap pa-0 mt-3">
+                <MudItem md="6" lg="4">
+                    <MudImage Src="/images/grocery/8.jpg" Fluid="true" Class="rounded-lg" />
+                </MudItem>
+                <MudItem md="6" lg="4">
+                    <MudImage Src="/images/grocery/1.jpg" Fluid="true" Class="rounded-lg" />
+                </MudItem>
+                <MudItem xs="6" md="6" lg="4">
+                    <MudImage Src="/images/grocery/2.jpg" Fluid="true" Class="rounded-lg" />
+                </MudItem>
+                <MudItem md="6" lg="4">
+                    <MudImage Src="/images/grocery/3.jpg" Fluid="true" Class="rounded-lg" />
+                </MudItem>
+                <MudItem md="6" lg="4">
+                    <MudImage Src="/images/grocery/4.jpg" Fluid="true" Class="rounded-lg" />
+                </MudItem>
+                <MudItem md="6" lg="4">
+                    <MudImage Src="/images/grocery/5.jpg" Fluid="true" Class="rounded-lg" />
+                </MudItem>
+            </MudGrid>
+        </MudHidden>
+
+        <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="false">
+            <MudGrid Spacing="1" Class="d-flex align-content-center justify-space-between flex-wrap pa-0 mt-3">
+                <MudItem xs="4" md="6" lg="4">
+                    <MudImage Src="/images/grocery/3s.jpg" Fluid="true" Class="rounded-lg" />
+                </MudItem>
+                <MudItem xs="4" md="6" lg="4">
+                    <MudImage Src="/images/grocery/4s.jpg" Fluid="true" Class="rounded-lg" />
+                </MudItem>
+                <MudItem xs="4" md="6" lg="4">
+                    <MudImage Src="/images/grocery/7s.jpg" Fluid="true" Class="rounded-lg"/>
+                </MudItem>
+                <MudItem xs="4" md="6" lg="4">
+                    <MudImage Src="/images/grocery/9s.jpg" Fluid="true" Class="rounded-lg" />
+                </MudItem>
+                <MudItem xs="4" md="6" lg="4">
+                    <MudImage Src="/images/grocery/1s.jpg" Fluid="true" Class="rounded-lg"/>
+                </MudItem>
+                <MudItem xs="4" md="6" lg="4">
+                    <MudImage Src="/images/grocery/2s.jpg" Fluid="true" Class="rounded-lg" />
+                </MudItem>
+            </MudGrid>
+        </MudHidden>
+    </MudCardContent>
+</MudCard>
+
+<MudPaper Elevation="0" Class="px-4 mx-n4 my-5 py-5 mud-theme-primary" Outlined="false" Square="true">
+    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">You Might Like These</MudText>
+    <MudText Typo="Typo.body2" Style="font-weight: 500;">Check out the best news categories based on your browsing habbits. We have a few for you.</MudText>
+
+    <div class="hz-container pb-3 pt-5">
+        <MudCard Elevation="1" Outlined="false" Class="rounded-lg mr-3">
+            <MudCardContent Style="width: 160px;" Class="d-flex flex-column">
+                <MudImage Src="/images/grocery/sm/2.png" Class="align-self-center" Height="90"></MudImage>
+                <MudText Typo="Typo.subtitle1" Align="Align.Center" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Surface">Strawberries</MudText>
+                <MudText Typo="Typo.caption" Class="align-self-center" Align="Align.Center" Color="@Color.Default">Organic Foods</MudText>
+            </MudCardContent>
+        </MudCard>
+
+        <MudCard Elevation="1" Outlined="false" Class="rounded-lg mr-3">
+            <MudCardContent Style="width: 160px;" Class="d-flex flex-column">
+                <MudImage Src="/images/grocery/sm/4.png" Class="align-self-center" Height="90"></MudImage>
+                <MudText Typo="Typo.subtitle1" Align="Align.Center" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Surface">Iceberg Salad</MudText>
+                <MudText Typo="Typo.caption" Class="align-self-center" Align="Align.Center" Color="@Color.Default">Organic Foods</MudText>
+            </MudCardContent>
+        </MudCard>
+
+        <MudCard Elevation="1" Outlined="false" Class="rounded-lg mr-3">
+            <MudCardContent Style="width: 160px;" Class="d-flex flex-column">
+                <MudImage Src="/images/grocery/sm/3.png" Class="align-self-center" Height="90"></MudImage>
+                <MudText Typo="Typo.subtitle1" Align="Align.Center" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Surface">Red UI Onions</MudText>
+                <MudText Typo="Typo.caption" Class="align-self-center" Align="Align.Center" Color="@Color.Default">Organic Foods</MudText>
+            </MudCardContent>
+        </MudCard>
+
+        <MudCard Elevation="1" Outlined="false" Class="rounded-lg mr-3">
+            <MudCardContent Style="width: 160px;" Class="d-flex flex-column">
+                <MudImage Src="/images/grocery/sm/1.png" Class="align-self-center" Height="90"></MudImage>
+                <MudText Typo="Typo.subtitle1" Align="Align.Center" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Surface">American Tomatoes</MudText>
+                <MudText Typo="Typo.caption" Class="align-self-center" Align="Align.Center" Color="@Color.Default">Organic Foods</MudText>
+            </MudCardContent>
+        </MudCard>
+
+        <MudCard Elevation="1" Outlined="false" Class="rounded-lg mr-3">
+            <MudCardContent Style="width: 160px;" Class="d-flex flex-column">
+                <MudImage Src="/images/grocery/sm/1.png" Class="align-self-center" Height="90"></MudImage>
+                <MudText Typo="Typo.subtitle1" Align="Align.Center" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Surface">Strawberries</MudText>
+                <MudText Typo="Typo.caption" Class="align-self-center" Align="Align.Center" Color="@Color.Default">Organic Foods</MudText>
+            </MudCardContent>
+        </MudCard>
+
+        <MudCard Elevation="1" Outlined="false" Class="rounded-lg mr-3">
+            <MudCardContent Style="width: 160px;" Class="d-flex flex-column">
+                <MudImage Src="/images/grocery/sm/2.png" Class="align-self-center" Height="90"></MudImage>
+                <MudText Typo="Typo.subtitle1" Align="Align.Center" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Surface">Strawberries</MudText>
+                <MudText Typo="Typo.caption" Class="align-self-center" Align="Align.Center" Color="@Color.Default">Organic Foods</MudText>
+            </MudCardContent>
+        </MudCard>
+    </div>
+</MudPaper>
+
+<!--Recommend items-->
+<MudText Color="Color.Default" Class="mt-5" Typo="Typo.subtitle1" Style="font-weight: 600;">Recommended for You</MudText>
+<div class="hz-container px-1 py-3">
+    <MudCard Elevation="1" Outlined="false" Class="mr-3 rounded-lg">
+        <MudCardMedia Image="/images/grocery/1.jpg" Height="120" />
+        <MudCardContent Class="pb-0" Style="width: 280px;">
+            <div class="d-flex justify-space-between mb-1">
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">Cranberries</MudText>
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Color="@Color.Default">$19.99</MudText>
+            </div>
+        <MudText Typo="Typo.caption">Locally grown, organic with a perfectly balanced taste that will leave you craving for more.</MudText>    
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton Variant="Variant.Filled" Size="Size.Small" FullWidth="true" Color="Color.Primary" Class="ma-2 rounded-lg">Add To Bag</MudButton>
+        </MudCardActions>
+    </MudCard>
+
+    <MudCard Elevation="1" Outlined="false" Class="mr-3 rounded-lg">
+        <MudCardMedia Image="/images/grocery/2.jpg" Height="120" />
+        <MudCardContent Class="pb-0" Style="width: 280px;">
+            <div class="d-flex justify-space-between mb-1">
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">US Tomatoes</MudText>
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Color="@Color.Default">$7.99</MudText>
+            </div>
+        <MudText Typo="Typo.caption">Locally grown, organic with a perfectly balanced taste that will leave you craving for more.</MudText>    
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton Variant="Variant.Filled" Size="Size.Small" FullWidth="true" Color="Color.Primary" Class="ma-2 rounded-lg">Add To Bag</MudButton>
+        </MudCardActions>
+    </MudCard>
+
+    <MudCard Elevation="1" Outlined="false" Class="mr-3 rounded-lg">
+        <MudCardMedia Image="/images/grocery/4.jpg" Height="120" />
+        <MudCardContent Class="pb-0" Style="width: 280px;">
+            <div class="d-flex justify-space-between mb-1">
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">Cucumbers</MudText>
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Color="@Color.Default">$7.99</MudText>
+            </div>
+        <MudText Typo="Typo.caption">Locally grown, organic with a perfectly balanced taste that will leave you craving for more.</MudText>    
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton Variant="Variant.Filled" Size="Size.Small" FullWidth="true" Color="Color.Primary" Class="ma-2 rounded-lg">Add To Bag</MudButton>
+        </MudCardActions>
+    </MudCard>
+
+    <MudCard Elevation="1" Outlined="false" Class="mr-3 rounded-lg">
+        <MudCardMedia Image="/images/grocery/3.jpg" Height="120" />
+        <MudCardContent Class="pb-0" Style="width: 280px;">
+            <div class="d-flex justify-space-between mb-1">
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">Red Fruits</MudText>
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Color="@Color.Default">$9.99</MudText>
+            </div>
+        <MudText Typo="Typo.caption">Locally grown, organic with a perfectly balanced taste that will leave you craving for more.</MudText>    
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton Variant="Variant.Filled" Size="Size.Small" FullWidth="true" Color="Color.Primary" Class="ma-2 rounded-lg">Add To Bag</MudButton>
+        </MudCardActions>
+    </MudCard>
+
+    <MudCard Elevation="1" Outlined="false" Class="mr-3 rounded-lg">
+        <MudCardMedia Image="/images/grocery/8.jpg" Height="120" />
+        <MudCardContent Class="pb-0" Style="width: 280px;">
+            <div class="d-flex justify-space-between mb-1">
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">Grapes</MudText>
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Color="@Color.Default">$13.99</MudText>
+            </div>
+        <MudText Typo="Typo.caption">Locally grown, organic with a perfectly balanced taste that will leave you craving for more.</MudText>    
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton Variant="Variant.Filled" Size="Size.Small" FullWidth="true" Color="Color.Primary" Class="ma-2 rounded-lg">Add To Bag</MudButton>
+        </MudCardActions>
+    </MudCard>
+
+    <MudCard Elevation="1" Outlined="false" Class="mr-3 rounded-lg">
+        <MudCardMedia Image="/images/grocery/5.jpg" Height="120" />
+        <MudCardContent Class="pb-0" Style="width: 280px;">
+            <div class="d-flex justify-space-between mb-1">
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">Peaches</MudText>
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Color="@Color.Default">10.50</MudText>
+            </div>
+        <MudText Typo="Typo.caption">Locally grown, organic with a perfectly balanced taste that will leave you craving for more.</MudText>    
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton Variant="Variant.Filled" Size="Size.Small" FullWidth="true" Color="Color.Primary" Class="ma-2 rounded-lg">Add To Bag</MudButton>
+        </MudCardActions>
+    </MudCard>
+</div>
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+
+    public void NavigateToCheckout()
+    {
+        _navigationManager.NavigateTo("/checkout");
+    }
+
+    public void NavigateToCartDetail()
+    {
+        _navigationManager.NavigateTo("/cart");
+    }
+}

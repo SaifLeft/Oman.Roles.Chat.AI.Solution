@@ -1,0 +1,133 @@
+﻿@page "/onboarding-index"
+
+@if (!_loaded)
+{
+    <Spinner></Spinner>
+}
+else
+{
+    <MudGrid Class="mt-5">
+        <MudItem xs="12">
+            <MudCard Elevation="1" Outlined="false" Class="rounded-lg">
+                <MudCardContent>
+                    <MudText Color="Color.Default" Typo="Typo.body1" Style="font-weight: 400;">Prebuilt Walkthrough pages for your Web or Mobile apps. Built using blocks and are highly flexible and customizable.</MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+
+    <MudGrid Class="mt-3" Spacing="2">
+        <MudItem xs="12" sm="12" md="12">
+            <MudCard Elevation="1" Outlined="false" Class="d-flex flex-row py-5 rounded-lg" @onclick="@(() => NavigateToGrandientPage())">
+                <MudIcon Icon="fad fa-circle" Color="Color.Tertiary" Class="mx-4 align-self-center fa-2x"></MudIcon>
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Walkthrough Gradient </MudText>
+                <MudIcon Icon="@Icons.Material.Filled.ChevronRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="12" md="12">
+            <MudCard Elevation="1" Outlined="false" Class="d-flex flex-row py-5 rounded-lg" @onclick="@(() => NavigateToIllustrationPage())">
+                <MudIcon Icon="fad fa-heart-circle" Color="Color.Error" Class="mx-4 align-self-center fa-2x"></MudIcon>
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Walkthrough Illustration </MudText>
+                <MudIcon Icon="@Icons.Material.Filled.ChevronRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="12" md="12">
+            <MudCard Elevation="1" Outlined="false" Class="d-flex flex-row py-5 rounded-lg"  @onclick="@(() => NavigateToImagePage())">
+                <MudIcon Icon="fad fa-play-circle" Color="Color.Success" Class="mx-4 align-self-center fa-2x"></MudIcon>
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Walkthrough Image </MudText>
+                <MudIcon Icon="@Icons.Material.Filled.ChevronRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="12" md="12">
+            <MudCard Elevation="1" Outlined="false" Class="d-flex flex-row py-5 rounded-lg" @onclick="@(() => NavigateToMinimalPage())">
+                <MudIcon Icon="fad fa-scrubber" Color="Color.Primary" Class="mx-4 align-self-center fa-2x"></MudIcon>
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Walkthrough Minimal </MudText>
+                <MudIcon Icon="@Icons.Material.Filled.ChevronRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="12" md="12">
+            <MudCard Elevation="1" Outlined="false" Class="d-flex flex-row py-5 rounded-lg" @onclick="@(() => NavigateToFlatPage())">
+                <MudIcon Icon="fad fa-heart" Color="Color.Warning" Class="mx-4 align-self-center fa-2x"></MudIcon>
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Walkthrough Flat </MudText>
+                <MudIcon Icon="@Icons.Material.Filled.ChevronRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="12" md="12">
+            <MudCard Elevation="1" Outlined="false" Class="d-flex flex-row py-5 rounded-lg" @onclick="@(() => NavigateToVariantPage())">
+                <MudIcon Icon="fad fa-brush" Color="Color.Secondary" Class="mx-4 align-self-center fa-2x"></MudIcon>
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Walkthrough Variant </MudText>
+                <MudIcon Icon="@Icons.Material.Filled.ChevronRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="12" md="12">
+            <MudCard Elevation="1" Outlined="false" Class="d-flex flex-row py-5 rounded-lg"  @onclick="@(() => NavigateToVideoPage())">
+                <MudIcon Icon="fad fa-palette" Color="Color.Info" Class="mx-4 align-self-center fa-2x"></MudIcon>
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Walkthrough Video </MudText>
+                <MudIcon Icon="@Icons.Material.Filled.ChevronRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="12" md="12">
+            <MudCard Elevation="1" Outlined="false" Class="d-flex flex-row py-5 rounded-lg" @onclick="@(() => NavigateToWelcomePage())">
+                <MudIcon Icon="fad fa-coffee" Color="Color.Tertiary" Class="mx-4 align-self-center fa-2x"></MudIcon>
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Welcome Page </MudText>
+                <MudIcon Icon="@Icons.Material.Filled.ChevronRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+}
+
+@code {
+    public bool _loaded;
+    protected override async Task OnInitializedAsync()
+    {
+        
+        _loaded = true;
+    }
+
+    public void NavigateToGrandientPage()
+    {
+        _navigationManager.NavigateTo("/walkthrough-gradient");
+    }
+
+    public void NavigateToIllustrationPage()
+    {
+        _navigationManager.NavigateTo("/walkthrough-illustration");
+    }
+
+    public void NavigateToMinimalPage()
+    {
+        _navigationManager.NavigateTo("/walkthrough-minimal");
+    }
+
+    public void NavigateToFlatPage()
+    {
+        _navigationManager.NavigateTo("/walkthrough-flat");
+    }
+
+    public void NavigateToImagePage()
+    {
+        _navigationManager.NavigateTo("/walkthrough-image");
+    }
+
+    public void NavigateToVariantPage()
+    {
+        _navigationManager.NavigateTo("/walkthrough-variant");
+    }
+
+    public void NavigateToWelcomePage()
+    {
+        _navigationManager.NavigateTo("/walkthrough-welcome");
+    }
+
+    public void NavigateToVideoPage()
+    {
+        _navigationManager.NavigateTo("/walkthrough-video");
+    }
+}

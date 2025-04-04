@@ -1,0 +1,162 @@
+﻿@page "/wallet/transaction-detail"
+
+
+@*<MudBreadcrumbs Items="_routes"></MudBreadcrumbs>*@
+
+<MudCard Elevation="1" Class="rounded-lg my-5">
+    <MudCardContent>
+        <MudGrid Class="mb-2" Spacing="1">
+            <MudItem xs="12">
+                <MudPaper Elevation="0" Class="d-flex pa-0">
+                    <MudPaper Elevation="0" Class="pa-0 ml-0 mr-2 align-self-center">
+                        <MudIconButton Icon="fad fa-arrow-down" Color="Color.Info" Class="mr-2 pa-3 rounded-lg" Variant="Variant.Filled" Size="Size.Medium"></MudIconButton>
+                    </MudPaper>
+                    <MudPaper Elevation="0" Class="pa-0 mr-auto align-self-center">
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;">Payment Received</MudText>
+                        <MudText Typo="Typo.caption" Color="@Color.Primary">Your transaction details here.</MudText>
+                    </MudPaper>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudDivider Class="my-1"></MudDivider>
+            </MudItem>
+
+            <MudItem xs="4" Class="align-self-center">
+                <MudText Style="font-weight: 500;" Typo="Typo.body1">Amount</MudText>
+            </MudItem>
+            <MudItem xs="8" Class="align-self-center">
+                <MudText Typo="Typo.body2">$1.299.50</MudText>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudDivider Class="my-1"></MudDivider>
+            </MudItem>
+
+            <MudItem xs="4" Class="align-self-center">
+                <MudText Style="font-weight: 500;" Typo="Typo.body1">Sender</MudText>
+            </MudItem>
+            <MudItem xs="8" Class="align-self-center">
+                <MudText Typo="Typo.body2">John Doe</MudText>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudDivider Class="my-1"></MudDivider>
+            </MudItem>
+
+            <MudItem xs="4" Class="align-self-center">
+                <MudText Style="font-weight: 500;" Typo="Typo.body1">Send Via</MudText>
+            </MudItem>
+            <MudItem xs="8" Class="align-self-center">
+                <MudText Typo="Typo.body2">Payoneer</MudText>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudDivider Class="my-1"></MudDivider>
+            </MudItem>
+
+            <MudItem xs="4" Class="align-self-center">
+                <MudText Style="font-weight: 500;" Typo="Typo.body1">Unique ID</MudText>
+            </MudItem>
+            <MudItem xs="8" Class="align-self-center">
+                <MudText Typo="Typo.body2">#1342-3456</MudText>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudDivider Class="my-1"></MudDivider>
+            </MudItem>
+
+            <MudItem xs="4" Class="align-self-center">
+                <MudText Style="font-weight: 500;" Typo="Typo.body1">Date</MudText>
+            </MudItem>
+            <MudItem xs="8" Class="align-self-center">
+                <MudText Typo="Typo.body2">Oct 10, 2021</MudText>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudDivider Class="my-1"></MudDivider>
+            </MudItem>
+
+            <MudItem xs="4" Class="align-self-center">
+                <MudText Style="font-weight: 500;" Typo="Typo.body1">Time</MudText>
+            </MudItem>
+            <MudItem xs="8" Class="align-self-center">
+                <MudText Typo="Typo.body2">07:30 AM UTC Time</MudText>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudDivider Class="my-1"></MudDivider>
+            </MudItem>
+
+            <MudItem xs="4" Class="align-self-center">
+                <MudText Style="font-weight: 500;" Typo="Typo.body1">Notes</MudText>
+            </MudItem>
+            <MudItem xs="8" Class="align-self-center">
+                <MudText Typo="Typo.body2">Thank you so much for your business</MudText>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudDivider Class="my-1"></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudContainer Fixed="true" Class="px-0">
+                    <MudButton FullWidth="true" Class="rounded-lg" Variant="Variant.Filled" Style="@($"color:{Colors.Shades.White}; background:{Theme.PaletteDark.SuccessDarken};")"> Download PDF </MudButton>
+                </MudContainer>
+            </MudItem>
+        </MudGrid>
+    </MudCardContent>
+</MudCard>
+
+<MudPaper Elevation="0" Class="px-4 mx-n4 py-5 mud-theme-primary" Outlined="false" Square="true">
+    <MudText Typo="Typo.subtitle1" Style="font-weight: 500; text-align: center;">Contact Information</MudText>
+    <MudText Typo="Typo.body2" Style="text-align: center;">If something not right, please contact us for instant support </MudText>
+
+    <MudCard Class="rounded-lg my-5">
+        <MudCardContent>
+            <MudGrid>
+
+                <MudItem xs="6">
+                    <MudText Typo="Typo.h6" Style="font-weight: 500;">MauiStore</MudText>
+                </MudItem>
+                <MudItem xs="6">
+                    <MudText Typo="Typo.h6" Style="font-weight: 500; text-align: right;" Color="@Color.Error">Mobile PWA</MudText>
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudDivider></MudDivider>
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudContainer Fixed="true" Class="px-0">
+                        <MudButton FullWidth="true" Class="rounded-lg" Variant="Variant.Filled" Style="@($"color:{Colors.Shades.White}; background:{Theme.PaletteDark.SuccessDarken};")">Contact For Support</MudButton>
+                    </MudContainer>
+                </MudItem>
+            </MudGrid>
+        </MudCardContent>
+    </MudCard>
+</MudPaper>
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+
+    public MudTheme Theme = new MudTheme();
+
+    public int IntValue { get; set; } = 1;
+    public double DoubleValue { get; set; }
+    public decimal DecimalValue { get; set; }
+
+    public string CardHolderName { get; set; }
+    public string CardNumber { get; set; }
+    public string ValidThru { get; set; }
+    public string CVV { get; set; }
+
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string CompanyName { get; set; }
+    public string State { get; set; }
+    public string Street { get; set; }
+    public string Apartment { get; set; }
+}

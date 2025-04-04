@@ -1,0 +1,65 @@
+﻿@page "/timeline2"
+
+<MudPaper Elevation="3" Height="150" Class="px-4 mx-n4 mt-n10 pt-10 mud-theme-primary" Style="border-radius: 0px 0px 45px 45px;" Outlined="false">
+    <MudPaper Elevation="0" Class="py-6" Style="background-color: transparent">
+
+    </MudPaper>
+</MudPaper>
+
+<MudGrid Class="mt-n15 pt-0 mb-1">
+    <MudItem xs="12">
+        <MudCard Elevation="1" Class="rounded-lg">
+            <MudCardContent>
+                <MudText Color="Color.Default" Typo="Typo.h6" Style="font-weight: 700;">Our Journey</MudText>
+                <MudText Class="mb-5" Color="Color.Default" Typo="Typo.caption" Style="font-weight: 500;">Center timelines are awesome and match the design of the page perfectly. These are easy to use and fully support Font Awesome 5</MudText>
+
+                <MudTimeline TimelineOrientation="TimelineOrientation.Vertical" TimelinePosition="TimelinePosition.Start" Class="mt-5">
+                    <MudTimelineItem Color="Color.Primary" Size="Size.Medium">
+                        <ItemDot>
+                            <MudIcon Size="Size.Small" Icon="fa fa-space-shuttle"/>
+                        </ItemDot>
+                        <ItemContent>
+                            <MudCard Outlined="false" Elevation="1">
+                                <MudCardContent>
+                                    <MudText Typo="Typo.subtitle1">Apr 2022</MudText>
+                                    <MudText Color="Color.Primary" Typo="Typo.subtitle1" Style="font-weight: 600">Fly to the Moon</MudText>
+                                    <MudText Typo="Typo.body2">Let's Rock and Stay tune.</MudText>
+                                </MudCardContent>
+                            </MudCard>
+                        </ItemContent>
+                    </MudTimelineItem>
+
+                    <MudTimelineItem Color="Color.Success" Size="Size.Medium">
+                        <ItemDot>
+                            <MudIcon Size="Size.Small" Icon="fa fa-code"/>
+                        </ItemDot>
+                        <ItemContent>
+                            <MudCard Outlined="false" Elevation="1">
+                                <MudCardContent>
+                                    <MudText Typo="Typo.subtitle1">Mar 2022</MudText>
+                                    <MudText Color="Color.Success" Typo="Typo.subtitle1" Style="font-weight: 600">Repo Updated</MudText>
+                                    <MudText Typo="Typo.body2">The most common components can be found already.</MudText>
+                                </MudCardContent>
+                            </MudCard>
+                        </ItemContent>
+                    </MudTimelineItem>
+
+                    <MudTimelineItem Color="Color.Error" Size="Size.Medium">
+                        <ItemDot>
+                            <MudIcon Size="Size.Small" Icon="fa fa-rocket"/>
+                        </ItemDot>
+                        <ItemContent>
+                            <MudCard Outlined="false" Elevation="1">
+                                <MudCardContent>
+                                    <MudText Typo="Typo.subtitle1">Jan 2022</MudText>
+                                    <MudText Color="Color.Error" Typo="Typo.subtitle1" Style="font-weight: 600">MauiStore</MudText>
+                                    <MudText Typo="Typo.body2">The first version is released.</MudText>
+                                </MudCardContent>
+                            </MudCard>
+                        </ItemContent>
+                    </MudTimelineItem>
+                </MudTimeline>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>

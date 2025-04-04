@@ -1,0 +1,162 @@
+﻿@page "/stores"
+@using MauiStore.Data
+@using MauiStore.Data.GoogleMap
+
+@if (!_loaded)
+{
+    <Spinner></Spinner>
+}
+else
+{
+    <MudText Color="Color.Primary" Class="mt-1 mb-1" Typo="Typo.h6"> Store Locations </MudText>
+
+    <MudGrid Class="mb-5" Spacing="2">
+        @foreach (var store in _stores)
+        {
+            <MudItem xs="12" sm="6" md="6">
+                <MudCard Elevation="1" Class="d-flex justify-space-between flex-row rounded-lg" Style="min-height:130px;" @onclick="@(() => OpenShopDetails(store.Id))">
+                    <MudCardContent Class="d-flex justify-space-around flex-column py-2" Style="min-height:130px;">
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500; line-height: 1.2" Color="@Color.Primary">@store.StoreName</MudText>
+                        <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                            <MudText Typo="Typo.body1">@store.Address</MudText>
+                        </MudHidden>
+                        <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="false">
+                            <MudText Typo="Typo.caption">@store.Address</MudText>
+                        </MudHidden>
+                        <div class="d-flex">
+                            <MudIcon Icon="@Icons.Material.Filled.LocationOn" Class="align-self-center" Color="Color.Secondary" Size="Size.Small"></MudIcon>
+                            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center mx-1" Color="@Color.Secondary">@store.Distance</MudText>
+                        </div>
+                    </MudCardContent>
+                    <MudImage Elevation="1" ObjectPosition="ObjectPosition.Center" Src="@store.Avatar" Class="rounded-lg align-self-center" Style="height:100px; min-width: 100px; max-width:100px;" />
+                </MudCard>
+            </MudItem>
+        }
+    </MudGrid>
+}
+
+
+@code {
+    private bool _loaded;
+    private List<StoreInfo> _stores;
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+        _stores = new List<StoreInfo>
+        {
+            new StoreInfo
+            {
+                Id = 1,
+                Avatar = "/images/pictures/11t.jpg",
+                Image = "/images/pictures/11.jpg",
+                StoreName = "MauiStore Westfield 1",
+                Address  = "Westfield Burwood, Wilga Street, Burwood, NSW 2134, Australia",
+                Distance = "1km",
+                Location = new GoogleMapPosition{ Lat = 10.739780, Lng = 106.705020 }
+            },
+            new StoreInfo
+            {
+                Id = 2,
+                Avatar = "/images/pictures/12t.jpg",
+                Image = "/images/pictures/12.jpg",
+                StoreName = "MauiStore Rundle Mall",
+                Address  = "100 Rundle Mall, Adelaide, SA 5000, Australia",
+                Distance = "3km",
+                Location = new GoogleMapPosition{ Lat = 10.797070, Lng = 106.673400 }
+            },
+            new StoreInfo
+            {
+                Id = 3,
+                Avatar = "/images/pictures/13t.jpg",
+                Image = "/images/pictures/13.jpg",
+                StoreName = "MauiStore Burwood 1",
+                Address  = "Westfield Burwood, Wilga Street, Burwood, NSW 2134, Australia",
+                Distance = "5km",
+                Location = new GoogleMapPosition{ Lat = 21.026700, Lng = 105.833870 }
+            },
+            new StoreInfo
+            {
+                Id = 4,
+                Avatar = "/images/pictures/14t.jpg",
+                Image = "/images/pictures/14.jpg",
+                StoreName = "MauiStore Wilga 1",
+                Address  = "Westfield Burwood, Wilga Street, Burwood, NSW 2134, Australia",
+                Distance = "8km",
+                Location = new GoogleMapPosition{ Lat = 10.739780, Lng = 106.705020 }
+            },
+            new StoreInfo
+            {
+                Id = 5,
+                Avatar = "/images/pictures/15t.jpg",
+                Image = "/images/pictures/15.jpg",
+                StoreName = "MauiStore Westfield 2",
+                Address  = "Westfield Burwood, Wilga Street, Burwood, NSW 2134, Australia",
+                Distance = "10km",
+                Location = new GoogleMapPosition{ Lat = 10.739780, Lng = 106.705020 }
+            },
+            new StoreInfo
+            {
+                Id = 6,
+                Avatar = "/images/pictures/16t.jpg",
+                Image = "/images/pictures/16.jpg",
+                StoreName = "MauiStore Westfield 3",
+                Address  = "Westfield Burwood, Wilga Street, Burwood, NSW 2134, Australia",
+                Distance = "12km",
+                Location = new GoogleMapPosition{ Lat = 10.739780, Lng = 106.705020 }
+            },
+            new StoreInfo
+            {
+                Id = 7,
+                Avatar = "/images/pictures/17t.jpg",
+                Image = "/images/pictures/17.jpg",
+                StoreName = "MauiStore Wilga 2",
+                Address  = "Westfield Burwood, Wilga Street, Burwood, NSW 2134, Australia",
+                Distance = "15km",
+                Location = new GoogleMapPosition{ Lat = 10.739780, Lng = 106.705020 }
+            },
+            new StoreInfo
+            {
+                Id = 8,
+                Avatar = "/images/pictures/18t.jpg",
+                Image = "/images/pictures/18.jpg",
+                StoreName = "MauiStore Wilga 3",
+                Address  = "Westfield Burwood, Wilga Street, Burwood, NSW 2134, Australia",
+                Distance = "16km",
+                Location = new GoogleMapPosition{ Lat = 10.739780, Lng = 106.705020 }
+            },
+            new StoreInfo
+            {
+                Id = 9,
+                Avatar = "/images/pictures/19t.jpg",
+                Image = "/images/pictures/19.jpg",
+                StoreName = "MauiStore Burwood 1",
+                Address  = "Westfield Burwood, Wilga Street, Burwood, NSW 2134, Australia",
+                Distance = "18km",
+                Location = new GoogleMapPosition{ Lat = 10.739780, Lng = 106.705020 }
+            },
+            new StoreInfo
+            {
+                Id = 10,
+                Avatar = "/images/pictures/20t.jpg",
+                Image = "/images/pictures/20.jpg",
+                StoreName = "MauiStore Burwood 2",
+                Address  = "Westfield Burwood, Wilga Street, Burwood, NSW 2134, Australia",
+                Distance = "20km",
+                Location = new GoogleMapPosition{ Lat = 10.739780, Lng = 106.705020 }
+            }
+        };
+
+        _loaded = true;
+    }
+
+    private void OpenShopDetails(int id)
+    {
+        var parameters = new DialogParameters();
+        var store = _stores.FirstOrDefault(x => x.Id == id);
+        parameters.Add(nameof(StoreDetailModal.StoreInfo), store);
+
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, FullScreen = true, BackdropClick = false, CloseOnEscapeKey = true };
+        _dialogService.Show<StoreDetailModal>("", parameters, options);
+    }
+}

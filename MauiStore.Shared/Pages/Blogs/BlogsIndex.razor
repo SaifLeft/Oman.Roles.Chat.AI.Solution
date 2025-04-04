@@ -1,0 +1,134 @@
+﻿@page "/blogs"
+@using MauiStore.Data
+
+@if (!_loaded)
+{
+    <Spinner></Spinner>
+}
+else
+{
+<MudGrid Class="mt-5 pt-0 mb-1">
+    <MudItem xs="12">
+        <MudCard Elevation="1" Class="rounded-lg">
+            <MudCardContent>
+                <MudText Color="Color.Default" Align="Align.Left" Typo="Typo.body2" Style="font-weight: 400;">Prebuilt Blog/ News pages for your Web or Mobile apps.</MudText>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+<MudGrid Class="mb-5" Spacing="2">
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row rounded-lg" @onclick="@(() => NavigateToHome1())">
+            <MudIcon Icon="@Icons.Material.TwoTone.HomeMax" Color="Color.Warning" Class="mx-3 my-5 align-self-center" Size="Size.Large"></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Home page 1 </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row rounded-lg" @onclick="@(() => NavigateToHome2())">
+            <MudIcon Icon="@Icons.Material.TwoTone.Home" Color="Color.Error" Class="mx-3 my-5 align-self-center" Size="Size.Large"></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Home page 2 </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row rounded-lg" @onclick="@(() => NavigateToHome3())">
+            <MudIcon Icon="@Icons.Material.TwoTone.HomeWork" Color="Color.Secondary" Class="mx-3 my-5 align-self-center" Size="Size.Large"></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Home page 3 </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row rounded-lg" @onclick="@(() => NavigateToArticle1())">
+            <MudIcon Icon="@Icons.Material.TwoTone.Task" Color="Color.Primary" Class="mx-3 my-5 align-self-center" Size="Size.Large"></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Article 1 </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row rounded-lg" @onclick="@(() => NavigateToArticle2())">
+            <MudIcon Icon="@Icons.Material.TwoTone.NetworkCell" Color="Color.Info" Class="mx-3 my-5 align-self-center" Size="Size.Large"></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Article 2 </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row rounded-lg" @onclick="@(() => NavigateToArticleLists())">
+            <MudIcon Icon="@Icons.Material.TwoTone.AddTask" Color="Color.Secondary" Class="mx-3 my-5 align-self-center" Size="Size.Large"></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Article Lists </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row rounded-lg" @onclick="@(() => NavigateToArticleGrid())">
+            <MudIcon Icon="@Icons.Material.TwoTone.AddBox" Color="Color.Warning" Class="mx-3 my-5 align-self-center" Size="Size.Large"></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Article Grid </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row rounded-lg" @onclick="@(() => NavigateToArticleCards())">
+            <MudIcon Icon="@Icons.Material.TwoTone.Checklist" Color="Color.Warning" Class="mx-3 my-5 align-self-center" Size="Size.Large"></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Article Cards </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+}
+@code {
+    private bool _loaded;
+    private List<PostSummary> _postList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+        _loaded = true;
+    }
+
+    public void NavigateToHome1()
+    {
+        _navigationManager.NavigateTo("/blogs-home1");
+    }
+    public void NavigateToHome2()
+    {
+        _navigationManager.NavigateTo("/blogs-home2");
+    }
+
+    public void NavigateToHome3()
+    {
+        _navigationManager.NavigateTo("/blogs-home3");
+    }
+
+    public void NavigateToArticle1()
+    {
+        _navigationManager.NavigateTo("/article1");
+    }
+
+    public void NavigateToArticle2()
+    {
+        _navigationManager.NavigateTo("/article2");
+    }
+
+    public void NavigateToArticleLists()
+    {
+        _navigationManager.NavigateTo("/article-lists");
+    }
+
+    public void NavigateToArticleGrid()
+    {
+        _navigationManager.NavigateTo("/article-grid");
+    }
+
+    public void NavigateToArticleCards()
+    {
+        _navigationManager.NavigateTo("/article-cards");
+    }
+}

@@ -1,0 +1,73 @@
+﻿<MudDialog Class="ma-3 py-3 rounded-lg">
+    <TitleContent>
+    </TitleContent>
+    <DialogContent>
+        <MudPaper Elevation="0" Class="d-flex flex-column gap-3">
+            <MudText Typo="Typo.h5" Color="Color.Default" Style="font-weight: 600"> Select your language </MudText>
+            <MudText Typo="Typo.caption" Class=""> You can direct to multiple languages of your page. </MudText>
+        </MudPaper>
+        <MudGrid Class="mt-5" Spacing="1">
+            <MudItem xs="12" sm="12" md="12">
+                <MudPaper Elevation="0" Class="d-flex justify-space-between " Style="background-color: transparent" @onclick="@(() => Submit())">
+                    <div class="d-flex">
+                        <MudImage Src="/images/flag/en-flag.png" Class="align-self-center" Height="30"></MudImage>
+                        <MudText Typo="Typo.subtitle2" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> English </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center mx-n3" Size="Size.Small"></MudIcon>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudPaper Elevation="0" Class="d-flex justify-space-between " Style="background-color: transparent" @onclick="@(() => Submit())">
+                    <div class="d-flex">
+                        <MudImage Src="/images/flag/es-flag.png" Class="align-self-center" Height="30"></MudImage>
+                        <MudText Typo="Typo.subtitle2" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> Spanish </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center mx-n3" Size="Size.Small"></MudIcon>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudPaper Elevation="0" Class="d-flex justify-space-between " Style="background-color: transparent" @onclick="@(() => Submit())">
+                    <div class="d-flex">
+                        <MudImage Src="/images/flag/fr-flag.png" Class="align-self-center" Height="30"></MudImage>
+                        <MudText Typo="Typo.subtitle2" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> French </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center mx-n3" Size="Size.Small"></MudIcon>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudPaper Elevation="0" Class="d-flex justify-space-between " Style="background-color: transparent" @onclick="@(() => Submit())">
+                    <div class="d-flex">
+                        <MudImage Src="/images/flag/ar-flag.png" Class="align-self-center" Height="30"></MudImage>
+                        <MudText Typo="Typo.subtitle2" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> Arabic </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center mx-n3" Size="Size.Small"></MudIcon>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
+
+    void Submit()
+    {
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+    void Cancel() => MudDialog.Cancel();
+}

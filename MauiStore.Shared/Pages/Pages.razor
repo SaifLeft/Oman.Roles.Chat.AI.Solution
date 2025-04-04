@@ -1,0 +1,220 @@
+﻿@page "/pages"
+
+@if (!_loaded)
+{
+    <Spinner></Spinner>
+}
+else
+{
+    <MudGrid Class="mt-5 pt-0 mb-5" Spacing="2">
+        <MudItem xs="6" sm="6" md="6">
+            <MudCard Elevation="1" Class="" Style="height:180px;" @onclick="@(() => NavigateToGeneralIndexPage())">
+                <MudCardContent Class="d-flex flex-column px-3 py-2" Style="height:180px;">
+                    <MudIcon Icon="@Icons.Material.TwoTone.Assistant" Color="Color.Secondary" Class="pa-3 align-self-center fa-5x"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Class="align-self-center" Color="@Color.Surface"> General </MudText>
+                    <MudText Typo="Typo.body2" Class="align-self-center" Color="@Color.Default"> Common Pages </MudText>
+                    <MudText Typo="Typo.caption" Style="font-weight: 300;" Class="mt-auto align-self-center mud-text-secondary" Color="@Color.Default"> Tap to view </MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="6" sm="6" md="6">
+            <MudCard Elevation="1" Class="" Style="height:180px;">
+                <MudCardContent Class="d-flex flex-column px-3 py-2" Style="height:180px;" @onclick="@(() => NavigateToOnboardingIndexPage())">
+                    <MudIcon Icon="@Icons.Material.TwoTone.RocketLaunch" Color="Color.Success" Class="pa-3 align-self-center fa-5x"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Class="align-self-center" Color="@Color.Surface"> Onboarding </MudText>
+                    <MudText Typo="Typo.body2" Class="align-self-center" Color="@Color.Default"> Walkthrough Pages </MudText>
+                    <MudText Typo="Typo.caption" Style="font-weight: 300;" Class="mt-auto align-self-center mud-text-secondary" Color="@Color.Default">Tap to view </MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="6" sm="6" md="6">
+            <MudCard Elevation="1" Class=" " Style="height:180px;">
+                <MudCardContent Class="d-flex flex-column px-3 py-2" Style="height:180px;" @onclick="@(() => NavigateToAppStylesPage())">
+                    <MudIcon Icon="@Icons.Material.TwoTone.MobileFriendly" Color="Color.Warning" Class="pa-3 align-self-center fa-5x"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Class="align-self-center" Color="@Color.Surface"> App Styles </MudText>
+                    <MudText Typo="Typo.body2" Class="align-self-center" Color="@Color.Default"> Mobile-first Designs </MudText>
+                    <MudText Typo="Typo.caption" Style="font-weight: 300;" Class="mt-auto align-self-center mud-text-secondary" Color="@Color.Default"> Tap to view </MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="6" sm="6" md="6">
+            <MudCard Elevation="1" Class="" Style="height:180px;">
+                <MudCardContent Class="d-flex flex-column px-3 py-2" Style="height:180px;" @onclick="@(() => NavigateToActionsPage())">
+                    <MudIcon Icon="@Icons.Material.TwoTone.OfflineBolt" Color="Color.Error" Class="pa-3 align-self-center fa-5x" Size="Size.Large"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Class="align-self-center" Color="@Color.Surface"> Actions </MudText>
+                    <MudText Typo="Typo.body2" Class="align-self-center" Color="@Color.Default"> Menu & Actions </MudText>
+                    <MudText Typo="Typo.caption" Style="font-weight: 300;" Class="mt-auto align-self-center mud-text-secondary" Color="@Color.Default"> Tap to view </MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="12" md="12">
+            <MudCard Elevation="1" Class="py-5 px-3 d-flex flex-row justify-space-between" @onclick="@(() => NavigateToTravelIndexPage())">
+                <MudPaper Elevation="0" Class="px-2 align-self-center">
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Color="@Color.Default">Travels & Tours Booking</MudText>
+                    <MudText Typo="Typo.body2" Style="font-weight: 300;" Color="@Color.Default" Class="">6 template pages </MudText>
+                </MudPaper>
+                <MudIcon Icon="@Icons.Material.TwoTone.AirplaneTicket" Color="Color.Primary" Class="align-self-center fa-3x" Size="Size.Large"></MudIcon>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="12" md="12">
+            <MudCard Elevation="1" Class="py-5 px-3 d-flex flex-row justify-space-between" @onclick="@(() => NavigateToGroceryIndexPage())">
+                <MudPaper Elevation="0" Class="px-2 align-self-center">
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Color="@Color.Default">Fruits Grocery</MudText>
+                    <MudText Typo="Typo.body2" Style="font-weight: 300;" Color="@Color.Default" Class="">8 template pages </MudText>
+                </MudPaper>
+                <MudIcon Icon="@Icons.Material.TwoTone.ShoppingBasket" Color="Color.Info" Class="align-self-center fa-3x" Size="Size.Large"></MudIcon>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="12" md="12">
+            <MudCard Elevation="1" Class="px-3 py-5 d-flex flex-row justify-space-between" @onclick="@(() => NavigateToEducationIndexPage())">
+                <MudPaper Elevation="0" Class="px-2 align-self-center">
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Color="@Color.Default">E-Learning</MudText>
+                    <MudText Typo="Typo.body2" Style="font-weight: 300;" Color="@Color.Default" Class="">9 template pages </MudText>
+                </MudPaper>
+                <MudIcon Icon="@Icons.Material.TwoTone.Book" Color="Color.Error" Class="align-self-center fa-3x" Size="Size.Large" ></MudIcon>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="12" md="12">
+            <MudCard Elevation="1" Class="px-3 py-5 d-flex flex-row justify-space-between" @onclick="@(() => NavigateToBlogIndexPage())">
+                <MudPaper Elevation="0" Class="px-2 align-self-center">
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Color="@Color.Default">Blog/ News</MudText>
+                    <MudText Typo="Typo.body2" Style="font-weight: 300;" Color="@Color.Default" Class="">8 template pages </MudText>
+                </MudPaper>
+                <MudIcon Icon="@Icons.Material.TwoTone.Newspaper" Color="Color.Success" Class="align-self-center fa-3x" Size="Size.Large"></MudIcon>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="12" md="12">
+            <MudCard Elevation="1" Class="px-3 py-5 d-flex flex-row justify-space-between" @onclick="@(() => NavigateToProjectIndexPage())">
+                <MudPaper Elevation="0" Class="px-2 align-self-center">
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Color="@Color.Default">Project/ Tasks</MudText>
+                    <MudText Typo="Typo.body2" Style="font-weight: 300;" Color="@Color.Default" Class="">8 template pages </MudText>
+                </MudPaper>
+                <MudIcon Icon="@Icons.Material.TwoTone.TaskAlt" Color="Color.Warning" Class="align-self-center fa-3x" Size="Size.Large"></MudIcon>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="12" md="12">
+            <MudCard Elevation="1" Class="px-3 py-5 d-flex flex-row justify-space-between" @onclick="@(() => NavigateToHealthIndexPage())">
+                <MudPaper Elevation="0" Class="px-2 align-self-center">
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Color="@Color.Default">Socials Health</MudText>
+                    <MudText Typo="Typo.body2" Style="font-weight: 300;" Color="@Color.Default" Class="">6 template pages </MudText>
+                </MudPaper>
+                <MudIcon Icon="@Icons.Material.TwoTone.MedicalServices" Color="Color.Secondary" Class="align-self-center fa-3x" Size="Size.Large"></MudIcon>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="12" md="12">
+            <MudCard Elevation="1" Class="px-3 py-5 d-flex flex-row justify-space-between" @onclick="@(() => NavigateToCommerceIndexPage())">
+                <MudPaper Elevation="0" Class="px-2 align-self-center">
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Color="@Color.Default">E-Commerce</MudText>
+                    <MudText Typo="Typo.body2" Style="font-weight: 300;" Color="@Color.Default" Class="">10 template pages </MudText>
+                </MudPaper>
+                <MudIcon Icon="@Icons.Material.TwoTone.ShoppingCart" Color="Color.Error" Class="align-self-center fa-3x" Size="Size.Large" ></MudIcon>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="12" md="12">
+            <MudCard Elevation="1" Class="px-3 py-5 d-flex flex-row justify-space-between" @onclick="@(() => NavigateToWalletIndexPage())">
+                <MudPaper Elevation="0" Class="px-2 align-self-center">
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Color="@Color.Default">E-Wallet</MudText>
+                    <MudText Typo="Typo.body2" Style="font-weight: 300;" Color="@Color.Default" Class="">10 template pages </MudText>
+                </MudPaper>
+                <MudIcon Icon="@Icons.Material.TwoTone.AccountBalance" Color="Color.Primary" Class="align-self-center fa-3x" Size="Size.Large" ></MudIcon>
+            </MudCard>
+        </MudItem>
+
+        @* <MudItem xs="12" sm="12" md="12">
+            <MudCard Elevation="1" Class="px-3 py-5 d-flex justify-space-between " @onclick="@(() => NavigateToComponentsIndexPage())">
+                <MudPaper Elevation="0" Class="px-2 align-self-center">
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Color="@Color.Default">Components</MudText>
+                    <MudText Typo="Typo.body2" Style="font-weight: 300;" Color="@Color.Default" Class="">Awesome MudBlazor Components! </MudText>
+                </MudPaper>
+                <MudIcon Icon="@Icons.Custom.Brands.MudBlazor" Color="Color.Info" Class="align-self-center fa-3x" Size="Size.Large"></MudIcon>
+            </MudCard>
+        </MudItem> *@
+    </MudGrid>
+}
+
+@code {
+    private bool _loaded;
+    protected override async Task OnInitializedAsync()
+    {
+        
+        _loaded = true;
+    }
+
+    public void NavigateToOnboardingIndexPage()
+    {
+        _navigationManager.NavigateTo("/onboarding-index");
+    }
+
+    public void NavigateToGeneralIndexPage()
+    {
+        _navigationManager.NavigateTo("/generals-index");
+    }
+
+    public void NavigateToAppStylesPage()
+    {
+        _navigationManager.NavigateTo("/app-styles");
+    }
+
+    public void NavigateToActionsPage()
+    {
+        _navigationManager.NavigateTo("/actions-index");
+    }
+
+    public void NavigateToTravelIndexPage()
+    {
+        _navigationManager.NavigateTo("/travel");
+    }
+
+    public void NavigateToGroceryIndexPage()
+    {
+        _navigationManager.NavigateTo("/grocery");
+    }
+
+    public void NavigateToEducationIndexPage()
+    {
+        _navigationManager.NavigateTo("/learning");
+    }
+
+    public void NavigateToBlogIndexPage()
+    {
+        _navigationManager.NavigateTo("/blogs");
+    }
+
+    public void NavigateToProjectIndexPage()
+    {
+        _navigationManager.NavigateTo("/project");
+    }
+
+    public void NavigateToHealthIndexPage()
+    {
+        _navigationManager.NavigateTo("/health");
+    }
+
+    public void NavigateToCommerceIndexPage()
+    {
+        _navigationManager.NavigateTo("/commerce");
+    }
+
+    public void NavigateToWalletIndexPage()
+    {
+        _navigationManager.NavigateTo("/wallet");
+    }
+
+    public void NavigateToComponentsIndexPage()
+    {
+        _navigationManager.NavigateTo("/components");
+    }
+
+    public void NavigateToCustomComponentsIndexPage()
+    {
+        _navigationManager.NavigateTo("/component-page");
+    }
+}

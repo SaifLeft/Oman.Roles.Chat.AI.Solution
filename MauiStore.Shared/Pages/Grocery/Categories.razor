@@ -1,0 +1,77 @@
+﻿@page "/grocery/categories"
+
+@if (!_loaded)
+{
+    <Spinner></Spinner>
+}
+else
+{
+<MudGrid Class="mt-n5 pt-0 mb-1">
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Outlined="false" Class="d-flex flex-row rounded-lg" Style="height:110px;">
+            <MudIconButton Icon="fad fa-seedling" Color="Color.Tertiary" Class="ma-3 pa-3" Size="Size.Large"></MudIconButton>
+            <MudPaper Elevation="0" Class="pa-0 align-self-center">
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Color="@Color.Default">Organic Products</MudText>
+                <MudText Typo="Typo.caption" Style="font-weight: 300;" Color="@Color.Primary">Best seller category </MudText>
+            </MudPaper>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+<MudGrid Class="mb-5" Spacing="2">
+    <MudItem xs="6" sm="6" md="6">
+        <MudCard Elevation="1" Outlined="false" Class="rounded-lg" >
+            <MudCardContent Class="d-flex flex-column px-3 py-2" Style="height:130px;">
+                <MudIconButton Icon="fab fa-apple" Color="Color.Secondary" Class="pa-3 align-self-center" Size="Size.Large"></MudIconButton>
+                <MudText Typo="Typo.body1" Style="font-weight: 600;" Class="align-self-center" Color="@Color.Surface"> Fruits </MudText>
+                <MudText Typo="Typo.caption" Style="font-weight: 300;" Class="mt-auto align-self-center mud-text-secondary" Color="@Color.Default">Tap to view </MudText>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+    <MudItem xs="6" sm="6" md="6">
+        <MudCard Elevation="1" Outlined="false" Class="rounded-lg">
+            <MudCardContent Class="d-flex flex-column px-3 py-2" Style="height:130px;">
+                <MudIconButton Icon="fad fa-carrot" Color="Color.Primary" Class="pa-3 align-self-center" Size="Size.Large"></MudIconButton>
+                <MudText Typo="Typo.body1" Style="font-weight: 600;" Class="align-self-center" Color="@Color.Surface"> Legumes </MudText>
+                <MudText Typo="Typo.caption" Style="font-weight: 300;" Class="mt-auto align-self-center mud-text-secondary" Color="@Color.Default">Tap to view </MudText>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+    <MudItem xs="6" sm="6" md="6">
+        <MudCard Elevation="1" Outlined="false" Class="rounded-lg " >
+            <MudCardContent Class="d-flex flex-column px-3 py-2" Style="height:130px;">
+                <MudIconButton Icon="fad fa-leaf" Color="Color.Warning" Class="pa-3 align-self-center" Size="Size.Large"></MudIconButton>
+                <MudText Typo="Typo.body1" Style="font-weight: 600;" Class="align-self-center" Color="@Color.Surface"> Leafy Veggies </MudText>
+                <MudText Typo="Typo.caption" Style="font-weight: 300;" Class="mt-auto align-self-center mud-text-secondary" Color="@Color.Default">Tap to view </MudText>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+    <MudItem xs="6" sm="6" md="6">
+        <MudCard Elevation="1" Outlined="false" Class="rounded-lg">
+            <MudCardContent Class="d-flex flex-column px-3 py-2" Style="height:130px;">
+                <MudIconButton Icon="fad fa-pepper-hot" Color="Color.Error" Class="pa-3 align-self-center" Size="Size.Large"></MudIconButton>
+                <MudText Typo="Typo.body1" Style="font-weight: 600;" Class="align-self-center" Color="@Color.Surface"> Imported Fruits </MudText>
+                <MudText Typo="Typo.caption" Style="font-weight: 300;" Class="mt-auto align-self-center mud-text-secondary" Color="@Color.Default">Tap to view </MudText>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+}
+@code {
+    public bool _loaded;
+    protected override async Task OnInitializedAsync()
+    {
+        
+        _loaded = true;
+    }
+
+    public void NavigateToCommerceIndexPage()
+    {
+        _navigationManager.NavigateTo("/commerce");
+    }
+
+    public void NavigateToWalletIndexPage()
+    {
+        _navigationManager.NavigateTo("/wallet");
+    }
+}

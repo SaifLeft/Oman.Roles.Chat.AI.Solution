@@ -1,0 +1,217 @@
+﻿@page "/travel/experiences"
+
+<style>
+
+    video {
+      object-fit: cover;
+      width: 100vw;
+      height: 500px;
+      /*position: fixed;
+      top: 0;
+      left: 0;*/
+    }
+</style>
+
+@if (!_loaded)
+{
+    <Spinner></Spinner>
+}
+else
+{
+    <MudCard Elevation="0" Outlined="false" Square="true" Class="mt-n4 mx-n4 pt-4">
+        <MudText Align="Align.Center" Class="max-line-2" Typo="Typo.h6" Style="font-weight: 600"> Unforgettable activities <br> hosted by locals </MudText>
+
+        <MudPaper Class="mt-4" Elevation="0" Square="true">
+            <MudCarousel Class="" Style="height:500px;" ShowArrows="false" ShowBullets="false" AutoCycle="false" TData="object">
+                <BulletTemplate Context="selected">
+                    <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon mb-5">
+                        <span class="mud-icon-button-label">
+                            <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                        </span>
+                    </div>
+                </BulletTemplate>
+                <ChildContent>
+                    <MudCarouselItem Transition="Transition.Slide">
+                        <video src="/images/travel/family-walking-together.mov" height="500" playsinline autoplay muted loop>
+                        </video>
+                    </MudCarouselItem>
+                    <MudCarouselItem Transition="Transition.Slide">
+                        <video src="/images/travel/couple-watching-a-map.mov" height="500" playsinline autoplay muted loop>
+                        </video>
+                    </MudCarouselItem>
+                    <MudCarouselItem Transition="Transition.Slide">
+                        <MudCard Elevation="0" Class="">
+                            <MudCardMedia Class="" Image="/images/travel/3.jpeg" Height="500" />
+                        </MudCard>
+                    </MudCarouselItem>
+                    <MudCarouselItem Transition="Transition.Slide">
+                        <MudCard Elevation="0" Class="">
+                            <MudCardMedia Class="" Image="/images/travel/4.jpeg" Height="500" />
+                        </MudCard>
+                    </MudCarouselItem>
+                    <MudCarouselItem Transition="Transition.Slide">
+                        <MudCard Elevation="0" Class="">
+                            <MudCardMedia Class="" Image="/images/travel/5.jpeg" Height="500" />
+                        </MudCard>
+                    </MudCarouselItem>
+                </ChildContent>
+            </MudCarousel>
+        </MudPaper>
+        <div class="hz-container " style="position: relative; margin-top: -136px;">
+            <div class="mx-2"></div>
+            <MudPaper Elevation="1" Outlined="false" Class="d-flex flex-row rounded-lg pa-3" Style="height:120px; min-width: 87vw;">
+                <MudImage Elevation="0" Src="/images/travel/7.jpeg" Class="rounded-lg align-self-center" Style="height:100px; min-width: 70px; max-width:70px;" />
+                <div class="mr-3"></div>
+                <MudPaper Elevation="0" Class="d-flex justify-space-around flex-column" Style="height:100px; width: 100%">
+                    <div class="d-flex justify-space-between">
+                        <div class="d-flex">
+                            <MudIcon Icon="@Icons.Material.Filled.Star" Color="Color.Error" Size="Size.Small" />
+                            <MudText Typo="Typo.body2" Style="font-weight:400"> 5.00 <MudText Typo="Typo.body2" Style="font-weight:400" Inline="true">(54)</MudText> </MudText> 
+                        </div>
+                        <MudIcon Icon="@Icons.Material.Filled.FavoriteBorder" Color="Color.Default" Size="Size.Small" />
+                    </div>
+                    <MudText Typo="Typo.body1" Style="font-weight: 500" Color="@Color.Default" Class="max-line-2"> The Fammous Ha Giang Loop Adventure </MudText>
+                    <MudText Typo="Typo.body2">Hosted by John</MudText>
+                </MudPaper>
+            </MudPaper>
+            <div class="mx-2"></div>
+
+            <MudPaper Elevation="1" Outlined="false" Class="d-flex flex-row rounded-lg pa-3" Style="height:120px; min-width: 87vw;">
+                <MudImage Elevation="0" Src="/images/travel/11.jpg" Class="rounded-lg align-self-center" Style="height:100px; min-width: 70px; max-width:70px;" />
+                <div class="mr-3"></div>
+                <MudPaper Elevation="0" Class="d-flex justify-space-around flex-column" Style="height:100px; width: 100%">
+                    <div class="d-flex justify-space-between">
+                        <div class="d-flex">
+                            <MudIcon Icon="@Icons.Material.Filled.Star" Color="Color.Error" Size="Size.Small" />
+                            <MudText Typo="Typo.body2" Style="font-weight:400"> 4.96 <MudText Typo="Typo.body2" Style="font-weight:400" Inline="true">(567)</MudText> </MudText> 
+                        </div>
+                        <MudIcon Icon="@Icons.Material.Filled.FavoriteBorder" Color="Color.Default" Size="Size.Small" />
+                    </div>
+                    <MudText Typo="Typo.body1" Style="font-weight: 500" Color="@Color.Default" Class="max-line-2"> Local Street Food with Hanoian </MudText>
+                    <MudText Typo="Typo.body2"> Hosted by Cuong </MudText>
+                </MudPaper>
+            </MudPaper>
+            <div class="mx-2"></div>
+
+            <MudPaper Elevation="1" Outlined="false" Class="d-flex flex-row rounded-lg pa-3" Style="height:120px; min-width: 87vw;">
+                <MudImage Elevation="0" Src="/images/travel/9.jpg" Class="rounded-lg align-self-center" Style="height:100px; min-width: 70px; max-width:70px;" />
+                <div class="mr-3"></div>
+                <MudPaper Elevation="0" Class="d-flex justify-space-around flex-column" Style="height:100px; width: 100%">
+                    <div class="d-flex justify-space-between">
+                        <div class="d-flex">
+                            <MudIcon Icon="@Icons.Material.Filled.Star" Color="Color.Error" Size="Size.Small" />
+                            <MudText Typo="Typo.body2" Style="font-weight:400"> 5.00 <MudText Typo="Typo.body2" Style="font-weight:400" Inline="true">(198)</MudText> </MudText> 
+                        </div>
+                        <MudIcon Icon="@Icons.Material.Filled.FavoriteBorder" Color="Color.Default" Size="Size.Small" />
+                    </div>
+                    <MudText Typo="Typo.body1" Style="font-weight: 500" Color="@Color.Default" Class="max-line-2"> Homestay Trekking in Northern Vietnam </MudText>
+                    <MudText Typo="Typo.body2"> Hosted by Tim </MudText>
+                </MudPaper>
+            </MudPaper>
+            <div class="mx-2"></div>
+
+            <MudPaper Elevation="1" Outlined="false" Class="d-flex flex-row rounded-lg pa-3" Style="height:120px; min-width: 87vw;">
+                <MudImage Elevation="0" Src="/images/travel/15.jpg" Class="rounded-lg align-self-center" Style="height:100px; min-width: 70px; max-width:70px;" />
+                <div class="mr-3"></div>
+                <MudPaper Elevation="0" Class="d-flex justify-space-around flex-column" Style="height:100px; width: 100%">
+                    <div class="d-flex justify-space-between">
+                        <div class="d-flex">
+                            <MudIcon Icon="@Icons.Material.Filled.Star" Color="Color.Error" Size="Size.Small" />
+                            <MudText Typo="Typo.body2" Style="font-weight:400"> 4.35 <MudText Typo="Typo.body2" Style="font-weight:400" Inline="true">(94)</MudText> </MudText> 
+                        </div>
+                        <MudIcon Icon="@Icons.Material.Filled.FavoriteBorder" Color="Color.Default" Size="Size.Small" />
+                    </div>
+                    <MudText Typo="Typo.body1" Style="font-weight: 500" Color="@Color.Default" Class="max-line-2"> Enjoy Hanoi Old Quarter With A Photographer </MudText>
+                    <MudText Typo="Typo.body2"> Hosted by Alex </MudText>
+                </MudPaper>
+            </MudPaper>
+            <div class="mx-2"></div>
+        </div> 
+    
+        <MudGrid Class="pt-10 pb-5 px-4" Spacing="2">
+            <MudItem xs="12">
+                <MudText Class="mb-n3" Typo="Typo.h6" Style="font-weight: 500"> All Experiences </MudText>
+            </MudItem>
+
+            <MudItem xs="6" Class="mt-1">
+                <MudImage Class="rounded-lg" Elevation="0" Src="/images/travel/15.jpg" Style="height:220px; width:100%" />
+                <MudPaper Class="mt-3" Elevation="0" Style="background-color: transparent;">
+                    <div class="d-flex">
+                        <MudIcon Icon="@Icons.Material.Filled.Star" Color="Color.Error" Size="Size.Small" />
+                        <MudText Typo="Typo.body2" Style="font-weight:400"> 5.00 <MudText Typo="Typo.body2" Style="font-weight:400" Inline="true">(54)</MudText> </MudText> 
+                    </div>
+                    <MudText Typo="Typo.body1" Class="max-line-2" Style="font-weight: 400;"> Hanoi Walking Street Food </MudText>
+                    <MudText Typo="Typo.body1"> <strong> From $22 </strong> / person </MudText>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="6" Class="mt-1">
+                <MudImage Class="rounded-lg" Elevation="0" Src="/images/travel/18.jpg" Style="height:220px; width:100%" />
+                <MudPaper Class="mt-3" Elevation="0" Style="background-color: transparent;">
+                    <div class="d-flex">
+                        <MudIcon Icon="@Icons.Material.Filled.Star" Color="Color.Error" Size="Size.Small" />
+                        <MudText Typo="Typo.body2" Style="font-weight:400"> 5.00 <MudText Typo="Typo.body2" Style="font-weight:400" Inline="true">(7)</MudText> </MudText> 
+                    </div>
+                    <MudText Typo="Typo.body1" Class="max-line-2" Style="font-weight: 400;"> Hanoi Street Food with Real Foodie </MudText>
+                    <MudText Typo="Typo.body1"> <strong> From $28 </strong> / person </MudText>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="6" Class="mt-1">
+                <MudImage Class="rounded-lg" Elevation="0" Src="/images/travel/19.jpg" Style="height:220px; width:100%" />
+                <MudPaper Class="mt-3" Elevation="0" Style="background-color: transparent;">
+                    <div class="d-flex">
+                        <MudIcon Icon="@Icons.Material.Filled.Star" Color="Color.Error" Size="Size.Small" />
+                        <MudText Typo="Typo.body2" Style="font-weight:400"> 4.82 <MudText Typo="Typo.body2" Style="font-weight:400" Inline="true">(76)</MudText> </MudText> 
+                    </div>
+                    <MudText Typo="Typo.body1" Class="max-line-2" Style="font-weight: 400;"> Vegetarian Food & History Tour in Hanoi </MudText>
+                    <MudText Typo="Typo.body1"> <strong> From $28 </strong> / person </MudText>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="6" Class="mt-1">
+                <MudImage Class="rounded-lg" Elevation="0" Src="/images/travel/15.jpg" Style="height:220px; width:100%" />
+                <MudPaper Class="mt-3" Elevation="0" Style="background-color: transparent;">
+                    <div class="d-flex">
+                        <MudIcon Icon="@Icons.Material.Filled.Star" Color="Color.Error" Size="Size.Small" />
+                        <MudText Typo="Typo.body2" Style="font-weight:400"> 5.00 <MudText Typo="Typo.body2" Style="font-weight:400" Inline="true">(89)</MudText> </MudText> 
+                    </div>
+                    <MudText Typo="Typo.body1" Class="max-line-2" Style="font-weight: 400;"> Ultimate Street Food and Hiden Music </MudText>
+                    <MudText Typo="Typo.body1"> <strong> From $29 </strong> / person </MudText>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="6" Class="mt-1">
+                <MudImage Class="rounded-lg" Elevation="0" Src="/images/travel/20.jpg" Style="height:220px; width:100%" />
+                <MudPaper Class="mt-3" Elevation="0" Style="background-color: transparent;">
+                    <div class="d-flex">
+                        <MudIcon Icon="@Icons.Material.Filled.Star" Color="Color.Error" Size="Size.Small" />
+                        <MudText Typo="Typo.body2" Style="font-weight:400"> 5.00 <MudText Typo="Typo.body2" Style="font-weight:400" Inline="true">(123)</MudText> </MudText> 
+                    </div>
+                    <MudText Typo="Typo.body1" Class="max-line-2" Style="font-weight: 400;"> HanoiSoul-Street Food With Local Guide </MudText>
+                    <MudText Typo="Typo.body1"> <strong> From $27 </strong> / person </MudText>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="6" Class="mt-1">
+                <MudImage Class="rounded-lg" Elevation="0" Src="/images/travel/17.jpg" Style="height:220px; width:100%" />
+                <MudPaper Class="mt-3" Elevation="0" Style="background-color: transparent;">
+                    <div class="d-flex">
+                        <MudIcon Icon="@Icons.Material.Filled.Star" Color="Color.Error" Size="Size.Small" />
+                        <MudText Typo="Typo.body2" Style="font-weight:400"> 4.98 <MudText Typo="Typo.body2" Style="font-weight:400" Inline="true">(252)</MudText> </MudText> 
+                    </div>
+                    <MudText Typo="Typo.body1" Class="max-line-2" Style="font-weight: 400;"> Cooking Class in Hanoi at French Villa </MudText>
+                    <MudText Typo="Typo.body1"> <strong> From $38 </strong> / person </MudText>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+    </MudCard>
+}
+@code {
+    private bool _loaded;
+    protected override async Task OnInitializedAsync()
+    {
+        
+        _loaded = true;
+    }
+}

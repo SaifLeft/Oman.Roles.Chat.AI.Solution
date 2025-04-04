@@ -1,0 +1,28 @@
+﻿@page "/error404"
+
+<MudPaper Elevation="3" Height="150" Class="px-4 mx-n4 mt-n10 pt-10 mud-theme-primary" Style="border-radius: 0px 0px 45px 45px;" Outlined="false">
+    <MudPaper Elevation="0" Class="py-6" Style="background-color: transparent">
+
+    </MudPaper>
+</MudPaper>
+
+<MudGrid Class="mt-n15 pt-0 mb-1">
+    <MudItem xs="12">
+        <MudCard Elevation="1" Class="rounded-lg py-8">
+            <MudCardContent Class="d-flex flex-column align-center">
+                <MudIcon Color="Color.Error" Icon="fa fa-exclamation-triangle" Class="fa-7x"></MudIcon>
+                <MudText Class="mt-8" Color="Color.Default" Typo="Typo.h2" Style="font-weight: 700;">404</MudText>
+                <MudText Class="mt-n3"Color="Color.Default" Typo="Typo.h6" Style="font-weight: 600;">PAGE NOT FOUND</MudText>
+                <MudText Class="mt-8" Typo="Typo.body2" Align="Align.Center">The page you're looking for cannot be found. How about trying the homepage?</MudText>
+                <MudButton Href="/" Class="mt-8 rounded-lg px-8" Color="Color.Primary" Variant="Variant.Filled"> GO HOME </MudButton>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+}

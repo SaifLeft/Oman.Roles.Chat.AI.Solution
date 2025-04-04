@@ -1,0 +1,64 @@
+﻿@using MauiStore.Data
+
+<MudDialog Gutters="false">
+    <TitleContent>
+        <div class="d-flex flex-row">
+            <MudIcon Icon="@Icons.Material.Filled.Storefront" Class="align-self-center" Size="Size.Medium"/>
+            <MudText Typo="Typo.h6" Class="mx-3 align-self-center" Color="Color.Primary">@StoreInfo.StoreName</MudText>
+        </div>
+    </TitleContent>
+    <DialogContent>
+        <NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
+        <MudContainer Style="height:90vh; overflow-y: scroll">
+            <MudGrid Spacing="2">
+                <MudItem xs="12" md="12">
+                    <MudImage Src="@StoreInfo.Image" Elevation="1" Fluid="true" Class="rounded-lg" />
+                </MudItem>
+                <MudItem xs="12" md="12">
+                    <div class="d-flex align-start flex-column">
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600">-Address</MudText>
+                        <div>
+                            <MudText Typo="Typo.body1">@StoreInfo.Address</MudText>
+                            <MudText Typo="Typo.body1" Color="Color.Error" Class="mb-n1"><strong>@StoreInfo.Distance</strong></MudText>
+                        </div>
+                    </div>
+                </MudItem>
+                <MudItem xs="12" md="12">
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600">-Opening hours</MudText>
+                    <div class="d-flex justify-space-between">
+                        <MudText Typo="Typo.body1">Weekdays</MudText>
+                        <MudText Typo="Typo.body1" Color="Color.Primary" Class="">10:00 am - 22:00 pm</MudText>
+                    </div>
+                    <div class="d-flex justify-space-between">
+                        <MudText Typo="Typo.body1">Weekends</MudText>
+                        <MudText Typo="Typo.body1" Color="Color.Primary" Class="">12:00 am - 20:00 pm</MudText>
+                    </div>
+                </MudItem>
+                <MudItem xs="12" md="12">
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600">-Map view</MudText>
+                    <GoogleMap Style="height: 300px;" Zoom="15" Center=@StoreInfo.Location>
+                        <Markers>
+                            <GoogleMapMarker Position=@StoreInfo.Location />
+                        </Markers>
+                    </GoogleMap>
+                </MudItem>
+            </MudGrid>
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+        @*<MudButton DropShadow="false" Variant="Variant.Filled" ButtonType="ButtonType.Button" Color="Color.Secondary">Ok</MudButton>*@
+    </DialogActions>
+</MudDialog>
+
+@code {
+    private GoogleMap _googleMap;
+    private string _googleMapsApiKey;
+    [Parameter] public StoreInfo StoreInfo { get; set; } = new();
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
+
+    private async Task OnBeforeInternalNavigation(LocationChangingContext context)
+    {
+        context.PreventNavigation();
+        MudDialog.Close();
+    }
+}

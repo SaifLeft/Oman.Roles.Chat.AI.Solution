@@ -1,0 +1,111 @@
+﻿@page "/health"
+
+@if (!_loaded)
+{
+    <Spinner></Spinner>
+}
+else
+{
+<MudGrid Class="mt-5 pt-0 mb-1">
+    <MudItem xs="12">
+        <MudCard Elevation="1" Class="rounded-lg">
+            <MudCardContent>
+                <MudText Color="Color.Default" Align="Align.Left" Typo="Typo.body2" Style="font-weight: 400;">Prebuilt Medical, Health pages for your Web or Mobile apps.</MudText>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+<MudGrid Class="mb-5" Spacing="2">
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row rounded-lg" @onclick="@(() => NavigateToHealthDashboard())">
+                <MudIcon Icon="@Icons.Material.Filled.HealthAndSafety" Color="Color.Secondary" Class="mx-3 my-5 align-self-center" Size="Size.Large"></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Homepage </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row rounded-lg"  @onclick="@(() => NavigateToMedicalForm())">
+            <MudIcon Icon="@Icons.Material.Filled.MedicalInformation" Color="Color.Info" Class="mx-3 my-5 align-self-center" Size="Size.Large" ></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Medical Form </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row rounded-lg" @onclick="@(() => NavigateToVaccineCertificate())">
+            <MudIcon Icon="@Icons.Material.Filled.Vaccines" Color="Color.Tertiary" Class="mx-3 my-5 align-self-center" Size="Size.Large" ></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Vaccination Status </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row rounded-lg" @onclick="@(() => NavigateToVaccineCertificateDetails())">
+                <MudIcon Icon="@Icons.Material.Filled.Medication" Color="Color.Primary" Class="mx-3 my-5 align-self-center" Size="Size.Large"></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Vaccination Details </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row rounded-lg" @onclick="@(() => NavigateToAccount())">
+            <MudIcon Icon="@Icons.Material.TwoTone.AccountCircle" Color="Color.Secondary" Class="mx-3 my-5 align-self-center" Size="Size.Large" ></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Account </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row rounded-lg" @onclick="@(() => NavigateToSettings())">
+            <MudIcon Icon="@Icons.Material.TwoTone.Settings" Color="Color.Warning" Class="mx-3 my-5 align-self-center" Size="Size.Large" ></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Settings </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+}
+@code {
+    private bool _loaded;
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+        _loaded = true;
+    }
+
+    public void NavigateToHealthDashboard()
+    {
+        _navigationManager.NavigateTo("/dashboard-health");
+    }
+    public void NavigateToMedicalForm()
+    {
+        _navigationManager.NavigateTo("/medical-form");
+    }
+
+    public void NavigateToVaccineCertificate()
+    {
+        _navigationManager.NavigateTo("/vaccine-certificate");
+    }
+
+    public void NavigateToVaccineCertificateDetails()
+    {
+        _navigationManager.NavigateTo("/certificate-details");
+    }
+
+    public void NavigateToAccount()
+    {
+        _navigationManager.NavigateTo("/health-account");
+    }
+
+    public void NavigateToPromotionsPage()
+    {
+        _navigationManager.NavigateTo("/promotions");
+    }
+
+    public void NavigateToSettings()
+    {
+        _navigationManager.NavigateTo("/health-settings");
+    }
+}

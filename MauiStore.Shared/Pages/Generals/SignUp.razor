@@ -1,0 +1,41 @@
+﻿@page "/pages/sign-up"
+
+<MudPaper Elevation="3" Height="150" Class="px-4 mx-n4 mt-n10 pt-10 mud-theme-primary" Style="border-radius: 0px 0px 45px 45px;" Outlined="false">
+    <MudPaper Elevation="0" Class="py-6" Style="background-color: transparent">
+
+    </MudPaper>
+</MudPaper>
+
+<MudGrid Class="mt-n15 pt-0">
+    <MudItem xs="12">
+        <MudCard Elevation="1" Class="rounded-lg py-1">
+            <MudCardContent>
+                <MudText Color="Color.Default" Typo="Typo.h6" Style="font-weight: 600;">Sign Up</MudText>
+                <MudText Class="mb-5" Typo="Typo.body2">Get started in minutes</MudText>
+
+                <MudTextField Class="mt-3" T="string" Label="Name" Variant="Variant.Filled" Margin="Margin.Dense"
+                              AdornmentColor="Color.Primary" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.TwoTone.AccountCircle" />
+
+                <MudTextField Class="mt-3" T="string" Label="Email" Variant="Variant.Filled" Margin="Margin.Dense"
+                              AdornmentColor="Color.Primary" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.TwoTone.AlternateEmail" />
+                
+                <MudTextField Class="mt-3" Label="Password" Variant="Variant.Filled" Margin="Margin.Dense"
+                              T="string" AdornmentColor="Color.Primary" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.TwoTone.Lock" />
+                              
+                <MudTextField Class="mt-3" Label="Confirm Password" Variant="Variant.Filled" Margin="Margin.Dense"
+                              T="string" AdornmentColor="Color.Primary" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.TwoTone.Lock" />
+                
+
+                <MudButton Class="my-4 py-2 rounded-lg" Color="Color.Tertiary" FullWidth="true" Variant="Variant.Filled"> Creat Account </MudButton>
+
+                <div class="d-flex justify-center my-5">
+                    <MudLink Href="/pages/sign-in" Typo="Typo.body2">Already Registered? Sign in</MudLink>
+                </div>
+
+                <MudButton Class="my-1 py-2 rounded-lg" Color="Color.Primary" DropShadow="false" FullWidth="true" StartIcon="fab fa-facebook" Variant="Variant.Filled"> Register with Facebook </MudButton>
+                <MudButton Class="my-1 py-2 rounded-lg" Color="Color.Error" DropShadow="false" FullWidth="true" StartIcon="fab fa-google" Variant="Variant.Filled"> Register with Google </MudButton>
+                <MudButton Class="my-1 py-2 rounded-lg" Color="Color.Default" DropShadow="false" FullWidth="true" StartIcon="fab fa-apple" Variant="Variant.Filled"> Register with Apple </MudButton>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>

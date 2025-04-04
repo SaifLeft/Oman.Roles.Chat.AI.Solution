@@ -1,0 +1,45 @@
+﻿@inherits MudComponentBase
+@implements IAsyncDisposable
+@using MauiStore.Data.GoogleMap
+
+
+@code {
+    private bool _isDisposed;
+
+    [Parameter]
+    public GoogleMapPosition Position { get; set; } = new GoogleMapPosition() { Lat = 0, Lng = 0 };
+
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public string Label { get; set; }
+
+    GoogleMap _map;
+
+    [CascadingParameter]
+    public GoogleMap Map
+    {
+        get
+        {
+            return _map;
+        }
+        set
+        {
+            if (_map != value)
+            {
+                _map = value;
+                _map.AddMarker(this);
+            }
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_isDisposed == true)
+            return;
+        _isDisposed = true;
+
+        Map?.RemoveMarker(this);
+    }
+}

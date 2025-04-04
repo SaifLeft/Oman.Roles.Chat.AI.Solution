@@ -1,0 +1,122 @@
+﻿@page "/walkthrough-illustration"
+@attribute [Microsoft.AspNetCore.Authorization.AllowAnonymous]
+@inherits LayoutComponentBase
+
+<style>
+
+    .copyright-footer {
+        display: none;
+    }
+
+    .wk-container {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+</style>
+
+<MudCarousel @ref="_carousel" Class="wk-container" Style="width: 100%; height: 100%;" ShowArrows="false" ShowBullets="false" AutoCycle="false" TData="object">
+    <MudCarouselItem Transition="Transition.Slide">
+        <MudCard Outlined="false" Square="true" Class="wk-container border-0 d-flex flex-column justify-center">
+            <MudCardContent Class="d-flex flex-column align-self-center">
+                <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                    <MudImage Src="/images/onboarding/walkthrough_illustration_01.png" Class="align-self-center" Style="height:350px; width:auto;" />
+                </MudHidden>
+                <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="false" Class="">
+                    <MudImage Src="/images/onboarding/walkthrough_illustration_01.png" Class="align-self-center" Style="height:250px; width:auto;" />
+                </MudHidden>
+
+                <MudGrid Spacing="0" Class="mt-10">
+                    <MudItem xs="0" md="0" lg="2" xl="2"></MudItem>
+
+                    <MudItem xs="12" md="12" lg="8" xl="8">
+                        <MudText Typo="Typo.h5" Style="font-weight: 700;" Align="Align.Center">
+                            Welcome
+                        </MudText>
+                        <MudText Typo="Typo.body1" Class="mt-5" Align="Align.Center" Style="font-weight: 400;">
+                            To a new world of posibilities,<br> welcome to MauiStore.
+                        </MudText>
+                        <MudButton Class="mt-15 rounded-lg" Color="Color.Default" OnClick="NextAsync" FullWidth="true" Variant="Variant.Outlined" Size="Size.Medium"> Next </MudButton>
+                    </MudItem>
+
+                    <MudItem xs="0" md="0" lg="2" xl="2"></MudItem>
+                </MudGrid>
+            </MudCardContent>
+        </MudCard>
+    </MudCarouselItem>
+    <MudCarouselItem Transition="Transition.Slide">
+        <MudCard Outlined="false" Square="true" Class="wk-container border-0 d-flex flex-column justify-center">
+            <MudCardContent Class="d-flex flex-column align-self-center">
+                <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                    <MudImage Src="/images/onboarding/walkthrough_illustration_02.png" Class="align-self-center" Style="height:350px; width:auto;" />
+                </MudHidden>
+                <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="false" Class="">
+                    <MudImage Src="/images/onboarding/walkthrough_illustration_02.png" Class="align-self-center" Style="height:250px; width:auto;" />
+                </MudHidden>
+
+                <MudGrid Spacing="0" Class="mt-10">
+                    <MudItem xs="0" md="0" lg="2" xl="2"></MudItem>
+
+                    <MudItem xs="12" md="12" lg="8" xl="8">
+                        <MudText Typo="Typo.h5" Style="font-weight: 700;" Align="Align.Center">
+                            Save Time
+                        </MudText>
+                        <MudText Typo="Typo.body1" Class="mt-5" Align="Align.Center" Style="font-weight: 400;">
+                            Save countless hours of UI design.<br>Focus on your app functions.
+                        </MudText>
+                        <MudButton Class="mt-15 rounded-lg" Color="Color.Default" OnClick="NextAsync" FullWidth="true" Variant="Variant.Outlined" Size="Size.Medium"> Next </MudButton>
+                    </MudItem>
+
+                    <MudItem xs="0" md="0" lg="2" xl="2"></MudItem>
+                </MudGrid>
+            </MudCardContent>
+        </MudCard>
+    </MudCarouselItem>
+    <MudCarouselItem Transition="Transition.Slide">
+        <MudCard Outlined="false" Square="true" Class="wk-container border-0 d-flex flex-column justify-center">
+            <MudCardContent Class="d-flex flex-column align-self-center">
+                <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                    <MudImage Src="/images/onboarding/walkthrough_illustration_03.png" Class="align-self-center" Style="height:350px; width:auto;" />
+                </MudHidden>
+                <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="false" Class="">
+                    <MudImage Src="/images/onboarding/walkthrough_illustration_03.png" Class="align-self-center" Style="height:250px; width:auto;" />
+                </MudHidden>
+
+                <MudGrid Spacing="0" Class="mt-10">
+                    <MudItem xs="0" md="0" lg="2" xl="2"></MudItem>
+
+                    <MudItem xs="12" md="12" lg="8" xl="8">
+                        <MudText Typo="Typo.h5" Style="font-weight: 700;" Align="Align.Center">
+                            Learn
+                        </MudText>
+                        <MudText Typo="Typo.body1" Class="mt-5" Align="Align.Center" Style="font-weight: 400;">
+                            Learn while you work. <br>Tons of examples for you to explore.
+                        </MudText>
+                        <MudButton Class="mt-15 rounded-lg" Color="Color.Default" OnClick="FinishAsync" FullWidth="true" Variant="Variant.Outlined" Size="Size.Medium"> FINISH! </MudButton>
+                    </MudItem>
+
+                    <MudItem xs="0" md="0" lg="2" xl="2"></MudItem>
+                </MudGrid>
+            </MudCardContent>
+        </MudCard>
+    </MudCarouselItem>
+</MudCarousel>
+
+@code{
+    private MudCarousel<object> _carousel;
+
+    private async Task NextAsync()
+    {
+        _carousel.Next();
+    }
+
+    private async Task FinishAsync()
+    {
+        //Parent.IsFirstVisit = !Parent.IsFirstVisit;
+        //await ClientPreferences.ChangeFirstVisitAsync(Parent.IsFirstVisit);
+        await InvokeAsync(StateHasChanged);
+        _navigationManager.NavigateTo("/onboarding-index");
+    }
+}

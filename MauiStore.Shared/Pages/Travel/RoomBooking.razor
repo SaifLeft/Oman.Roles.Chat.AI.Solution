@@ -1,0 +1,275 @@
+﻿@page "/travel/room-booking"
+@using MauiStore.Data.GoogleMap
+
+<style>
+
+</style>
+
+<!--Large Devices-->
+<MudHidden Breakpoint="Breakpoint.MdAndDown" Invert="false">
+    <MudCarousel Class="" Style="height:400px;" ShowArrows="true" ShowBullets="true" AutoCycle="false" TData="object">
+        <BulletTemplate Context="selected">
+            <div Class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon mb-5">
+                <span class="mud-icon-button-label">
+                    <MudIcon Icon="@(selected ? "fas fa-circle" : "fal fa-circle")" Style="color: var(--mud-palette-primary); font-size: 0.725rem !important;" />
+                </span>
+            </div>
+        </BulletTemplate>
+        <ChildContent>
+            <MudCarouselItem Transition="Transition.Slide">
+                <MudCard Elevation="0" Class="rounded-lg">
+                    <MudCardMedia Class="rounded-lg" Image="/images/travel/1.jpeg" Height="400" />
+                </MudCard>
+            </MudCarouselItem>
+            <MudCarouselItem Transition="Transition.Slide">
+                <MudCard Elevation="0" Class="rounded-lg">
+                    <MudCardMedia Class="rounded-lg" Image="/images/travel/2.jpeg" Height="400" />
+                </MudCard>
+            </MudCarouselItem>
+            <MudCarouselItem Transition="Transition.Slide">
+                <MudCard Elevation="0" Class="rounded-lg">
+                    <MudCardMedia Class="rounded-lg" Image="/images/travel/3.jpeg" Height="400" />
+                </MudCard>
+            </MudCarouselItem>
+            <MudCarouselItem Transition="Transition.Slide">
+                <MudCard Elevation="0" Class="rounded-lg">
+                    <MudCardMedia Class="rounded-lg" Image="/images/travel/4.jpeg" Height="400" />
+                </MudCard>
+            </MudCarouselItem>
+            <MudCarouselItem Transition="Transition.Slide">
+                <MudCard Elevation="0" Class="rounded-lg">
+                    <MudCardMedia Class="rounded-lg" Image="/images/travel/5.jpeg" Height="400" />
+                </MudCard>
+            </MudCarouselItem>
+            <MudCarouselItem Transition="Transition.Slide">
+                <MudCard Elevation="0" Class="rounded-lg">
+                    <MudCardMedia Class="rounded-lg" Image="/images/travel/6.jpeg" Height="400" />
+                </MudCard>
+            </MudCarouselItem>
+        </ChildContent>
+    </MudCarousel>
+</MudHidden>
+
+<!--Responsive Devices-->
+<MudHidden Breakpoint="Breakpoint.MdAndDown" Invert="true">
+    <MudPaper Class="mx-n4 mt-n5" Elevation="0" Square="true">
+        <MudCarousel Class="" Style="height:300px;" ShowArrows="false" ShowBullets="true" AutoCycle="false" TData="object">
+            <BulletTemplate Context="selected">
+                <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon mb-5">
+                    <span class="mud-icon-button-label">
+                        <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                    </span>
+                </div>
+            </BulletTemplate>
+            <ChildContent>
+                <MudCarouselItem Transition="Transition.Slide">
+                    <MudCard Elevation="0" Class="">
+                        <MudCardMedia Class="" Image="/images/travel/1.jpeg" Height="300" />
+                    </MudCard>
+                </MudCarouselItem>
+                <MudCarouselItem Transition="Transition.Slide">
+                    <MudCard Elevation="0" Class="">
+                        <MudCardMedia Class="" Image="/images/travel/2.jpeg" Height="300" />
+                    </MudCard>
+                </MudCarouselItem>
+                <MudCarouselItem Transition="Transition.Slide">
+                    <MudCard Elevation="0" Class="">
+                        <MudCardMedia Class="" Image="/images/travel/3.jpeg" Height="300" />
+                    </MudCard>
+                </MudCarouselItem>
+                <MudCarouselItem Transition="Transition.Slide">
+                    <MudCard Elevation="0" Class="">
+                        <MudCardMedia Class="" Image="/images/travel/4.jpeg" Height="300" />
+                    </MudCard>
+                </MudCarouselItem>
+                <MudCarouselItem Transition="Transition.Slide">
+                    <MudCard Elevation="0" Class="">
+                        <MudCardMedia Class="" Image="/images/travel/5.jpeg" Height="300" />
+                    </MudCard>
+                </MudCarouselItem>
+                <MudCarouselItem Transition="Transition.Slide">
+                    <MudCard Elevation="0" Class="">
+                        <MudCardMedia Class="" Image="/images/travel/6.jpeg" Height="300" />
+                    </MudCard>
+                </MudCarouselItem>
+            </ChildContent>
+        </MudCarousel>
+    </MudPaper>
+</MudHidden>
+
+<MudCard Elevation="1" Outlined="false" Class="rounded-lg mt-n5" Style="position: relative;">
+    <MudCardContent>
+        <MudGrid Class="" Spacing="3">
+            <MudItem xs="12">
+                <div class="d-flex justify-space-between">
+                    <div>
+                        <MudText Typo="Typo.h6" Style="font-weight: 600;"> Modern Resort </MudText>
+                        <div class="d-flex">
+                            <MudRating Class="align-self-center" Size="Size.Small" ReadOnly="true" SelectedValue="5" />
+                            <MudText Class="align-self-center mx-2" Typo="Typo.body2">345 Reviews</MudText>
+                        </div>
+                    </div>
+                    <div class="align-self-center">
+                        <MudToggleIconButton @bind-Toggled="@IsFavorite" Class="align-self-center rounded-lg" Variant="Variant.Outlined"
+                                Icon="@Icons.Material.Filled.FavoriteBorder" Color="Color.Inherit" title="Favorite"
+                                ToggledIcon="@Icons.Material.Filled.Favorite" ToggledColor="@Color.Error" />
+                    </div>
+                </div>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudDateRangePicker Label="Select time" @bind-DateRange="_dateRange" Margin="Margin.Dense"/>
+                
+                <div class="d-flex flex-grow-1 gap-4 mt-3">
+                    <MudPaper Class="flex-auto d-flex" Width="50%" Elevation="0">
+                        <MudSelect T="string" Label="Select guest" Placeholder="1 Guest" AnchorOrigin="Origin.BottomCenter" Margin="Margin.Dense">
+                            <MudSelectItem Value="@("1 Guest")" />
+                            <MudSelectItem Value="@("2 Guest")" />
+                            <MudSelectItem Value="@("3 Guest")" />
+                            <MudSelectItem Value="@("4 Guest")" />
+                        </MudSelect>
+                    </MudPaper>
+                    <MudPaper Class="flex-auto d-flex" Width="50%" Elevation="0">
+                        <MudSelect T="string" Label="Select bed" Placeholder="1 Bed" AnchorOrigin="Origin.BottomCenter" Margin="Margin.Dense">
+                            <MudSelectItem Value="@("1 Bed")" />
+                            <MudSelectItem Value="@("2 Bed")" />
+                            <MudSelectItem Value="@("3 Bed")" />
+                        </MudSelect>
+                    </MudPaper>
+                </div>
+            </MudItem>
+
+            <MudItem xs="12" Class="d-flex justify-space-between">
+                <MudPaper Elevation="0" Class="d-flex">
+                    <MudText Typo="Typo.h5" Color="Color.Secondary" Style="font-weight: 600;"> $49 </MudText>
+                    <MudText Class="align-self-center" Typo="Typo.body2"> / 1 night</MudText>
+                </MudPaper>
+                <MudPaper Elevation="0" Class="">
+                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" Size="Size.Small" Class="ma-1 px-5 rounded-lg"> Reserve </MudButton>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12" Class="">
+                <MudText Typo="Typo.body1" Style="font-weight: 600;"> Resort Information </MudText>
+                <MudText Typo="Typo.body2" Style=""> A charming oceanfront resort with 38 hotel rooms, studios, and suites, most with a balcony and jacuzzi, located on the turquoise water of the Atlantic Ocean.  </MudText>
+            </MudItem>
+
+            <MudItem xs="12" Class="">
+                <MudText Typo="Typo.body1" Style="font-weight: 600;"> Amenities </MudText>
+                <div class="hz-container py-2">
+                    <MudPaper Elevation="0" Class="d-flex flex-column" Style="width: 60px;">
+                        <MudAvatar Class="align-self-center" Color="Color.Default" Variant="Variant.Filled" Style="width: 40px; height: 40px">
+                            <MudIcon Color="Color.Secondary" Icon="@Icons.Material.Filled.Wifi" Size="Size.Small" />
+                        </MudAvatar>
+                        <MudText Class="mt-1" Typo="Typo.body2" Align="Align.Center"> Wifi </MudText>
+                    </MudPaper>
+
+                    <MudPaper Elevation="0" Class="d-flex flex-column" Style="width: 60px;">
+                        <MudAvatar Class="align-self-center" Color="Color.Default" Variant="Variant.Filled" Style="width: 40px; height: 40px">
+                            <MudIcon Color="Color.Secondary" Icon="@Icons.Material.Filled.FoodBank" Size="Size.Small" />
+                        </MudAvatar>
+                        <MudText Class="mt-1" Typo="Typo.body2" Align="Align.Center"> Kitchen </MudText>
+                    </MudPaper>
+
+                    <MudPaper Elevation="0" Class="d-flex flex-column" Style="width: 60px;">
+                        <MudAvatar Class="align-self-center" Color="Color.Default" Variant="Variant.Filled" Style="width: 40px; height: 40px">
+                            <MudIcon Color="Color.Secondary" Icon="@Icons.Material.Filled.DirectionsCar" Size="Size.Small" />
+                        </MudAvatar>
+                        <MudText Class="mt-1" Typo="Typo.body2" Align="Align.Center"> Parking </MudText>
+                    </MudPaper>
+
+                    <MudPaper Elevation="0" Class="d-flex flex-column" Style="width: 60px;">
+                        <MudAvatar Class="align-self-center" Color="Color.Default" Variant="Variant.Filled" Style="width: 40px; height: 40px">
+                            <MudIcon Color="Color.Secondary" Icon="@Icons.Material.Filled.FitnessCenter" Size="Size.Small" />
+                        </MudAvatar>
+                        <MudText Class="mt-1" Typo="Typo.body2" Align="Align.Center"> Gym </MudText>
+                    </MudPaper>
+
+                    <MudPaper Elevation="0" Class="d-flex flex-column" Style="width: 60px;">
+                        <MudAvatar Class="align-self-center" Color="Color.Default" Variant="Variant.Filled" Style="width: 40px; height: 40px">
+                            <MudIcon Color="Color.Secondary" Icon="@Icons.Material.Filled.MoreHoriz" Size="Size.Small" />
+                        </MudAvatar>
+                        <MudText Class="mt-1" Typo="Typo.body2" Align="Align.Center"> More </MudText>
+                    </MudPaper>
+                </div>
+            </MudItem>
+
+            <MudItem xs="12" Class="">
+                <MudText Typo="Typo.body1" Style="font-weight: 600;" Class="mb-2"> Location </MudText>
+                <GoogleMap Style="height: 200px;" Zoom="15" Center="@_location">
+                        <Markers>
+                            <GoogleMapMarker Position="@_location" />
+                        </Markers>
+                </GoogleMap>
+
+                <div class="d-flex mt-3">
+                    <MudIcon Icon="@Icons.Material.Outlined.LocationOn" Class="align-self-center" Color="Color.Secondary" Size="Size.Small"></MudIcon>
+                    <MudText Typo="Typo.body2" Style="font-weight: 400;" Class="align-self-center mx-2" Color="@Color.Default"> 7654 Cleveland Street, Phoenixville, PA 19460</MudText>
+                </div>
+
+                <div class="d-flex mt-3">
+                    <MudIcon Icon="@Icons.Material.Outlined.Phone" Class="align-self-center" Color="Color.Secondary" Size="Size.Small"></MudIcon>
+                    <MudText Typo="Typo.body2" Style="font-weight: 400;" Class="align-self-center mx-2" Color="@Color.Default"> +1 202-555-0101</MudText>
+                </div>
+            </MudItem>
+
+            <MudItem xs="12" Class="d-flex justify-space-between">
+                <MudText Typo="Typo.body1" Style="font-weight: 600;">Ratings and Reviews</MudText>
+                <MudText Color="Color.Primary" Typo="Typo.body2">SHOW ALL</MudText>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" Class="">
+                <MudPaper Elevation="0" Class="d-flex justify-space-between mb-2">
+                    <div class="d-flex">
+                        <MudAvatar Style="height: 40px; width: 40px;">
+                            <MudImage Src="/images/pictures/faces/3s.png" />
+                        </MudAvatar>
+                        <div class="mx-3">
+                            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;">John Doe</MudText>
+                            <MudText Typo="Typo.caption"> 29 Dec, 2021 </MudText>
+                        </div>
+                    </div>
+                    <MudRating ReadOnly="true" SelectedValue="5" Size="Size.Small"/>
+                </MudPaper>
+                <MudText Typo="Typo.body2"> Great Resort, excellent hospitality! </MudText>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" Class="">
+                <MudPaper Elevation="0" Class="d-flex justify-space-between mb-2">
+                    <div class="d-flex">
+                        <MudAvatar Style="height: 40px; width: 40px;">
+                            <MudImage Src="/images/pictures/faces/4s.png" />
+                        </MudAvatar>
+                        <div class="mx-3">
+                            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;">Louder Johanna</MudText>
+                            <MudText Typo="Typo.caption"> 14 Feb, 2022 </MudText>
+                        </div>
+                    </div>
+                    <MudRating ReadOnly="true" SelectedValue="5" Size="Size.Small"/>
+                </MudPaper>
+                <MudText Typo="Typo.body2"> Best resort on the planet. LOVE our visits there. </MudText>
+            </MudItem>
+
+        </MudGrid>
+    </MudCardContent>
+</MudCard>
+@code {
+    public bool IsFavorite { get; set; }
+
+    DateTime? date = null;
+    DateRange _dateRange = new DateRange(DateTime.Now.Date, DateTime.Now.AddDays(3).Date);
+
+    public GoogleMapPosition _location { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        _location = new GoogleMapPosition { Lat = 10.739780, Lng = 106.705020 };
+    }
+}

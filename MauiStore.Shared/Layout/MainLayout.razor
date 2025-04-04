@@ -1,0 +1,62 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider Theme="_currentTheme" @bind-IsDarkMode="@IsDarkMode" DefaultScrollbar="false" />
+<MudPopoverProvider />
+@* Needed for dialogs *@
+<MudDialogProvider BackdropClick="false" />
+
+@* Needed for snackbars *@
+<MudSnackbarProvider />
+
+<CascadingValue Value="this">
+    @if (IsFirstVisit)
+    {
+        <LayoutView Layout="@typeof(Onboarding)">
+        </LayoutView>
+    }
+    else
+    {
+        <MudLayout>
+            <MainBody OnDarkModeToggle="@ToggleDarkMode">
+                @Body
+            </MainBody>
+        </MudLayout>
+    }
+</CascadingValue>
+
+
+
+<div id="blazor-error-ui" data-nosnippet>
+    An unhandled error has occurred.
+    <a href="." class="reload">Reload</a>
+    <span class="dismiss">🗙</span>
+</div>
+
+@code {
+    private MudTheme _currentTheme;
+
+    public bool IsDarkMode { get; set; }
+
+    public bool IsFirstVisit { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _currentTheme = Infrastructure.AppTheme.MyCustomTheme;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            IsDarkMode = await _clientPreferenceManager.IsDarkMode();
+            IsFirstVisit = await _clientPreferenceManager.IsFirstVisit();
+            StateHasChanged();
+        }
+    }
+
+    public async Task ToggleDarkMode()
+    {
+        IsDarkMode = await _clientPreferenceManager.ToggleDarkModeAsync();
+        StateHasChanged();
+    }
+}

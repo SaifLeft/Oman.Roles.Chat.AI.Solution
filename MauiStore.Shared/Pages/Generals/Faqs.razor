@@ -1,0 +1,41 @@
+﻿@page "/faqs"
+
+<MudPaper Elevation="3" Height="150" Class="px-4 mx-n4 mt-n10 pt-10 mud-theme-primary" Style="border-radius: 0px 0px 45px 45px;" Outlined="false">
+    <MudPaper Elevation="0" Class="py-6" Style="background-color: transparent">
+
+    </MudPaper>
+</MudPaper>
+
+<MudGrid Class="mt-n15 pt-0 mb-1">
+    <MudItem xs="12">
+        <MudCard Elevation="1" Class="rounded-lg">
+            <MudCardContent>
+                <MudText Color="Color.Default" Typo="Typo.h6" Style="font-weight: 700;">Frequent Questions</MudText>
+                <MudText Color="Color.Primary" Typo="Typo.caption" Style="font-weight: 500;">Really, we get asked this often.</MudText>
+                <MudText Class="mt-3 mb-5" Color="Color.Default" Typo="Typo.body2" Style="font-weight: 400;">We care about all our customers and we give 150% attention to detail for perfect quality.</MudText>
+
+                <MudExpansionPanels Elevation="0" MultiExpansion="true">
+                    <MudExpansionPanel Text="Is this a PWA?">
+                        Yes. Our item is a PWA. We have a servier worker and a manifest.json file ready and prepared for you to use the item offline.
+                    </MudExpansionPanel>
+                    <MudExpansionPanel Text="Is this a Cordova App?">
+                        No, but we have a ready built version in our portfolio and you can convert it to Cordova yourself. It's really simple.
+                    </MudExpansionPanel>
+                    <MudExpansionPanel Text="Is this a WordPres Theme?">
+                        No. Our item is a HTML, CSS3 and JS Site Template. You can however convert it to a WordPress Theme.
+                    </MudExpansionPanel>
+                    <MudExpansionPanel Text="Is this built with Boostrap?">
+                        Yes! We include 2 versions, one built with Boostrap, and a much more flexible and powerful custom AJAX version.
+                    </MudExpansionPanel>
+                </MudExpansionPanels>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+}

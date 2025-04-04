@@ -1,0 +1,249 @@
+﻿@page "/about-us"
+
+<MudPaper Elevation="3" Height="200" Class="px-4 mx-n4 mt-n10 pt-10 mud-theme-primary" Style="border-radius: 0px 0px 45px 45px;" Outlined="false">
+    <MudPaper Elevation="0" Class="py-6" Style="background-color: transparent">
+
+    </MudPaper>
+</MudPaper>
+
+<MudGrid Class="mt-n15 pt-0 mb-1">
+    <MudItem xs="12">
+        <MudCard Elevation="1" Class="rounded-lg py-2">
+            <MudCardContent>
+                <div class="d-flex mb-3">
+                    <MudImage Src="images/logo.png" Height="50" Width="50"/>
+                    <div class="mx-3">
+                        <MudText Color="Color.Default" Typo="Typo.h6" Style="font-weight: 600;">MauiStore</MudText>
+                        <MudText Color="Color.Primary" Typo="Typo.caption" Style="font-weight: 500;">The Best Blazor PWA app on Envato</MudText>
+                    </div>
+                </div>
+                <MudText Typo="Typo.body2">We care about all our customers and we give 150% attention to detail for perfect quality.</MudText>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+<MudGrid Class="my-5" Spacing="2">
+    <MudItem xs="6" sm="6" md="3">
+        <MudCard Elevation="1" Class="rounded-lg">
+            <MudCardContent Class="d-flex flex-column py-5">
+                <MudIconButton Icon="@Icons.Material.TwoTone.SupervisorAccount" Color="Color.Error" Class="pa-3 align-self-center" Size="Size.Large"></MudIconButton>
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Color="Color.Default" Align="Align.Center">Role-based Access Module</MudText>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+    <MudItem xs="6" sm="6" md="3">
+        <MudCard Elevation="1" Class="rounded-lg">
+            <MudCardContent Class="d-flex flex-column py-5">
+                <MudIconButton Icon="@Icons.Material.TwoTone.DeveloperMode" Color="Color.Warning" Class="pa-3 align-self-center" Size="Size.Large"></MudIconButton>
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Color="Color.Default" Align="Align.Center">Sample CRUD Operations</MudText>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+    <MudItem xs="6" sm="6" md="3">
+        <MudCard Elevation="1" Class="rounded-lg">
+            <MudCardContent Class="d-flex flex-column py-5">
+                <MudIconButton Icon="@Icons.Material.TwoTone.MarkEmailRead" Color="Color.Secondary" Class="pa-3 align-self-center" Size="Size.Large"></MudIconButton>
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Color="Color.Default" Align="Align.Center">Integrated Mailing Function</MudText>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+    <MudItem xs="6" sm="6" md="3">
+        <MudCard Elevation="1" Class="rounded-lg">
+            <MudCardContent Class="d-flex flex-column py-5">
+                <MudIconButton Icon="@Icons.Material.TwoTone.MarkChatUnread" Color="Color.Info" Class="pa-3 align-self-center" Size="Size.Large"></MudIconButton>
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Color="Color.Default" Align="Align.Center">Realtime Chat with SignalR</MudText>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+<div class="d-flex flex-row justify-space-between mt-5 mb-2">
+    <div class="d-flex">
+        <MudIconButton Icon="fas fa-gem" Color="Color.Primary" Size="Size.Small"></MudIconButton>
+        <MudText Color="Color.Default" Class="mx-2" Style="font-weight: 500;" Typo="Typo.subtitle1">Highlight Features</MudText>
+    </div>
+    <MudText Color="Color.Primary" Class="align-self-center" Typo="Typo.subtitle2">View all</MudText>
+</div>
+<div class="hz-container pb-3">
+    <MudCard Elevation="1" Class="rounded-lg mr-3">
+        <MudCardContent Style="width: 150px;" Class="d-flex flex-column mb-1 mt-1">
+            <MudIconButton Icon="fas fa-layer-group" Color="Color.Error" Class="pa-3 align-self-center" Size="Size.Large"></MudIconButton>
+            <MudText Typo="Typo.subtitle1" Align="Align.Center" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Surface">Full Stack</MudText>
+            <MudText Typo="Typo.caption" Class="align-self-center" Align="Align.Center" Color="@Color.Default">Client and Server side</MudText>
+        </MudCardContent>
+    </MudCard>
+    <MudCard Elevation="1" Class="rounded-lg mr-3">
+        <MudCardContent Style="width: 150px;" Class="d-flex flex-column mb-1 mt-1">
+            @*<MudAvatar Image="/images/svg/smartphone.svg" Class="pa-3 align-self-center" Style="height:50px; width:50px;"></MudAvatar>*@
+            <MudIconButton Icon="@Icons.Material.TwoTone.AddToHomeScreen" Color="Color.Tertiary" Class="pa-3 align-self-center" Size="Size.Large"></MudIconButton>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Align="Align.Center" Class="align-self-center" Color="@Color.Surface">PWA Ready</MudText>
+            <MudText Typo="Typo.caption" Class="align-self-center" Align="Align.Center" Color="@Color.Default">Install like apps</MudText>
+        </MudCardContent>
+    </MudCard>
+    <MudCard Elevation="1" Class="rounded-lg mr-3">
+        <MudCardContent Style="width: 150px;" Class="d-flex flex-column mb-1 mt-1">
+            <MudIconButton Icon="fas fa-laptop-code" Color="Color.Info" Class="pa-3 align-self-center" Size="Size.Large"></MudIconButton>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Align="Align.Center" Class="align-self-center" Color="@Color.Surface">MudBlazor</MudText>
+            <MudText Typo="Typo.caption" Class="align-self-center" Align="Align.Center" Color="@Color.Default">Amazing components</MudText>
+        </MudCardContent>
+    </MudCard>
+    <MudCard Elevation="1" Class="rounded-lg mr-3">
+        <MudCardContent Style="width: 150px;" Class="d-flex flex-column mb-1 mt-1">
+            <MudIconButton Icon="fas fa-globe" Color="Color.Success" Class="pa-3 align-self-center" Size="Size.Large"></MudIconButton>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Align="Align.Center" Class="align-self-center" Color="@Color.Surface">WebAssembly</MudText>
+            <MudText Typo="Typo.caption" Class="align-self-center" Align="Align.Center" Color="@Color.Default">Run in all browsers</MudText>
+        </MudCardContent>
+    </MudCard>
+    <MudCard Elevation="1" Class="rounded-lg mr-3">
+        <MudCardContent Style="width: 150px;" Class="d-flex flex-column mb-1 mt-1">
+            <MudIconButton Icon="@Icons.Material.Filled.ImportantDevices" Color="Color.Primary" Class="pa-3 align-self-center" Size="Size.Large"></MudIconButton>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Align="Align.Center" Class="align-self-center" Color="@Color.Surface">Modern SPA</MudText>
+            <MudText Typo="Typo.caption" Class="align-self-center" Align="Align.Center" Color="@Color.Default">Build modern web app</MudText>
+        </MudCardContent>
+    </MudCard>
+    <MudCard Elevation="1" Class="rounded-lg mr-3">
+        <MudCardContent Style="width: 150px;" Class="d-flex flex-column mb-1 mt-1">
+            <MudIconButton Icon="fas fa-tasks" Color="Color.Error" Class="pa-3 align-self-center" Size="Size.Large"></MudIconButton>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Align="Align.Center" Class="align-self-center" Color="@Color.Surface">Project/ Tasks</MudText>
+            <MudText Typo="Typo.caption" Class="align-self-center" Align="Align.Center" Color="@Color.Default">Speed up development</MudText>
+        </MudCardContent>
+    </MudCard>
+    <MudCard Elevation="1" Class="rounded-lg mr-3">
+        <MudCardContent Style="width: 150px;" Class="d-flex flex-column mb-1 mt-1">
+            <MudIconButton Icon="fas fa-heartbeat" Color="Color.Tertiary" Class="pa-3 align-self-center" Size="Size.Large"></MudIconButton>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Align="Align.Center" Class="align-self-center" Color="@Color.Surface">Socials Health</MudText>
+            <MudText Typo="Typo.caption" Class="align-self-center" Align="Align.Center" Color="@Color.Default">Speed up development</MudText>
+        </MudCardContent>
+    </MudCard>
+    <MudCard Elevation="1" Class="rounded-lg mr-3">
+        <MudCardContent Style="width: 150px;" Class="d-flex flex-column mb-1 mt-1">
+            <MudIconButton Icon="fas fa-shopping-bag" Color="Color.Secondary" Class="pa-3 align-self-center" Size="Size.Large"></MudIconButton>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Align="Align.Center" Class="align-self-center" Color="@Color.Surface">E-Commerce</MudText>
+            <MudText Typo="Typo.caption" Class="align-self-center" Align="Align.Center" Color="@Color.Default">Speed up development</MudText>
+        </MudCardContent>
+    </MudCard>
+    <MudCard Elevation="1" Class="rounded-lg mr-3">
+        <MudCardContent Style="width: 150px;" Class="d-flex flex-column mb-1 mt-1">
+            <MudIconButton Icon="fas fa-wallet" Color="Color.Warning" Class="pa-3 align-self-center" Size="Size.Large"></MudIconButton>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Align="Align.Center" Class="align-self-center" Color="@Color.Surface">E-Wallet</MudText>
+            <MudText Typo="Typo.caption" Class="align-self-center" Align="Align.Center" Color="@Color.Default">Speed up development</MudText>
+        </MudCardContent>
+    </MudCard>
+</div>
+
+<MudPaper Elevation="0" Class="px-4 mx-n4 my-5 py-5 mud-theme-primary" Outlined="false" Square="true">
+    <MudText Typo="Typo.h6" Style="font-weight: 600;">Reputation for Consistent Quality</MudText>
+    <MudText Typo="Typo.body2" Style="font-weight: 600;">The next generation of Mobile and Website project template</MudText>
+
+    <MudCard Class="rounded-lg my-5">
+        <MudCardContent>
+            <MudGrid Spacing="2">
+                <MudItem xs="6">
+                    <div class="d-flex flex-row">
+                        <MudAvatar>
+                            <MudImage Src="/images/materials.png" Class="pa-0 mr-2 align-self-center"Style="height:40px; width:40px;"/>
+                        </MudAvatar>
+                        <MudText Typo="Typo.subtitle2" Style="font-weight: 600;" Class="align-self-center" Color="@Color.Default">Material Design</MudText>
+                    </div>
+                </MudItem>
+
+                <MudItem xs="6">
+                    <div class="d-flex flex-row">
+                        <MudAvatar>
+                            <MudImage Src="/images/csharp.png" Class="pa-0 mr-2 align-self-center" Style="height:40px; width:40px;"/>
+                        </MudAvatar>
+                        <MudText Typo="Typo.subtitle2" Style="font-weight: 600;" Class="align-self-center" Color="@Color.Default">Entirely in <br> C#</MudText>
+                    </div>
+                </MudItem>
+
+                <MudItem xs="6">
+                    <div class="d-flex flex-row">
+                        <MudAvatar>
+                            <MudImage Src="/images/dependencies.png" Class="pa-0 mr-2 align-self-center" Style="height:40px; width:40px;"/>
+                        </MudAvatar>
+                        <MudText Typo="Typo.subtitle2" Style="font-weight: 600;" Class="align-self-center" Color="@Color.Default">No Depencencies</MudText>
+                    </div>
+                </MudItem>
+
+                <MudItem xs="6">
+                    <div class="d-flex flex-row">
+                        <MudAvatar>
+                            <MudImage Src="/images/full-stack.png" Class="pa-0 mr-2 align-self-center" Style="height:40px; width:40px;"/>
+                        </MudAvatar>
+                        <MudText Typo="Typo.subtitle2" Style="font-weight: 600;" Class="align-self-center" Color="@Color.Default">Both Client & <br> Server</MudText>
+                    </div>
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudDivider Class="mb-3"></MudDivider>
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudContainer Fixed="true" Class="px-0">
+                        <MudButton Href="https://1.envato.market/GjVYQr" Target="_blank" FullWidth="true" Class="rounded-lg" Variant="Variant.Filled" Style="@($"color:{Colors.Shades.White}; background:{Theme.PaletteDark.SuccessDarken};")">Purchase Now</MudButton>
+                    </MudContainer>
+                </MudItem>
+            </MudGrid>
+        </MudCardContent>
+    </MudCard>
+</MudPaper>
+
+<MudCard Elevation="1" Class="rounded-lg my-5">
+    <MudCardContent>
+        <MudGrid Spacing="2">
+            <MudItem xs="12">
+                <MudText Color="Color.Primary" Align="Align.Center" Typo="Typo.h6" Style="font-weight: 600;">Ready in 3 Steps</MudText>
+                <MudText Color="Color.Default" Align="Align.Center" Typo="Typo.subtitle1" Style="font-weight: 400;">Make your apps look stunning by making no compromises on the features as well</MudText>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudDivider DividerType="DividerType.Middle" Class="mx-10" />
+            </MudItem>
+
+            <MudItem xs="12">
+                <div class="d-flex flex-row">
+                    <MudAvatar>
+                        <MudImage Src="/images/018-send.png" Class="pa-0 mr-5 align-self-center" Style="height:45px; width:45px;"></MudImage>
+                    </MudAvatar>
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Color="@Color.Default">Choose your Style</MudText>
+                        <MudText Typo="Typo.caption" Style="font-weight: 300;" Color="@Color.Default">We've included multiple components and styles you can choose to match your project needs.</MudText>
+                    </div>
+                </div>
+            </MudItem>
+
+            <MudItem xs="12">
+                <div class="d-flex flex-row">
+                    <MudAvatar>
+                        <MudImage Src="/images/004-configuration.png" Class="pa-0 mr-5 align-self-center" Style="height:45px; width:45px;"/>
+                    </MudAvatar>
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Color="@Color.Default">Build your Features</MudText>
+                        <MudText Typo="Typo.caption" Style="font-weight: 300;" Color="@Color.Default">With many prebuilt functions and template, you can speech up your project developement.</MudText>
+                    </div>
+                </div>
+            </MudItem>
+
+            <MudItem xs="12">
+                <div class="d-flex flex-row">
+                    <MudAvatar>
+                        <MudImage Src="/images/001-upload.png" Class="pa-0 mr-5 align-self-center" Style="height:45px; width:45px;"/>
+                    </MudAvatar>
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Color="@Color.Default">Publish your App</MudText>
+                        <MudText Typo="Typo.caption" Style="font-weight: 300;" Color="@Color.Default">Something really cool is launching now! Let publish and promote it to your customer.</MudText>
+                    </div>
+                </div>
+            </MudItem>
+        </MudGrid>
+    </MudCardContent>
+</MudCard>
+
+@code {
+    public MudTheme Theme = new MudTheme();
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+}              

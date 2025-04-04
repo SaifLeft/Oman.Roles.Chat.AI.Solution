@@ -1,0 +1,122 @@
+﻿@page "/contact-us"
+@using MauiStore.Data.GoogleMap
+
+<MudPaper Elevation="3" Height="150" Class="px-4 mx-n4 mt-n10 pt-10 mud-theme-primary" Style="border-radius: 0px 0px 45px 45px;" Outlined="false">
+    <MudPaper Elevation="0" Class="py-6" Style="background-color: transparent">
+
+    </MudPaper>
+</MudPaper>
+
+<MudGrid Class="mt-n15 pt-0 mb-1">
+    <MudItem xs="12">
+        <MudCard Elevation="1" Class="rounded-lg pa-0">
+            <MudCardContent Class="pa-0">
+                <GoogleMap Style="height: 300px;" Zoom="15" Center="@_location">
+                        <Markers>
+                            <GoogleMapMarker Position="@_location" />
+                        </Markers>
+                </GoogleMap>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+<MudCard Elevation="1" Class="rounded-lg mb-7">
+    <MudCardContent>
+        <MudGrid Spacing="2" Class="pb-3">
+            <MudItem xs="12">
+                <MudText Typo="Typo.h6" Style="font-weight: 500;" Color="Color.Primary">Write Us</MudText>
+                <MudText Typo="Typo.caption">Feel free to drop us a message. </MudText>
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField @bind-Value="FullName" Label="Your name" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField @bind-Value="Email" Label="Your e-mail" InputType="InputType.Email" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField @bind-Value="Message" Label="Enter message" Lines="5" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudButton Class="mt-1 py-2 rounded-lg" Color="Color.Primary" FullWidth="true" Variant="Variant.Filled"> Send Message </MudButton>
+            </MudItem>
+        </MudGrid>
+    </MudCardContent>
+</MudCard>
+
+<MudCard Elevation="1" Class="rounded-lg mb-7">
+    <MudCardContent Class="py-5">
+        <MudText Typo="Typo.h6" Style="font-weight: 500;" Color="Color.Primary"> MauiStore Headquarters </MudText>
+        <MudText Class="mb-3" Typo="Typo.caption"> 121 King Street, Melbourne <br> PO Box 16122 Collins Street West <br> Victoria 3000 Australia </MudText>
+
+        <MudCard Elevation="0" Class="d-flex justify-space-between " Style="background-color: transparent">
+            <div class="d-flex">
+                <MudIcon Icon="fas fa-phone" Color="Color.Success" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-3 align-self-center" Color="@Color.Default"> +1 234 567 8910</MudText>
+            </div>
+            <MudChip T="string" Class="align-self-center" Label="true" Size="Size.Small" Color="Color.Primary">Tap to call</MudChip>
+        </MudCard>
+
+        <MudDivider></MudDivider>
+
+        <MudCard Elevation="0" Class="d-flex justify-space-between " Style="background-color: transparent">
+            <div class="d-flex">
+                <MudIcon Icon="fas fa-envelope" Color="Color.Error" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-3 align-self-center" Color="@Color.Default"> hi@blazored.com</MudText>
+            </div>
+            <MudChip T="string" Class="align-self-center" Label="true" Size="Size.Small" Color="Color.Primary">Tap to send</MudChip>
+        </MudCard>
+
+        <MudDivider></MudDivider>
+
+        <MudCard Elevation="0" Class="d-flex justify-space-between " Style="background-color: transparent">
+            <div class="d-flex">
+                <MudIcon Icon="fab fa-twitter" Color="Color.Primary" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-3 align-self-center" Color="@Color.Default"> &#64;blazorStore</MudText>
+            </div>
+            <MudIcon Icon="fal fa-link" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+        </MudCard>
+
+        <MudDivider></MudDivider>
+
+        <MudCard Elevation="0" Class="d-flex justify-space-between " Style="background-color: transparent">
+            <div class="d-flex">
+                <MudIcon Icon="fab fa-linkedin" Color="Color.Info" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-3 align-self-center" Color="@Color.Default"> &#64;blazorStore</MudText>
+            </div>
+            <MudIcon Icon="fal fa-link" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+        </MudCard>
+
+        <MudDivider></MudDivider>
+
+        <MudCard Elevation="0" Class="d-flex justify-space-between " Style="background-color: transparent">
+            <div class="d-flex">
+                <MudIcon Icon="fab fa-facebook" Color="Color.Primary" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-3 align-self-center" Color="@Color.Default"> MauiStore</MudText>
+            </div>
+            <MudIcon Icon="fal fa-link" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+        </MudCard>
+
+        <MudDivider></MudDivider>
+
+        <MudCard Elevation="0" Class="d-flex justify-space-between " Style="background-color: transparent">
+            <div class="d-flex">
+                <MudIcon Icon="fab fa-instagram" Color="Color.Secondary" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-3 align-self-center" Color="@Color.Default"> &#64;blazorStore</MudText>
+            </div>
+            <MudIcon Icon="fal fa-link" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+        </MudCard>
+    </MudCardContent>
+</MudCard>
+
+@code {
+    public string FullName { get; set; }
+    public string Email { get; set; }
+    public string Message { get; set; }
+    public GoogleMapPosition _location { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        _location = new GoogleMapPosition { Lat = 10.234786711619794, Lng = 103.96343798707063 };
+    }
+}

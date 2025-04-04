@@ -1,0 +1,388 @@
+﻿@page "/blogs-home1"
+
+<style>
+    .card-style {
+        border-radius: 16px;
+    }
+
+    .card-style-1 {
+        background-image: url(/images/p1.png);
+        background-size: cover !important;
+        background-position: center center !important;
+        border-radius: 16px;
+    }
+
+    .card-style-2 {
+        background-image: url(/images/p2.png);
+        background-size: cover !important;
+        background-position: center center !important;
+        border-radius: 16px;
+    }
+
+    .card-style-3 {
+        background-image: url(/images/p3.png);
+        background-size: cover !important;
+        background-position: center center !important;
+        border-radius: 16px;
+    }
+
+    .card-style-4 {
+        background-image: url(/images/p4.png);
+        background-size: cover !important;
+        background-position: center center !important;
+        border-radius: 16px;
+    }
+
+    .card-style-5 {
+        background-image: url(/images/p5.png);
+        background-size: cover !important;
+        background-position: center center !important;
+        border-radius: 16px;
+    }
+
+    .card-hero {
+        position: absolute;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+@if (!_loaded)
+{
+    <Spinner></Spinner>
+}
+else
+{
+    <MudPaper Elevation="3" Class="px-4 mx-n4 mt-n10 pt-10 pb-12 mud-theme-primary" Style="border-radius: 0px 0px 30px 30px;" Outlined="false">
+        <MudGrid Class="mt-n5">
+            <MudItem xs="12">
+                <MudPaper Elevation="0" Style="background-color: transparent" Class="d-flex justify-space-between pa-0">
+                    <MudPaper Elevation="0" Style="background-color: transparent" Class="pa-0 mr-2 align-self-center">
+                        <MudText Typo="Typo.subtitle1" Style="@($" color:{Colors.Shades.White}; font-weight: 400;")">Welcome back,</MudText>
+                        <MudText Color="Color.Default" Typo="Typo.subtitle1" Class="" Style="@($" color:{Colors.Shades.White}; font-weight: 600;")">JOHN DOE</MudText>
+                    </MudPaper>
+                    <MudPaper Elevation="0" Style="background-color: transparent" Class="pa-0 mr-0 align-self-center">
+                        <MudAvatar Style="height: 50px; width: 50px;">
+                            <MudImage Src="/images/pictures/faces/3s.png"/>
+                        </MudAvatar>
+                    </MudPaper>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+    </MudPaper>
+
+    <MudGrid Class="mt-n15 pt-0 mb-1">
+        <MudItem xs="12">
+            <div class="hz-container px-1 py-2">
+                <MudCard Elevation="0" Class="mr-5 mud-theme-primary rounded-lg card-style">
+                    <MudCardContent Class="d-flex flex-column justify-space-between card-style-1" Style="height: 350px; width: 310px;">
+                        <div class="d-flex justify-space-between">
+                                <MudChip T="string" Color="Color.Tertiary" Label="true" Size="Size.Small">BUSINESS</MudChip>
+                                <MudIconButton Icon="@Icons.Material.TwoTone.Favorite" Color="Color.Secondary" />
+                            </div>
+                            <div>
+                                <MudText Typo="Typo.h6" Style="font-weight: 500; line-height: 1.2">Will organizing your desk make you more productive?</MudText>
+                                <div class="d-flex justify-space-between mt-2">
+                                    <div class="d-flex">
+                                        <MudAvatar Style="height: 30px; width: 30px;">
+                                            <MudImage Src="/images/pictures/faces/3s.png" />
+                                        </MudAvatar>
+                                        <MudText Class="mx-2 align-self-center" Typo="Typo.caption" Style="font-weight: 500;">by TLS</MudText>
+                                    </div>
+                                    <MudText Class="align-self-center" Typo="Typo.caption">20 min ago</MudText>
+                                </div>
+                            </div>
+                    </MudCardContent>
+                </MudCard>
+
+                <MudCard Elevation="0" Class="mr-5 mud-theme-primary rounded-lg card-style">
+                    <MudCardContent Class="d-flex flex-column justify-space-between card-style-2" Style="height: 350px; width: 310px;">
+                        <div class="d-flex justify-space-between">
+                            <MudChip T="string" Color="Color.Primary" Label="true" Size="Size.Small">TECHNOLOGY</MudChip>
+                            <MudIconButton Icon="@Icons.Material.TwoTone.Favorite" Color="Color.Secondary" />
+                        </div>
+                        <div>
+                            <MudText Typo="Typo.h6" Style="font-weight: 500; line-height: 1.2">Will organizing your desk make you more productive?</MudText>
+                            <div class="d-flex justify-space-between mt-2">
+                                <div class="d-flex">
+                                    <MudAvatar Style="height: 30px; width: 30px;">
+                                        <MudImage Src="/images/pictures/faces/3s.png" />
+                                    </MudAvatar>
+                                    <MudText Class="mx-2 align-self-center" Typo="Typo.caption" Style="font-weight: 500;">by TLS</MudText>
+                                </div>
+                                <MudText Class="align-self-center" Typo="Typo.caption">20 min ago</MudText>
+                            </div>
+                        </div>
+                    </MudCardContent>
+                </MudCard>
+
+                <MudCard Elevation="0" Class="mr-5 mud-theme-primary rounded-lg card-style">
+                    <MudCardContent Class="d-flex flex-column justify-space-between card-style-3" Style="height: 350px; width: 310px;">
+                        <div class="d-flex justify-space-between">
+                            <MudChip T="string" Color="Color.Error" Label="true" Size="Size.Small">INTERNET</MudChip>
+                            <MudIconButton Icon="@Icons.Material.TwoTone.Favorite" Color="Color.Secondary" />
+                        </div>
+                        <div>
+                            <MudText Typo="Typo.h6" Style="font-weight: 500; line-height: 1.2">Apple has the best quality smart watch on the market.</MudText>
+                            <div class="d-flex justify-space-between mt-2">
+                                <div class="d-flex">
+                                    <MudAvatar Style="height: 30px; width: 30px;">
+                                        <MudImage Src="/images/pictures/faces/3s.png" />
+                                    </MudAvatar>
+                                    <MudText Class="mx-2 align-self-center" Typo="Typo.caption" Style="font-weight: 500;">by TLS</MudText>
+                                </div>
+                                <MudText Class="align-self-center" Typo="Typo.caption">20 min ago</MudText>
+                            </div>
+                        </div>
+                    </MudCardContent>
+                </MudCard>
+
+                <MudCard Elevation="0" Class="mr-5 rounded-lg mud-theme-primary card-style">
+                    <MudCardContent Class="d-flex flex-column justify-space-between card-style-4" Style="height: 350px; width: 310px;">
+                        <div class="d-flex justify-space-between">
+                            <MudChip T="string" Color="Color.Info" Label="true" Size="Size.Small">MOBILE APP</MudChip>
+                            <MudIconButton Icon="@Icons.Material.TwoTone.Favorite" Color="Color.Secondary" />
+                        </div>
+                        <div>
+                            <MudText Typo="Typo.h6" Style="font-weight: 500; line-height: 1.2">Mobile Web has outgrown Desktop Web by about 40%</MudText>
+                            <div class="d-flex justify-space-between mt-2">
+                                <div class="d-flex">
+                                    <MudAvatar Style="height: 30px; width: 30px;">
+                                        <MudImage Src="/images/pictures/faces/3s.png" />
+                                    </MudAvatar>
+                                    <MudText Class="mx-2 align-self-center" Typo="Typo.caption" Style="font-weight: 500;">by TLS</MudText>
+                                </div>
+                                <MudText Class="align-self-center" Typo="Typo.caption">20 min ago</MudText>
+                            </div>
+                        </div>
+                    </MudCardContent>
+                </MudCard>
+
+                <MudCard Elevation="0" Class="rounded-lg mud-theme-primary card-style">
+                    <MudCardContent Class="d-flex flex-column justify-space-between card-style-5" Style="height: 350px; width: 310px;">
+                        <div class="d-flex justify-space-between">
+                            <MudChip T="string" Color="Color.Warning" Label="true" Size="Size.Small">WEB APP</MudChip>
+                            <MudIconButton Icon="@Icons.Material.TwoTone.Favorite" Color="Color.Secondary" />
+                        </div>
+                        <div>
+                            <MudText Typo="Typo.h6" Style="font-weight: 500; line-height: 1.2">Web App has outgrown Windows App by about 40%</MudText>
+                            <div class="d-flex justify-space-between mt-2">
+                                <div class="d-flex">
+                                    <MudAvatar Style="height: 30px; width: 30px;">
+                                        <MudImage Src="/images/pictures/faces/3s.png" />
+                                    </MudAvatar>
+                                    <MudText Class="mx-2 align-self-center" Typo="Typo.caption" Style="font-weight: 500;">by TLS</MudText>
+                                </div>
+                                <MudText Class="align-self-center" Typo="Typo.caption">20 min ago</MudText>
+                            </div>
+                        </div>
+                    </MudCardContent>
+                </MudCard>
+            </div>
+        </MudItem>
+    </MudGrid>
+
+    <div class="d-flex flex-row justify-space-between mt-7 mb-2">
+        <MudText Color="Color.Default" Class="" Style="font-weight: 600;" Typo="Typo.h6">Top News</MudText>
+        <MudText Color="Color.Primary" Class="align-self-center" Typo="Typo.subtitle2">View All</MudText>
+    </div>
+    <MudGrid Class="mb-5" Spacing="2">
+        <MudItem xs="12" sm="12" md="12">
+            <MudCard Elevation="1" Class="d-flex flex-row justify-space-between rounded-lg pa-0">
+                    <MudCardContent Class="px-3 py-5">
+                        <MudText Typo="Typo.subtitle1" Color="@Color.Default">Gorgeous ideas to create your next mobile app...</MudText>
+                        <div class="d-flex mt-2">
+                            <MudChip T="string" Color="Color.Warning" Label="true" Size="Size.Small">WEB APP</MudChip>
+                            <MudText Class="mx-2 align-self-center" Typo="Typo.caption" Style="font-weight: 500;">5 min ago</MudText>
+                        </div>
+                    </MudCardContent>
+                    <div class="mx-1"></div>
+                    <MudCardMedia Image="/images/pictures/28.jpg" Class="rounded-lg align-self-center" Style="height: 100px; min-width: 100px; max-width: 100px; " />
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="12" md="12">
+            <MudCard Elevation="1" Class="d-flex flex-row justify-space-between rounded-lg pa-0">
+                    <MudCardContent Class="px-3 py-5">
+                        <MudText Typo="Typo.subtitle1" Color="@Color.Default">Laptops are still outselling Mobile Devices...</MudText>
+                        <div class="d-flex mt-2">
+                            <MudChip T="string" Color="Color.Tertiary" Label="true" Size="Size.Small">MOBILE APP</MudChip>
+                            <MudText Class="mx-2 align-self-center" Typo="Typo.caption" Style="font-weight: 500;">10 min ago</MudText>
+                        </div>
+                    </MudCardContent>
+                    <div class="mx-1"></div>
+                    <MudCardMedia Image="/images/pictures/27.jpg" Class="rounded-lg align-self-center" Style="height: 100px; min-width: 100px; max-width: 100px; " />
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="12" md="12">
+            <MudCard Elevation="1" Class="d-flex flex-row justify-space-between rounded-lg pa-0">
+                    <MudCardContent Class="px-3 py-5">
+                        <MudText Typo="Typo.subtitle1" Color="@Color.Default">What's the next best gadget to come...</MudText>
+                        <div class="d-flex mt-2">
+                            <MudChip T="string" Color="Color.Secondary" Label="true" Size="Size.Small">TECHNOLOGY</MudChip>
+                            <MudText Class="mx-2 align-self-center" Typo="Typo.caption" Style="font-weight: 500;">20 min ago</MudText>
+                        </div>
+                    </MudCardContent>
+                    <div class="mx-1"></div>
+                    <MudCardMedia Image="/images/pictures/26.jpg" Class="rounded-lg align-self-center" Style="height: 100px; min-width: 100px; max-width: 100px; " />
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+
+    <MudGrid Class="my-5" Spacing="2">
+        <MudItem xs="6" sm="6" md="6">
+            <MudCard Elevation="1" Class="rounded-lg">
+                    <MudCardMedia Image="images/p3.png" Height="100" />
+                    <MudCardContent Style="height: 85px;">
+                        <MudText Typo="Typo.subtitle2" Style="font-weight: 500;">Chomebook is interesting?</MudText>
+                        <MudText Class="mt-1" Typo="Typo.caption">20 min ago</MudText>   
+                    </MudCardContent>
+            </MudCard>
+            <MudCard Elevation="1" Class="mt-3 rounded-lg">
+                <MudCardMedia Image="images/p4.png" Height="100" />
+                    <MudCardContent Style="height: 85px;">
+                        <MudText Typo="Typo.subtitle2" Style="font-weight: 500;">Most users don't know about it</MudText>
+                        <MudText Class="mt-1" Typo="Typo.caption">20 min ago</MudText>    
+                    </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="6" sm="6" md="6">
+            <MudCard Elevation="1" Class="rounded-lg">
+                <MudCardMedia Image="images/p5.png" Height="295" />
+                    <MudCardContent Style="height: 85px;">
+                        <MudText Typo="Typo.subtitle2" Style="font-weight: 500;">Apple releases Wireless displays</MudText>
+                        <MudText Class="mt-1" Typo="Typo.caption">20 min ago</MudText>
+                    </MudCardContent>
+           </MudCard>
+        </MudItem>
+    </MudGrid>
+
+    <MudCard Elevation="1" Class="rounded-lg my-5">
+        <MudCardMedia Image="/images/pictures/28.jpg" Height="200" />
+        <MudCardContent>
+            <div class="d-flex justify-space-between">
+                <div>
+                    <MudText Color="Color.Default" Typo="Typo.h6" Style="font-weight: 600;">Apple Watch Release</MudText>
+                    <MudText Class="mt-2" Typo="Typo.body2">Join the live coverage now.</MudText>
+                </div>
+                <MudButton Class="rounded-lg align-self-center" Variant="Variant.Filled" Color="Color.Error">Watch</MudButton>
+            </div>
+        </MudCardContent>
+    </MudCard>
+
+    <MudPaper Elevation="0" Class="px-4 mx-n4 my-5 py-5 mud-theme-primary" Outlined="false" Square="true">
+        <MudText Typo="Typo.h6" Style="font-weight: 600;">Explore Interests</MudText>
+        <MudText Typo="Typo.body2" Style="font-weight: 500;">Check out the best news categories based on your browsing habbits. We have a few for you.</MudText>
+
+        <div class="hz-container my-5">
+            <MudCard Elevation="1" Class="rounded-lg mr-3">
+                <MudCardContent Style="width: 160px;" Class="d-flex flex-column mb-1 mt-1">
+                    <MudIcon Icon="fas fa-layer-group" Color="Color.Error" Class="mb-3" Size="Size.Large"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Align="Align.Left" Style="font-weight: 600;" Color="@Color.Surface">Sport &amp; Wellness</MudText>
+                </MudCardContent>
+            </MudCard>
+            <MudCard Elevation="1" Class="rounded-lg mr-3">
+                <MudCardContent Style="width: 160px;" Class="d-flex flex-column mb-1 mt-1">
+                    <MudIcon Icon="@Icons.Material.TwoTone.AddToHomeScreen" Color="Color.Tertiary" Class="mb-3" Size="Size.Large"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Align="Align.Left" Color="@Color.Surface">House &amp; Design</MudText>
+                </MudCardContent>
+            </MudCard>
+            <MudCard Elevation="1" Class="rounded-lg mr-3">
+                <MudCardContent Style="width: 160px;" Class="d-flex flex-column mb-1 mt-1">
+                    <MudIcon Icon="fas fa-laptop-code" Color="Color.Info" Class="mb-3" Size="Size.Large"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Align="Align.Left" Color="@Color.Surface">Sport &amp; Wellness</MudText>
+                </MudCardContent>
+            </MudCard>
+            <MudCard Elevation="1" Class="rounded-lg mr-3">
+                <MudCardContent Style="width: 160px;" Class="d-flex flex-column mb-1 mt-1">
+                    <MudIcon Icon="fas fa-globe" Color="Color.Success" Class="mb-3" Size="Size.Large"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Align="Align.Left" Color="@Color.Surface">Web &amp; Internet</MudText>
+                </MudCardContent>
+            </MudCard>
+            <MudCard Elevation="1" Class="rounded-lg mr-3">
+                <MudCardContent Style="width: 160px;" Class="d-flex flex-column mb-1 mt-1">
+                    <MudIcon Icon="@Icons.Material.Filled.ImportantDevices" Color="Color.Primary" Class="mb-3" Size="Size.Large"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Align="Align.Left" Color="@Color.Surface">Science &amp; Technology</MudText>
+                </MudCardContent>
+            </MudCard>
+            <MudCard Elevation="1" Class="rounded-lg mr-3">
+                <MudCardContent Style="width: 160px;" Class="d-flex flex-column mb-1 mt-1">
+                    <MudIcon Icon="fas fa-heartbeat" Color="Color.Tertiary" Class="mb-3" Size="Size.Large"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Align="Align.Left" Color="@Color.Surface">Web &amp; Internet</MudText>
+                </MudCardContent>
+            </MudCard>
+            <MudCard Elevation="1" Class="rounded-lg mr-3">
+                <MudCardContent Style="width: 160px;" Class="d-flex flex-column mb-1 mt-1">
+                    <MudIcon Icon="fas fa-shopping-bag" Color="Color.Secondary" Class="mb-3" Size="Size.Large"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Align="Align.Left" Color="@Color.Surface">Sport &amp; Wellness</MudText>
+                </MudCardContent>
+            </MudCard>
+            <MudCard Elevation="1" Class="rounded-lg mr-3">
+                <MudCardContent Style="width: 160px;" Class="d-flex flex-column mb-1 mt-1">
+                    <MudIcon Icon="fas fa-wallet" Color="Color.Warning" Class="mb-3" Size="Size.Large"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Align="Align.Left" Color="@Color.Surface">Science &amp; Technology</MudText>
+                </MudCardContent>
+            </MudCard>
+        </div>
+    </MudPaper>
+
+    <div class="d-flex flex-row justify-space-between mt-7 mb-2">
+        <MudText Color="Color.Default" Class="" Style="font-weight: 600;" Typo="Typo.h6">You might have missed</MudText>
+    </div>
+    <MudGrid Class="mb-5" Spacing="2">
+        <MudItem xs="12" sm="12" md="12">
+            <MudCard Elevation="1" Class="d-flex flex-row justify-space-between rounded-lg pa-0">
+                <MudCardMedia Image="/images/pictures/28.jpg" Class="rounded-lg align-self-center" Style="height: 100px; min-width: 100px; max-width: 100px; " />
+                <div class="mx-1"></div>
+                <MudCardContent Class="px-3 py-5">
+                     <MudText Typo="Typo.subtitle1" Color="@Color.Default">Gorgeous ideas to create your next mobile app...</MudText>
+                        <div class="d-flex mt-2">
+                            <MudChip T="string" Color="Color.Warning" Label="true" Size="Size.Small">WEB APP</MudChip>
+                            <MudText Class="mx-2 align-self-center" Typo="Typo.caption" Style="font-weight: 500;">5 min ago</MudText>
+                        </div>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="12" md="12">
+            <MudCard Elevation="1" Class="d-flex flex-row justify-space-between rounded-lg pa-0">
+                <MudCardMedia Image="/images/pictures/27.jpg" Class="rounded-lg align-self-center" Style="height: 100px; min-width: 100px; max-width: 100px; " />    
+                <div class="mx-1"></div>
+                <MudCardContent Class="px-3 py-5">
+                        <MudText Typo="Typo.subtitle1" Color="@Color.Default">Laptops are still outselling Mobile Devices...</MudText>
+                        <div class="d-flex mt-2">
+                            <MudChip T="string" Color="Color.Tertiary" Label="true" Size="Size.Small">MOBILE APP</MudChip>
+                            <MudText Class="mx-2 align-self-center" Typo="Typo.caption" Style="font-weight: 500;">10 min ago</MudText>
+                        </div>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="12" md="12">
+            <MudCard Elevation="1" Class="d-flex flex-row justify-space-between rounded-lg pa-0">
+                <MudCardMedia Image="/images/pictures/26.jpg" Class="rounded-lg align-self-center" Style="height: 100px; min-width: 100px; max-width: 100px; " />
+                <div class="mx-1"></div>
+                <MudCardContent Class="px-3 py-5">
+                        <MudText Typo="Typo.subtitle1" Color="@Color.Default">What's the next best gadget to come...</MudText>
+                        <div class="d-flex mt-2">
+                            <MudChip T="string" Color="Color.Secondary" Label="true" Size="Size.Small">TECHNOLOGY</MudChip>
+                            <MudText Class="mx-2 align-self-center" Typo="Typo.caption" Style="font-weight: 500;">20 min ago</MudText>
+                        </div>
+                    </MudCardContent> 
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+}
+@code {
+    public bool _loaded;
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        
+        _loaded = true;
+    }
+}

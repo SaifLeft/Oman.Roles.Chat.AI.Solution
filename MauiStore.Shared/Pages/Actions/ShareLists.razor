@@ -1,0 +1,78 @@
+﻿<MudDialog Class="ma-3 py-0 rounded-lg">
+    <TitleContent>
+    </TitleContent>
+    <DialogContent>
+        <MudPaper Elevation="0" Class="pt-3 mx-n2">
+            <MudText Typo="Typo.h6" Style="font-weight: 600;" Color="Color.Primary"> Share Your Pages </MudText>
+            <MudText Class="mb-5" Typo="Typo.caption"> Share your pages with the world, increase your pages exposure with the world. </MudText>
+
+            <MudPaper Elevation="0" Class="d-flex justify-space-between mt-3" Style="background-color: transparent" @onclick="@(() => Submit())">
+                <div class="d-flex">
+                    <MudIcon Icon="@Icons.Custom.Brands.Twitter" Class="twitter-color mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                    <MudText Typo="Typo.subtitle2" Style="font-weight: 500;" Class="mx-3 align-self-center" Color="@Color.Default"> Twitter</MudText>
+                </div>
+                <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center mx-n3" Size="Size.Small"></MudIcon>
+            </MudPaper>
+
+            <MudDivider></MudDivider>
+
+            <MudPaper Elevation="0" Class="d-flex justify-space-between " Style="background-color: transparent" @onclick="@(() => Submit())">
+                <div class="d-flex">
+                    <MudIcon Icon="@Icons.Custom.Brands.LinkedIn" Color="Color.Info" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                    <MudText Typo="Typo.subtitle2" Style="font-weight: 500;" Class="mx-3 align-self-center" Color="@Color.Default"> LinkedIn</MudText>
+                </div>
+                <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center mx-n3" Size="Size.Small"></MudIcon>
+            </MudPaper>
+
+            <MudDivider></MudDivider>
+
+            <MudPaper Elevation="0" Class="d-flex justify-space-between " Style="background-color: transparent" @onclick="@(() => Submit())">
+                <div class="d-flex">
+                    <MudIcon Icon="@Icons.Custom.Brands.Facebook" Class="facebook-color mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                    <MudText Typo="Typo.subtitle2" Style="font-weight: 500;" Class="mx-3 align-self-center" Color="@Color.Default"> Facebook</MudText>
+                </div>
+                <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center mx-n3" Size="Size.Small"></MudIcon>
+            </MudPaper>
+
+            <MudDivider></MudDivider>
+
+            <MudPaper Elevation="0" Class="d-flex justify-space-between " Style="background-color: transparent" @onclick="@(() => Submit())">
+                <div class="d-flex">
+                    <MudIcon Icon="@Icons.Custom.Brands.Instagram" Class="instagram-color mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                    <MudText Typo="Typo.subtitle2" Style="font-weight: 500;" Class="mx-3 align-self-center" Color="@Color.Default"> Instagram</MudText>
+                </div>
+                <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center mx-n3" Size="Size.Small"></MudIcon>
+            </MudPaper>
+
+            <MudDivider></MudDivider>
+
+            <MudPaper Elevation="0" Class="d-flex justify-space-between " Style="background-color: transparent" @onclick="@(() => Submit())">
+                <div class="d-flex">
+                    <MudIcon Icon="@Icons.Custom.Brands.WhatsApp" Class="whatsapp-color mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                    <MudText Typo="Typo.subtitle2" Style="font-weight: 500;" Class="mx-3 align-self-center" Color="@Color.Default"> WhatsApp</MudText>
+                </div>
+                <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center mx-n3" Size="Size.Small"></MudIcon>
+            </MudPaper>
+
+            <MudDivider></MudDivider>
+
+            <MudPaper Elevation="0" Class="d-flex justify-space-between " Style="background-color: transparent" @onclick="@(() => Submit())">
+                <div class="d-flex">
+                    <MudIcon Icon="@Icons.Material.Filled.Email" Color="Color.Error" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                    <MudText Typo="Typo.subtitle2" Style="font-weight: 500;" Class="mx-3 align-self-center" Color="@Color.Default"> Email</MudText>
+                </div>
+                <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center mx-n3" Size="Size.Small"></MudIcon>
+            </MudPaper>
+        </MudPaper>
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
+
+    void Submit()
+    {
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+    void Cancel() => MudDialog.Cancel();
+}

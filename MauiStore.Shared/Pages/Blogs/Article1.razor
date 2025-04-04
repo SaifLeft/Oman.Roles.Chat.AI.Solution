@@ -1,0 +1,216 @@
+﻿@page "/article1"
+
+@if (!_loaded)
+{
+    <Spinner></Spinner>
+}
+else
+{
+    <MudPaper Elevation="3" Height="150" Class="px-4 mx-n4 mt-n10 py-10 mud-theme-primary" Style="border-radius: 0px 0px 45px 45px;" Outlined="false">
+        <MudPaper Elevation="0" Class="py-0">
+
+        </MudPaper>
+    </MudPaper>
+
+    <MudGrid Class="mt-n15 pt-0 mb-1">
+        <MudItem xs="12">
+            <MudCard Elevation="1" Class="rounded-lg">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6" Style="font-weight: 600;">MauiStore is the most creative Mobile PWA on Envato Market</MudText>
+                        <MudText Typo="Typo.caption">7th March, 2:24 PM </MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardMedia Image="images/intro-1.jpg" Height="200" />
+                <MudCardContent>
+                    <MudText>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur aliquam non nunc quis maximus. Fusce volutpat arcu id ante maximus vestibulum. Curabitur non nisi venenatis, pharetra nisl et, ullamcorper diam. Morbi interdum varius molestie. Quisque feugiat augue id diam ornare auctor.</MudText>
+                    <MudText Class="mt-3" Typo="Typo.h6" Style="font-weight: 600;">This is a heading.</MudText>
+                    <MudText Typo="Typo.body2">Curabitur non nisi venenatis, pharetra nisl et, ullamcorper diam. Morbi interdum varius molestie. Quisque feugiat augue id diam ornare auctor.</MudText>
+                    <div class="my-2"></div>
+                    <MudText Typo="Typo.h1">h1. Heading</MudText>
+                    <MudText Typo="Typo.h2">h2. Heading</MudText>
+                    <MudText Typo="Typo.h3">h3. Heading</MudText>
+                    <MudText Typo="Typo.h4">h4. Heading</MudText>
+                    <MudText Typo="Typo.h5">h5. Heading</MudText>
+                    <MudText Typo="Typo.h6">h6. Heading</MudText>
+                    <MudText Typo="Typo.subtitle1">subtitle1. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur</MudText>
+                    <MudText Typo="Typo.subtitle2">subtitle2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur</MudText>
+                    <MudText Typo="Typo.body1">body1. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur unde suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam dignissimos laborum fugiat deleniti? Eum quasi quidem quibusdam.</MudText>
+                    <MudText Typo="Typo.body2">body2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur unde suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam dignissimos laborum fugiat deleniti? Eum quasi quidem quibusdam.</MudText>
+                    <MudText Typo="Typo.button">BUTTON TEXT</MudText>
+                    <MudText Typo="Typo.caption">caption text</MudText>
+                    <MudText Typo="Typo.overline">OVERLINE TEXT</MudText>
+                    <div class="my-2"></div>
+                    <MudText Align="Align.Left"><b>Left</b> Lorem ipsum dolor sit amet.</MudText>
+                    <MudText Align="Align.Start"><b>Start</b> Lorem ipsum dolor sit amet.</MudText>
+                    <MudText Align="Align.Right"><b>Right</b> Lorem ipsum dolor sit amet.</MudText>
+                    <MudText Align="Align.End"><b>End</b> Lorem ipsum dolor sit amet.</MudText>
+                    <MudText Align="Align.Center"><b>Center</b> Lorem ipsum dolor sit amet.</MudText>
+                    <MudText Align="Align.Justify"><b>Justify</b> Lorem ipsum dolor sit amet.</MudText>
+                    <MudText Align="Align.Inherit"><b>Inherit</b> Lorem ipsum dolor sit amet.</MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudIconButton Variant="Variant.Text" Icon="@Icons.Custom.Brands.Facebook" Color="Color.Primary" />
+                    <MudIconButton Variant="Variant.Text" Icon="@Icons.Custom.Brands.Twitter" Color="Color.Info" />
+                    <MudIconButton Variant="Variant.Text" Icon="@Icons.Custom.Brands.WhatsApp" Color="Color.Tertiary" />
+                    <MudIconButton Variant="Variant.Text" Icon="@Icons.Custom.Brands.Google" Color="Color.Error" />
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+
+    <MudPaper Elevation="0" Class="px-4 mx-n4 my-5 py-5 mud-theme-primary" Outlined="false" Square="true">
+        <MudText Typo="Typo.h6" Style="font-weight: 600;">You Might Like These</MudText>
+        <MudText Typo="Typo.body2" Style="font-weight: 500;">Check out the best news categories based on your browsing habbits. We have a few for you.</MudText>
+
+        <div class="hz-container my-5">
+            <MudCard Elevation="1" Class="rounded-lg mr-3">
+                <MudCardContent Style="width: 160px;" Class="d-flex flex-column mb-1 mt-1">
+                    <MudIcon Icon="fas fa-layer-group" Color="Color.Error" Class="mb-3" Size="Size.Large"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Align="Align.Left" Style="font-weight: 600;" Color="@Color.Surface">Sport &amp; Wellness</MudText>
+                </MudCardContent>
+            </MudCard>
+            <MudCard Elevation="1" Class="rounded-lg mr-3">
+                <MudCardContent Style="width: 160px;" Class="d-flex flex-column mb-1 mt-1">
+                    <MudIcon Icon="@Icons.Material.TwoTone.AddToHomeScreen" Color="Color.Tertiary" Class="mb-3" Size="Size.Large"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Align="Align.Left" Color="@Color.Surface">House &amp; Design</MudText>
+                </MudCardContent>
+            </MudCard>
+            <MudCard Elevation="1" Class="rounded-lg mr-3">
+                <MudCardContent Style="width: 160px;" Class="d-flex flex-column mb-1 mt-1">
+                    <MudIcon Icon="fas fa-laptop-code" Color="Color.Info" Class="mb-3" Size="Size.Large"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Align="Align.Left" Color="@Color.Surface">Sport &amp; Wellness</MudText>
+                </MudCardContent>
+            </MudCard>
+            <MudCard Elevation="1" Class="rounded-lg mr-3">
+                <MudCardContent Style="width: 160px;" Class="d-flex flex-column mb-1 mt-1">
+                    <MudIcon Icon="fas fa-globe" Color="Color.Success" Class="mb-3" Size="Size.Large"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Align="Align.Left" Color="@Color.Surface">Web &amp; Internet</MudText>
+                </MudCardContent>
+            </MudCard>
+            <MudCard Elevation="1" Class="rounded-lg mr-3">
+                <MudCardContent Style="width: 160px;" Class="d-flex flex-column mb-1 mt-1">
+                    <MudIcon Icon="@Icons.Material.Filled.ImportantDevices" Color="Color.Primary" Class="mb-3" Size="Size.Large"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Align="Align.Left" Color="@Color.Surface">Science &amp; Technology</MudText>
+                </MudCardContent>
+            </MudCard>
+            <MudCard Elevation="1" Class="rounded-lg mr-3">
+                <MudCardContent Style="width: 160px;" Class="d-flex flex-column mb-1 mt-1">
+                    <MudIcon Icon="fas fa-heartbeat" Color="Color.Tertiary" Class="mb-3" Size="Size.Large"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Align="Align.Left" Color="@Color.Surface">Web &amp; Internet</MudText>
+                </MudCardContent>
+            </MudCard>
+            <MudCard Elevation="1" Class="rounded-lg mr-3">
+                <MudCardContent Style="width: 160px;" Class="d-flex flex-column mb-1 mt-1">
+                    <MudIcon Icon="fas fa-shopping-bag" Color="Color.Secondary" Class="mb-3" Size="Size.Large"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Align="Align.Left" Color="@Color.Surface">Sport &amp; Wellness</MudText>
+                </MudCardContent>
+            </MudCard>
+            <MudCard Elevation="1" Class="rounded-lg mr-3">
+                <MudCardContent Style="width: 160px;" Class="d-flex flex-column mb-1 mt-1">
+                    <MudIcon Icon="fas fa-wallet" Color="Color.Warning" Class="mb-3" Size="Size.Large"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Align="Align.Left" Color="@Color.Surface">Science &amp; Technology</MudText>
+                </MudCardContent>
+            </MudCard>
+        </div>
+    </MudPaper>
+
+    <MudCard Elevation="1" Class="rounded-lg mt-5">
+        <MudCardContent>
+            <MudText Typo="Typo.h6" Style="font-weight: 600;">Image Gallery</MudText>
+            <MudText Typo="Typo.caption">This is a template page data.</MudText>
+            <MudDivider Class="my-3"></MudDivider>
+            <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                <MudGrid Spacing="3" Class="d-flex align-content-center justify-space-xs-between flex-wrap pa-0">
+                    <MudItem xs="6" md="6" lg="4">
+                        <MudImage Fluid="true" Src="/images/pictures/26m.jpg" Class="rounded-lg" />
+                    </MudItem>
+                    <MudItem xs="6" md="6" lg="4">
+                        <MudImage Fluid="true" Src="/images/pictures/27m.jpg" Class="rounded-lg" />
+                    </MudItem>
+                    <MudItem xs="6" md="6" lg="4">
+                        <MudImage Fluid="true" Src="/images/pictures/22m.jpg" Class="rounded-lg" />
+                    </MudItem>
+                    <MudItem xs="6" md="6" lg="4">
+                        <MudImage Fluid="true" Src="/images/pictures/23m.jpg" Class="rounded-lg" />
+                    </MudItem>
+                    <MudItem xs="6" md="6" lg="4">
+                        <MudImage Fluid="true" Src="/images/pictures/24m.jpg" Class="rounded-lg" />
+                    </MudItem>
+                    <MudItem xs="6" md="6" lg="4">
+                        <MudImage Fluid="true" Src="/images/pictures/25m.jpg" Class="rounded-lg" />
+                    </MudItem>
+                </MudGrid>
+            </MudHidden>
+
+            <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="false">
+                <MudGrid Spacing="1" Class="d-flex align-content-center justify-space-xs-between flex-wrap pa-0">
+                    <MudItem xs="6" md="6" lg="4">
+                        <MudImage Fluid="true" Src="/images/pictures/26t.jpg" Class="rounded-lg" />
+                    </MudItem>
+                    <MudItem xs="6" md="6" lg="4">
+                        <MudImage Fluid="true" Src="/images/pictures/27t.jpg" Class="rounded-lg" />
+                    </MudItem>
+                    <MudItem xs="6" md="6" lg="4">
+                        <MudImage Fluid="true" Src="/images/pictures/22t.jpg" Class="rounded-lg" />
+                    </MudItem>
+                    <MudItem xs="6" md="6" lg="4">
+                        <MudImage Fluid="true" Src="/images/pictures/23t.jpg" Class="rounded-lg" />
+                    </MudItem>
+                    <MudItem xs="6" md="6" lg="4">
+                        <MudImage Fluid="true" Src="/images/pictures/24t.jpg" Class="rounded-lg" />
+                    </MudItem>
+                    <MudItem xs="6" md="6" lg="4">
+                        <MudImage Fluid="true" Src="/images/pictures/25t.jpg" Class="rounded-lg" />
+                    </MudItem>
+                </MudGrid>
+            </MudHidden>
+        </MudCardContent>
+    </MudCard>
+
+    <MudCard Elevation="1" Class="mt-5 rounded-lg">
+        <MudCardHeader>
+            <CardHeaderContent>
+               <MudText Typo="Typo.h6" Style="font-weight: 600;">Leave a Reply</MudText>
+               <MudText Typo="Typo.caption">This is template only</MudText>
+            </CardHeaderContent>
+        </MudCardHeader>                
+        <MudCardContent>
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudTextField T="string" Label="Name" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTextField T="string" Label="Email" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTextField T="string" Label="Enter your message" Variant="Variant.Outlined" Lines="3" Margin="Margin.Dense"/>
+                </MudItem>
+                <MudItem xs="12">
+                    <MudContainer Fixed="true" Class="px-0">
+                        <MudButton FullWidth="true" Class="rounded-lg" Variant="Variant.Filled" Color="Color.Primary" >POST COMMENT</MudButton>
+                    </MudContainer>
+                </MudItem>
+            </MudGrid>
+        </MudCardContent>
+    </MudCard>
+}
+@code {
+    public bool _loaded;
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        
+        _loaded = true;
+    }
+
+    public bool Dense_CheckBox1 { get; set; } = false;
+    public bool Dense_CheckBox2 { get; set; } = false;
+    public bool Dense_CheckBox3 { get; set; } = false;
+    public bool Dense_CheckBox4 { get; set; } = true;
+    public bool Dense_CheckBox5 { get; set; } = true;
+    public bool Dense_CheckBox6 { get; set; } = true;
+    public bool Dense_CheckBox7 { get; set; } = true;
+}

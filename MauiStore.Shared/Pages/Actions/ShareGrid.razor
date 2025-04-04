@@ -1,0 +1,54 @@
+﻿<MudDialog Class="ma-3 py-3 rounded-lg">
+    <TitleContent>
+    </TitleContent>
+    <DialogContent>
+        <MudPaper Elevation="0" Class="d-flex flex-column gap-2 justify-center">
+            <MudText Align="Align.Center" Typo="Typo.h5" Color="Color.Default" Style="font-weight: 600"> Share This App </MudText>
+            <MudText Align="Align.Center" Typo="Typo.body2" Class=""> Share your app with the world, increase your app exposure with the world. </MudText>
+        </MudPaper>
+        <MudDivider Class="my-4"></MudDivider>
+        <MudPaper Elevation="0" Class="d-flex flex-grow-1">
+            <div class="flex-1 d-flex flex-column justify-center">
+                <MudIconButton Icon="@Icons.Custom.Brands.Facebook" Class="facebook-color rounded-lg align-self-center" Variant="Variant.Filled" Size="Size.Large" @onclick="@(() => Submit())"></MudIconButton>
+                <MudText Class="mt-2" Align="Align.Center" Typo="Typo.caption"> Facebook </MudText>
+            </div>
+            <div class="flex-1 d-flex flex-column justify-center">
+                <MudIconButton Icon="@Icons.Custom.Brands.Twitter" Class="twitter-color rounded-lg align-self-center" Variant="Variant.Filled" Size="Size.Large" @onclick="@(() => Submit())"></MudIconButton>
+                <MudText Class="mt-2" Align="Align.Center" Typo="Typo.caption"> Twitter </MudText>
+            </div>
+            <div class="flex-1 d-flex flex-column justify-center">
+                <MudIconButton Icon="@Icons.Custom.Brands.Instagram" Class="instagram-color rounded-lg align-self-center" Variant="Variant.Filled" Size="Size.Large" @onclick="@(() => Submit())"></MudIconButton>
+                <MudText Class="mt-2" Align="Align.Center" Typo="Typo.caption"> Instagram </MudText>
+            </div>
+        </MudPaper>
+        <div class="my-4"></div>
+        <MudPaper Elevation="0" Class="d-flex justify-space-around">
+            <div class="flex-1 d-flex flex-column justify-center">
+                <MudIconButton Icon="@Icons.Material.Filled.Email" Class="mx-2 rounded-lg align-self-center" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" @onclick="@(() => Submit())"></MudIconButton>
+                <MudText Class="mt-2" Align="Align.Center" Typo="Typo.caption"> Email </MudText>
+            </div>
+            <div class="flex-1 d-flex flex-column justify-center">
+                <MudIconButton Icon="@Icons.Custom.Brands.WhatsApp" Class="whatsapp-color rounded-lg align-self-center" Variant="Variant.Filled" Size="Size.Large" @onclick="@(() => Submit())"></MudIconButton>
+                <MudText Class="mt-2" Align="Align.Center" Typo="Typo.caption"> WhatsApp </MudText>
+            </div>
+            <div class="flex-1 d-flex flex-column justify-center">
+                <MudIconButton Icon="@Icons.Material.Filled.Close" Class="rounded-lg align-self-center" Color="Color.Error" Variant="Variant.Filled" Size="Size.Large" OnClick="Cancel"></MudIconButton>
+                <MudText Class="mt-2" Align="Align.Center" Typo="Typo.caption"> Close </MudText>
+            </div>
+        </MudPaper>
+        <MudDivider Class="my-4"></MudDivider>
+        <div class="d-flex justify-center">
+            <MudText Typo="Typo.caption" Align="Align.Center" Style="display: block">Copyright&copy; 2022 <strong>MauiStore</strong>.<br> All rights reserved.</MudText>
+        </div>
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
+
+    void Submit()
+    {
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+    void Cancel() => MudDialog.Cancel();
+}

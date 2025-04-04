@@ -1,0 +1,260 @@
+﻿@page "/actions-index"
+
+@if (!_loaded)
+{
+    <Spinner></Spinner>
+}
+else
+{
+<MudGrid Class="mt-5 pt-0 mb-1">
+    <MudItem xs="12">
+        <MudCard Elevation="1" Class="rounded-lg">
+            <MudCardContent>
+                <MudText Color="Color.Default" Align="Align.Left" Typo="Typo.body2" Style="font-weight: 400;">Actions are elements that appear from the bottom of page. They can be triggered by any elements, buttons, texts, images...</MudText>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+<MudCard Elevation="1" Class="rounded-lg mb-5">
+    <MudCardContent>
+        <MudGrid Spacing="0">
+            <MudItem xs="12" sm="12" md="12">
+                <MudCard Elevation="0" Class="d-flex flex-row justify-space-between " Style="background-color: transparent" @onclick="@(() => OnActionCall())">
+                    <div class="d-flex">
+                        <MudIcon Icon="@Icons.Material.Filled.PhoneAndroid" Color="Color.Success" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> Call Button </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                    <MudCard Elevation="0" Class="d-flex flex-row justify-space-between " Style="background-color: transparent" @onclick="@(() => OnActionConfirmation())">
+                    <div class="d-flex">
+                        <MudIcon Icon="@Icons.Material.Filled.AccountCircle" Color="Color.Info" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> Confirmation </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                    <MudCard Elevation="0" Class="d-flex flex-row justify-space-between " Style="background-color: transparent" @onclick="@(() => OnActionMaps())">
+                    <div class="d-flex">
+                        <MudIcon Icon="@Icons.Material.Filled.Map" Color="Color.Error" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> Google Maps </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                    <MudCard Elevation="0" Class="d-flex flex-row justify-space-between " Style="background-color: transparent" @onclick="@(() => OnActionLanguages())">
+                    <div class="d-flex">
+                            <MudIcon Icon="@Icons.Material.Filled.Language" Color="Color.Primary" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> Languages </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                    <MudCard Elevation="0" Class="d-flex flex-row justify-space-between " Style="background-color: transparent" @onclick="@(() => OnActionShareLists())">
+                    <div class="d-flex">
+                            <MudIcon Icon="@Icons.Material.Filled.Share" Color="Color.Tertiary" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> Share Lists </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                    <MudCard Elevation="0" Class="d-flex flex-row justify-space-between " Style="background-color: transparent" @onclick="@(() => OnActionShareGrid())">
+                    <div class="d-flex">
+                            <MudIcon Icon="@Icons.Material.Filled.IosShare" Color="Color.Secondary" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> Share Grid </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                    <MudCard Elevation="0" Class="d-flex flex-row justify-space-between " Style="background-color: transparent" @onclick="@(() => OnActionSuccessBox())">
+                    <div class="d-flex">
+                            <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Success" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> Success Box </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                    <MudCard Elevation="0" Class="d-flex flex-row justify-space-between " Style="background-color: transparent" @onclick="@(() => OnActionSuccessBoxBackground())">
+                    <div class="d-flex">
+                            <MudIcon Icon="@Icons.Material.Filled.CheckBox" Color="Color.Success" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> Success Box Background </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                    <MudCard Elevation="0" Class="d-flex flex-row justify-space-between " Style="background-color: transparent" @onclick="@(() => OnActionVideoEmbedded())">
+                    <div class="d-flex">
+                            <MudIcon Icon="@Icons.Custom.Brands.YouTube" Color="Color.Error" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> Video Embedded </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                    <MudCard Elevation="0" Class="d-flex flex-row justify-space-between " Style="background-color: transparent" @onclick="@(() => OnActionWarningBox())">
+                    <div class="d-flex">
+                            <MudIcon Icon="@Icons.Material.Filled.Warning" Color="Color.Error" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> Warning Box </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                    <MudCard Elevation="0" Class="d-flex flex-row justify-space-between " Style="background-color: transparent" @onclick="@(() => OnActionWarningBoxBackground())">
+                    <div class="d-flex">
+                            <MudIcon Icon="@Icons.Material.Filled.Warning" Color="Color.Error" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> Warning Box Background </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCard>
+            </MudItem>
+        </MudGrid>
+    </MudCardContent>
+</MudCard>
+
+}
+@code {
+    private bool _loaded;
+    protected override async Task OnInitializedAsync()
+    {
+        
+        _loaded = true;
+    }
+
+    public void OnActionCall()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = false, NoHeader = true, MaxWidth = MaxWidth.Large, Position = DialogPosition.BottomCenter };
+        var dialog = _dialogService.Show<CallButton>("", parameters, options);
+    }
+
+    public void OnActionConfirmation()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = false, NoHeader = true, MaxWidth = MaxWidth.Large, Position = DialogPosition.Center };
+        var dialog = _dialogService.Show<Confirmation>("", parameters, options);
+    }
+
+    public void OnActionMaps()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = false, NoHeader = true, MaxWidth = MaxWidth.Large, Position = DialogPosition.BottomCenter };
+        var dialog = _dialogService.Show<EmbedMaps>("", parameters, options);
+    }
+
+    public void OnActionLanguages()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = false, NoHeader = true, MaxWidth = MaxWidth.Large, Position = DialogPosition.Center };
+        var dialog = _dialogService.Show<Languages>("", parameters, options);
+    }
+
+    public void OnActionShareLists()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = false, NoHeader = true, MaxWidth = MaxWidth.Large, Position = DialogPosition.BottomCenter };
+        var dialog = _dialogService.Show<ShareLists>("", parameters, options);
+    }
+
+    public void OnActionShareGrid()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = false, NoHeader = true, MaxWidth = MaxWidth.Large, Position = DialogPosition.BottomCenter };
+        var dialog = _dialogService.Show<ShareGrid>("", parameters, options);
+    }
+
+    public void OnActionSuccessBox()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = false, NoHeader = true, MaxWidth = MaxWidth.Large, Position = DialogPosition.BottomCenter };
+        var dialog = _dialogService.Show<SuccessBox>("", parameters, options);
+    }
+
+    public void OnActionSuccessBoxBackground()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = false, NoHeader = true, MaxWidth = MaxWidth.Large, Position = DialogPosition.BottomCenter };
+        var dialog = _dialogService.Show<SuccessBoxBackground>("", parameters, options);
+    }
+
+    public void OnActionVideoEmbedded()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = false, NoHeader = true, MaxWidth = MaxWidth.Large, Position = DialogPosition.BottomCenter };
+        var dialog = _dialogService.Show<VideoEmbed>("", parameters, options);
+    }
+
+    public void OnActionWarningBox()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = false, NoHeader = true, MaxWidth = MaxWidth.Large, Position = DialogPosition.BottomCenter };
+        var dialog = _dialogService.Show<WarningBox>("", parameters, options);
+    }
+
+    public void OnActionWarningBoxBackground()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = false, NoHeader = true, MaxWidth = MaxWidth.Large, Position = DialogPosition.BottomCenter };
+        var dialog = _dialogService.Show<WarningBoxBackground>("", parameters, options);
+    }
+}

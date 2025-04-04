@@ -1,0 +1,132 @@
+﻿@page "/grocery"
+
+@if (!_loaded)
+{
+    <Spinner></Spinner>
+}
+else
+{
+<MudGrid Class="mt-5 pt-0 mb-1">
+    <MudItem xs="12">
+        <MudCard Elevation="1" Class="rounded-lg">
+            <MudCardContent>
+                <MudText Color="Color.Default" Align="Align.Left" Typo="Typo.body1" Style="font-weight: 400;">Prebuilt Fruits Grocery pages for your Web or Mobile apps. Built using blocks and are highly flexible and customizable.</MudText>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+<MudGrid Class="mb-5" Spacing="2">
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row py-5 rounded-lg" @onclick="@(() => NavigateToHomePage())">
+            <MudIcon Icon="@Icons.Material.Filled.Home" Color="Color.Tertiary" Class="mx-3 align-self-center fa-2x"></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Homepage </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row py-5 rounded-lg" @onclick="@(() => NavigateToCategoriesPage())">
+            <MudIcon Icon="@Icons.Material.Filled.Category" Color="Color.Warning" Class="mx-3 align-self-center fa-2x"></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Categories </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row py-5 rounded-lg"  @onclick="@(() => NavigateToProductPage1())">
+            <MudIcon Icon="@Icons.Material.Filled.GridView" Color="Color.Success" Class="mx-3 align-self-center fa-2x"></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Products Grid </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row py-5 rounded-lg" @onclick="@(() => NavigateToProductPage2())">
+            <MudIcon Icon="@Icons.Material.Filled.ViewList" Color="Color.Secondary" Class="mx-3 align-self-center fa-2x"></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Products List </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row py-5 rounded-lg" @onclick="@(() => NavigateToProductDetailPage1())">
+            <MudIcon Icon="@Icons.Material.Filled.Details" Color="Color.Tertiary" Class="mx-3 align-self-center fa-2x"></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Product Detail 1</MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row py-5 rounded-lg" @onclick="@(() => NavigateToProductDetailPage2())">
+            <MudIcon Icon="@Icons.Custom.Uncategorized.FoodApple" Color="Color.Primary" Class="mx-3 align-self-center fa-2x"></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Product Detail 2</MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row py-5 rounded-lg"  @onclick="@(() => NavigateToCartPage())">
+            <MudIcon Icon="@Icons.Material.Filled.ShoppingBag" Color="Color.Info" Class="mx-3 align-self-center fa-2x"></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Cart </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="12" md="12">
+        <MudCard Elevation="1" Class="d-flex flex-row py-5 rounded-lg"  @onclick="@(() => NavigateToCheckoutPage())">
+                <MudIcon Icon="@Icons.Material.Filled.CreditCard" Color="Color.Secondary" Class="mx-3 align-self-center fa-2x"></MudIcon>
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Checkout </MudText>
+            <MudIcon Icon="@Icons.Material.TwoTone.ArrowRight" Color="Color.Default" Class="mx-3 ml-auto align-self-center" Size="Size.Medium"></MudIcon>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+}
+@code {
+    public bool _loaded;
+    protected override async Task OnInitializedAsync()
+    {
+        
+        _loaded = true;
+    }
+
+    public void NavigateToHomePage()
+    {
+        _navigationManager.NavigateTo("/grocery-home");
+    }
+
+    public void NavigateToCategoriesPage()
+    {
+        _navigationManager.NavigateTo("/grocery/categories");
+    }
+
+    public void NavigateToProductPage1()
+    {
+        _navigationManager.NavigateTo("/grocery/products-grid");
+    }
+
+    public void NavigateToProductPage2()
+    {
+        _navigationManager.NavigateTo("/grocery/products-list");
+    }
+
+    public void NavigateToProductDetailPage1()
+    {
+        _navigationManager.NavigateTo("/grocery/productdetail-1");
+    }
+
+    public void NavigateToProductDetailPage2()
+    {
+        _navigationManager.NavigateTo("/grocery/productdetail-2");
+    }
+
+    public void NavigateToCartPage()
+    {
+        _navigationManager.NavigateTo("/grocery/cart");
+    }
+
+    public void NavigateToCheckoutPage()
+    {
+        _navigationManager.NavigateTo("/grocery/checkout");
+    }
+}

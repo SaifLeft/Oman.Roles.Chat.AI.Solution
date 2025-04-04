@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <link rel="stylesheet" href="_content/MauiStore.Shared/bootstrap/bootstrap.min.css" />
+    <link href="_content/MauiStore.Shared/css/app.css" rel="stylesheet" />
+    
+    <link href="_content/MauiStore.Shared/css/flag-icons.css" rel="stylesheet" />
+    <link href="https://use.fontawesome.com/releases/v6.1.0/css/all.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
+    <link href="_content/MauiStore.Shared/css/loading.css" rel="stylesheet" />
+    <link href="_content/MauiStore.Shared/css/fa-regular.css" rel="stylesheet">
+    <link href="_content/MauiStore.Shared/css/fa-duotone.css" rel="stylesheet">
+    <link href="_content/MauiStore.Shared/css/fa-light.css" rel="stylesheet">
+    <link href="_content/MauiStore.Shared/css/fa-brands.css" rel="stylesheet">
+    <link href="_content/MauiStore.Shared/css/flag-icons.css" rel="stylesheet" />
+    <link href="_content/MauiStore.Shared/css/google-map.css" rel="stylesheet" />
+    <link rel="stylesheet" href="MauiStore.Web.styles.css" />
+    <link rel="icon" type="image/png" href="_content/MauiStore.Shared/favicon.png" />
+    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined" rel="stylesheet">
+    <HeadOutlet @rendermode="InteractiveServer" />
+</head>
+
+<body>
+    <Routes @rendermode="InteractiveServer" />
+
+    <script>
+        function AddModalToHistory(url) {
+            window.history.pushState("MauiStore", "Modal", url);
+        }
+    </script>
+
+    <script src="_content/MauiStore.Shared/js/google-map.js"></script>
+    <script src="_framework/blazor.web.js"></script>
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
+</body>
+
+</html>

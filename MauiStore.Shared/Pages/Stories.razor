@@ -1,0 +1,588 @@
+﻿@page "/stories"
+
+<style>
+    .border-gradient {
+      background: 
+        linear-gradient(var(--mud-palette-surface), var(--mud-palette-surface)) padding-box,
+        linear-gradient(to right, #743ad5, #d53a9d) border-box;
+      border-radius: 6px;
+      border: 2px solid transparent;
+    }
+
+    .border-gradient {
+      position: relative;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: color .2s;
+    }
+
+    .mud-button {
+        text-transform: capitalize !important;
+        font-size: 14px !important;
+        font-weight: 400 !important;
+    }
+
+    .mud-button-filled-size-small {
+        padding: 0px 12px !important;
+        font-size: 14px !important;
+        height: 32px;
+    }
+</style>
+
+@if (!_loaded)
+{
+    <Spinner></Spinner>
+}
+else
+{
+    <InputFile id="fileInput" OnChange="UploadFiles" hidden multiple accept=".jpg, .jpeg, .png, .mp4, .mov"/>
+        <MudGrid Spacing="2">
+            <MudItem xs="12">
+                <MudPaper Elevation="1" Class="d-flex flex-column pa-3 ">
+                    <MudPaper Elevation="0" Style="background-color: transparent" Class="d-flex mb-3">
+                        <MudAvatar Style="height: 50px; width: 50px;">
+                            <MudImage Src="/images/pictures/faces/3s.png" />
+                        </MudAvatar>
+                        <MudText Color="Color.Default" Class="align-self-center mx-3" Typo="Typo.body2"> How do you feel today? </MudText>
+                    </MudPaper>
+                    <MudPaper Elevation="0" Style="background-color: transparent" Class="d-flex justify-space-between mt-1">
+                        <MudButton HtmlTag="label" FullWidth="true" DropShadow="false" StartIcon="@Icons.Material.TwoTone.Image" IconColor="Color.Tertiary" Class=" mx-1" for="fileInput" Color="Color.Default" Size="Size.Small" Variant="Variant.Filled"> Photo </MudButton>
+                        <MudButton HtmlTag="label" FullWidth="true" DropShadow="false" StartIcon="@Icons.Material.TwoTone.Videocam" IconColor="Color.Secondary" Class=" mx-1" for="fileInput" Color="Color.Default" Size="Size.Small" Variant="Variant.Filled"> Video </MudButton>
+                        <MudButton HtmlTag="label" FullWidth="true" DropShadow="false" StartIcon="@Icons.Material.TwoTone.PhotoAlbum" IconColor="Color.Primary" Class=" mx-1" for="fileInput" Color="Color.Default" Size="Size.Small" Variant="Variant.Filled"> Album </MudButton>
+                    </MudPaper>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudPaper Elevation="1" Class="pa-3 ">
+                    <MudText Color="Color.Default" Class="mb-3" Typo="Typo.subtitle1" Style="font-weight: 500"> Story </MudText>
+                    <div class="hz-container">
+                        <div class="mr-5">
+                            <MudPaper Elevation="0" Class="rounded-lg d-flex pa-1 mb-2 border-gradient" Style="min-height: 82px; width: 56px;">
+                                <MudIconButton Icon="@Icons.Material.TwoTone.PhotoCamera" Class="align-self-center ma-1 blink" Variant="Variant.Outlined" Color="Color.Tertiary" Size="Size.Small" />
+                            </MudPaper>
+                            <MudText Color="Color.Default" Align="Align.Center" Class="align-self-center" Typo="Typo.caption" Style="display: block"> Story </MudText>
+                        </div>
+                        <div class="mr-5">
+                            <MudPaper Elevation="0" Class="rounded-lg d-flex pa-1 mb-2 border-gradient">
+                                <MudImage Src="images/pictures/2l.jpg" Height="70" Class="align-self-center rounded-lg"></MudImage>
+                            </MudPaper>
+                            <MudText Color="Color.Default" Align="Align.Center" Class="align-self-center" Typo="Typo.caption" Style="display: block"> John </MudText>
+                        </div>
+                        <div class="mr-5">
+                            <MudPaper Elevation="0" Class="rounded-lg d-flex pa-1 mb-2 border-gradient">
+                                <MudImage Src="images/pictures/26l.jpg" Height="70" Class="align-self-center rounded-lg"></MudImage>
+                            </MudPaper>
+                            <MudText Color="Color.Default" Align="Align.Center" Class="align-self-center" Typo="Typo.caption" Style="display: block"> Alex </MudText>
+                        </div>
+                        <div class="mr-5">
+                            <MudPaper Elevation="0" Class="rounded-lg d-flex pa-1 mb-2 border-gradient">
+                                <MudImage Src="images/pictures/27l.jpg" Height="70" Class="align-self-center rounded-lg"></MudImage>
+                            </MudPaper>
+                            <MudText Color="Color.Default" Align="Align.Center" Class="align-self-center" Typo="Typo.caption" Style="display: block"> Karla </MudText>
+                        </div>
+                        <div class="mr-5">
+                            <MudPaper Elevation="0" Class="rounded-lg d-flex pa-1 mb-2 border-gradient">
+                                <MudImage Src="images/pictures/28l.jpg" Height="70" Class="align-self-center rounded-lg"></MudImage>
+                            </MudPaper>
+                            <MudText Color="Color.Default" Align="Align.Center" Class="align-self-center" Typo="Typo.caption" Style="display: block"> Belvin </MudText>
+                        </div>
+                        <div class="mr-5">
+                            <MudPaper Elevation="0" Class="rounded-lg d-flex pa-1 mb-2 border-gradient">
+                                <MudImage Src="images/pictures/29l.jpg" Height="70" Class="align-self-center rounded-lg"></MudImage>
+                            </MudPaper>
+                            <MudText Color="Color.Default" Align="Align.Center" Class="align-self-center" Typo="Typo.caption" Style="display: block"> Vincent </MudText>
+                        </div>
+                        <div class="mr-5">
+                            <MudPaper Elevation="0" Class="rounded-lg d-flex pa-1 mb-2 border-gradient">
+                                <MudImage Src="images/pictures/30l.jpg" Height="70" Class="align-self-center rounded-lg"></MudImage>
+                            </MudPaper>
+                            <MudText Color="Color.Default" Align="Align.Center" Class="align-self-center" Typo="Typo.caption" Style="display: block"> David </MudText>
+                        </div>
+                        <div class="mr-5">
+                            <MudPaper Elevation="0" Class="rounded-lg d-flex pa-1 mb-2 border-gradient">
+                            <MudImage Src="images/pictures/31l.jpg" Height="70" Class="align-self-center rounded-lg"></MudImage>
+                            </MudPaper>
+                            <MudText Color="Color.Default" Align="Align.Center" Class="align-self-center" Typo="Typo.caption" Style="display: block"> Roxlin </MudText>
+                        </div>
+                    </div>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+
+        <div class="d-flex flex-row justify-space-between mt-5">
+            <MudText Color="Color.Default" Class="" Typo="Typo.subtitle1" Style="font-weight: 500"> John Doe <MudText Color="Color.Default" Inline="true" Typo="Typo.subtitle1">  shares 5 activities </MudText></MudText>
+            <MudIcon Icon="@Icons.Material.Filled.MoreHoriz" Class="align-self-center mx-1" Color="Color.Default" Size="Size.Medium"></MudIcon>
+        </div>
+        <MudPaper Elevation="0" Style="background-color: transparent;" Class="hz-container py-2">
+            <MudCard Elevation="1" Class="mr-3  py-0">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudAvatar Size="Size.Medium">
+                            <MudImage Src="/images/pictures/faces/3s.png" />
+                        </MudAvatar>
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500"> John Doe </MudText>
+                        <MudText Typo="Typo.caption">Today at 10:30</MudText>
+                    </CardHeaderContent>
+                    <CardHeaderActions>
+                        <MudMenu Icon="@Icons.Material.Filled.MoreHoriz" Color="Color.Default">
+                            <MudMenuItem>Unfollow John Doe</MudMenuItem>
+                            <MudMenuItem>Report</MudMenuItem>
+                            <MudMenuItem>Share</MudMenuItem>
+                        </MudMenu>
+                    @*<MudIconButton Icon="@Icons.Material.Filled.MoreHoriz" Color="Color.Default" />*@
+                    </CardHeaderActions>
+                </MudCardHeader>
+                <MudCardContent Class="pa-0" Style="width: 300px;">
+                    <MudText Typo="Typo.body2" Class="mx-3" Color="@Color.Default">MauiStore Mobile PWA App</MudText>
+                    <MudText Typo="Typo.caption" Class="mx-3 mb-3" Color="@Color.Default">...See more</MudText>
+                    <MudGrid Spacing="0">
+                        <MudItem xs="6">
+                            <MudImage Src="images/pictures/1s.jpg" Height="150" Width="150" Class="align-self-center"></MudImage>
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudImage Src="images/pictures/2s.jpg" Height="150" Width="150" Class="align-self-center"></MudImage>
+                        </MudItem>
+                        <MudItem xs="12">
+                            <MudImage Src="images/pictures/3w.jpg" Height="150" Width="300" Class="align-self-center"></MudImage>
+                        </MudItem>
+                    </MudGrid>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudIcon Icon="@Icons.Material.Outlined.Favorite" Size="Size.Small" Color="Color.Default" Class="ma-2"></MudIcon>
+                    <MudText Typo="Typo.body1" Class="" Color="@Color.Default"> 10 </MudText>
+                    <div class="mx-3"></div>
+                    <MudIcon Icon="@Icons.Material.Outlined.Comment" Size="Size.Small" Color="Color.Default" Class="ma-2"></MudIcon>
+                    <MudText Typo="Typo.body1" Class="" Color="@Color.Default"> 1 </MudText>
+                </MudCardActions>
+            </MudCard>
+
+            <MudCard Elevation="1" Class="mr-3  py-0">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudAvatar Size="Size.Medium">
+                            <MudImage Src="/images/pictures/faces/3s.png" />
+                        </MudAvatar>
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500">John Doe</MudText>
+                        <MudText Typo="Typo.caption">Today at 10:30</MudText>
+                    </CardHeaderContent>
+                    <CardHeaderActions>
+                        <MudMenu Icon="@Icons.Material.Filled.MoreHoriz" Color="Color.Default">
+                            <MudMenuItem>Unfollow John Doe</MudMenuItem>
+                            <MudMenuItem>Report</MudMenuItem>
+                            <MudMenuItem>Share</MudMenuItem>
+                        </MudMenu>
+                    </CardHeaderActions>
+                </MudCardHeader>
+                <MudCardContent Class="pa-0" Style="width: 300px;">
+                    <MudText Typo="Typo.body2" Class="mx-3" Color="@Color.Default">MauiStore Mobile PWA App</MudText>
+                    <MudText Typo="Typo.caption" Class="mx-3 mb-3" Color="@Color.Default">...See more</MudText>
+                    <MudGrid Spacing="0">
+                        <MudItem xs="12">
+                            <MudImage Src="images/pictures/4t.jpg" Height="300" Width="300" Class="align-self-center"></MudImage>
+                        </MudItem>
+                    </MudGrid>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudIcon Icon="@Icons.Material.Outlined.Favorite" Size="Size.Small" Color="Color.Default" Class="ma-2"></MudIcon>
+                    <MudText Typo="Typo.body1" Class="" Color="@Color.Default"> 10 </MudText>
+                    <div class="mx-3"></div>
+                    <MudIcon Icon="@Icons.Material.Outlined.Comment" Size="Size.Small" Color="Color.Default" Class="ma-2"></MudIcon>
+                    <MudText Typo="Typo.body1" Class="" Color="@Color.Default"> 1 </MudText>
+                </MudCardActions>
+            </MudCard>
+
+            <MudCard Elevation="1" Class="mr-3  py-0">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudAvatar Size="Size.Medium">
+                            <MudImage Src="/images/pictures/faces/3s.png" />
+                        </MudAvatar>
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500">John Doe</MudText>
+                        <MudText Typo="Typo.caption">Today at 10:30</MudText>
+                    </CardHeaderContent>
+                    <CardHeaderActions>
+                        <MudMenu Icon="@Icons.Material.Filled.MoreHoriz" Color="Color.Default">
+                            <MudMenuItem>Unfollow John Doe</MudMenuItem>
+                            <MudMenuItem>Report</MudMenuItem>
+                            <MudMenuItem>Share</MudMenuItem>
+                        </MudMenu>
+                    </CardHeaderActions>
+                </MudCardHeader>
+                <MudCardContent Class="pa-0" Style="width: 300px;">
+                    <MudText Typo="Typo.body2" Class="mx-3" Color="@Color.Default">MauiStore Mobile PWA App</MudText>
+                    <MudText Typo="Typo.caption" Class="mx-3 mb-3" Color="@Color.Default">...See more</MudText>
+                    <MudGrid Spacing="0">
+                        <MudItem xs="6">
+                            <MudImage Src="images/pictures/4s.jpg" Height="150" Width="150" Class="align-self-center"></MudImage>
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudImage Src="images/pictures/5s.jpg" Height="150" Width="150" Class="align-self-center"></MudImage>
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudImage Src="images/pictures/6s.jpg" Height="150" Width="150" Class="align-self-center"></MudImage>
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudImage Src="images/pictures/7s.jpg" Height="150" Width="150" Class="align-self-center"></MudImage>
+                        </MudItem>
+                    </MudGrid>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudIcon Icon="@Icons.Material.Outlined.Favorite" Size="Size.Small" Color="Color.Default" Class="ma-2"></MudIcon>
+                    <MudText Typo="Typo.body1" Class="" Color="@Color.Default"> 10 </MudText>
+                    <div class="mx-3"></div>
+                    <MudIcon Icon="@Icons.Material.Outlined.Comment" Size="Size.Small" Color="Color.Default" Class="ma-2"></MudIcon>
+                    <MudText Typo="Typo.body1" Class="" Color="@Color.Default"> 1 </MudText>
+                </MudCardActions>
+            </MudCard>
+
+            <MudCard Elevation="1" Class="mr-3  py-0">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudAvatar Size="Size.Medium">
+                            <MudImage Src="/images/pictures/faces/3s.png" />
+                        </MudAvatar>
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500">John Doe</MudText>
+                        <MudText Typo="Typo.caption">Today at 10:30</MudText>
+                    </CardHeaderContent>
+                    <CardHeaderActions>
+                        <MudMenu Icon="@Icons.Material.Filled.MoreHoriz" Color="Color.Default">
+                            <MudMenuItem>Unfollow John Doe</MudMenuItem>
+                            <MudMenuItem>Report</MudMenuItem>
+                            <MudMenuItem>Share</MudMenuItem>
+                        </MudMenu>
+                    </CardHeaderActions>
+                </MudCardHeader>
+                <MudCardContent Class="pa-0" Style="width: 300px;">
+                    <MudText Typo="Typo.body2" Class="mx-3" Color="@Color.Default">MauiStore Mobile PWA App</MudText>
+                    <MudText Typo="Typo.caption" Class="mx-3 mb-3" Color="@Color.Default">...See more</MudText>
+                    <MudGrid Spacing="0">
+                        <MudItem xs="6">
+                            <MudImage Src="images/pictures/8s.jpg" Height="150" Width="150" Class="align-self-center"></MudImage>
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudImage Src="images/pictures/9s.jpg" Height="150" Width="150" Class="align-self-center"></MudImage>
+                        </MudItem>
+                        <MudItem xs="12">
+                            <MudImage Src="images/pictures/5w.jpg" Height="150" Width="300" Class="align-self-center"></MudImage>
+                        </MudItem>
+                    </MudGrid>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudIcon Icon="@Icons.Material.Outlined.Favorite" Size="Size.Small" Color="Color.Default" Class="ma-2"></MudIcon>
+                    <MudText Typo="Typo.body1" Class="" Color="@Color.Default"> 10 </MudText>
+                    <div class="mx-3"></div>
+                    <MudIcon Icon="@Icons.Material.Outlined.Comment" Size="Size.Small" Color="Color.Default" Class="ma-2"></MudIcon>
+                    <MudText Typo="Typo.body1" Class="" Color="@Color.Default"> 1 </MudText>
+                </MudCardActions>
+            </MudCard>
+
+            <MudCard Elevation="1" Class="mr-3  py-0">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudAvatar Size="Size.Medium">
+                            <MudImage Src="/images/pictures/faces/3s.png" />
+                        </MudAvatar>
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500">John Doe</MudText>
+                        <MudText Typo="Typo.caption">Today at 10:30</MudText>
+                    </CardHeaderContent>
+                    <CardHeaderActions>
+                        <MudMenu Icon="@Icons.Material.Filled.MoreHoriz" Color="Color.Default">
+                            <MudMenuItem>Unfollow John Doe</MudMenuItem>
+                            <MudMenuItem>Report</MudMenuItem>
+                            <MudMenuItem>Share</MudMenuItem>
+                        </MudMenu>
+                    </CardHeaderActions>
+                </MudCardHeader>
+                <MudCardContent Class="pa-0" Style="width: 300px;">
+                    <MudText Typo="Typo.body2" Class="mx-3" Color="@Color.Default">MauiStore Mobile PWA App</MudText>
+                    <MudText Typo="Typo.caption" Class="mx-3 mb-3" Color="@Color.Default">...See more</MudText>
+                    <MudGrid Spacing="0">
+                        <MudItem xs="12">
+                            <MudImage Src="images/pictures/10w.jpg" Height="150" Width="300" Class="align-self-center"></MudImage>
+                        </MudItem>
+                        <MudItem xs="12">
+                            <MudImage Src="images/pictures/11w.jpg" Height="150" Width="300" Class="align-self-center"></MudImage>
+                        </MudItem>
+                    </MudGrid>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudIcon Icon="@Icons.Material.Outlined.Favorite" Size="Size.Small" Color="Color.Default" Class="ma-2"></MudIcon>
+                    <MudText Typo="Typo.body1" Class="" Color="@Color.Default"> 10 </MudText>
+                    <div class="mx-3"></div>
+                    <MudIcon Icon="@Icons.Material.Outlined.Comment" Size="Size.Small" Color="Color.Default" Class="ma-2"></MudIcon>
+                    <MudText Typo="Typo.body1" Class="" Color="@Color.Default"> 1 </MudText>
+                </MudCardActions>
+            </MudCard>
+        </MudPaper>
+
+        <MudGrid Class="mt-3" Spacing="0">
+            <MudItem xs="12">
+                <MudCard Elevation="1" Class=" py-0">
+                    <MudCardHeader>
+                        <CardHeaderAvatar>
+                            <MudAvatar Size="Size.Medium">
+                                <MudImage Src="/images/pictures/1s.png" />
+                            </MudAvatar>
+                        </CardHeaderAvatar>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.subtitle1" Style="font-weight: 500">Karla Black</MudText>
+                            <MudText Typo="Typo.caption">Today at 10:30</MudText>
+                        </CardHeaderContent>
+                        <CardHeaderActions>
+                            <MudMenu Icon="@Icons.Material.Filled.MoreHoriz" Color="Color.Default">
+                                <MudMenuItem>Unfollow Karla Black</MudMenuItem>
+                                <MudMenuItem>Report</MudMenuItem>
+                                <MudMenuItem>Share</MudMenuItem>
+                            </MudMenu>
+                        </CardHeaderActions>
+                    </MudCardHeader>
+                    <MudCardContent Class="pa-0">
+                        <MudText Typo="Typo.body2" Class="mx-3 mb-3" Color="@Color.Default">Unforgetable memories...</MudText>
+                        <MudGrid Spacing="0">
+                            <MudItem xs="4">
+                                <MudImage Src="images/pictures/19s.jpg" Fluid="true" Class="align-self-center"></MudImage>
+                            </MudItem>
+                            <MudItem xs="4">
+                                <MudImage Src="images/pictures/20s.jpg" Fluid="true" Class="align-self-center"></MudImage>
+                            </MudItem>
+                            <MudItem xs="4">
+                                <MudImage Src="images/pictures/23s.jpg" Fluid="true" Class="align-self-center"></MudImage>
+                            </MudItem>
+                            <MudItem xs="4">
+                                <MudImage Src="images/pictures/24s.jpg" Fluid="true" Class="align-self-center"></MudImage>
+                            </MudItem>
+                            <MudItem xs="4">
+                                <MudImage Src="images/pictures/25s.jpg" Fluid="true" Class="align-self-center"></MudImage>
+                            </MudItem>
+                            <MudItem xs="4">
+                                <MudImage Src="images/pictures/26s.jpg" Fluid="true" Class="align-self-center"></MudImage>
+                            </MudItem>
+                            <MudItem xs="4">
+                                <MudImage Src="images/pictures/27s.jpg" Fluid="true" Class="align-self-center"></MudImage>
+                            </MudItem>
+                            <MudItem xs="4">
+                                <MudImage Src="images/pictures/28s.jpg" Fluid="true" Class="align-self-center"></MudImage>
+                            </MudItem>
+                            <MudItem xs="4">
+                                <MudImage Src="images/pictures/29s.jpg" Fluid="true" Class="align-self-center"></MudImage>
+                            </MudItem>
+                        </MudGrid>
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudIcon Icon="@Icons.Material.Outlined.Favorite" Size="Size.Small" Color="Color.Secondary" Class="ma-2"></MudIcon>
+                        <MudText Typo="Typo.body1" Class="" Color="@Color.Default"> 19 </MudText>
+                        <div class="mx-3"></div>
+                        <MudIcon Icon="@Icons.Material.Outlined.Comment" Size="Size.Small" Color="Color.Default" Class="ma-2"></MudIcon>
+                        <MudText Typo="Typo.body1" Class="" Color="@Color.Default"> 6 </MudText>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+        </MudGrid>
+
+        <MudGrid Class="mt-5" Spacing="0">
+            <MudItem xs="12">
+                <MudCard Elevation="1" Class=" py-0">
+                    <MudCardHeader>
+                        <CardHeaderAvatar>
+                            <MudAvatar Size="Size.Medium">
+                                <MudImage Src="/images/pictures/1s.png" />
+                            </MudAvatar>
+                        </CardHeaderAvatar>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.subtitle1" Style="font-weight: 500">Alexandre Bell</MudText>
+                            <MudText Typo="Typo.caption">Today at 5:30</MudText>
+                        </CardHeaderContent>
+                        <CardHeaderActions>
+                            <MudMenu Icon="@Icons.Material.Filled.MoreHoriz" Color="Color.Default">
+                                <MudMenuItem>Unfollow Alexandre Bell</MudMenuItem>
+                                <MudMenuItem>Report</MudMenuItem>
+                                <MudMenuItem>Share</MudMenuItem>
+                            </MudMenu>
+                        </CardHeaderActions>
+                    </MudCardHeader>
+                    <MudCardContent Class="pa-0">
+                        <MudText Typo="Typo.body2" Class="mx-3 mb-3" Color="@Color.Default">3 MOST EXCITING OF DIAMOND CITY</MudText>
+                        <MudText Typo="Typo.body2" Class="mx-3 mb-3" Color="@Color.Default">1. Diamond Coffee: Awesome space with beautiful design. Lorem ipsum dolor sit amet</MudText>
+                        <MudText Typo="Typo.caption" Class="mx-3 mb-3" Color="@Color.Default">...See more</MudText>
+                        <MudGrid Spacing="0">
+                            <MudItem xs="12">
+                                <MudImage Src="images/pictures/35.jpg" Fluid="true" Class="align-self-center"></MudImage>
+                            </MudItem>
+                            <MudItem xs="6">
+                                <MudImage Src="images/pictures/34.jpg" Fluid="true" Class="align-self-center"></MudImage>
+                            </MudItem>
+                            <MudItem xs="6">
+                                <MudImage Src="images/pictures/33.jpg" Fluid="true" Class="align-self-center"></MudImage>
+                            </MudItem>
+                        </MudGrid>
+                    </MudCardContent>
+                    <MudCardActions Class="d-flex justify-space-between">
+                        <div class="d-flex">
+                            <MudIcon Icon="@Icons.Material.Outlined.Favorite" Size="Size.Small" Color="Color.Default" Class="ma-2 align-self-center"></MudIcon>
+                            <MudText Typo="Typo.body1" Class="align-self-center" Color="@Color.Default"> 100 </MudText>
+                            <div class="mx-3"></div>
+                            <MudIcon Icon="@Icons.Material.Outlined.Comment" Size="Size.Small" Color="Color.Default" Class="ma-2 align-self-center"></MudIcon>
+                            <MudText Typo="Typo.body1" Class="align-self-center" Color="@Color.Default"> 123 </MudText>
+                        </div>
+                        <div class="d-flex">
+                            <MudText Typo="Typo.caption" Class="align-self-center mx-2" Color="@Color.Default"> Liked by </MudText>
+                            <MudAvatarGroup Max="3" Spacing="2" MaxColor="Color.Primary" MaxSize="Size.Small">
+                                <MudAvatar Size="Size.Small">
+                                    <MudImage Src="/images/pictures/faces/1s.png" />
+                                </MudAvatar>
+                                <MudAvatar Size="Size.Small">
+                                    <MudImage Src="/images/pictures/faces/2s.png" />
+                                </MudAvatar>
+                                <MudAvatar Size="Size.Small">
+                                    <MudImage Src="/images/pictures/faces/3s.png" />
+                                </MudAvatar>
+                                <MudAvatar Size="Size.Small">
+                                    <MudImage Src="/images/pictures/faces/4s.png" />
+                                </MudAvatar>
+                                <MudAvatar Size="Size.Small">
+                                    <MudImage Src="/images/pictures/faces/3s.png" />
+                                </MudAvatar>
+                                <MudAvatar Size="Size.Small">
+                                    <MudImage Src="/images/pictures/faces/4s.png" />
+                                </MudAvatar>
+                            </MudAvatarGroup>
+                        </div>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+        </MudGrid>
+
+        <MudGrid Class="mt-5" Spacing="0">
+            <MudItem xs="12">
+                <MudCard Elevation="1" Class=" py-0">
+                    <MudCardHeader>
+                        <CardHeaderAvatar>
+                            <MudAvatar Size="Size.Medium">
+                                <MudImage Src="/images/pictures/2s.png" />
+                            </MudAvatar>
+                        </CardHeaderAvatar>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.subtitle1" Style="font-weight: 500">The Grand Manhattan</MudText>
+                            <MudText Typo="Typo.caption">Sponsored</MudText>
+                        </CardHeaderContent>
+                        <CardHeaderActions>
+                            <MudMenu Icon="@Icons.Material.Filled.MoreHoriz" Color="Color.Default">
+                                <MudMenuItem>Unsubscribe</MudMenuItem>
+                                <MudMenuItem>Report</MudMenuItem>
+                                <MudMenuItem>Share</MudMenuItem>
+                            </MudMenu>
+                        </CardHeaderActions>
+                    </MudCardHeader>
+                    <MudCardContent Class="pa-0">
+                        <MudGrid Spacing="0">
+                            <MudItem xs="12">
+                                <MudImage Src="images/pictures/36.jpg" Fluid="true" Class="align-self-center"></MudImage>
+                            </MudItem>
+                        </MudGrid>
+                        <MudText Typo="Typo.body2" Class="mx-3 my-2" Color="@Color.Default">Discover new seaview villa The Grand Manhattan - The green diamond apartment at city central</MudText>
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudButton Class="mx-3 mb-3 " DropShadow="false" FullWidth="true" Color="@Color.Default" StartIcon="@Icons.Material.Filled.Edit" Variant="Variant.Filled">Sign Up</MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+        </MudGrid>
+
+        <MudGrid Class="mt-5" Spacing="0">
+            <MudItem xs="12">
+                <MudCard Elevation="1" Class=" py-0">
+                    <MudCardHeader>
+                        <CardHeaderAvatar>
+                            <MudAvatar Size="Size.Medium">
+                                <MudImage Src="/images/pictures/faces/4s.png" />
+                            </MudAvatar>
+                        </CardHeaderAvatar>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.subtitle1" Color="Color.Default" Style="line-height: 1.2; font-weight: 500"> Tim Belvin <MudText Color="Color.Default" Inline="true" Typo="Typo.subtitle1"> shared a memory </MudText></MudText>
+                            <MudText Typo="Typo.caption">Yesterday at 23:00</MudText>
+                        </CardHeaderContent>
+                        <CardHeaderActions>
+                            <MudMenu Icon="@Icons.Material.Filled.MoreHoriz" Color="Color.Default">
+                                <MudMenuItem>Unfollow Tim Belvin</MudMenuItem>
+                                <MudMenuItem>Report</MudMenuItem>
+                                <MudMenuItem>Share</MudMenuItem>
+                            </MudMenu>
+                        </CardHeaderActions>
+                    </MudCardHeader>
+                    <MudCardContent Class="px-2 py-0">
+                        <MudCard Elevation="1" Outlined="false" Style="border-radius: 6px 6px 0px 0px;">
+                            <MudCardMedia Image="images/header_bg.webp" Height="60" />
+                            <MudCardContent Class="pa-0">
+                                <MudPaper Elevation="0" Style="background-color: transparent; margin-top: -60px;" Class="d-flex flex-column pa-3 justify-center">
+                                    <MudText Align="Align.Center" Typo="Typo.caption" Class="" Color="@Color.Default" Style="color: var(--mud-palette-appbar-text);">On these days</MudText>
+                                    <MudText Align="Align.Center" Typo="Typo.subtitle1" Class="" Color="@Color.Default" Style="color: var(--mud-palette-appbar-text);"><strong>5 years ago</strong></MudText>
+                                </MudPaper>
+
+                                <MudPaper Elevation="0" Style="background-color: transparent" Class="d-flex pa-3">
+                                    <MudAvatar Style="height: 40px; width: 40px;">
+                                        <MudImage Src="/images/pictures/faces/4s.png" />
+                                    </MudAvatar>
+                                    <div class="mx-3 align-self-center">
+                                        <MudText Color="Color.Default" Class="" Typo="Typo.body2" Style="font-weight: 500"> Belvin </MudText>
+                                        <MudText Color="Color.Default" Class="" Typo="Typo.caption"> Apr 20, 2017 </MudText>
+                                    </div>
+                                </MudPaper>
+                                <MudText Typo="Typo.body2" Class="mx-3 my-2" Color="@Color.Default">The green diamond apartment at city central</MudText>
+                                <MudImage Src="images/pictures/38.jpg" Elevation="0" Fluid="true" Class="align-self-center mb-n2"></MudImage>
+                            </MudCardContent>
+                        </MudCard>
+                        <div class="d-flex justify-space-between px-2 mt-5 mb-3">
+                            <div class="d-flex">
+                                <MudIcon Icon="fad fa-history" Size="Size.Small" Color="Color.Warning" Class="align-self-center"></MudIcon>
+                                <MudText Typo="Typo.body2" Class="align-self-center mx-3" Color="@Color.Default" Style="font-weight: 500"> View all your memory </MudText>
+                            </div>
+                            <MudButton Class="" DropShadow="false" FullWidth="false" Color="@Color.Default" Variant="Variant.Filled" Size="Size.Small">View Now</MudButton>
+                        </div>
+                        <MudDivider Class="mx-n2"></MudDivider>
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudIcon Icon="@Icons.Material.Outlined.Favorite" Size="Size.Small" Color="Color.Secondary" Class="ma-2"></MudIcon>
+                        <MudText Typo="Typo.body1" Class="" Color="@Color.Default"> 10 </MudText>
+                        <div class="mx-3"></div>
+                        <MudIcon Icon="@Icons.Material.Outlined.Comment" Size="Size.Small" Color="Color.Default" Class="ma-2"></MudIcon>
+                        <MudText Typo="Typo.body1" Class="" Color="@Color.Default"> 0 </MudText>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+        </MudGrid>
+}
+
+
+@code {
+    private bool _loaded;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _loaded = true;
+    }
+
+    private void UploadFiles(InputFileChangeEventArgs e)
+    {
+        var entries = e.GetMultipleFiles();
+        //Do your validations here
+        _snackBar.Configuration.PositionClass = Defaults.Classes.Position.TopCenter;
+        _snackBar.Add($"Files with {entries.FirstOrDefault().Size} bytes size are not allowed", Severity.Error);
+        _snackBar.Add($"Files starting with letter {entries.FirstOrDefault().Name.Substring(0, 1)} are not recommended", Severity.Warning);
+        _snackBar.Add($"This file has the extension {entries.FirstOrDefault().Name.Split(".").Last()}", Severity.Info);
+
+        //TODO upload the files to the server
+    }
+}

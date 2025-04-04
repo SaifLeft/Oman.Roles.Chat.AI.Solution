@@ -1,0 +1,313 @@
+﻿@page "/grocery/productdetail-1"
+
+<MudPaper Elevation="3" Height="150" Class="px-4 mx-n4 mt-n10 py-10 mud-theme-primary" Style="border-radius: 0px 0px 45px 45px;" Outlined="false">
+    <MudPaper Elevation="0" Class="py-0">
+
+    </MudPaper>
+</MudPaper>
+
+<MudCard Elevation="1" Outlined="false" Class="mt-n7 rounded-lg">
+    @*<MudCardMedia Image="/images/grocery/5.jpg" Height="200" />*@
+    <MudCardContent Class="pt-0">
+        <!--Large Devices-->
+        <MudHidden Breakpoint="Breakpoint.MdAndDown" Invert="false">
+            <MudCarousel Class="mx-n4" Style="height:400px;" ShowArrows="true" ShowBullets="true" AutoCycle="false" TData="object">
+                <BulletTemplate Context="selected">
+                    <div Class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                        <span class="mud-icon-button-label">
+                            <MudIcon Icon="@(selected ? "fas fa-circle" : "fal fa-circle")" Style="color: var(--mud-palette-primary); font-size: 0.725rem !important;" />
+                        </span>
+                    </div>
+                </BulletTemplate>
+                <ChildContent>
+                    <MudCarouselItem Transition="Transition.Slide">
+                        <MudCard Elevation="0" Class="rounded-lg">
+                            <MudCardMedia Class="rounded-lg" Image="/images/grocery/1.jpg" Height="400" />
+                        </MudCard>
+                    </MudCarouselItem>
+                    <MudCarouselItem Transition="Transition.Slide">
+                        <MudCard Elevation="0" Class="rounded-lg">
+                            <MudCardMedia Class="rounded-lg" Image="/images/grocery/2.jpg" Height="400" />
+                        </MudCard>
+                    </MudCarouselItem>
+                    <MudCarouselItem Transition="Transition.Slide">
+                        <MudCard Elevation="0" Class="rounded-lg">
+                            <MudCardMedia Class="rounded-lg" Image="/images/grocery/3.jpg" Height="400" />
+                        </MudCard>
+                    </MudCarouselItem>
+                    <MudCarouselItem Transition="Transition.Slide">
+                        <MudCard Elevation="0" Class="rounded-lg">
+                            <MudCardMedia Class="rounded-lg" Image="/images/grocery/4.jpg" Height="400" />
+                        </MudCard>
+                    </MudCarouselItem>
+                    <MudCarouselItem Transition="Transition.Slide">
+                        <MudCard Elevation="0" Class="rounded-lg">
+                            <MudCardMedia Class="rounded-lg" Image="/images/grocery/5.jpg" Height="400" />
+                        </MudCard>
+                    </MudCarouselItem>
+                </ChildContent>
+            </MudCarousel>
+        </MudHidden>
+
+        <!--Responsive Devices-->
+        <MudHidden Breakpoint="Breakpoint.MdAndDown" Invert="true">
+            <MudCarousel Class="mx-n4" Style="height:200px;" ShowArrows="true" ShowBullets="true" AutoCycle="false" TData="object">
+                <BulletTemplate Context="selected">
+                    <div Class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                        <span class="mud-icon-button-label">
+                            <MudIcon Icon="@(selected ? "fas fa-circle" : "fal fa-circle")" Style="color: var(--mud-palette-primary); font-size: 0.725rem !important;" />
+                        </span>
+                    </div>
+                </BulletTemplate>
+                <ChildContent>
+                    <MudCarouselItem Transition="Transition.Slide">
+                        <MudCard Elevation="0" Class="rounded-lg">
+                            <MudCardMedia Class="rounded-lg" Image="/images/grocery/1.jpg" Height="200" />
+                        </MudCard>
+                    </MudCarouselItem>
+                    <MudCarouselItem Transition="Transition.Slide">
+                        <MudCard Elevation="0" Class="rounded-lg">
+                            <MudCardMedia Class="rounded-lg" Image="/images/grocery/2.jpg" Height="200" />
+                        </MudCard>
+                    </MudCarouselItem>
+                    <MudCarouselItem Transition="Transition.Slide">
+                        <MudCard Elevation="0" Class="rounded-lg">
+                            <MudCardMedia Class="rounded-lg" Image="/images/grocery/3.jpg" Height="200" />
+                        </MudCard>
+                    </MudCarouselItem>
+                    <MudCarouselItem Transition="Transition.Slide">
+                        <MudCard Elevation="0" Class="rounded-lg">
+                            <MudCardMedia Class="rounded-lg" Image="/images/grocery/4.jpg" Height="400" />
+                        </MudCard>
+                    </MudCarouselItem>
+                    <MudCarouselItem Transition="Transition.Slide">
+                        <MudCard Elevation="0" Class="rounded-lg">
+                            <MudCardMedia Class="rounded-lg" Image="/images/grocery/5.jpg" Height="400" />
+                        </MudCard>
+                    </MudCarouselItem>
+                </ChildContent>
+            </MudCarousel>
+        </MudHidden>
+
+        <MudGrid Class="mt-2" Spacing="2">
+            <MudItem xs="12">
+                <div class="d-flex justify-space-between">
+                    <div>
+                        <MudText Typo="Typo.h6" Style="font-weight: 600;">Fresh Peaches</MudText>
+                        <MudText Typo="Typo.body2">Locally grown, organic with a perfectly balanced taste that will leave you craving for more.</MudText>
+                    </div>
+                    <div class="ml-3">
+                        <MudText Typo="Typo.h6" Style="font-weight: 600; text-align: right;" Color="@Color.Error">$23.99</MudText>
+                        <MudText Typo="Typo.caption" Style="text-align: right;">Category</MudText>
+                        <MudText Typo="Typo.caption" Color="@Color.Primary" Style="text-align: right;">Organic</MudText>
+                    </div>
+                </div>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" Class="d-flex align-content-center">
+                <MudPaper Elevation="0" Class="ml-0 mr-auto">
+                    <MudText Typo="Typo.body1">Product Ratings</MudText>
+                    <MudRating ReadOnly="true" SelectedValue="4" />
+                </MudPaper>
+                <MudPaper Elevation="0" Class="mx-1">
+                    <MudIconButton Icon="@Icons.Material.Filled.Favorite" Variant="Variant.Filled" Color="Color.Error" Size="Size.Small" Class="ma-1 rounded-lg" />
+                    <MudIconButton Icon="@Icons.Material.Filled.Share" Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" Class="ma-1 rounded-lg" />
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudButton FullWidth="true" Class="rounded-lg" Variant="Variant.Filled" Color="Color.Primary" @onclick="@(() => NavigateToCartDetail())">Add To Cart</MudButton>
+            </MudItem>
+        </MudGrid>
+    </MudCardContent>
+</MudCard>
+
+<MudCard Elevation="1" Outlined="false" Class="rounded-lg mt-5">
+    <MudCardContent>
+        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">Product Descriptions</MudText>
+        <MudText Typo="Typo.caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sed dolor lacus. Ut cursus ipsum ut nibh accumsan viverra.</MudText>
+        <MudDivider Class="my-3"></MudDivider>
+
+        <MudText>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur aliquam non nunc quis maximus. Fusce volutpat arcu id ante maximus vestibulum. Curabitur non nisi venenatis, pharetra nisl et, ullamcorper diam. Morbi interdum varius molestie. Quisque feugiat augue id diam ornare auctor.</MudText>
+        <MudText Class="mt-3" Typo="Typo.h6" Style="font-weight: 600;">This is a heading.</MudText>
+        <MudText Typo="Typo.body2">Curabitur non nisi venenatis, pharetra nisl et, ullamcorper diam. Morbi interdum varius molestie. Quisque feugiat augue id diam ornare auctor.</MudText>     
+    </MudCardContent>
+    <MudCardActions Class="mb-2">
+        <MudIconButton Class="rounded-lg mr-1" Variant="Variant.Filled" Icon="@Icons.Custom.Brands.Facebook" Color="Color.Primary" />
+        <MudIconButton Class="rounded-lg mr-1" Variant="Variant.Filled" Icon="@Icons.Custom.Brands.Twitter" Color="Color.Info" />
+        <MudIconButton Class="rounded-lg mr-1" Variant="Variant.Filled" Icon="@Icons.Custom.Brands.WhatsApp" Color="Color.Tertiary" />
+        <MudIconButton Class="rounded-lg mr-1" Variant="Variant.Filled" Icon="@Icons.Custom.Brands.Google" Color="Color.Error" />
+    </MudCardActions>
+</MudCard>
+
+<MudCard Elevation="1" Outlined="false" Class="rounded-lg mt-5">
+    <MudCardContent>
+        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">Image Gallery</MudText>
+        <MudText Typo="Typo.caption">A gallery showcasing our product in a better view for you to see.</MudText>
+
+        <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+            <MudGrid Spacing="3" Class="d-flex align-content-center justify-space-xs-between flex-wrap pa-0 mt-3">
+                <MudItem md="6" lg="4">
+                    <MudImage Src="/images/grocery/8.jpg" Fluid="true" Class="rounded-lg" />
+                </MudItem>
+                <MudItem md="6" lg="4">
+                    <MudImage Src="/images/grocery/1.jpg" Fluid="true" Class="rounded-lg" />
+                </MudItem>
+                <MudItem xs="6" md="6" lg="4">
+                    <MudImage Src="/images/grocery/2.jpg" Fluid="true" Class="rounded-lg" />
+                </MudItem>
+                <MudItem md="6" lg="4">
+                    <MudImage Src="/images/grocery/3.jpg" Fluid="true" Class="rounded-lg" />
+                </MudItem>
+                <MudItem md="6" lg="4">
+                    <MudImage Src="/images/grocery/4.jpg" Fluid="true" Class="rounded-lg" />
+                </MudItem>
+                <MudItem md="6" lg="4">
+                    <MudImage Src="/images/grocery/5.jpg" Fluid="true" Class="rounded-lg" />
+                </MudItem>
+            </MudGrid>
+        </MudHidden>
+
+        <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="false">
+            <MudGrid Spacing="1" Class="d-flex align-content-center justify-space-between flex-wrap pa-0 mt-3">
+                <MudItem xs="4" md="6" lg="4">
+                    <MudImage Src="/images/grocery/3s.jpg" Fluid="true" Class="rounded-lg" />
+                </MudItem>
+                <MudItem xs="4" md="6" lg="4">
+                    <MudImage Src="/images/grocery/4s.jpg" Fluid="true" Class="rounded-lg" />
+                </MudItem>
+                <MudItem xs="4" md="6" lg="4">
+                    <MudImage Src="/images/grocery/7s.jpg" Fluid="true" Class="rounded-lg"/>
+                </MudItem>
+                <MudItem xs="4" md="6" lg="4">
+                    <MudImage Src="/images/grocery/9s.jpg" Fluid="true" Class="rounded-lg" />
+                </MudItem>
+                <MudItem xs="4" md="6" lg="4">
+                    <MudImage Src="/images/grocery/1s.jpg" Fluid="true" Class="rounded-lg"/>
+                </MudItem>
+                <MudItem xs="4" md="6" lg="4">
+                    <MudImage Src="/images/grocery/2s.jpg" Fluid="true" Class="rounded-lg" />
+                </MudItem>
+            </MudGrid>
+        </MudHidden>
+    </MudCardContent>
+</MudCard>
+
+<MudPaper Elevation="0" Class="px-4 mx-n4 my-5 py-5 mud-theme-primary" Outlined="false" Square="true">
+    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">You Might Like These</MudText>
+    <MudText Typo="Typo.body2" Style="font-weight: 500;">Check out the best news categories based on your browsing habbits. We have a few for you.</MudText>
+
+    <div class="hz-container pb-3 pt-5">
+        <MudCard Elevation="1" Outlined="false" Class="rounded-lg mr-3">
+            <MudCardContent Style="width: 160px;" Class="d-flex flex-column">
+                <MudImage Src="/images/grocery/sm/2.png" Class="align-self-center" Height="90"></MudImage>
+                <MudText Typo="Typo.subtitle1" Align="Align.Center" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Surface">Strawberries</MudText>
+                <MudText Typo="Typo.caption" Class="align-self-center" Align="Align.Center" Color="@Color.Default">Organic Foods</MudText>
+            </MudCardContent>
+        </MudCard>
+
+        <MudCard Elevation="1" Outlined="false" Class="rounded-lg mr-3">
+            <MudCardContent Style="width: 160px;" Class="d-flex flex-column">
+                <MudImage Src="/images/grocery/sm/4.png" Class="align-self-center" Height="90"></MudImage>
+                <MudText Typo="Typo.subtitle1" Align="Align.Center" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Surface">Iceberg Salad</MudText>
+                <MudText Typo="Typo.caption" Class="align-self-center" Align="Align.Center" Color="@Color.Default">Organic Foods</MudText>
+            </MudCardContent>
+        </MudCard>
+
+        <MudCard Elevation="1" Outlined="false" Class="rounded-lg mr-3">
+            <MudCardContent Style="width: 160px;" Class="d-flex flex-column">
+                <MudImage Src="/images/grocery/sm/3.png" Class="align-self-center" Height="90"></MudImage>
+                <MudText Typo="Typo.subtitle1" Align="Align.Center" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Surface">Red UI Onions</MudText>
+                <MudText Typo="Typo.caption" Class="align-self-center" Align="Align.Center" Color="@Color.Default">Organic Foods</MudText>
+            </MudCardContent>
+        </MudCard>
+
+        <MudCard Elevation="1" Outlined="false" Class=" mr-3">
+            <MudCardContent Style="width: 160px;" Class="d-flex flex-column">
+                <MudImage Src="/images/grocery/sm/1.png" Class="align-self-center" Height="90"></MudImage>
+                <MudText Typo="Typo.subtitle1" Align="Align.Center" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Surface">American Tomatoes</MudText>
+                <MudText Typo="Typo.caption" Class="align-self-center" Align="Align.Center" Color="@Color.Default">Organic Foods</MudText>
+            </MudCardContent>
+        </MudCard>
+
+        <MudCard Elevation="1" Outlined="false" Class="rounded-lg mr-3">
+            <MudCardContent Style="width: 160px;" Class="d-flex flex-column">
+                <MudImage Src="/images/grocery/sm/1.png" Class="align-self-center" Height="90"></MudImage>
+                <MudText Typo="Typo.subtitle1" Align="Align.Center" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Surface">Strawberries</MudText>
+                <MudText Typo="Typo.caption" Class="align-self-center" Align="Align.Center" Color="@Color.Default">Organic Foods</MudText>
+            </MudCardContent>
+        </MudCard>
+
+        <MudCard Elevation="1" Outlined="false" Class="rounded-lg mr-3">
+            <MudCardContent Style="width: 160px;" Class="d-flex flex-column">
+                <MudImage Src="/images/grocery/sm/2.png" Class="align-self-center" Height="90"></MudImage>
+                <MudText Typo="Typo.subtitle1" Align="Align.Center" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Surface">Strawberries</MudText>
+                <MudText Typo="Typo.caption" Class="align-self-center" Align="Align.Center" Color="@Color.Default">Organic Foods</MudText>
+            </MudCardContent>
+        </MudCard>
+    </div>
+</MudPaper>
+
+<MudCard Elevation="1" Outlined="false" Class="rounded-lg mt-5">
+    <MudCardContent>
+        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">What's our customer say?</MudText>
+        <MudText Typo="Typo.caption">Sharing feedback from our customers is always makes us happy.</MudText>
+
+        <MudGrid Spacing="2">
+            <MudItem xs="12" Class="d-flex justify-space-between">
+                <MudPaper Elevation="0" Class="ml-0 mr-auto">
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">John Doe</MudText>
+                    <MudText Typo="Typo.body2">The best support I have ever had. They are on top of things and with very fast and accurate replies.</MudText>
+                </MudPaper>
+                <MudPaper Elevation="0" Class="mx-1">
+                    <MudText Typo="Typo.h6" Style="font-weight: 600; text-align: right" Color="Color.Error">5.0</MudText>
+                    <MudRating ReadOnly="true" SelectedValue="5" />
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12" Class="d-flex justify-space-between">
+                <MudPaper Elevation="0" Class="ml-0 mr-auto">
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">Louder Johanna</MudText>
+                    <MudText Typo="Typo.body2">
+                        I like the way it's setup, did had to do some research before I got to know how it works though.                        ..
+                    </MudText>
+                </MudPaper>
+                <MudPaper Elevation="0" Class="mx-1">
+                    <MudText Typo="Typo.h6" Style="font-weight: 600; text-align: right" Color="Color.Error">4.0</MudText>
+                    <MudRating ReadOnly="true" SelectedValue="4" />
+                </MudPaper>
+            </MudItem>
+
+            <MudItem lg="6" md="6" xs="6" xl="6" Class="pr-1">
+                <MudButton FullWidth="true" Class="rounded-lg px-1" Size="Size.Medium" Variant="Variant.Filled" Color="Color.Info"  @onclick="@(() => NavigateToCheckout())">Purchase Now</MudButton>
+            </MudItem>
+            <MudItem lg="6" md="6" xs="6" xl="6" Class="pl-1">
+                <MudButton FullWidth="true" Class="rounded-lg px-1" Size="Size.Medium" Variant="Variant.Filled" Color="Color.Primary" @onclick="@(() => NavigateToCartDetail())">Add To Cart</MudButton>
+            </MudItem>
+        </MudGrid>
+    </MudCardContent>
+</MudCard>
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+
+    public void NavigateToCheckout()
+    {
+        _navigationManager.NavigateTo("/checkout");
+    }
+
+    public void NavigateToCartDetail()
+    {
+        _navigationManager.NavigateTo("/cart");
+    }
+}

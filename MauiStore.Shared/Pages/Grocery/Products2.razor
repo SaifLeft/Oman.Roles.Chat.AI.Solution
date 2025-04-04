@@ -1,0 +1,163 @@
+﻿@page "/grocery/products-list"
+
+@if (!_loaded)
+{
+    <Spinner></Spinner>
+}
+else
+{
+    <MudPaper Elevation="3" Height="150" Class="px-4 mx-n4 mt-n10 py-10 mud-theme-primary" Style="border-radius: 0px 0px 45px 45px;" Outlined="false">
+        <MudPaper Elevation="1" Class="mud-theme-primary d-flex">
+        </MudPaper>
+    </MudPaper>
+    <MudPaper Elevation="1" Outlined="false" Class="mt-n10 d-flex pa-3 rounded-lg">
+        <MudImage Src="/images/delivery_icon.png" Class="align-self-center" Style="height: 40px; width: 40px;" />
+        <div class="d-flex flex-column justify-space-around mx-3">
+            <MudText Typo="Typo.caption" Class="">Deliver to ></MudText>
+            <MudText Typo="Typo.body1">123, Poseidon, CA 78000, LA...</MudText>
+        </div>
+    </MudPaper>
+
+    <!-- Menu 1 items -->
+    <MudText Color="Color.Default" Class="mt-5" Typo="Typo.subtitle1" Style="font-weight: 600;">List View Style 1</MudText>
+    <MudText Typo="Typo.caption" >Show off the products you love most in a beautiful grid layout with elegant background colors to match.</MudText>
+    <MudGrid Class="mb-5 mt-3" Spacing="2">
+        @foreach (var item in _productItemList)
+        {
+            <MudItem xs="12" sm="6" md="6">
+                <MudCard Elevation="1" Outlined="false" Class="d-flex flex-row rounded-lg" Style="height:120px;" @onclick="@(() => NavigateToProductDetail())">
+                    <MudImage Elevation="0" Src="@item.Image" Class="rounded-lg align-self-center" Style="height:120px; min-width: 120px; max-width:120px;" />
+                    <MudCardContent Class="d-flex justify-space-around flex-column py-2" Style="height:120px; width: 100%">
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Color="@Color.Default" Class="text-secondary">@item.ItemName</MudText>
+                        <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                            <MudText Typo="Typo.body1">@item.Descriptions</MudText>
+                        </MudHidden>
+                        <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="false">
+                            <MudText Typo="Typo.body2">@item.Descriptions</MudText>
+                        </MudHidden>
+                        <div class="d-flex flex-row justify-space-between">
+                            <MudChip T="string" Variant="Variant.Filled" Size="Size.Small" Label="true" Color="Color.Secondary" Class="px-2 rounded-lg">@item.Discount</MudChip>
+                            <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Class="align-self-center" Color="@Color.Default">@item.Price</MudText>
+                        </div>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+        }
+    </MudGrid>
+
+    <!-- Menu 2 items -->
+    <MudText Color="Color.Default" Class="mt-5" Typo="Typo.subtitle1" Style="font-weight: 600;">List View Style 2</MudText>
+    <MudText Typo="Typo.caption">Show off the products you love most in a beautiful grid layout with elegant background colors to match.</MudText>
+    <MudGrid Class="mb-5 mt-3" Spacing="2">
+        @foreach (var item in _productItemList)
+        {
+            <MudItem xs="12" sm="6" md="6">
+                <MudCard Elevation="1" Outlined="false" Class="d-flex flex-row rounded-lg" Style="height:120px;" @onclick="@(() => NavigateToProductDetail())">
+                    <MudCardContent Class="d-flex justify-space-around flex-column py-2" Style="height:120px; width: 100%">
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Color="@Color.Default" Class="text-secondary">@item.ItemName</MudText>
+                        <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                            <MudText Typo="Typo.body1">@item.Descriptions</MudText>
+                        </MudHidden>
+                        <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="false">
+                            <MudText Typo="Typo.body2">@item.Descriptions</MudText>
+                        </MudHidden>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Color="@Color.Default">@item.Price</MudText>
+                    </MudCardContent>
+                    <div class="d-flex justify-space-around flex-column py-2">
+                        <MudChip T="string" Variant="Variant.Outlined" Size="Size.Small" Label="true" Color="Color.Tertiary" Class="px-2 rounded-lg align-self-center">@item.Discount</MudChip>
+                        <MudImage Elevation="0" Src="@item.Image" Class="rounded-lg align-self-center mx-2" Style="height:70px; min-width: 70px; max-width:70px;" />
+                    </div>
+                </MudCard>
+            </MudItem>
+        }
+    </MudGrid>
+}
+@code {
+    public bool _loaded;
+    private List<ProductItemInfo> _productItemList;
+    protected override async Task OnInitializedAsync()
+    {
+        
+        _productItemList = new List<ProductItemInfo>
+        {
+            new ProductItemInfo
+            {
+                Id = 1,
+                Image = "/images/grocery/sm/1.png",
+                ItemName = "Tomatoes",
+                Descriptions = "Imported from Asia",
+                Price = "$15.99",
+                Discount = "5% Off"
+            },
+            new ProductItemInfo
+            {
+                Id = 2,
+                Image = "/images/grocery/sm/2.png",
+                ItemName = "Strawberries",
+                Descriptions = "Local Farm Product",
+                Price = "$19.99",
+                Discount = "5% Off"
+            },
+            new ProductItemInfo
+            {
+                Id = 3,
+                Image = "/images/grocery/sm/3.png",
+                ItemName = "EU Onions",
+                Descriptions = "Imported from Europe",
+                Price = "$15.50",
+                Discount = "15% Off"
+            },
+            new ProductItemInfo
+            {
+                Id = 4,
+                Image = "/images/grocery/sm/4.png",
+                ItemName = "Iceberg Salad",
+                Descriptions = "Imported from Asia",
+                Price = "$99.99",
+                Discount = "5% Off"
+            },
+            new ProductItemInfo
+            {
+                Id = 5,
+                Image = "/images/grocery/sm/5.png",
+                ItemName = "Green Apple",
+                Descriptions = "Local Farm Product",
+                Price = "$9,99",
+                Discount = "10% Off"
+            },
+            new ProductItemInfo
+            {
+                Id =6,
+                Image = "/images/grocery/sm/6.png",
+                ItemName = "Potatoes",
+                Descriptions = "Imported from Asia",
+                Price = "$11.99",
+                Discount = "35% Off"
+            }
+        };
+
+        _loaded = true;
+    }
+
+    public void NavigateToProductDetail()
+    {
+        _navigationManager.NavigateTo("/grocery/productdetail-2");
+    }
+
+    public class Menu
+    {
+        public string Name { get; set; }
+    }
+
+    Func<Menu, string> converter = p => p?.Name;
+
+    public class ProductItemInfo
+    {
+        public int Id { get; set; }
+        public string Image { get; set; }
+        public string ItemName { get; set; }
+        public string Descriptions { get; set; }
+        public string Price { get; set; }
+        public string Discount { get; set; }
+    }
+}

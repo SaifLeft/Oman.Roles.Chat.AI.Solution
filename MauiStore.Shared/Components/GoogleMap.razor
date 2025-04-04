@@ -1,0 +1,16 @@
+﻿@inherits MudComponentBase
+@implements IAsyncDisposable
+@inject IJSRuntime _jsRuntime
+
+@if (Markers != null)
+{
+    <CascadingValue Value=this>
+        @Markers
+    </CascadingValue>
+}
+@if (Visible)
+{
+    <div @ref="Element" style="height: 100%;@Style" @attributes="@UserAttributes" class="@Classname" id="@GetId()">
+        <div class="rz-map-container" style="position: relative; overflow: hidden; "></div>
+    </div>
+}

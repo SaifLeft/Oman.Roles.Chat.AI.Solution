@@ -1,0 +1,24 @@
+﻿<MudDialog Class="ma-3 py-5 rounded-lg">
+    <TitleContent>
+    </TitleContent>
+    <DialogContent>
+        <MudPaper Elevation="0" Class="d-flex flex-column gap-3 justify-center">
+            <MudText Align="Align.Center" Typo="Typo.h5" Color="Color.Default" Style="font-weight: 600"> Are you sure? </MudText>
+            <MudText Align="Align.Center" Typo="Typo.body2" Class=""> You can even use this box for confirmation. Any element can trigger it.  </MudText>
+        </MudPaper>
+        <div class="mt-5 d-flex flex-grow-1 gap-4">
+            <MudButton Class="flex-1 rounded-lg" DropShadow="false" Color="Color.Success" Variant="Variant.Filled" OnClick="Submit"> Accept </MudButton>
+            <MudButton Class="flex-1 rounded-lg" DropShadow="false" Color="Color.Error" Variant="Variant.Filled" OnClick="Cancel"> Reject </MudButton>
+        </div>
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
+
+    void Submit()
+    {
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+    void Cancel() => MudDialog.Cancel();
+}

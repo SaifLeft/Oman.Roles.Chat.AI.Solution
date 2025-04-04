@@ -1,0 +1,72 @@
+﻿@page "/walkthrough-welcome"
+@attribute [Microsoft.AspNetCore.Authorization.AllowAnonymous]
+@inherits LayoutComponentBase
+
+<style>
+
+    .copyright-footer {
+        display: none;
+    }
+
+    .wk-container {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+
+    .bg-gradient {
+        background: rgba(225, 53, 143, 0.6);  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, rgba(126, 108, 231, 0.6), rgba(225, 53, 143, 0.6));  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, rgba(126, 108, 231, 0.6), rgba(225, 53, 143, 0.6)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    }
+</style>
+
+<MudPaper Outlined="false" Square="true" Class="wk-container first-card border-0 d-flex flex-column">
+    <div class="" style="height: 100vh; width: auto; position: relative;">
+        <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+            <MudImage Style="height: 100%; width: 100%;" Src="/images/onboarding/welcome_bg_lg.jpg" Alt="" Class=""/>
+        </MudHidden>
+        <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="false">
+            <MudImage Style="height: 100%; width: 100%;" Src="/images/onboarding/welcome_bg_sm.jpg" Alt="" Class=""/>
+        </MudHidden>
+            
+        <MudOverlay Visible="true" Class="bg-gradient" DarkBackground="false" Absolute="true" Style="height: 100vh; min-width: 100%;">
+            <div class="d-flex flex-column justify-space-between">
+                <div class="d-flex" style="position: fixed;top: 80px;left: 30px;">
+                    <MudImage Src="/images/logo.png" Height="70" Elevation="0" Class="rounded-lg"/>
+                    <div class="mx-5">
+                        <MudText Typo="Typo.h6" Class="align-self-center" Style="font-weight: 600; color: #ffffff"> MauiStore <br> UI KIT</MudText>
+                    </div>
+                </div>
+                <div style="position: fixed;top: 40%;left: 30px; right: 30px; max-width: 100%">
+                    <MudText Typo="Typo.h6" Class="" Style="font-weight: 500; color: #ffffff; line-height: 1.3" >
+                        Ready made UI's for <br> Blazor WebAssembly.
+                    </MudText>
+                    <MudText Typo="Typo.body2" Class="mt-3" Style="font-weight: 400; color: #ffffff;">
+                        Take your Blazor App to the next level with MauiStore UI Kit.
+                    </MudText>
+                    <MudChip T="string" Color="Color.Tertiary" Class="mt-3" Size="Size.Small"> Version 2.0</MudChip>
+                </div>
+                <div style="position: fixed;bottom: 80px;left: 20px; right: 20px; max-width: 100%">
+                    <MudButton Class="rounded-lg" OnClick="TakeTourAsync" FullWidth="true" Variant="Variant.Outlined" Size="Size.Medium" Style="@($"color:{Colors.Shades.White}; border: 2px solid {Colors.Shades.White};")"> Take Tour </MudButton>
+                    <MudButton Class="mt-3 rounded-lg" OnClick="SkipAsync" FullWidth="true" Variant="Variant.Outlined" Size="Size.Medium" Style="@($"color:{Colors.Shades.White}; border: 2px solid {Colors.Shades.White};")"> Skip </MudButton>
+                </div>
+            </div>
+        </MudOverlay>
+    </div>
+</MudPaper>
+
+@code{
+    public MudTheme Theme = new MudTheme();
+    private async Task TakeTourAsync()
+    {
+        //_navigationManager.NavigateTo("/walkthrough-image");
+    }
+
+    private async Task SkipAsync()
+    {
+        //_navigationManager.NavigateTo("/onboarding-index");
+    }
+}

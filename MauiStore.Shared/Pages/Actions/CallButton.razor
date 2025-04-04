@@ -1,0 +1,23 @@
+﻿<MudDialog Class="ma-3 py-5 rounded-lg">
+    <TitleContent>
+    </TitleContent>
+    <DialogContent>
+        <MudPaper Elevation="0" Class="d-flex flex-column gap-2 justify-center">
+            <MudText Align="Align.Center" Typo="Typo.h5" Color="Color.Default" Style="font-weight: 600"> Call Us Now </MudText>
+            <MudText Align="Align.Center" Typo="Typo.body2" Class=""> We are always here to help. Give us a Call today. Just tap the button below to get in touch with us. </MudText>
+        </MudPaper>
+        <div class="mt-5 d-flex justify-center">
+            <MudButton Class="px-15 rounded-lg" DropShadow="false" Color="Color.Success" Variant="Variant.Filled" OnClick="Submit"> Call Now </MudButton>
+        </div>
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
+
+    void Submit()
+    {
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+    void Cancel() => MudDialog.Cancel();
+}

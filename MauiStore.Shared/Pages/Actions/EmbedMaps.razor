@@ -1,0 +1,45 @@
+﻿@using MauiStore.Data.GoogleMap
+
+<style>
+    .rz-map {
+        border-radius: 8px 8px 0px 0px !important;
+        height: 250px !important;
+    }
+</style>
+
+<MudDialog Class="ma-3 py-0 rounded-lg">
+    <TitleContent>
+    </TitleContent>
+    <DialogContent>
+        <MudPaper Class="mx-n6 mt-n3 rounded-lg" Elevation="0">
+            <GoogleMap Style="height: 250px !important;" Zoom="12" Center="@_location">
+                <Markers>
+                    <GoogleMapMarker Position="@_location" />
+                </Markers>
+            </GoogleMap>
+        </MudPaper>
+        <MudPaper Elevation="0" Class="d-flex flex-column gap-2 justify-center mt-3">
+            <MudText Align="Align.Center" Typo="Typo.h6" Color="Color.Default" Style="font-weight: 600"> Embed Map </MudText>
+            <MudText Align="Align.Center" Typo="Typo.body2" Class=""> Embed maps with great ease. Just enter the Lat and Long value, and we will handle the rest. </MudText>
+        </MudPaper>
+        <div class="mt-5 mb-5 d-flex justify-center">
+            <MudButton Class="px-15 rounded-lg" DropShadow="false" Color="Color.Success" Variant="Variant.Filled" OnClick="Submit"> Close </MudButton>
+        </div>
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
+
+    public GoogleMapPosition _location { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        _location = new GoogleMapPosition { Lat = 10.234786711619794, Lng = 103.96343798707063 };
+    }
+
+    void Submit()
+    {
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+    void Cancel() => MudDialog.Cancel();
+}

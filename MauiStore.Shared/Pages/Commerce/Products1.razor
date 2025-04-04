@@ -1,0 +1,378 @@
+﻿@page "/products-1"
+@using MauiStore.Data
+
+@if (!_loaded)
+{
+    <Spinner></Spinner>
+}
+else
+{
+    <MudPaper Elevation="3" Height="150" Class="px-4 mx-n4 mt-n10 py-10 mud-theme-primary" Style="border-radius: 0px 0px 45px 45px;" Outlined="false">
+        <MudPaper Elevation="1" Outlined="false" Class="d-flex flex-row pa-3 rounded-lg">
+            <MudAvatar Style="height: 50px; width: 50px;">
+                <MudImage Src="/images/delivery_icon.png" />
+            </MudAvatar>
+            <div class="d-flex flex-column justify-space-around mx-3">
+                <MudText Typo="Typo.caption" Class="">Deliver to ></MudText>
+                <MudText Typo="Typo.body1">123, Poseidon, CA 78000, LA...</MudText>
+            </div>
+        </MudPaper>
+    </MudPaper>
+
+    <MudPaper Class="mt-n7 my-3" Outlined="false">
+        <MudSelect T="Menu" @bind-Value="@menu" Class="my-0" Label="Choose your taste" Variant="Variant.Filled" ToStringFunc="@converter" AnchorOrigin="Origin.CenterCenter" TransformOrigin="Origin.CenterCenter">
+            <MudSelectItem Value="@(new Menu() { Name="Pizzas"})" />
+            <MudSelectItem Value="@(new Menu() { Name="Burger"})" />
+            <MudSelectItem Value="@(new Menu() { Name="Steak"})" />
+            <MudSelectItem Value="@(new Menu() { Name="Snack"})" />
+        </MudSelect>
+    </MudPaper>
+
+    @if (menu == null)
+    {
+        <MudText Class="mt-5 mb-3">Nothing selected yet...</MudText>
+    }
+    else
+    {
+        <MudText Color="Color.Primary" Class="mt-5 mb-3" Typo="Typo.subtitle1">@menu.Name</MudText>
+    }
+
+    <!-- Select menu item -->
+    <MudGrid Class="mb-5" Spacing="2">
+        @foreach (var item in _productItemMenu1)
+        {
+        <MudItem xs="6">
+            <MudCard Elevation="1" Outlined="false" Class="rounded-lg" @onclick="@(() => NavigateToProductDetail())">
+                <MudCardMedia Image="@item.Image" Height="120" />
+                <MudCardContent Class="d-flex flex-column pa-3">
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 500; line-height: 1.2">@item.ItemName</MudText>
+                    <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                        <MudText Class="my-1" Typo="Typo.body1">@item.Descriptions</MudText>
+                    </MudHidden>
+                    <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="false">
+                        <MudText Class="my-1" Typo="Typo.caption">@item.Descriptions</MudText>
+                    </MudHidden>
+                    <div class="d-flex justify-space-between" style="min-height: 30px;">
+                        <MudText Typo="Typo.body1" Class="align-self-center" Color="@Color.Default" Style="font-weight: 600">@item.Price</MudText>
+                        <div>
+                            @if(item.OnSale) 
+                            {
+                                <MudChip T="string" Variant="Variant.Filled" Size="Size.Small" Label="true" Color="Color.Tertiary" Class="px-2 rounded-lg">@item.Discount</MudChip>
+                            }
+                        </div>
+                        @if(item.IsFavorite)
+                        {
+                            <MudIcon Icon="@Icons.Material.Filled.Favorite" Class="align-self-center" Size="Size.Medium" Color="Color.Error"> Featured </MudIcon>
+                        }
+                    </div>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        }
+    </MudGrid>
+
+    <!--Menu #2-->
+    <MudPaper Elevation="0" Class="px-4 mx-n4 my-5 py-5 mud-theme-primary" Outlined="false" Square="true">
+        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;">Today Picks</MudText>
+
+        <MudGrid Class="mt-3" Spacing="2">
+            @foreach (var item1 in _productItemMenu2)
+            {
+                <MudItem xs="6">
+                    <MudCard Elevation="1" Outlined="false" Class="rounded-lg" @onclick="@(() => NavigateToProductDetail())">
+                        <MudCardMedia Image="@item1.Image" Height="120" />
+                        <MudCardContent Class="d-flex flex-column pa-3">
+                            <MudText Typo="Typo.subtitle1" Style="font-weight: 500; line-height: 1.2">@item1.ItemName</MudText>
+                            <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                                <MudText Class="my-1" Typo="Typo.body1">@item1.Descriptions</MudText>
+                            </MudHidden>
+                            <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="false">
+                                <MudText Class="my-1" Typo="Typo.caption">@item1.Descriptions</MudText>
+                            </MudHidden>
+                            <div class="d-flex justify-space-between" style="min-height: 30px;">
+                                <MudText Typo="Typo.body1" Class="align-self-center" Color="@Color.Default" Style="font-weight: 600">@item1.Price</MudText>
+                                <div>
+                                    @if(item1.OnSale) 
+                                    {
+                                        <MudChip T="string" Variant="Variant.Filled" Size="Size.Small" Label="true" Color="Color.Tertiary" Class="px-2 rounded-lg">@item1.Discount</MudChip>
+                                    }
+                                </div>
+                                @if(item1.IsFavorite)
+                                {
+                                    <MudIcon Icon="@Icons.Material.Filled.Favorite" Class="align-self-center" Size="Size.Medium" Color="Color.Error"> Featured </MudIcon>
+                                }
+                            </div>
+                        </MudCardContent>
+                    </MudCard>
+                </MudItem>
+            }
+        </MudGrid>
+    </MudPaper>
+
+    <!--Recent orders-->
+    <MudText Color="Color.Default" Class="mt-5 mb-1" Typo="Typo.subtitle1" Style="font-weight:500">Your recent orders</MudText>
+    <div class="hz-container px-1 py-2">
+        <MudCard Elevation="1" Outlined="false" Class="mr-3 rounded-lg py-0">
+            <MudCardMedia Image="/images/foods/1.jpg" Height="100" />
+            <MudCardContent Class="d-flex flex-column pa-3" Style="width: 200px;">
+                <MudText Typo="Typo.subtitle1"  Style="font-weight: 500; line-height: 1.2">Home Burger</MudText>
+                <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                    <MudText Class="my-1" Typo="Typo.body1">Our store guarantees the followig perks to all it's customers.</MudText>
+                </MudHidden>
+                <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="false">
+                    <MudText Class="my-1" Typo="Typo.caption">Our store guarantees the followig perks to all it's customers.</MudText>
+                </MudHidden>
+            </MudCardContent>
+            <MudCardActions Class="px-3 pt-0 pb-4">
+                <MudButton Class="rounded-lg" Variant="Variant.Filled" Size="Size.Small" Color="Color.Secondary">Order again</MudButton>
+            </MudCardActions>
+        </MudCard>
+
+        <MudCard Elevation="1" Outlined="false" Class="mr-3 rounded-lg py-0">
+            <MudCardMedia Image="/images/foods/2.jpg" Height="100" />
+            <MudCardContent Class="d-flex flex-column pa-3" Style="width: 200px;">
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 500; line-height: 1.2">Beaf Steaks</MudText>
+                <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                    <MudText Class="my-1" Typo="Typo.body1">Our store guarantees the followig perks to all it's customers.</MudText>
+                </MudHidden>
+                <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="false">
+                    <MudText Class="my-1" Typo="Typo.caption">Our store guarantees the followig perks to all it's customers.</MudText>
+                </MudHidden>
+            </MudCardContent>
+            <MudCardActions Class="px-3 pt-0 pb-4">
+                <MudButton Class="rounded-lg" Variant="Variant.Filled" Size="Size.Small" Color="Color.Secondary">Order again</MudButton>
+            </MudCardActions>
+        </MudCard>
+
+        <MudCard Elevation="1" Outlined="false" Class="mr-3 rounded-lg py-0">
+            <MudCardMedia Image="/images/foods/3.jpg" Height="100" />
+            <MudCardContent Class="d-flex flex-column pa-3" Style="width: 200px;">
+                <MudText Typo="Typo.subtitle1"  Style="font-weight: 500; line-height: 1.2">Chocolates</MudText>
+                <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                    <MudText Class="my-1" Typo="Typo.body1">Our store guarantees the followig perks to all it's customers.</MudText>
+                </MudHidden>
+                <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="false">
+                    <MudText Class="my-1" Typo="Typo.caption">Our store guarantees the followig perks to all it's customers.</MudText>
+                </MudHidden>
+            </MudCardContent>
+            <MudCardActions Class="px-3 pt-0 pb-4">
+                <MudButton Class="rounded-lg" Variant="Variant.Filled" Size="Size.Small" Color="Color.Secondary">Order again</MudButton>
+            </MudCardActions>
+        </MudCard>
+
+        <MudCard Elevation="1" Outlined="false" Class="mr-3 rounded-lg py-0">
+            <MudCardMedia Image="/images/foods/4.jpg" Height="100" />
+            <MudCardContent Class="d-flex flex-column pa-3" Style="width: 200px;">
+                <MudText Typo="Typo.subtitle1"  Style="font-weight: 500; line-height: 1.2">Gold Potatoes</MudText>
+                <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                    <MudText Class="my-1" Typo="Typo.body1">Our store guarantees the followig perks to all it's customers.</MudText>
+                </MudHidden>
+                <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="false">
+                    <MudText Class="my-1" Typo="Typo.caption">Our store guarantees the followig perks to all it's customers.</MudText>
+                </MudHidden>
+            </MudCardContent>
+            <MudCardActions Class="px-3 pt-0 pb-4">
+                <MudButton Class="rounded-lg" Variant="Variant.Filled" Size="Size.Small" Color="Color.Secondary">Order again</MudButton>
+            </MudCardActions>
+        </MudCard>
+
+        <MudCard Elevation="1" Outlined="false" Class="mr-3 rounded-lg py-0">
+            <MudCardMedia Image="/images/foods/5.jpg" Height="100" />
+            <MudCardContent Class="d-flex flex-column pa-3" Style="width: 200px;">
+                <MudText Typo="Typo.subtitle1"  Style="font-weight: 500; line-height: 1.2">Desserts</MudText>
+                <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                    <MudText Class="my-1" Typo="Typo.body1">Our store guarantees the followig perks to all it's customers.</MudText>
+                </MudHidden>
+                <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="false">
+                    <MudText Class="my-1" Typo="Typo.caption">Our store guarantees the followig perks to all it's customers.</MudText>
+                </MudHidden>
+            </MudCardContent>
+            <MudCardActions Class="px-3 pt-0 pb-4">
+                <MudButton Class="rounded-lg" Variant="Variant.Filled" Size="Size.Small" Color="Color.Secondary">Order again</MudButton>
+            </MudCardActions>
+        </MudCard>
+
+        <MudCard Elevation="1" Outlined="false" Class="mr-3 rounded-lg py-0">
+            <MudCardMedia Image="/images/foods/6.jpg" Height="100" />
+            <MudCardContent Class="d-flex flex-column pa-3" Style="width: 200px;">
+                <MudText Typo="Typo.subtitle1"  Style="font-weight: 500; line-height: 1.2">Baked Clams</MudText>
+                <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                    <MudText Class="my-1" Typo="Typo.body1">Our store guarantees the followig perks to all it's customers.</MudText>
+                </MudHidden>
+                <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="false">
+                    <MudText Class="my-1" Typo="Typo.caption">Our store guarantees the followig perks to all it's customers.</MudText>
+                </MudHidden>
+            </MudCardContent>
+            <MudCardActions Class="px-3 pt-0 pb-4">
+                <MudButton Class="rounded-lg" Variant="Variant.Filled" Size="Size.Small" Color="Color.Secondary">Order again</MudButton>
+            </MudCardActions>
+        </MudCard>
+    </div>
+}
+
+@code{
+    public bool _loaded;
+    Menu menu;
+    private List<ProductItemInfo> _productItemMenu1;
+    private List<ProductItemInfo> _productItemMenu2;
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        
+        _productItemMenu1 = new List<ProductItemInfo>
+            {
+                new ProductItemInfo
+                {
+                    Id = 1,
+                    Image = "/images/foods/1.jpg",
+                    ItemName = "Home Burger",
+                    Descriptions = "Our store guarantees the followig perks to all it's customers.",
+                    Discount = "10%",
+                    OnSale = true,
+                    IsFavorite = false,
+                    Price = "$36.50"
+                },
+                new ProductItemInfo
+                {
+                    Id = 2,
+                    Image = "/images/foods/2.jpg",
+                    ItemName = "Steaks",
+                    Descriptions = "Our store guarantees the followig perks to all it's customers.",
+                    Discount = "20%",
+                    OnSale = false,
+                    IsFavorite = true,
+                    Price = "$29.99"
+                },
+                new ProductItemInfo
+                {
+                    Id = 3,
+                    Image = "/images/foods/3.jpg",
+                    ItemName = "Pizzas",
+                    Descriptions = "Our store guarantees the followig perks to all it's customers.",
+                    Discount = "15%",
+                    OnSale = true,
+                    IsFavorite = false,
+                    Price = "$19.00"
+                },
+                new ProductItemInfo
+                {
+                    Id = 4,
+                    Image = "/images/pictures/4.jpg",
+                    ItemName = "Marina Steaks",
+                    Descriptions = "Our store guarantees the followig perks to all it's customers.",
+                    Discount = "10%",
+                    OnSale = true,
+                    IsFavorite = false,
+                    Price = "$23.99"
+                },
+                new ProductItemInfo
+                {
+                    Id = 5,
+                    Image = "/images/foods/5.jpg",
+                    ItemName = "Gold Potatoes",
+                    Descriptions = "Our store guarantees the followig perks to all it's customers.",
+                    Discount = "10%",
+                    OnSale = false,
+                    IsFavorite = true,
+                    Price = "$12.45"
+                },
+                new ProductItemInfo
+                {
+                    Id = 6,
+                    Image = "/images/foods/6.jpg",
+                    ItemName = "Baked Clams",
+                    Descriptions = "Our store guarantees the followig perks to all it's customers.",
+                    Discount = "30%",
+                    OnSale = true,
+                    IsFavorite = false,
+                    Price = "$7.50"
+                }
+            };
+
+        _productItemMenu2 = new List<ProductItemInfo>
+            {
+                new ProductItemInfo
+                {
+                    Id = 7,
+                    Image = "/images/foods/7.jpg",
+                    ItemName = "Desserts",
+                    Descriptions = "Our store guarantees the followig perks to all it's customers.",
+                    Discount = "10%",
+                    OnSale = true,
+                    IsFavorite = false,
+                    Price = "$35.99"
+                },
+                new ProductItemInfo
+                {
+                    Id = 8,
+                    Image = "/images/foods/8.jpg",
+                    ItemName = "Potatoes Snack",
+                    Descriptions = "Our store guarantees the followig perks to all it's customers.",
+                    Discount = "20%",
+                    OnSale = true,
+                    IsFavorite = false,
+                    Price = "$99.99"
+                },
+                new ProductItemInfo
+                {
+                    Id = 9,
+                    Image = "/images/foods/9.jpg",
+                    ItemName = "Madness Pizza",
+                    Descriptions = "Our store guarantees the followig perks to all it's customers.",
+                    Discount = "40%",
+                    OnSale = false,
+                    IsFavorite = true,
+                    Price = "$15.50"
+                },
+                new ProductItemInfo
+                {
+                    Id = 10,
+                    Image = "/images/foods/1.jpg",
+                    ItemName = "King Burger",
+                    Descriptions = "Our store guarantees the followig perks to all it's customers.",
+                    Discount = "20%",
+                    OnSale = true,
+                    IsFavorite = false,
+                    Price = "$9.99"
+                },
+                new ProductItemInfo
+                {
+                    Id = 11,
+                    Image = "/images/foods/2.jpg",
+                    ItemName = "Pizzas",
+                    Descriptions = "Our store guarantees the followig perks to all it's customers.",
+                    Discount = "15%",
+                    OnSale = false,
+                    IsFavorite = true,
+                    Price = "$19.00"
+                },
+                new ProductItemInfo
+                {
+                    Id =12,
+                    Image = "/images/foods/3.jpg",
+                    ItemName = "Chocolates",
+                    Descriptions = "Our store guarantees the followig perks to all it's customers.",
+                    Discount = "10%",
+                    OnSale = true,
+                    IsFavorite = false,
+                    Price = "$29.99"
+                }
+            };
+
+        _loaded = true;
+    }
+
+    public void NavigateToProductDetail()
+    {
+        NavigationManager.NavigateTo("/productdetail");
+    }
+
+    public class Menu
+    {
+        public string Name { get; set; }
+    }
+
+    Func<Menu, string> converter = p => p?.Name;
+}

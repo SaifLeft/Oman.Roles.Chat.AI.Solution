@@ -1,0 +1,110 @@
+﻿@page "/walkthrough-image"
+@attribute [Microsoft.AspNetCore.Authorization.AllowAnonymous]
+@inherits LayoutComponentBase
+
+<style>
+
+    .copyright-footer {
+        display: none;
+    }
+
+    .wk-container {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+
+    .btn-gradient-bg {
+        background-color: #EC3679;
+        background-image: linear-gradient(315deg, #EC3679 0%, rgba(38,132,255,1) 80%);
+        color: #fff;
+        border: 0px solid transparent;
+    }
+</style>
+
+<MudCarousel @ref="_carousel" Class="wk-container" Style="width: 100%; height: 100%;" ShowArrows="false" ShowBullets="false" AutoCycle="false" TData="object">
+    <MudCarouselItem Transition="Transition.Slide">
+        <MudCard Outlined="false" Square="true" Class="wk-container border-0 d-flex flex-column">
+            <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                <MudCardMedia Image="/images/onboarding/walkthroughImage_1.jpg" Class="" Style="height:50%; width:100%;" />
+            </MudHidden>
+            <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="false" Class="px-5">
+                <MudCardMedia Image="/images/onboarding/walkthroughImage_1.jpg" Class="" Style="height:50%; width:100%;" />
+            </MudHidden>
+            <MudCardContent Class="pa-5 d-flex flex-column justify-space-between" Style="height:50%; width:100%;">
+                <div>
+                    <MudText Typo="Typo.h5" Style="font-weight: 700;">
+                        Welcome
+                    </MudText>
+                    <MudText Typo="Typo.body1" Class="mt-5" Style="font-weight: 400;">
+                        To a new world of posibilities,<br> welcome to MauiStore.
+                    </MudText>
+                </div>
+                <MudButton Class="mb-15 btn-gradient-bg rounded-lg" Color="Color.Default" OnClick="NextAsync" FullWidth="true" Variant="Variant.Outlined" Size="Size.Large"> Next </MudButton>
+            </MudCardContent>
+        </MudCard>
+    </MudCarouselItem>
+
+    <MudCarouselItem Transition="Transition.Slide">
+        <MudCard Outlined="false" Square="true" Class="wk-container border-0 d-flex flex-column">
+            <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                <MudCardMedia Image="/images/onboarding/walkthroughImage_2.jpg" Class="" Style="height:50%; width:100%;" />
+            </MudHidden>
+            <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="false" Class="px-5">
+                <MudCardMedia Image="/images/onboarding/walkthroughImage_2.jpg" Class="" Style="height:50%; width:100%;" />
+            </MudHidden>
+            <MudCardContent Class="pa-5 d-flex flex-column justify-space-between" Style="height:50%; width:100%;">
+                <div>
+                    <MudText Typo="Typo.h5" Style="font-weight: 700;">
+                        Save Time
+                    </MudText>
+                    <MudText Typo="Typo.body1" Class="mt-5" Style="font-weight: 400;">
+                        Save countless hours of UI design.<br>Focus on your app functions.
+                    </MudText>
+                </div>
+                <MudButton Class="mb-15 btn-gradient-bg rounded-lg" Color="Color.Default" OnClick="NextAsync" FullWidth="true" Variant="Variant.Outlined" Size="Size.Large"> Next </MudButton>
+            </MudCardContent>
+        </MudCard>
+    </MudCarouselItem>
+
+    <MudCarouselItem Transition="Transition.Slide">
+        <MudCard Outlined="false" Square="true" Class="wk-container border-0 d-flex flex-column ">
+            <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                <MudCardMedia Image="/images/onboarding/walkthroughImage_3.jpg" Class="" Style="height:50%; width:100%;" />
+            </MudHidden>
+            <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="false" Class="px-5">
+                <MudCardMedia Image="/images/onboarding/walkthroughImage_3.jpg" Class="" Style="height:50%; width:100%;" />
+            </MudHidden>
+            <MudCardContent Class="pa-5 d-flex flex-column justify-space-between" Style="height:50%; width:100%;">
+                <div>
+                    <MudText Typo="Typo.h5" Style="font-weight: 700;">
+                        Learn
+                    </MudText>
+                    <MudText Typo="Typo.body1" Class="mt-5" Style="font-weight: 400;">
+                        Learn while you work. <br>Tons of examples for you to explore.
+                    </MudText>
+                </div>
+                <MudButton Class="mb-15 btn-gradient-bg rounded-lg" Color="Color.Default" OnClick="FinishAsync" FullWidth="true" Variant="Variant.Outlined" Size="Size.Large"> FINISH! </MudButton>
+            </MudCardContent>
+        </MudCard>
+    </MudCarouselItem>
+</MudCarousel>
+
+@code{
+    private MudCarousel<object> _carousel;
+
+    private async Task NextAsync()
+    {
+        _carousel.Next();
+    }
+
+    private async Task FinishAsync()
+    {
+        //Parent.IsFirstVisit = !Parent.IsFirstVisit;
+        //await ClientPreferences.ChangeFirstVisitAsync(Parent.IsFirstVisit);
+        await InvokeAsync(StateHasChanged);
+        _navigationManager.NavigateTo("/onboarding-index");
+    }
+}

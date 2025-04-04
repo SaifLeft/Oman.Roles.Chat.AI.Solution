@@ -1,0 +1,331 @@
+﻿@page "/generals-index"
+
+@if (!_loaded)
+{
+    <Spinner></Spinner>
+}
+else
+{
+<MudGrid Class="mt-5 pt-0 mb-1">
+    <MudItem xs="12">
+        <MudCard Elevation="1" Class="rounded-lg">
+            <MudCardContent>
+                <MudText Color="Color.Default" Align="Align.Left" Typo="Typo.body2" Style="font-weight: 400;">Pages styled to feel like Classic Site Pages or App Styled Pages. These are all highly flexible and incredibly easy to use and edit.</MudText>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+<MudCard Elevation="1" Class="rounded-lg mb-5">
+    <MudCardContent>
+        <MudGrid Spacing="0">
+            <MudItem xs="12" sm="12" md="12">
+                    <MudCard Elevation="0" Class="d-flex flex-row justify-space-between " Style="background-color: transparent" @onclick="@(() => AboutUsPage())">
+                    <div class="d-flex">
+                            <MudIcon Icon="@Icons.Material.Filled.People" Color="Color.Secondary" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> About Us </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                    <MudCard Elevation="0" Class="d-flex flex-row justify-space-between " Style="background-color: transparent" @onclick="@(() => CareersPage())">
+                    <div class="d-flex">
+                            <MudIcon Icon="@Icons.Material.Filled.BusinessCenter" Color="Color.Info" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> Careers </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudCard Elevation="0" Class="d-flex flex-row justify-space-between " Style="background-color: transparent" @onclick="@(() => Error404Page())">
+                    <div class="d-flex">
+                            <MudIcon Icon="@Icons.Material.Filled.Error" Color="Color.Error" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> Error 404 </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudCard Elevation="0" Class="d-flex flex-row justify-space-between " Style="background-color: transparent" @onclick="@(() => FaqsPage())">
+                    <div class="d-flex">
+                            <MudIcon Icon="@Icons.Material.Filled.QuestionMark" Color="Color.Primary" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> Faqs </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudCard Elevation="0" Class="d-flex flex-row justify-space-between " Style="background-color: transparent" @onclick="@(() => ForgotPasswordPage())">
+                    <div class="d-flex">
+                            <MudIcon Icon="@Icons.Material.Filled.LockReset" Color="Color.Secondary" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> Forgot Password </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudCard Elevation="0" Class="d-flex flex-row justify-space-between " Style="background-color: transparent" @onclick="@(() => SignInPage())">
+                    <div class="d-flex">
+                            <MudIcon Icon="@Icons.Material.Filled.Login" Color="Color.Tertiary" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> Sign In </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudCard Elevation="0" Class="d-flex flex-row justify-space-between " Style="background-color: transparent" @onclick="@(() => SignUpPage())">
+                    <div class="d-flex">
+                            <MudIcon Icon="@Icons.Material.Filled.Login" Color="Color.Warning" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> Sign Up </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudCard Elevation="0" Class="d-flex flex-row justify-space-between " Style="background-color: transparent" @onclick="@(() => MapsPage())">
+                    <div class="d-flex">
+                        <MudIcon Icon="@Icons.Material.Filled.Map" Color="Color.Primary" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> Maps </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudCard Elevation="0" Class="d-flex flex-row justify-space-between " Style="background-color: transparent" @onclick="@(() => Timeline1Page())">
+                    <div class="d-flex">
+                            <MudIcon Icon="@Icons.Material.Filled.ViewTimeline" Color="Color.Warning" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> Timeline 1 </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudCard Elevation="0" Class="d-flex flex-row justify-space-between " Style="background-color: transparent" @onclick="@(() => Timeline2Page())">
+                    <div class="d-flex">
+                        <MudIcon Icon="@Icons.Material.Filled.Timeline" Color="Color.Secondary" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> Timeline 2 </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudCard Elevation="0" Class="d-flex flex-row justify-space-between " Style="background-color: transparent" @onclick="@(() => Profile1Page())">
+                    <div class="d-flex">
+                        <MudIcon Icon="@Icons.Material.Filled.Person" Color="Color.Success" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> Profile 1 </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudCard Elevation="0" Class="d-flex flex-row justify-space-between " Style="background-color: transparent" @onclick="@(() => Profile2Page())">
+                    <div class="d-flex">
+                            <MudIcon Icon="@Icons.Material.Filled.PersonPin" Color="Color.Primary" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> Profile 2 </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                    <MudCard Elevation="0" Class="d-flex flex-row justify-space-between " Style="background-color: transparent" @onclick="@(() => Profile3Page())">
+                    <div class="d-flex">
+                        <MudIcon Icon="@Icons.Material.Filled.AccountCircle" Color="Color.Default" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> Profile 3 </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudCard Elevation="0" Class="d-flex flex-row justify-space-between " Style="background-color: transparent" @onclick="@(() => ContactUsPage())">
+                    <div class="d-flex">
+                        <MudIcon Icon="@Icons.Material.Filled.PhoneAndroid" Color="Color.Secondary" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> Contact Us </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudCard Elevation="0" Class="d-flex flex-row justify-space-between " Style="background-color: transparent" @onclick="@(() => TeamPage())">
+                    <div class="d-flex">
+                            <MudIcon Icon="@Icons.Material.Filled.PeopleAlt" Color="Color.Warning" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> Our Team </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                    <MudCard Elevation="0" Class="d-flex flex-row justify-space-between " Style="background-color: transparent" @onclick="@(() => StorePage())">
+                    <div class="d-flex">
+                            <MudIcon Icon="@Icons.Material.Filled.PinDrop" Color="Color.Error" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-5 align-self-center" Color="@Color.Default"> Store Locations </MudText>
+                    </div>
+                    <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCard>
+            </MudItem>
+        </MudGrid>
+    </MudCardContent>
+</MudCard>
+
+}
+@code {
+    private bool _loaded;
+    protected override async Task OnInitializedAsync()
+    {
+        
+        _loaded = true;
+    }
+
+    public void AboutUsPage()
+    {
+        _navigationManager.NavigateTo("/about-us");
+    }
+    public void CareersPage()
+    {
+        _navigationManager.NavigateTo("/careers");
+    }
+
+    public void Error404Page()
+    {
+        _navigationManager.NavigateTo("/error404");
+    }
+
+    public void FaqsPage()
+    {
+        _navigationManager.NavigateTo("/faqs");
+    }
+
+    public void ForgotPasswordPage()
+    {
+        _navigationManager.NavigateTo("/pages/forgot-password");
+    }
+
+    public void SignInPage()
+    {
+        _navigationManager.NavigateTo("/pages/sign-in");
+    }
+
+    public void SignUpPage()
+    {
+        _navigationManager.NavigateTo("/pages/sign-up");
+    }
+
+    public void MapsPage()
+    {
+        _navigationManager.NavigateTo("/maps");
+    }
+
+    public void Timeline1Page()
+    {
+        _navigationManager.NavigateTo("/timeline1");
+    }
+    public void Timeline2Page()
+    {
+        _navigationManager.NavigateTo("/timeline2");
+    }
+
+    public void Profile1Page()
+    {
+        _navigationManager.NavigateTo("/profile1");
+    }
+
+    public void Profile2Page()
+    {
+        _navigationManager.NavigateTo("/profile2");
+    }
+
+    public void Profile3Page()
+    {
+        _navigationManager.NavigateTo("/profile3");
+    }
+
+    public void ContactUsPage()
+    {
+        _navigationManager.NavigateTo("/contact-us");
+    }
+
+    public void TeamPage()
+    {
+        _navigationManager.NavigateTo("/team");
+    }
+
+    public void StorePage()
+    {
+        _navigationManager.NavigateTo("/stores");
+    }
+}

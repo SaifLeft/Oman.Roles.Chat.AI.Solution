@@ -1,0 +1,679 @@
+﻿@page "/travel/tour-details"
+@using MauiStore.Data.GoogleMap
+
+<style>
+
+</style>
+
+<!--Large Devices-->
+<MudHidden Breakpoint="Breakpoint.MdAndDown" Invert="false">
+    <MudCarousel Class="" Style="height:400px;" ShowArrows="true" ShowBullets="true" AutoCycle="false" TData="object">
+        <BulletTemplate Context="selected">
+            <div Class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon mb-5">
+                <span class="mud-icon-button-label">
+                    <MudIcon Icon="@(selected ? "fas fa-circle" : "fal fa-circle")" Style="color: var(--mud-palette-primary); font-size: 0.725rem !important;" />
+                </span>
+            </div>
+        </BulletTemplate>
+        <ChildContent>
+            <MudCarouselItem Transition="Transition.Slide">
+                <MudCard Elevation="0" Class="rounded-lg">
+                    <MudCardMedia Class="rounded-lg" Image="/images/travel/1.jpeg" Height="400" />
+                </MudCard>
+            </MudCarouselItem>
+            <MudCarouselItem Transition="Transition.Slide">
+                <MudCard Elevation="0" Class="rounded-lg">
+                    <MudCardMedia Class="rounded-lg" Image="/images/travel/2.jpeg" Height="400" />
+                </MudCard>
+            </MudCarouselItem>
+            <MudCarouselItem Transition="Transition.Slide">
+                <MudCard Elevation="0" Class="rounded-lg">
+                    <MudCardMedia Class="rounded-lg" Image="/images/travel/3.jpeg" Height="400" />
+                </MudCard>
+            </MudCarouselItem>
+            <MudCarouselItem Transition="Transition.Slide">
+                <MudCard Elevation="0" Class="rounded-lg">
+                    <MudCardMedia Class="rounded-lg" Image="/images/travel/4.jpeg" Height="400" />
+                </MudCard>
+            </MudCarouselItem>
+            <MudCarouselItem Transition="Transition.Slide">
+                <MudCard Elevation="0" Class="rounded-lg">
+                    <MudCardMedia Class="rounded-lg" Image="/images/travel/5.jpeg" Height="400" />
+                </MudCard>
+            </MudCarouselItem>
+            <MudCarouselItem Transition="Transition.Slide">
+                <MudCard Elevation="0" Class="rounded-lg">
+                    <MudCardMedia Class="rounded-lg" Image="/images/travel/6.jpeg" Height="400" />
+                </MudCard>
+            </MudCarouselItem>
+        </ChildContent>
+    </MudCarousel>
+</MudHidden>
+
+<!--Responsive Devices-->
+<MudHidden Breakpoint="Breakpoint.MdAndDown" Invert="true">
+    <MudPaper Class="mx-n4 mt-n5" Elevation="0" Square="true">
+        <MudCarousel Class="" Style="height:400px;" ShowArrows="false" ShowBullets="true" AutoCycle="false" TData="object">
+            <BulletTemplate Context="selected">
+                <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon mb-5">
+                    <span class="mud-icon-button-label">
+                        <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                    </span>
+                </div>
+            </BulletTemplate>
+            <ChildContent>
+                <MudCarouselItem Transition="Transition.Slide">
+                    <MudCard Elevation="0" Class="">
+                        <MudCardMedia Class="" Image="/images/travel/8.jpg" Height="400" />
+                    </MudCard>
+                </MudCarouselItem>
+                <MudCarouselItem Transition="Transition.Slide">
+                    <MudCard Elevation="0" Class="">
+                        <MudCardMedia Class="" Image="/images/travel/9.jpg" Height="400" />
+                    </MudCard>
+                </MudCarouselItem>
+                <MudCarouselItem Transition="Transition.Slide">
+                    <MudCard Elevation="0" Class="">
+                        <MudCardMedia Class="" Image="/images/travel/10.jpg" Height="400" />
+                    </MudCard>
+                </MudCarouselItem>
+                <MudCarouselItem Transition="Transition.Slide">
+                    <MudCard Elevation="0" Class="">
+                        <MudCardMedia Class="" Image="/images/travel/11.jpg" Height="400" />
+                    </MudCard>
+                </MudCarouselItem>
+                <MudCarouselItem Transition="Transition.Slide">
+                    <MudCard Elevation="0" Class="">
+                        <MudCardMedia Class="" Image="/images/travel/12.jpg" Height="400" />
+                    </MudCard>
+                </MudCarouselItem>
+                <MudCarouselItem Transition="Transition.Slide">
+                    <MudCard Elevation="0" Class="">
+                        <MudCardMedia Class="" Image="/images/travel/14.jpg" Height="400" />
+                    </MudCard>
+                </MudCarouselItem>
+            </ChildContent>
+        </MudCarousel>
+    </MudPaper>
+</MudHidden>
+
+<MudCard Elevation="0" Outlined="false" Square="true" Class="mx-n4">
+    <MudCardContent>
+        <MudGrid Class="" Spacing="2">
+            <MudItem xs="12">
+                <div class="d-flex justify-space-between">
+                    <div>
+                        <MudText Class="max-line-2" Typo="Typo.h5" Style="font-weight: 500;"> The Famous Ha Giang Loop Adventure </MudText>
+                        <div class="d-flex mt-2">
+                            <MudIcon Icon="@Icons.Material.Filled.Star" Color="Color.Error" Size="Size.Medium" />
+                            <MudText Typo="Typo.body2" Class="align-self-center" Style="font-weight:500"> 5.00 <MudText Typo="Typo.body2" Style="font-weight:400" Inline="true"> (54) </MudText> </MudText> 
+                            <MudText Typo="Typo.body2" Class="mx-2"> - </MudText>
+                            <MudLink Typo="Typo.body2" Color="Color.Default" Class="align-self-center" Style="font-weight:500" Underline="Underline.Always" > Hoan Kiem, Vietnam </MudLink>
+                        </div>
+                    </div>
+                    <div class="align-self-center">
+                        <MudToggleIconButton @bind-Toggled="@IsFavorite" Class="align-self-center rounded-lg" Variant="Variant.Outlined"
+                                Icon="@Icons.Material.Filled.FavoriteBorder" Color="Color.Inherit" title="Favorite"
+                                ToggledIcon="@Icons.Material.Filled.Favorite" ToggledColor="@Color.Error" />
+                    </div>
+                </div>
+
+                <div class="d-flex justify-space-between mt-5">
+                    <MudText Typo="Typo.body1"> <strong> From $28 </strong> / person </MudText>
+                    <MudButton Class="rounded-lg" Color="Color.Secondary" Variant="Variant.Filled"> Show Dates </MudButton>
+                </div>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <MudItem xs="12">
+                <div class="d-flex justify-space-between py-3">
+                    <MudText Typo="Typo.h6" Class="align-self-center max-line-2" Style="font-weight:500"> Experience hosted by John </MudText>
+                    <MudAvatar Style="height: 50px; width: 50px;">
+                        <MudImage Src="/images/pictures/faces/3s.png" />
+                    </MudAvatar>
+                </div>
+                <MudText Typo="Typo.body2" Style="font-weight:400"> 3 hours - <MudText Typo="Typo.body2" Style="font-weight:400" Inline="true"> Hosted in English and Vietnamese </MudText> </MudText> 
+            
+                <MudDivider Class="my-4"></MudDivider>
+
+                <div class="d-flex py-2">
+                    <MudIcon Icon="fal fa-thumbs-up" Color="Color.Default" Size="Size.Small"> </MudIcon>
+                    <div class="mx-3">
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;"> Excellent value </MudText>
+                        <MudText Typo="Typo.body2"> Guests say it's well worth the price. </MudText>
+                    </div>
+                </div>
+
+                <div class="d-flex py-2">
+                    <MudIcon Icon="fal fa-comments" Color="Color.Default" Size="Size.Small"> </MudIcon>
+                    <div class="mx-3">
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;"> Super strorytelling </MudText>
+                        <MudText Typo="Typo.body2"> Guests say this Host tells great stories. </MudText>
+                    </div>
+                </div>
+
+                <div class="d-flex py-2">
+                    <MudIcon Icon="fal fa-calendar-times" Color="Color.Default" Size="Size.Small"> </MudIcon>
+                    <div class="mx-3">
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;"> Cancellation flexibility </MudText>
+                        <MudText Typo="Typo.body2"> Free cancellation up to 24 hours before the start time. </MudText>
+                    </div>
+                </div>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <!--What you will do-->
+            <MudItem xs="12">
+                <MudText Typo="Typo.h6" Class="align-self-center mt-3" Style="font-weight:500"> What you'll do </MudText>
+                <div class="my-3"></div>
+                <MudText Typo="Typo.body2" Style="font-weight: 400;"> There are 2 daily options: </MudText>
+                <MudText Typo="Typo.body2" Style="font-weight: 400;"> Lunch: 11.30 - 14.30 </MudText>
+                <MudText Typo="Typo.body2" Style="font-weight: 400;"> Dinner: 18.00 - 21.00 </MudText>
+                <div class="my-3"></div>
+                <MudText Typo="Typo.body2" Style="font-weight: 400;"> Only in the course of 3 hours tour,... <MudLink Typo="Typo.body2" Style="font-weight: 500;" Underline="Underline.Always"> read more</MudLink> </MudText>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudPaper Elevation="0" Class="mt-3 rounded-lg">
+                    <MudGrid Spacing="1">
+                        <MudItem xs="8">
+                            <MudImage Src="images/travel/7.jpeg" Style="height: 290px; width: 100%" Class="align-self-center rounded-l-lg"></MudImage>
+                        </MudItem>
+                        <MudItem xs="4">
+                            <MudImage Src="images/travel/10.jpg" Style="height: 140px; width: 100%" Class="align-self-center rounded-t-r-lg"></MudImage>
+                            <div style="height: 4px;"></div>
+                            <MudImage Src="images/travel/16.jpg" Style="height: 140px; width: 100%" Class="align-self-center rounded-b-r-lg "></MudImage>
+                        </MudItem>
+                    </MudGrid>
+                </MudPaper>
+                <MudButton Class="my-5 rounded-lg" Color="Color.Default" FullWidth="true" Variant="Variant.Outlined"> Show all 9 photos </MudButton>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <!--What's included-->
+            <MudItem xs="12">
+                <MudText Typo="Typo.h6" Class="align-self-center mt-3" Style="font-weight:500"> What's included </MudText>
+                @*<div class="my-3"></div>
+                <MudText Typo="Typo.body2" Style="font-weight: 400;"> There are 2 daily options: </MudText>
+                <MudText Typo="Typo.body2" Style="font-weight: 400;"> Lunch: 11.30 - 14.30 </MudText>
+                <MudText Typo="Typo.body2" Style="font-weight: 400;"> Dinner: 18.00 - 21.00 </MudText>
+                <div class="my-3"></div>
+                <MudText Typo="Typo.body2" Style="font-weight: 400;"> Only in the course of 3 hours tour,... <MudLink Typo="Typo.body2" Style="font-weight: 500;" Underline="Underline.Always"> read more</MudLink> </MudText>*@
+                <div class="hz-container py-5">
+                    <MudCard Elevation="1" Class="rounded-lg mr-3 mud-paper-outlined">
+                        <MudCardContent Style="width: 250px;" Class="d-flex flex-column">
+                            <MudIcon Icon="fal fa-utensils" Color="Color.Default" Size="Size.Large"> </MudIcon>
+                            <MudText Class="my-3" Typo="Typo.subtitle1" Style="font-weight: 500;"> Food </MudText>
+                            <MudText Class="max-line-3" Typo="Typo.body2"> Includeed 6-8 different places for food and try out up to 10 dishes (main course, coffee and desserts). </MudText>
+                        </MudCardContent>
+                    </MudCard>
+
+                    <MudCard Elevation="1" Class="rounded-lg mr-3 mud-paper-outlined">
+                        <MudCardContent Style="width: 250px;" Class="d-flex flex-column">
+                            <MudIcon Icon="fal fa-wine-glass" Color="Color.Default" Size="Size.Large"> </MudIcon>
+                            <MudText Class="my-3" Typo="Typo.subtitle1" Style="font-weight: 500;"> Drinks </MudText>
+                            <MudText Class="max-line-3" Typo="Typo.body2"> Includeed 6-8 different places for food and try out up to 10 dishes (main course, coffee and desserts). </MudText>
+                        </MudCardContent>
+                    </MudCard>
+
+                    <MudCard Elevation="1" Class="rounded-lg mr-3 mud-paper-outlined">
+                        <MudCardContent Style="width: 250px;" Class="d-flex flex-column">
+                            <MudIcon Icon="fal fa-bus" Color="Color.Default" Size="Size.Large"> </MudIcon>
+                            <MudText Class="my-3" Typo="Typo.subtitle1" Style="font-weight: 500;"> Transportation </MudText>
+                            <MudText Class="max-line-3" Typo="Typo.body2"> Hotel pick up (Within Hanoi Old Quarter)</MudText>
+                        </MudCardContent>
+                    </MudCard>
+                </div>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <!--Where you will be-->
+            <MudItem xs="12">
+                <MudText Typo="Typo.h6" Class="align-self-center mt-3" Style="font-weight:500"> Where you'll be </MudText>
+                <div class="my-3"></div>
+                
+                <GoogleMap Style="height: 300px;" Zoom="15" Center="@_location">
+                        <Markers>
+                            <GoogleMapMarker Position="@_location" />
+                        </Markers>
+                </GoogleMap>
+
+                <div class="my-3"></div>
+                <MudText Typo="Typo.body2" Style="font-weight: 400;"> Within a 3 hour-walking-tour, we take you to 6-8 different places for food and try out up to 10 dishes (main course, coffee and desserts), varies from a small food stand, a family restaurant, to an up scaled... <MudLink Typo="Typo.body2" Style="font-weight: 500;" Underline="Underline.Always"> read more</MudLink> </MudText>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <!--Reviews-->
+            <MudItem xs="12">
+                <div class="d-flex mt-3">
+                    <MudIcon Icon="@Icons.Material.Filled.Star" Color="Color.Error" Size="Size.Large" />
+                    <MudText Typo="Typo.h6" Class="align-self-center" Style="font-weight:500"> 4.96 <MudText Typo="Typo.body2" Style="font-weight:400" Inline="true"> (54 reviews) </MudText> </MudText> 
+                </div>
+
+                <div class="hz-container pb-3 pt-5">
+                    <MudCard Elevation="1" Class="rounded-lg mr-3 mud-paper-outlined">
+                        <MudCardContent Style="width: 280px;" Class="d-flex flex-column">
+                            <div class="d-flex py-2">
+                                <MudAvatar Color="Color.Default" Size="Size.Medium">
+                                    <MudImage Src="/images/pictures/4s.png" />
+                                </MudAvatar>
+                                <div class="mx-3">
+                                    <MudText Typo="Typo.subtitle1" Style="font-weight: 500;"> Melissa </MudText>
+                                    <MudText Typo="Typo.body2"> 2 days ago </MudText>
+                                </div>
+                            </div>
+                            <MudText Class="max-line-6" Typo="Typo.body2" Style="font-weight: 400;"> We had a wonderful time with John on the street food tour. Amazing street food and a glimpse into local lifestyles, this was the perfect beginning to our Vietnam trip! </MudText>
+                        </MudCardContent>
+                    </MudCard>
+
+                    <MudCard Elevation="1" Class="rounded-lg mr-3 mud-paper-outlined">
+                        <MudCardContent Style="width: 280px;" Class="d-flex flex-column">
+                            <div class="d-flex py-2">
+                                <MudAvatar  Color="Color.Default" Size="Size.Medium">
+                                    <MudImage Src="/images/pictures/2s.png"/>
+                                </MudAvatar>
+                                <div class="mx-3">
+                                    <MudText Typo="Typo.subtitle1" Style="font-weight: 500;"> Beatrice </MudText>
+                                    <MudText Typo="Typo.body2"> 5 days ago </MudText>
+                                </div>
+                            </div>
+                            <MudText Class="max-line-6" Typo="Typo.body2" Style="font-weight: 400;"> We really enjoyed this tour as an introduction to Hanoi food. Our guide John is professional, friendly, thoughtful and knowledgeable about not just food but local culture as well. </MudText>
+                        </MudCardContent>
+                    </MudCard>
+
+                    <MudCard Elevation="1" Class="rounded-lg mr-3 mud-paper-outlined">
+                        <MudCardContent Style="width: 280px;" Class="d-flex flex-column">
+                            <div class="d-flex py-2">
+                                <MudAvatar Color="Color.Default" Size="Size.Medium">
+                                    <MudImage Src="/images/pictures/1s.png" />
+                                </MudAvatar>
+                                <div class="mx-3">
+                                    <MudText Typo="Typo.subtitle1" Style="font-weight: 500;"> Erin </MudText>
+                                    <MudText Typo="Typo.body2"> 1 week ago </MudText>
+                                </div>
+                            </div>
+                            <MudText Class="max-line-6" Typo="Typo.body2" Style="font-weight: 400;"> My husband and I had a great experience with our guide exploring the street food of Hanoi in the Old Quarter. Highly recommended! </MudText>
+                        </MudCardContent>
+                    </MudCard>
+
+                    <MudCard Elevation="1" Class="rounded-lg mr-3 mud-paper-outlined">
+                        <MudCardContent Style="width: 280px;" Class="d-flex flex-column">
+                            <div class="d-flex py-2">
+                                <MudAvatar  Color="Color.Default" Size="Size.Medium">
+                                    <MudImage Src="/images/pictures/5s.png"/>
+                                </MudAvatar>
+                                <div class="mx-3">
+                                    <MudText Typo="Typo.subtitle1" Style="font-weight: 500;"> Thomas </MudText>
+                                    <MudText Typo="Typo.body2"> 2 weeks ago </MudText>
+                                </div>
+                            </div>
+                            <MudText Class="max-line-6" Typo="Typo.body2" Style="font-weight: 400;"> First night in Hanoi and would def recommend this <br> Great way to see the Old Quarter and try lots of different foods and see the city<br>You will be very full so don't eat before. </MudText>
+                        </MudCardContent>
+                    </MudCard>
+                </div>
+
+                 <MudButton Class="mt-3 rounded-lg" Color="Color.Default" FullWidth="true" Variant="Variant.Outlined"> Show all 54 reviews </MudButton>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <!--Dates-->
+            <MudItem xs="12">
+                <MudText Typo="Typo.h6" Class="align-self-center mt-3" Style="font-weight:500"> Choose from available dates </MudText>
+                <MudText Typo="Typo.body2"> 349 available </MudText>
+                <div class="my-3"></div>
+                
+                <div class="hz-container pb-3 pt-5">
+                    <MudCard Elevation="1" Class="rounded-lg mr-3 mud-paper-outlined">
+                        <MudCardContent Style="height: 220px; width: 280px;" Class="d-flex flex-column justify-space-between px-5 py-6">
+                            <div class="">
+                                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;"> Tue, May 3 </MudText>
+                                <MudText Typo="Typo.body2"> 6:00 PM - 9:900 PM </MudText>
+                            </div>
+                            <div class="">
+                                <MudText Typo="Typo.body1"> <strong> $27 </strong> / person </MudText>
+                                <MudButton Class="mt-3 rounded-lg" Color="Color.Secondary" DropShadow="false" Variant="Variant.Filled"> Choose </MudButton>
+                            </div>
+                        </MudCardContent>
+                    </MudCard>
+
+                    <MudCard Elevation="1" Class="rounded-lg mr-3 mud-paper-outlined">
+                        <MudCardContent Style="height: 220px; width: 280px;" Class="d-flex flex-column justify-space-between px-5 py-6">
+                            <div class="">
+                                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;"> Wed, May 4 </MudText>
+                                <MudText Typo="Typo.body2"> 6:00 PM - 9:900 PM </MudText>
+                            </div>
+                            <div class="">
+                                <MudText Typo="Typo.body1"> <strong> $27 </strong> / person </MudText>
+                                <MudButton Class="mt-3 rounded-lg" Color="Color.Secondary" DropShadow="false" Variant="Variant.Filled"> Choose </MudButton>
+                            </div>
+                        </MudCardContent>
+                    </MudCard>
+
+                    <MudCard Elevation="1" Class="rounded-lg mr-3 mud-paper-outlined">
+                        <MudCardContent Style="height: 220px; width: 280px;" Class="d-flex flex-column justify-space-between px-5 py-6">
+                            <div class="">
+                                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;"> Thu, May 5 </MudText>
+                                <MudText Typo="Typo.body2"> 6:00 PM - 9:900 PM </MudText>
+                            </div>
+                            <div class="">
+                                <MudText Typo="Typo.body1"> <strong> $27 </strong> / person </MudText>
+                                <MudButton Class="mt-3 rounded-lg" Color="Color.Secondary" DropShadow="false" Variant="Variant.Filled"> Choose </MudButton>
+                            </div>
+                        </MudCardContent>
+                    </MudCard>
+
+                    <MudCard Elevation="1" Class="rounded-lg mr-3 mud-paper-outlined">
+                        <MudCardContent Style="height: 220px; width: 280px;" Class="d-flex flex-column justify-space-between px-5 py-6">
+                            <div class="">
+                                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;"> Fri, May 6 </MudText>
+                                <MudText Typo="Typo.body2"> 6:00 PM - 9:900 PM </MudText>
+                            </div>
+                            <div class="">
+                                <MudText Typo="Typo.body1"> <strong> $27 </strong> / person </MudText>
+                                <MudButton Class="mt-3 rounded-lg" Color="Color.Secondary" DropShadow="false" Variant="Variant.Filled"> Choose </MudButton>
+                            </div>
+                        </MudCardContent>
+                    </MudCard>
+
+                    <MudCard Elevation="1" Class="rounded-lg mr-3 mud-paper-outlined">
+                        <MudCardContent Style="height: 220px; width: 280px;" Class="d-flex flex-column justify-space-between px-5 py-6">
+                            <div class="">
+                                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;"> Sat, May 7 </MudText>
+                                <MudText Typo="Typo.body2"> 6:00 PM - 9:900 PM </MudText>
+                            </div>
+                            <div class="">
+                                <MudText Typo="Typo.body1"> <strong> $27 </strong> / person </MudText>
+                                <MudButton Class="mt-3 rounded-lg" Color="Color.Secondary" DropShadow="false" Variant="Variant.Filled"> Choose </MudButton>
+                            </div>
+                        </MudCardContent>
+                    </MudCard>
+
+                    <MudCard Elevation="1" Class="rounded-lg mr-3 mud-paper-outlined">
+                        <MudCardContent Style="height: 220px; width: 280px;" Class="d-flex flex-column justify-space-between px-5 py-6">
+                            <div class="">
+                                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;"> Sun, May 8 </MudText>
+                                <MudText Typo="Typo.body2"> 6:00 PM - 9:900 PM </MudText>
+                            </div>
+                            <div class="">
+                                <MudText Typo="Typo.body1"> <strong> $27 </strong> / person </MudText>
+                                <MudButton Class="mt-3 rounded-lg" Color="Color.Secondary" DropShadow="false" Variant="Variant.Filled"> Choose </MudButton>
+                            </div>
+                        </MudCardContent>
+                    </MudCard>
+
+                    <MudCard Elevation="1" Class="rounded-lg mr-3 mud-paper-outlined">
+                        <MudCardContent Style="height: 220px; width: 280px;" Class="d-flex flex-column justify-space-between px-5 py-6">
+                            <div class="">
+                                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;"> Mon, May 9 </MudText>
+                                <MudText Typo="Typo.body2"> 6:00 PM - 9:900 PM </MudText>
+                            </div>
+                            <div class="">
+                                <MudText Typo="Typo.body1"> <strong> $27 </strong> / person </MudText>
+                                <MudButton Class="mt-3 rounded-lg" Color="Color.Secondary" DropShadow="false" Variant="Variant.Filled"> Choose </MudButton>
+                            </div>
+                        </MudCardContent>
+                    </MudCard>
+
+                    <MudCard Elevation="1" Class="rounded-lg mr-3 mud-paper-outlined">
+                        <MudCardContent Style="height: 220px; width: 280px;" Class="d-flex flex-column justify-space-between px-5 py-6">
+                            <div class="">
+                                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;"> Tue, May 10 </MudText>
+                                <MudText Typo="Typo.body2"> 6:00 PM - 9:900 PM </MudText>
+                            </div>
+                            <div class="">
+                                <MudText Typo="Typo.body1"> <strong> $27 </strong> / person </MudText>
+                                <MudButton Class="mt-3 rounded-lg" Color="Color.Secondary" DropShadow="false" Variant="Variant.Filled"> Choose </MudButton>
+                            </div>
+                        </MudCardContent>
+                    </MudCard>
+
+                    <MudCard Elevation="1" Class="rounded-lg mr-3 mud-paper-outlined">
+                        <MudCardContent Style="height: 220px; width: 280px;" Class="d-flex flex-column justify-space-between px-5 py-6">
+                            <div class="">
+                                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;"> Wed, May 11 </MudText>
+                                <MudText Typo="Typo.body2"> 6:00 PM - 9:900 PM </MudText>
+                            </div>
+                            <div class="">
+                                <MudText Typo="Typo.body1"> <strong> $27 </strong> / person </MudText>
+                                <MudButton Class="mt-3 rounded-lg" Color="Color.Secondary" DropShadow="false" Variant="Variant.Filled"> Choose </MudButton>
+                            </div>
+                        </MudCardContent>
+                    </MudCard>
+                </div>
+
+                <MudButton Class="mt-3 rounded-lg" Color="Color.Default" FullWidth="true" Variant="Variant.Outlined"> Show more dates </MudButton>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <!--Cancellation Policy-->
+            <MudItem xs="12">
+                <MudPaper Elevation="0" Class="">
+                    <div class="d-flex justify-space-between">
+                        <MudText Typo="Typo.body1" Style="font-weight: 500;"> Cancellation Policy </MudText>
+                        <MudIcon Icon="far fa-angle-right" Size="Size.Medium" Color="Color.Default"></MudIcon>
+                    </div>
+                    <MudText Class="mt-1" Typo="Typo.body2" Style="font-weight: 400;"> Cancel up to 24 hours before the start time for a full refund. </MudText>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <!--Requirements-->
+            <MudItem xs="12">
+                <MudPaper Elevation="0" Class="">
+                    <div class="d-flex justify-space-between">
+                        <MudText Typo="Typo.body1" Style="font-weight: 500;"> Guest Requirements </MudText>
+                        <MudIcon Icon="far fa-angle-right" Size="Size.Medium" Color="Color.Default"></MudIcon>
+                    </div>
+                    <MudText Class="mt-1" Typo="Typo.body2" Style="font-weight: 400;"> Guests must be of legal drinking age to be served alcohol. </MudText>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <!--Preparation-->
+            <MudItem xs="12">
+                <MudPaper Elevation="0" Class="">
+                    <div class="d-flex justify-space-between">
+                        <MudText Typo="Typo.body1" Style="font-weight: 500;"> What to bring </MudText>
+                        <MudIcon Icon="far fa-angle-right" Size="Size.Medium" Color="Color.Default"></MudIcon>
+                    </div>
+                    <MudText Class="mt-1" Typo="Typo.body2" Style="font-weight: 400;"> Things prepared for your trip. </MudText>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudDivider></MudDivider>
+            </MudItem>
+
+            <!--Report-->
+             <MudItem xs="12">
+                <MudPaper Elevation="0" Class="d-flex py-2">
+                    <MudIcon Icon="fas fa-flag" Size="Size.Small" Color="Color.Default"></MudIcon>
+                    <MudLink Class="mx-3" Color="Color.Default" Typo="Typo.body2" Underline="Underline.Always" Style="font-weight: 400;"> Report this experience. </MudLink>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+    </MudCardContent>
+</MudCard>
+
+<MudPaper Elevation="0" Class="mx-n4" Style="background-color: var(--mud-palette-background); height: 10px "></MudPaper>
+
+<!--Similar Experiences-->
+<MudCard Elevation="0" Outlined="false" Square="true" Class="mx-n4">
+    <MudCardContent>
+        <MudText Typo="Typo.h6" Class="align-self-center mt-3" Style="font-weight:500"> Similar experiences </MudText>
+
+        <div class="hz-container pb-3 pt-5">
+            <MudPaper Class="mr-3" Elevation="0">
+                <MudImage Class="rounded-lg" Elevation="0" Src="/images/travel/11.jpg" Style="height:220px; width:180px" />
+                <MudPaper Class="mt-3" Elevation="0" Style="background-color: transparent;">
+                    <div class="d-flex">
+                        <MudIcon Icon="@Icons.Material.Filled.Star" Color="Color.Error" Size="Size.Small" />
+                        <MudText Typo="Typo.body2" Style="font-weight:400"> 5.00 <MudText Typo="Typo.body2" Style="font-weight:400" Inline="true">(54)</MudText> </MudText> 
+                    </div>
+                    <MudText Typo="Typo.body1" Class="max-line-2" Style="font-weight: 400;"> Local Street Food with Hanoian </MudText>
+                    <MudText Typo="Typo.body1"> <strong> From $28 </strong> / person </MudText>
+                </MudPaper>
+            </MudPaper>
+
+            <MudPaper Class="mr-3" Elevation="0">
+                <MudImage Class="rounded-lg" Elevation="0" Src="/images/travel/10.jpg" Style="height:220px; width:180px" />
+                <MudPaper Class="mt-3" Elevation="0" Style="background-color: transparent;">
+                    <div class="d-flex">
+                        <MudIcon Icon="@Icons.Material.Filled.Star" Color="Color.Error" Size="Size.Small" />
+                        <MudText Typo="Typo.body2" Style="font-weight:400"> 4.58 <MudText Typo="Typo.body2" Style="font-weight:400" Inline="true">(145)</MudText> </MudText> 
+                    </div>
+                    <MudText Typo="Typo.body1" Class="max-line-2" Style="font-weight: 400;"> Homestay Trekking in Northern Vietnam </MudText>
+                    <MudText Typo="Typo.body1"> <strong> From $27 </strong> / person </MudText>
+                </MudPaper>
+            </MudPaper>
+
+            <MudPaper Class="mr-3" Elevation="0">
+                <MudImage Class="rounded-lg" Elevation="0" Src="/images/travel/15.jpg" Style="height:220px; width:180px" />
+                <MudPaper Class="mt-3" Elevation="0" Style="background-color: transparent;">
+                    <div class="d-flex">
+                        <MudIcon Icon="@Icons.Material.Filled.Star" Color="Color.Error" Size="Size.Small" />
+                        <MudText Typo="Typo.body2" Style="font-weight:400"> 5.00 <MudText Typo="Typo.body2" Style="font-weight:400" Inline="true">(76)</MudText> </MudText> 
+                    </div>
+                    <MudText Typo="Typo.body1" Class="max-line-2" Style="font-weight: 400;"> Enjoy Hanoi Old Quarter With A Photographer </MudText>
+                    <MudText Typo="Typo.body1"> <strong> From $33 </strong> / person </MudText>
+                </MudPaper>
+            </MudPaper>
+
+            <MudPaper Class="mr-3" Elevation="0">
+                <MudImage Class="rounded-lg" Elevation="0" Src="/images/travel/dubai.jpg" Style="height:220px; width:180px" />
+                <MudPaper Class="mt-3" Elevation="0" Style="background-color: transparent;">
+                    <div class="d-flex">
+                        <MudIcon Icon="@Icons.Material.Filled.Star" Color="Color.Error" Size="Size.Small" />
+                        <MudText Typo="Typo.body2" Style="font-weight:400"> 5.00 <MudText Typo="Typo.body2" Style="font-weight:400" Inline="true">(54)</MudText> </MudText> 
+                    </div>
+                    <MudText Typo="Typo.body1" Class="max-line-2" Style="font-weight: 400;"> The Fammous Ha Giang Loop Adventure </MudText>
+                    <MudText Typo="Typo.body1"> <strong> From $38 </strong> / person </MudText>
+                </MudPaper>
+            </MudPaper>
+
+            <MudPaper Class="mr-3" Elevation="0">
+                <MudImage Class="rounded-lg" Elevation="0" Src="/images/travel/17.jpg" Style="height:220px; width:180px" />
+                <MudPaper Class="mt-3" Elevation="0" Style="background-color: transparent;">
+                    <div class="d-flex">
+                        <MudIcon Icon="@Icons.Material.Filled.Star" Color="Color.Error" Size="Size.Small" />
+                        <MudText Typo="Typo.body2" Style="font-weight:400"> 4.98 <MudText Typo="Typo.body2" Style="font-weight:400" Inline="true">(688)</MudText> </MudText> 
+                    </div>
+                    <MudText Typo="Typo.body1" Class="max-line-2" Style="font-weight: 400;"> Hanoi Walking Street Food </MudText>
+                    <MudText Typo="Typo.body1"> <strong> From $25 </strong> / person </MudText>
+                </MudPaper>
+            </MudPaper>
+
+            <MudPaper Class="mr-3" Elevation="0">
+                <MudImage Class="rounded-lg" Elevation="0" Src="/images/travel/18.jpg" Style="height:220px; width:180px" />
+                <MudPaper Class="mt-3" Elevation="0" Style="background-color: transparent;">
+                    <div class="d-flex">
+                        <MudIcon Icon="@Icons.Material.Filled.Star" Color="Color.Error" Size="Size.Small" />
+                        <MudText Typo="Typo.body2" Style="font-weight:400"> 4.58 <MudText Typo="Typo.body2" Style="font-weight:400" Inline="true">(455)</MudText> </MudText> 
+                    </div>
+                    <MudText Typo="Typo.body1" Class="max-line-2" Style="font-weight: 400;"> HanoiSoul-Street Food With Local Guide </MudText>
+                    <MudText Typo="Typo.body1"> <strong> From $29 </strong> / person </MudText>
+                </MudPaper>
+            </MudPaper>
+        </div>
+
+        <MudDivider Class="mt-5"></MudDivider>
+
+        <MudText Typo="Typo.h6" Class="align-self-center mt-8" Style="font-weight:500"> Keep exploring in Hanoi </MudText>
+        <div class="hz-container pb-3 pt-5">
+            <MudPaper Elevation="1" Height="90px" MinWidth="150px" Class="mud-paper-outlined d-flex align-content-center rounded-lg mr-3 pa-3">
+                <MudPaper Class="align-self-center" Elevation="0">
+                    <MudText Typo="Typo.body2" Style="font-weight: 500;"> Food and drink </MudText>
+                    <MudText Typo="Typo.body2"> 53 experiences </MudText>
+                </MudPaper>
+            </MudPaper>
+
+            <MudPaper Elevation="1" Height="90px" MinWidth="150px" Class="mud-paper-outlined d-flex align-content-center rounded-lg mr-3 pa-3">
+                <MudPaper Class="align-self-center" Elevation="0">
+                    <MudText Typo="Typo.body2" Style="font-weight: 500;"> Art and culture </MudText>
+                    <MudText Typo="Typo.body2"> 30 experiences </MudText>
+                </MudPaper>
+            </MudPaper>
+
+            <MudPaper Elevation="1" Height="90px" MinWidth="150px" Class="mud-paper-outlined d-flex align-content-center rounded-lg mr-3 pa-3">
+                <MudPaper Class="align-self-center" Elevation="0">
+                    <MudText Typo="Typo.body2" Style="font-weight: 500;"> Nature and outdoors </MudText>
+                    <MudText Typo="Typo.body2"> 13 experiences </MudText>
+                </MudPaper>
+            </MudPaper>
+
+            <MudPaper Elevation="1" Height="90px" MinWidth="150px" Class="mud-paper-outlined d-flex align-content-center rounded-lg mr-3 pa-3">
+                <MudPaper Class="align-self-center" Elevation="0">
+                    <MudText Typo="Typo.body2" Style="font-weight: 500;"> Sightseeing </MudText>
+                    <MudText Typo="Typo.body2"> 8 experiences </MudText>
+                </MudPaper>
+            </MudPaper>
+
+            <MudPaper Elevation="1" Height="90px" MinWidth="150px" Class="mud-paper-outlined d-flex align-content-center rounded-lg mr-3 pa-3">
+                <MudPaper Class="align-self-center" Elevation="0">
+                    <MudText Typo="Typo.body2" Style="font-weight: 500;"> Transportation activities </MudText>
+                    <MudText Typo="Typo.body2"> 5 experiences </MudText>
+                </MudPaper>
+            </MudPaper>
+
+            <MudPaper Elevation="1" Height="90px" MinWidth="150px" Class="mud-paper-outlined d-flex align-content-center rounded-lg mr-3 pa-3">
+                <MudPaper Class="align-self-center" Elevation="0">
+                    <MudText Typo="Typo.body2" Style="font-weight: 500;"> Sports </MudText>
+                    <MudText Typo="Typo.body2"> 3 experiences </MudText>
+                </MudPaper>
+            </MudPaper>
+
+            <MudPaper Elevation="1" Height="90px" MinWidth="150px" Class="mud-paper-outlined d-flex align-content-center rounded-lg mr-3 pa-3">
+                <MudPaper Class="align-self-center" Elevation="0">
+                    <MudText Typo="Typo.body2" Style="font-weight: 500;"> Wellness </MudText>
+                    <MudText Typo="Typo.body2"> 2 experiences </MudText>
+                </MudPaper>
+            </MudPaper>
+
+            <MudPaper Elevation="1" Height="90px" MinWidth="150px" Class="mud-paper-outlined d-flex align-content-center rounded-lg mr-3 pa-3">
+                <MudPaper Class="align-self-center" Elevation="0">
+                    <MudText Typo="Typo.body2" Style="font-weight: 500;"> Entertainment </MudText>
+                    <MudText Typo="Typo.body2"> 1 experience </MudText>
+                </MudPaper>
+            </MudPaper>
+        </div>
+    </MudCardContent>
+</MudCard>
+@code {
+    public bool IsFavorite { get; set; }
+
+    DateTime? date = null;
+    DateRange _dateRange = new DateRange(DateTime.Now.Date, DateTime.Now.AddDays(3).Date);
+
+    public GoogleMapPosition _location { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        _location = new GoogleMapPosition { Lat = 10.739780, Lng = 106.705020 };
+    }
+}

@@ -1,0 +1,238 @@
+﻿@page "/project-project1"
+
+@if (!_loaded)
+{
+    <Spinner></Spinner>
+}
+else
+{
+    <MudPaper Elevation="3" Height="150" Class="px-4 mx-n4 mt-n10 py-10 mud-theme-primary" Style="border-radius: 0px 0px 45px 45px;" Outlined="false">
+        <MudPaper Elevation="0" Class="py-0">
+
+        </MudPaper>
+    </MudPaper>
+
+    <MudGrid Class="mt-n15 pt-0 mb-1">
+        <MudItem xs="12">
+            <div class="hz-container pb-3">
+            <MudCard Elevation="1" Class="rounded-lg mr-5">
+                <MudCardContent Style="width: 160px; height:170px;" Class="d-flex flex-column justify-space-around pa-3">
+                    <MudIcon Icon="fas fa-layer-group" Color="Color.Error" Class="" Size="Size.Large"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600; line-height: 1.2" Class="" Color="@Color.Surface">Homepage Design Task</MudText>
+                    <MudText Typo="Typo.body2" Color="@Color.Error">High</MudText>
+                </MudCardContent>
+            </MudCard>
+            <MudCard Elevation="1" Class="rounded-lg mr-5">
+                <MudCardContent Style="width: 160px; height:170px;" Class="d-flex flex-column justify-space-around pa-3">
+                    <MudIcon Icon="@Icons.Material.TwoTone.AddToHomeScreen" Color="Color.Tertiary" Class="" Size="Size.Large"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600; line-height: 1.2" Class="" Color="@Color.Surface">Create Task List Design Task</MudText>
+                    <MudText Typo="Typo.body2" Color="@Color.Warning">Medium</MudText>
+                </MudCardContent>
+            </MudCard>
+            <MudCard Elevation="1" Class="rounded-lg mr-5">
+                <MudCardContent Style="width: 160px; height:170px;" Class="d-flex flex-column justify-space-around pa-3">
+                    <MudIcon Icon="fas fa-laptop-code" Color="Color.Info" Class="" Size="Size.Large"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600; line-height: 1.2" Class="" Color="@Color.Surface">Have A Pizza Task</MudText>
+                    <MudText Typo="Typo.body2" Color="@Color.Error">High</MudText>
+                </MudCardContent>
+            </MudCard>
+            <MudCard Elevation="1" Class="rounded-lg mr-5">
+                <MudCardContent Style="width: 160px; height:170px;" Class="d-flex flex-column justify-space-around pa-3">
+                    <MudIcon Icon="fas fa-globe" Color="Color.Success" Class="" Size="Size.Large"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600; line-height: 1.2" Class="" Color="@Color.Surface">Custom Components Design Task</MudText>
+                    <MudText Typo="Typo.body2" Color="@Color.Primary">Low</MudText>
+                </MudCardContent>
+            </MudCard>
+            <MudCard Elevation="1" Class="rounded-lg mr-5">
+                <MudCardContent Style="width: 160px; height:170px;" Class="d-flex flex-column justify-space-around pa-3">
+                    <MudIcon Icon="@Icons.Material.Filled.ImportantDevices" Color="Color.Primary" Class="" Size="Size.Large"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600; line-height: 1.2" Class="" Color="@Color.Surface">Design Task Categories Page</MudText>
+                    <MudText Typo="Typo.body2" Color="@Color.Warning">Medium</MudText>
+                </MudCardContent>
+            </MudCard>
+            <MudCard Elevation="1" Class="rounded-lg mr-5">
+                <MudCardContent Style="width: 160px; height:170px;" Class="d-flex flex-column justify-space-around pa-3">
+                    <MudIcon Icon="fas fa-heartbeat" Color="Color.Tertiary" Class="" Size="Size.Large"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600; line-height: 1.2" Class="" Color="@Color.Surface">Implement Chat Module Task</MudText>
+                    <MudText Typo="Typo.body2" Color="@Color.Warning">Medium</MudText>
+                </MudCardContent>
+            </MudCard>
+            <MudCard Elevation="1" Class="rounded-lg mr-5">
+                <MudCardContent Style="width: 160px; height:170px;" Class="d-flex flex-column justify-space-around pa-3">
+                    <MudIcon Icon="fas fa-shopping-bag" Color="Color.Secondary" Class="" Size="Size.Large"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600; line-height: 1.2" Class="" Color="@Color.Surface">Have A Coffee Task</MudText>
+                    <MudText Typo="Typo.body2" Color="@Color.Primary">Low</MudText>
+                </MudCardContent>
+            </MudCard>
+            <MudCard Elevation="1" Class="rounded-lg mr-5">
+                <MudCardContent Style="width: 160px; height:170px;" Class="d-flex flex-column justify-space-around pa-3">
+                    <MudIcon Icon="fas fa-wallet" Color="Color.Warning" Class="" Size="Size.Large"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600; line-height: 1.2" Class="" Color="@Color.Surface">Improving UIUX Design Task</MudText>
+                    <MudText Typo="Typo.body2" Color="@Color.Warning">Medium</MudText>
+                </MudCardContent>
+            </MudCard>
+        </div>
+        </MudItem>
+    </MudGrid>
+
+    <div class="d-flex flex-row justify-space-between mt-5 mb-0">
+        <MudText Color="Color.Default" Class="mx-3" Style="font-weight: 600;" Typo="Typo.subtitle1">Project TaskList</MudText>
+        <MudText Color="Color.Primary" Class="ml-auto" Typo="Typo.subtitle2">View All</MudText>
+    </div>
+    <MudCard Elevation="1" Class="rounded-lg">
+        <MudCardContent Class="my-3 mx-1">
+            <MudGrid Spacing="0">
+                <MudItem xs="12" sm="12" md="12">
+                    <MudText Class="mt-5 mb-3" Typo="Typo.subtitle1" Style="font-weight: 600;" Align="Align.Left" Color="@Color.Default"> Pending</MudText>
+                    <MudPaper Elevation="0" Class="d-flex flex-row" Style="background-color: transparent">
+                        <MudCheckBox @bind-Value="@Dense_CheckBox1" Dense="true" Class="mx-0 my-2 align-self-center" Color="Color.Success"></MudCheckBox>
+                        <MudText Typo="Typo.subtitle2" Style="font-weight: 500;" Class="mx-3 align-self-center" Color="@Color.Default"> Clean Code </MudText>
+                        <MudChip T="string" Class="ml-auto mr-0 align-self-center" Color="Color.Primary" Size="Size.Small">Your Task</MudChip>
+                    </MudPaper>
+                </MudItem>
+
+                <MudItem xs="12" sm="12" md="12">
+                    <MudPaper Elevation="0" Class="d-flex flex-row" Style="background-color: transparent">
+                        <MudCheckBox @bind-Value="@Dense_CheckBox2" Dense="true" Class="mx-0 my-2 align-self-center" Color="Color.Success"></MudCheckBox>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-3 align-self-center" Color="@Color.Default"> Create Pages </MudText>
+                        <MudChip T="string" Class="ml-auto mr-0 align-self-center" Color="Color.Warning" Size="Size.Small">Jack Sone</MudChip>
+                    </MudPaper>
+                </MudItem>
+
+                <MudItem xs="12" sm="12" md="12">
+                    <MudPaper Elevation="0" Class="d-flex flex-row" Style="background-color: transparent">
+                        <MudCheckBox @bind-Value="@Dense_CheckBox3" Dense="true" Class="mx-0 my-2 align-self-center" Color="Color.Success"></MudCheckBox>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-3 align-self-center" Color="@Color.Default"> Connect To CMS </MudText>
+                        <MudChip T="string" Class="ml-auto mr-0 align-self-center" Color="Color.Warning" Size="Size.Small">John Doe</MudChip>
+                    </MudPaper>
+                </MudItem>
+
+                <MudItem xs="12" sm="12" md="12">
+                    <MudDivider Class="my-5"></MudDivider>
+                </MudItem>
+
+                <MudItem xs="12" sm="12" md="12">
+                    <MudText Class="mb-3" Typo="Typo.subtitle1" Style="font-weight: 600;" Align="Align.Left" Color="@Color.Default"> Completed</MudText>
+                </MudItem>
+                <MudItem xs="12" sm="12" md="12">
+                    <MudPaper Elevation="0" Class="d-flex flex-row" Style="background-color: transparent">
+                        <MudCheckBox @bind-Value="@Dense_CheckBox4" Dense="true" Disabled="true" Class="mx-0 my-2 align-self-center" Color="Color.Success"></MudCheckBox>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-3 align-self-center" Color="@Color.Default"> Wireframe </MudText>
+                        <MudChip T="string" Class="ml-auto mr-0 align-self-center" Color="Color.Tertiary" Size="Size.Small">Approved</MudChip>
+                    </MudPaper>
+                </MudItem>
+
+                <MudItem xs="12" sm="12" md="12">
+                    <MudPaper Elevation="0" Class="d-flex flex-row" Style="background-color: transparent">
+                        <MudCheckBox @bind-Value="@Dense_CheckBox5" Dense="true" Disabled="true" Class="mx-0 my-2 align-self-center" Color="Color.Success"></MudCheckBox>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-3 align-self-center" Color="@Color.Default"> Code Framework </MudText>
+                        <MudChip T="string" Class="ml-auto mr-0 align-self-center" Color="Color.Tertiary" Size="Size.Small">Approved</MudChip>
+                    </MudPaper>
+                </MudItem>
+
+                <MudItem xs="12" sm="12" md="12">
+                    <MudPaper Elevation="0" Class="d-flex flex-row" Style="background-color: transparent">
+                        <MudCheckBox @bind-Value="@Dense_CheckBox6" Dense="true" Disabled="true" Class="mx-0 my-2 align-self-center" Color="Color.Success"></MudCheckBox>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-3 align-self-center" Color="@Color.Default"> Install Prerequisites </MudText>
+                        <MudChip T="string" Class="ml-auto mr-0 align-self-center" Color="Color.Tertiary" Size="Size.Small">Approved</MudChip>
+                    </MudPaper>
+                </MudItem>
+
+                <MudItem xs="12" sm="12" md="12">
+                    <MudPaper Elevation="0" Class="d-flex flex-row" Style="background-color: transparent">
+                        <MudCheckBox @bind-Value="@Dense_CheckBox7" Dense="true" Disabled="true" Class="mx-0 my-2 align-self-center" Color="Color.Success"></MudCheckBox>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-3 align-self-center" Color="@Color.Default"> Develop Starter Page </MudText>
+                        <MudChip T="string" Class="ml-auto mr-0 align-self-center" Color="Color.Tertiary" Size="Size.Small">Approved</MudChip>
+                    </MudPaper>
+                </MudItem>
+
+                <MudItem xs="12" sm="12" md="12">
+                    <MudDivider Class="my-5"></MudDivider>
+                </MudItem>
+
+                <MudItem xs="12" sm="12" md="12">
+                    <MudText Class="mb-3" Typo="Typo.subtitle1" Style="font-weight: 600;" Align="Align.Left" Color="@Color.Default"> Canceled</MudText>
+                </MudItem>
+                <MudItem xs="12" sm="12" md="12">
+                    <MudPaper Elevation="0" Class="d-flex flex-row" Style="background-color: transparent">
+                        <MudIcon Icon="fas fa-times-circle" Color="Color.Error" Class="mx-0 my-2 align-self-center" Size="Size.Medium"></MudIcon>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-3 align-self-center" Color="@Color.Default"> Create Pages </MudText>
+                        <MudChip T="string" Class="ml-auto mr-0 align-self-center" Color="Color.Error" Size="Size.Small">By You</MudChip>
+                    </MudPaper>
+                </MudItem>
+
+            </MudGrid>
+        </MudCardContent>
+    </MudCard>
+
+    <div class="d-flex flex-row justify-space-between mt-10 mb-0">
+        <MudText Color="Color.Default" Class="mx-3" Style="font-weight: 600;" Typo="Typo.subtitle1">Project Attachments</MudText>
+        <MudText Color="Color.Primary" Class="ml-auto" Typo="Typo.subtitle2">View All</MudText>
+    </div>
+    <MudCard Elevation="1" Class="rounded-lg">
+        <MudCardContent Class="my-3 mx-1">
+            <MudGrid Spacing="1">
+                <MudItem xs="12" sm="12" md="12">
+                    <MudPaper Elevation="0" Class="d-flex flex-row" Style="background-color: transparent">
+                        <MudIcon Icon="fas fa-file-archive" Color="Color.Primary" Class="mx-0 my-2 align-self-center" Size="Size.Large"></MudIcon>
+                        <div class="mx-3 align-self-center">
+                            <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Class="align-self-center" Color="@Color.Default"> Project Update. </MudText>
+                            <MudText Typo="Typo.caption" Align="Align.Left" Color="@Color.Default">315Kb, ZIP Archive</MudText>
+                        </div>
+                        <MudIcon Icon="@Icons.Material.Outlined.FileDownload" Class="ml-auto mr-0 align-self-center" Color="Color.Default" Size="Size.Small">Approved</MudIcon>
+                    </MudPaper>
+                </MudItem>
+
+                <MudItem xs="12" sm="12" md="12">
+                    <MudPaper Elevation="0" Class="d-flex flex-row" Style="background-color: transparent">
+                        <MudIcon Icon="fas fa-file-pdf" Color="Color.Error" Class="mx-0 my-2 align-self-center" Size="Size.Large"></MudIcon>
+                        <div class="mx-3 align-self-center">
+                            <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Class="align-self-center" Color="@Color.Default"> Customer Briefing. </MudText>
+                            <MudText Typo="Typo.caption" Align="Align.Left" Color="@Color.Default">315Kb, ZIP Archive</MudText>
+                        </div>
+                        <MudIcon Icon="@Icons.Material.Outlined.FileDownload" Class="ml-auto mr-0 align-self-center" Color="Color.Default" Size="Size.Small">Approved</MudIcon>
+                    </MudPaper>
+                </MudItem>
+
+                <MudItem xs="12" sm="12" md="12">
+                    <MudPaper Elevation="0" Class="d-flex flex-row" Style="background-color: transparent">
+                        <MudIcon Icon="fas fa-file-alt" Color="Color.Default" Class="mx-0 my-2 align-self-center" Size="Size.Large"></MudIcon>
+                        <div class="mx-3 align-self-center">
+                            <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Class="align-self-center" Color="@Color.Default"> Product Licenses </MudText>
+                            <MudText Typo="Typo.caption" Align="Align.Left" Color="@Color.Default">315Kb, ZIP Archive</MudText>
+                        </div>
+                        <MudIcon Icon="@Icons.Material.Outlined.FileDownload" Class="ml-auto mr-0 align-self-center" Color="Color.Default" Size="Size.Small">Approved</MudIcon>
+                    </MudPaper>
+                </MudItem>
+
+                <MudItem xs="12" sm="12" md="12">
+                    <MudPaper Elevation="0" Class="d-flex flex-row" Style="background-color: transparent">
+                        <MudIcon Icon="fas fa-file-image" Color="Color.Tertiary" Class="mx-0 my-2 align-self-center" Size="Size.Large"></MudIcon>
+                        <div class="mx-3 align-self-center">
+                            <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Class="align-self-center" Color="@Color.Default"> Design Screenshots. </MudText>
+                            <MudText Typo="Typo.caption" Align="Align.Left" Color="@Color.Default">315Kb, ZIP Archive</MudText>
+                        </div>                       
+                        <MudIcon Icon="@Icons.Material.Outlined.FileDownload" Class="ml-auto mr-0 align-self-center" Color="Color.Default" Size="Size.Small">Approved</MudIcon>
+                    </MudPaper>
+                </MudItem>
+            </MudGrid>
+        </MudCardContent>
+    </MudCard>
+}
+@code {
+    public bool _loaded;
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+        _loaded = true;
+    }
+
+    public bool Dense_CheckBox1 { get; set; } = false;
+    public bool Dense_CheckBox2 { get; set; } = false;
+    public bool Dense_CheckBox3 { get; set; } = false;
+    public bool Dense_CheckBox4 { get; set; } = true;
+    public bool Dense_CheckBox5 { get; set; } = true;
+    public bool Dense_CheckBox6 { get; set; } = true;
+    public bool Dense_CheckBox7 { get; set; } = true;
+}

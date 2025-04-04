@@ -1,0 +1,160 @@
+﻿@page "/profile3"
+
+<MudPaper Elevation="3" Height="150" Class="px-4 mx-n4 mt-n10 pt-10 mud-theme-primary" Style="border-radius: 0px 0px 45px 45px;" Outlined="false">
+    <MudPaper Elevation="0" Class="py-6" Style="background-color: transparent">
+
+    </MudPaper>
+</MudPaper>
+
+<MudGrid Class="mt-n15 pt-0 mb-3">
+    <MudItem xs="12">
+        <MudCard Elevation="1" Class="rounded-lg">
+            <MudCardContent>
+                <div class="d-flex mb-3">
+                    <MudAvatar Style="height: 70px; width: 70px;">
+                        <MudImage Src="images/pictures/faces/3s.png" />
+                    </MudAvatar>
+                    <div class="mx-3 align-self-center">
+                        <MudText Color="Color.Default" Typo="Typo.h6" Style="font-weight: 700;">John Doe</MudText>
+                        <MudText Color="Color.Primary" Typo="Typo.caption" Style="font-weight: 500;">Graphic Designer</MudText>
+                    </div>
+                </div>
+                <MudText Typo="Typo.body2">John Doe is a name used when you generate a text with an annonymous name.</MudText>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+<MudCard Elevation="1" Class="rounded-lg mb-5">
+    <MudCardContent>
+        <MudGrid Spacing="2" Class="pb-2">
+            <MudItem xs="12">
+                <MudText Typo="Typo.h6" Style="font-weight: 500;" Color="Color.Primary">Basic Info</MudText>
+                <MudText Typo="Typo.caption">Basic details about you. Set them here. These can be connected to your database and shown on the user profile. </MudText>
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField @bind-Value="FullName" Label="Full Name" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField @bind-Value="Email" Label="Email" InputType="InputType.Email" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField @bind-Value="PhoneNumber" Label="Phone Number" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField @bind-Value="Location" Label="Location" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField @bind-Value="Password" InputType="InputType.Password" Label="Password" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+            </MudItem>
+        </MudGrid>
+    </MudCardContent>
+</MudCard>
+
+<MudCard Elevation="1" Class="rounded-lg mb-5">
+    <MudCardContent Class="py-3">
+        <MudText Typo="Typo.h6" Style="font-weight: 500;" Color="Color.Primary"> Socials </MudText>
+        <MudText Class="mb-3" Typo="Typo.caption"> Basic details about you. Set them here. These can be connected to your database and shown on the user profile. </MudText>
+
+        <MudCard Elevation="0" Class="d-flex justify-space-between " Style="background-color: transparent">
+            <div class="d-flex">
+                <MudIcon Icon="fab fa-twitter" Color="Color.Primary" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-3 align-self-center" Color="@Color.Default"> Twitter</MudText>
+            </div>
+            <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+        </MudCard>
+
+        <MudDivider></MudDivider>
+
+        <MudCard Elevation="0" Class="d-flex justify-space-between " Style="background-color: transparent">
+            <div class="d-flex">
+                <MudIcon Icon="fab fa-linkedin" Color="Color.Info" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-3 align-self-center" Color="@Color.Default"> LinkedIn</MudText>
+            </div>
+            <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+        </MudCard>
+
+        <MudDivider></MudDivider>
+
+        <MudCard Elevation="0" Class="d-flex justify-space-between " Style="background-color: transparent">
+            <div class="d-flex">
+                <MudIcon Icon="fab fa-facebook" Color="Color.Primary" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-3 align-self-center" Color="@Color.Default"> Facebook</MudText>
+            </div>
+            <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+        </MudCard>
+
+        <MudDivider></MudDivider>
+
+        <MudCard Elevation="0" Class="d-flex justify-space-between " Style="background-color: transparent">
+            <div class="d-flex">
+                <MudIcon Icon="fab fa-instagram" Color="Color.Secondary" Class="mx-0 my-5 align-self-center" Size="Size.Small"></MudIcon>
+                <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="mx-3 align-self-center" Color="@Color.Default"> Instagram</MudText>
+            </div>
+            <MudIcon Icon="fal fa-angle-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+        </MudCard>
+    </MudCardContent>
+</MudCard>
+
+<MudCard Elevation="1" Class="rounded-lg mb-5">
+    <MudCardContent Class="py-5">
+        <MudText Typo="Typo.h6" Style="font-weight: 500;" Color="Color.Primary"> Account Settings </MudText>
+        <MudText Typo="Typo.caption"> Set your preferences here, these can be connected to a database and shown on the user profile. </MudText>
+
+        <div class="d-flex justify-space-between mt-5">
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Notifications</MudText>
+            <MudSwitch ValueChanged="@((e) => ToggleNotificationAsync(e))" T="bool" Value="@Notifications" Color="Color.Tertiary" Class="align-self-center ma-n3" />
+        </div>
+
+        <MudDivider Class="my-4"></MudDivider>
+
+        <div class="d-flex justify-space-between">
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Newsletter</MudText>
+            <MudSwitch ValueChanged="@((e) => ToggleNewsletterAsync(e))" T="bool" Value="@Newsletter" Color="Color.Tertiary" Class="align-self-center ma-n3" />
+        </div>
+
+        <MudDivider Class="my-4"></MudDivider>
+
+        <div class="d-flex justify-space-between mb-2">
+            <MudText Typo="Typo.subtitle1" Style="font-weight: 500;" Class="align-self-center" Color="@Color.Default"> Notifications</MudText>
+            <MudSwitch ValueChanged="@((e) => ToggleDarkModeAsync(e))" T="bool" Value="@DarkMode" Color="Color.Tertiary" Class="align-self-center ma-n3" />
+        </div>
+    </MudCardContent>
+</MudCard>
+
+<MudButton Class="py-2 rounded-lg" Color="Color.Tertiary" FullWidth="true" Variant="Variant.Filled"> Save Information </MudButton>
+@code {
+    public string FullName { get; set; }
+    public string Email { get; set; }
+    public string PhoneNumber { get; set; }
+    public string Location { get; set; }
+    public string Password { get; set; }
+
+    private bool Notifications { get; set; }
+    private bool Newsletter { get; set; }
+    private bool DarkMode { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        FullName = "John Alex Doe";
+        Email = "john.doe@example.com";
+        PhoneNumber = "+12 345 6789990";
+        Location = "Sanfransisco, USA";
+        Password = "123password";
+        Notifications = true;
+        Newsletter = true;
+        DarkMode = false;
+    }
+
+    private async Task ToggleNotificationAsync(bool value)
+    {
+        Notifications = value;
+    }
+    private async Task ToggleNewsletterAsync(bool value)
+    {
+        Newsletter = value;
+    }
+    private async Task ToggleDarkModeAsync(bool value)
+    {
+        DarkMode = value;
+    }
+}

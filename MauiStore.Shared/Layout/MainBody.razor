@@ -1,0 +1,86 @@
+﻿@inherits LayoutComponentBase
+
+<MudLayout>
+
+    <MudAppBar Elevation="0">
+        @if (_navigationManager.Uri.Substring(_navigationManager.BaseUri.Length) != "")
+        {
+            <MudIconButton Href="back" Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Inherit" Edge="Edge.Start" />
+        }
+
+        <MudSpacer />
+
+        <MudToggleIconButton Icon="@Icons.Material.TwoTone.DarkMode" ToggledIcon="@Icons.Material.TwoTone.LightMode" Color="Color.Inherit" ToggledColor="Color.Warning" ToggledChanged="ToggleDarkMode" />
+        <MudIconButton Icon="@Icons.Material.TwoTone.Notifications" Color="Color.Inherit" />
+        <MudIconButton Icon="@Icons.Material.TwoTone.Menu" Color="Color.Inherit" OnClick="@((e) => DrawerToggle())" />
+    </MudAppBar>
+
+    <MudDrawer @bind-Open="_drawerOpen" Anchor="Anchor.Left" Class="" Variant="@DrawerVariant.Temporary" ClipMode="DrawerClipMode.Never">
+        <MudDrawerHeader Class="px-0 py-5">
+            <MudCard Elevation="0" Class="pa-0" Square="true" Style="background-color: transparent; width: 100%;">
+                <MudCardContent Class="pt-3">
+                    <BrandLogo />
+                    <MudChip T="string" Class="px-3" Color="Color.Error" Size="Size.Small"> v2.0 </MudChip>
+                    <MudDivider Class="mt-2" />
+                </MudCardContent>
+            </MudCard>
+        </MudDrawerHeader>
+        <NavMenu />
+    </MudDrawer>
+
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.Large" Class="mt-5 mb-15 pt-0 pb-8">
+            @ChildContent
+        </MudContainer>
+
+        <div class="my-5"></div>
+
+        <BottomNavMenu>
+            <BottomNavMenuItem Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.TwoTone.Cottage" IconColor="Color.Default" Title="Home"></BottomNavMenuItem>
+            <BottomNavMenuItem Href="app-styles" Match="NavLinkMatch.All" Icon="@Icons.Custom.Brands.MudBlazor" IconColor="Color.Secondary" Title="Features"></BottomNavMenuItem>
+            <BottomNavMenuItem Href="pages" Match="NavLinkMatch.All" Icon="@Icons.Material.TwoTone.Pages" IconColor="Color.Tertiary" Title="Pages"></BottomNavMenuItem>
+            <BottomNavMenuItem Href="stories" Match="NavLinkMatch.All" Icon="@Icons.Material.TwoTone.AccessTime" IconColor="Color.Error" Title="Stories"></BottomNavMenuItem>
+            <BottomNavMenuItem Href="settings" Match="NavLinkMatch.All" Icon="@Icons.Material.TwoTone.Settings" IconColor="Color.Success" Title="Settings"></BottomNavMenuItem>
+        </BottomNavMenu>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public EventCallback OnDarkModeToggle { get; set; }
+
+    private bool _drawerOpen = false;
+
+    const string RouteBack = "/back";
+
+    public async Task ToggleDarkMode()
+    {
+        await OnDarkModeToggle.InvokeAsync();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Register handler to detect "back" navigation route
+        _navigationManager.RegisterLocationChangingHandler(LocationChangingHandler);
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+
+    private async ValueTask LocationChangingHandler(LocationChangingContext context)
+    {
+        bool isBackRoute = context.TargetLocation.EndsWith(RouteBack, StringComparison.OrdinalIgnoreCase);
+
+        if (isBackRoute)
+        {
+            context.PreventNavigation();
+            await _jsRuntime.InvokeVoidAsync("history.back"); // Call javascript to navigate back
+        }
+    }
+}

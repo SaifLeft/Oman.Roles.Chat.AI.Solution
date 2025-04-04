@@ -1,0 +1,29 @@
+﻿@page "/maps"
+@using MauiStore.Data.GoogleMap
+
+<MudPaper Elevation="3" Height="150" Class="px-4 mx-n4 mt-n10 pt-10 mud-theme-primary" Style="border-radius: 0px 0px 45px 45px;" Outlined="false">
+    <MudPaper Elevation="0" Class="py-6" Style="background-color: transparent">
+
+    </MudPaper>
+</MudPaper>
+
+<MudGrid Class="mt-n15 pt-0 mb-1">
+    <MudItem xs="12">
+        <MudCard Elevation="1" Class="rounded-lg pa-0">
+            <MudCardContent Class="pa-0">
+                <GoogleMap Style="height: 100vh;" Zoom="15" Center="@_location">
+                        <Markers>
+                            <GoogleMapMarker Position="@_location" />
+                        </Markers>
+                </GoogleMap>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+@code {
+    public GoogleMapPosition _location { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        _location = new GoogleMapPosition { Lat = 10.234786711619794, Lng = 103.96343798707063 };
+    }
+}

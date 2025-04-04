@@ -1,0 +1,1552 @@
+﻿@page "/travel/place-listing"
+
+<style>
+   .max-line-2 {
+      display: block; /* Fallback for non-webkit */
+      display: -webkit-box;
+      height: 2.6em; /* Fallback for non-webkit, line-height * 2 */
+      line-height: 1.3em;
+      -webkit-line-clamp: 2; /* if you change this, make sure to change the fallback line-height and height */
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mud-tab {
+        text-transform: capitalize !important;
+        line-height: 1 !important;
+        min-width: auto !important;
+    }
+
+    .mud-tab-icon-text {
+        font-size: 1.1rem !important;
+    }
+</style>
+
+<MudPaper Elevation="3" Class="px-lg-6 px-4 mx-lg-n6 mx-n4 mt-n8 pt-5 pb-15 mud-theme-primary" Style="border-radius: 0px 0px 30px 30px;" Outlined="false">
+    <MudGrid>
+        <MudItem xs="12">
+            @*<MudPaper Elevation="0" Class="d-flex flex-row px-2" Style="background-color: var(--mud-palette-background-grey); border-radius: 5px; margin-top:5px; height: 50px">
+                <MudTextField T="string" Placeholder="@_localizer["Enter your destination..."]" Margin="Margin.Dense"
+                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary"
+                Underline ="false" Class="py-2 mt-n3 mx-2"/>
+            </MudPaper>*@
+        </MudItem>
+    </MudGrid>
+</MudPaper>
+
+<MudTabs Class="mt-n10" Elevation="0">
+    <MudTabPanel Text="Amazing pools" Icon="fal fa-swimming-pool fa-small">
+        <MudGrid Class="pt-4">
+            <MudItem xs="12">
+                <MudCarousel Class="" Style="height:300px;" ShowArrows="false" ShowBullets="true" AutoCycle="false" TData="object">
+                    <BulletTemplate Context="selected">
+                        <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                            <span class="mud-icon-button-label">
+                                <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                            </span>
+                        </div>
+                    </BulletTemplate>
+                    <ChildContent>
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/singapore.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/dubai.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/fuji.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/london.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/hongkong.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+                    </ChildContent>
+                </MudCarousel>
+                <MudPaper Class="mt-3 d-flex justify-space-between" Elevation="0" Style="background-color: transparent;">
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;"> Willington, Connecticut </MudText>
+                        <MudText Class="" Typo="Typo.body2"> 10,1 kilometer away </MudText>
+                    </div>
+                    <div>
+                        <MudText Typo="Typo.subtitle1"> <strong> $215 </strong> night </MudText>
+                        <MudText Class="" Typo="Typo.body2"> Jan 7 - 14 </MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudCarousel Class="" Style="height:300px;" ShowArrows="false" ShowBullets="true" AutoCycle="false" TData="object">
+                    <BulletTemplate Context="selected">
+                        <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                            <span class="mud-icon-button-label">
+                                <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                            </span>
+                        </div>
+                    </BulletTemplate>
+                    <ChildContent>
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/dubai.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/singapore.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/fuji.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/london.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/hongkong.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+                    </ChildContent>
+                </MudCarousel>
+                <MudPaper Class="mt-3 d-flex justify-space-between" Elevation="0" Style="background-color: transparent;">
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;"> Peshasttin, Washington </MudText>
+                        <MudText Class="" Typo="Typo.body2"> 9,1 kilometer away </MudText>
+                    </div>
+                    <div>
+                        <MudText Typo="Typo.subtitle1"> <strong> $366 </strong> night </MudText>
+                        <MudText Class="" Typo="Typo.body2"> Dec 7 - 14 </MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudCarousel Class="" Style="height:300px;" ShowArrows="false" ShowBullets="true" AutoCycle="false" TData="object">
+                    <BulletTemplate Context="selected">
+                        <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                            <span class="mud-icon-button-label">
+                                <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                            </span>
+                        </div>
+                    </BulletTemplate>
+                    <ChildContent>
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/fuji.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/singapore.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/dubai.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/london.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/hongkong.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+                    </ChildContent>
+                </MudCarousel>
+                <MudPaper Class="mt-3 d-flex justify-space-between" Elevation="0" Style="background-color: transparent;" >
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;"> Hardwick, Vermont </MudText>
+                        <MudText Class="" Typo="Typo.body2"> 15 kilometer away </MudText>
+                    </div>
+                    <div>
+                        <MudText Typo="Typo.subtitle1"> <strong> $213 </strong> night </MudText>
+                        <MudText Class="" Typo="Typo.body2"> Jan 4 - 11 </MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudCarousel Class="" Style="height:300px;" ShowArrows="false" ShowBullets="true" AutoCycle="false" TData="object">
+                    <BulletTemplate Context="selected">
+                        <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                            <span class="mud-icon-button-label">
+                                <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                            </span>
+                        </div>
+                    </BulletTemplate>
+                    <ChildContent>
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/london.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/singapore.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/dubai.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/fuji.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/hongkong.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+                    </ChildContent>
+                </MudCarousel>
+                <MudPaper Class="mt-3 d-flex justify-space-between" Elevation="0" Style="background-color: transparent;">
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;"> Balamban, Central Vysayas </MudText>
+                        <MudText Class="" Typo="Typo.body2"> 20 kilometer away </MudText>
+                    </div>
+                    <div>
+                        <MudText Typo="Typo.subtitle1"> <strong> $213 </strong> night </MudText>
+                        <MudText Class="" Typo="Typo.body2"> Mar 1 - 8 </MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudCarousel Class="" Style="height:300px;" ShowArrows="false" ShowBullets="true" AutoCycle="false" TData="object">
+                    <BulletTemplate Context="selected">
+                        <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                            <span class="mud-icon-button-label">
+                                <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                            </span>
+                        </div>
+                    </BulletTemplate>
+                    <ChildContent>
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/hongkong.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/singapore.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/dubai.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/fuji.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/london.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+                    </ChildContent>
+                </MudCarousel>
+                <MudPaper Class="mt-3 d-flex justify-space-between" Elevation="0" Style="background-color: transparent;">
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;"> Guyonvelle, Grand Est </MudText>
+                        <MudText Class="" Typo="Typo.body2"> 9 kilometer away </MudText>
+                    </div>
+                    <div>
+                        <MudText Typo="Typo.subtitle1"> <strong> $213 </strong> night </MudText>
+                        <MudText Class="" Typo="Typo.body2"> Dec 4 - 11 </MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+    </MudTabPanel>
+
+    <MudTabPanel Text="Beachfront" Icon="fal fa-umbrella-beach fa-small">
+        <MudGrid Class="pt-4">
+            <MudItem xs="12">
+                <MudCarousel Class="" Style="height:300px;" ShowArrows="false" ShowBullets="true" AutoCycle="false" TData="object">
+                    <BulletTemplate Context="selected">
+                        <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                            <span class="mud-icon-button-label">
+                                <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                            </span>
+                        </div>
+                    </BulletTemplate>
+                    <ChildContent>
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/dubai.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/singapore.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/fuji.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/london.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/hongkong.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+                    </ChildContent>
+                </MudCarousel>
+                <MudPaper Class="mt-3 d-flex justify-space-between" Elevation="0" Style="background-color: transparent;">
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;"> Willington, Connecticut </MudText>
+                        <MudText Class="" Typo="Typo.body2"> 10,1 kilometer away </MudText>
+                    </div>
+                    <div>
+                        <MudText Typo="Typo.subtitle1"> <strong> $215 </strong> night </MudText>
+                        <MudText Class="" Typo="Typo.body2"> Jan 7 - 14 </MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudCarousel Class="" Style="height:300px;" ShowArrows="false" ShowBullets="true" AutoCycle="false" TData="object">
+                    <BulletTemplate Context="selected">
+                        <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                            <span class="mud-icon-button-label">
+                                <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                            </span>
+                        </div>
+                    </BulletTemplate>
+                    <ChildContent>
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/fuji.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/singapore.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/dubai.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/london.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/hongkong.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+                    </ChildContent>
+                </MudCarousel>
+                <MudPaper Class="mt-3 d-flex justify-space-between" Elevation="0" Style="background-color: transparent;">
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;"> Peshasttin, Washington </MudText>
+                        <MudText Class="" Typo="Typo.body2"> 9,1 kilometer away </MudText>
+                    </div>
+                    <div>
+                        <MudText Typo="Typo.subtitle1"> <strong> $366 </strong> night </MudText>
+                        <MudText Class="" Typo="Typo.body2"> Dec 7 - 14 </MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudCarousel Class="" Style="height:300px;" ShowArrows="false" ShowBullets="true" AutoCycle="false" TData="object">
+                    <BulletTemplate Context="selected">
+                        <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                            <span class="mud-icon-button-label">
+                                <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                            </span>
+                        </div>
+                    </BulletTemplate>
+                    <ChildContent>
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/london.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/singapore.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/dubai.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/fuji.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/hongkong.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+                    </ChildContent>
+                </MudCarousel>
+                <MudPaper Class="mt-3 d-flex justify-space-between" Elevation="0" Style="background-color: transparent;" >
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;"> Hardwick, Vermont </MudText>
+                        <MudText Class="" Typo="Typo.body2"> 15 kilometer away </MudText>
+                    </div>
+                    <div>
+                        <MudText Typo="Typo.subtitle1"> <strong> $213 </strong> night </MudText>
+                        <MudText Class="" Typo="Typo.body2"> Jan 4 - 11 </MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudCarousel Class="" Style="height:300px;" ShowArrows="false" ShowBullets="true" AutoCycle="false" TData="object">
+                    <BulletTemplate Context="selected">
+                        <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                            <span class="mud-icon-button-label">
+                                <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                            </span>
+                        </div>
+                    </BulletTemplate>
+                    <ChildContent>
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/hongkong.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/singapore.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/dubai.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/fuji.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/london.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+                    </ChildContent>
+                </MudCarousel>
+                <MudPaper Class="mt-3 d-flex justify-space-between" Elevation="0" Style="background-color: transparent;">
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;"> Balamban, Central Vysayas </MudText>
+                        <MudText Class="" Typo="Typo.body2"> 20 kilometer away </MudText>
+                    </div>
+                    <div>
+                        <MudText Typo="Typo.subtitle1"> <strong> $213 </strong> night </MudText>
+                        <MudText Class="" Typo="Typo.body2"> Mar 1 - 8 </MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudCarousel Class="" Style="height:300px;" ShowArrows="false" ShowBullets="true" AutoCycle="false" TData="object">
+                    <BulletTemplate Context="selected">
+                        <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                            <span class="mud-icon-button-label">
+                                <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                            </span>
+                        </div>
+                    </BulletTemplate>
+                    <ChildContent>
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/singapore.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/fuji.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/dubai.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/london.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/hongkong.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+                    </ChildContent>
+                </MudCarousel>
+                <MudPaper Class="mt-3 d-flex justify-space-between" Elevation="0" Style="background-color: transparent;">
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;"> Guyonvelle, Grand Est </MudText>
+                        <MudText Class="" Typo="Typo.body2"> 9 kilometer away </MudText>
+                    </div>
+                    <div>
+                        <MudText Typo="Typo.subtitle1"> <strong> $213 </strong> night </MudText>
+                        <MudText Class="" Typo="Typo.body2"> Dec 4 - 11 </MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+    </MudTabPanel>
+
+    <MudTabPanel Text="Farms" Icon="fal fa-house fa-small">
+        <MudGrid Class="pt-4">
+            <MudItem xs="12">
+                <MudCarousel Class="" Style="height:300px;" ShowArrows="false" ShowBullets="true" AutoCycle="false" TData="object">
+                    <BulletTemplate Context="selected">
+                        <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                            <span class="mud-icon-button-label">
+                                <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                            </span>
+                        </div>
+                    </BulletTemplate>
+                    <ChildContent>
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/singapore.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/london.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/fuji.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/dubai.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/hongkong.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+                    </ChildContent>
+                </MudCarousel>
+                <MudPaper Class="mt-3 d-flex justify-space-between" Elevation="0" Style="background-color: transparent;">
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;"> Willington, Connecticut </MudText>
+                        <MudText Class="" Typo="Typo.body2"> 10,1 kilometer away </MudText>
+                    </div>
+                    <div>
+                        <MudText Typo="Typo.subtitle1"> <strong> $215 </strong> night </MudText>
+                        <MudText Class="" Typo="Typo.body2"> Jan 7 - 14 </MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudCarousel Class="" Style="height:300px;" ShowArrows="false" ShowBullets="true" AutoCycle="false" TData="object">
+                    <BulletTemplate Context="selected">
+                        <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                            <span class="mud-icon-button-label">
+                                <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                            </span>
+                        </div>
+                    </BulletTemplate>
+                    <ChildContent>
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/singapore.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/dubai.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/fuji.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/london.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/hongkong.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+                    </ChildContent>
+                </MudCarousel>
+                <MudPaper Class="mt-3 d-flex justify-space-between" Elevation="0" Style="background-color: transparent;">
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;"> Peshasttin, Washington </MudText>
+                        <MudText Class="" Typo="Typo.body2"> 9,1 kilometer away </MudText>
+                    </div>
+                    <div>
+                        <MudText Typo="Typo.subtitle1"> <strong> $366 </strong> night </MudText>
+                        <MudText Class="" Typo="Typo.body2"> Dec 7 - 14 </MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudCarousel Class="" Style="height:300px;" ShowArrows="false" ShowBullets="true" AutoCycle="false" TData="object">
+                    <BulletTemplate Context="selected">
+                        <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                            <span class="mud-icon-button-label">
+                                <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                            </span>
+                        </div>
+                    </BulletTemplate>
+                    <ChildContent>
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/singapore.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/dubai.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/fuji.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/london.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/hongkong.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+                    </ChildContent>
+                </MudCarousel>
+                <MudPaper Class="mt-3 d-flex justify-space-between" Elevation="0" Style="background-color: transparent;" >
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;"> Hardwick, Vermont </MudText>
+                        <MudText Class="" Typo="Typo.body2"> 15 kilometer away </MudText>
+                    </div>
+                    <div>
+                        <MudText Typo="Typo.subtitle1"> <strong> $213 </strong> night </MudText>
+                        <MudText Class="" Typo="Typo.body2"> Jan 4 - 11 </MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudCarousel Class="" Style="height:300px;" ShowArrows="false" ShowBullets="true" AutoCycle="false" TData="object">
+                    <BulletTemplate Context="selected">
+                        <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                            <span class="mud-icon-button-label">
+                                <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                            </span>
+                        </div>
+                    </BulletTemplate>
+                    <ChildContent>
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/singapore.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/dubai.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/fuji.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/london.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/hongkong.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+                    </ChildContent>
+                </MudCarousel>
+                <MudPaper Class="mt-3 d-flex justify-space-between" Elevation="0" Style="background-color: transparent;">
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;"> Balamban, Central Vysayas </MudText>
+                        <MudText Class="" Typo="Typo.body2"> 20 kilometer away </MudText>
+                    </div>
+                    <div>
+                        <MudText Typo="Typo.subtitle1"> <strong> $213 </strong> night </MudText>
+                        <MudText Class="" Typo="Typo.body2"> Mar 1 - 8 </MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudCarousel Class="" Style="height:300px;" ShowArrows="false" ShowBullets="true" AutoCycle="false" TData="object">
+                    <BulletTemplate Context="selected">
+                        <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                            <span class="mud-icon-button-label">
+                                <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                            </span>
+                        </div>
+                    </BulletTemplate>
+                    <ChildContent>
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/singapore.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/dubai.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/fuji.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/london.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/hongkong.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+                    </ChildContent>
+                </MudCarousel>
+                <MudPaper Class="mt-3 d-flex justify-space-between" Elevation="0" Style="background-color: transparent;">
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;"> Guyonvelle, Grand Est </MudText>
+                        <MudText Class="" Typo="Typo.body2"> 9 kilometer away </MudText>
+                    </div>
+                    <div>
+                        <MudText Typo="Typo.subtitle1"> <strong> $213 </strong> night </MudText>
+                        <MudText Class="" Typo="Typo.body2"> Dec 4 - 11 </MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+    </MudTabPanel>
+
+    <MudTabPanel Text="Cabins" Icon="fal fa-caravan">
+        <MudGrid Class="pt-4">
+            <MudItem xs="12">
+                <MudCarousel Class="" Style="height:300px;" ShowArrows="false" ShowBullets="true" AutoCycle="false" TData="object">
+                    <BulletTemplate Context="selected">
+                        <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                            <span class="mud-icon-button-label">
+                                <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                            </span>
+                        </div>
+                    </BulletTemplate>
+                    <ChildContent>
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/singapore.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/dubai.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/fuji.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/london.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/hongkong.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+                    </ChildContent>
+                </MudCarousel>
+                <MudPaper Class="mt-3 d-flex justify-space-between" Elevation="0" Style="background-color: transparent;">
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;"> Willington, Connecticut </MudText>
+                        <MudText Class="" Typo="Typo.body2"> 10,1 kilometer away </MudText>
+                    </div>
+                    <div>
+                        <MudText Typo="Typo.subtitle1"> <strong> $215 </strong> night </MudText>
+                        <MudText Class="" Typo="Typo.body2"> Jan 7 - 14 </MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudCarousel Class="" Style="height:300px;" ShowArrows="false" ShowBullets="true" AutoCycle="false" TData="object">
+                    <BulletTemplate Context="selected">
+                        <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                            <span class="mud-icon-button-label">
+                                <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                            </span>
+                        </div>
+                    </BulletTemplate>
+                    <ChildContent>
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/singapore.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/dubai.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/fuji.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/london.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/hongkong.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+                    </ChildContent>
+                </MudCarousel>
+                <MudPaper Class="mt-3 d-flex justify-space-between" Elevation="0" Style="background-color: transparent;">
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;"> Peshasttin, Washington </MudText>
+                        <MudText Class="" Typo="Typo.body2"> 9,1 kilometer away </MudText>
+                    </div>
+                    <div>
+                        <MudText Typo="Typo.subtitle1"> <strong> $366 </strong> night </MudText>
+                        <MudText Class="" Typo="Typo.body2"> Dec 7 - 14 </MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudCarousel Class="" Style="height:300px;" ShowArrows="false" ShowBullets="true" AutoCycle="false" TData="object">
+                    <BulletTemplate Context="selected">
+                        <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                            <span class="mud-icon-button-label">
+                                <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                            </span>
+                        </div>
+                    </BulletTemplate>
+                    <ChildContent>
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/singapore.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/dubai.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/fuji.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/london.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/hongkong.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+                    </ChildContent>
+                </MudCarousel>
+                <MudPaper Class="mt-3 d-flex justify-space-between" Elevation="0" Style="background-color: transparent;" >
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;"> Hardwick, Vermont </MudText>
+                        <MudText Class="" Typo="Typo.body2"> 15 kilometer away </MudText>
+                    </div>
+                    <div>
+                        <MudText Typo="Typo.subtitle1"> <strong> $213 </strong> night </MudText>
+                        <MudText Class="" Typo="Typo.body2"> Jan 4 - 11 </MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudCarousel Class="" Style="height:300px;" ShowArrows="false" ShowBullets="true" AutoCycle="false" TData="object">
+                    <BulletTemplate Context="selected">
+                        <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                            <span class="mud-icon-button-label">
+                                <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                            </span>
+                        </div>
+                    </BulletTemplate>
+                    <ChildContent>
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/singapore.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/dubai.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/fuji.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/london.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/hongkong.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+                    </ChildContent>
+                </MudCarousel>
+                <MudPaper Class="mt-3 d-flex justify-space-between" Elevation="0" Style="background-color: transparent;">
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;"> Balamban, Central Vysayas </MudText>
+                        <MudText Class="" Typo="Typo.body2"> 20 kilometer away </MudText>
+                    </div>
+                    <div>
+                        <MudText Typo="Typo.subtitle1"> <strong> $213 </strong> night </MudText>
+                        <MudText Class="" Typo="Typo.body2"> Mar 1 - 8 </MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudCarousel Class="" Style="height:300px;" ShowArrows="false" ShowBullets="true" AutoCycle="false" TData="object">
+                    <BulletTemplate Context="selected">
+                        <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                            <span class="mud-icon-button-label">
+                                <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                            </span>
+                        </div>
+                    </BulletTemplate>
+                    <ChildContent>
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/singapore.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/dubai.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/fuji.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/london.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/hongkong.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+                    </ChildContent>
+                </MudCarousel>
+                <MudPaper Class="mt-3 d-flex justify-space-between" Elevation="0" Style="background-color: transparent;">
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;"> Guyonvelle, Grand Est </MudText>
+                        <MudText Class="" Typo="Typo.body2"> 9 kilometer away </MudText>
+                    </div>
+                    <div>
+                        <MudText Typo="Typo.subtitle1"> <strong> $213 </strong> night </MudText>
+                        <MudText Class="" Typo="Typo.body2"> Dec 4 - 11 </MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+    </MudTabPanel>
+
+    <MudTabPanel Text="Tiny homes" Icon="fal fa-home">
+        <MudGrid Class="pt-4">
+            <MudItem xs="12">
+                <MudCarousel Class="" Style="height:300px;" ShowArrows="false" ShowBullets="true" AutoCycle="false" TData="object">
+                    <BulletTemplate Context="selected">
+                        <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                            <span class="mud-icon-button-label">
+                                <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                            </span>
+                        </div>
+                    </BulletTemplate>
+                    <ChildContent>
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/singapore.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/dubai.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/fuji.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/london.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/hongkong.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+                    </ChildContent>
+                </MudCarousel>
+                <MudPaper Class="mt-3 d-flex justify-space-between" Elevation="0" Style="background-color: transparent;">
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;"> Willington, Connecticut </MudText>
+                        <MudText Class="" Typo="Typo.body2"> 10,1 kilometer away </MudText>
+                    </div>
+                    <div>
+                        <MudText Typo="Typo.subtitle1"> <strong> $215 </strong> night </MudText>
+                        <MudText Class="" Typo="Typo.body2"> Jan 7 - 14 </MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudCarousel Class="" Style="height:300px;" ShowArrows="false" ShowBullets="true" AutoCycle="false" TData="object">
+                    <BulletTemplate Context="selected">
+                        <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                            <span class="mud-icon-button-label">
+                                <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                            </span>
+                        </div>
+                    </BulletTemplate>
+                    <ChildContent>
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/singapore.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/dubai.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/fuji.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/london.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/hongkong.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+                    </ChildContent>
+                </MudCarousel>
+                <MudPaper Class="mt-3 d-flex justify-space-between" Elevation="0" Style="background-color: transparent;">
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;"> Peshasttin, Washington </MudText>
+                        <MudText Class="" Typo="Typo.body2"> 9,1 kilometer away </MudText>
+                    </div>
+                    <div>
+                        <MudText Typo="Typo.subtitle1"> <strong> $366 </strong> night </MudText>
+                        <MudText Class="" Typo="Typo.body2"> Dec 7 - 14 </MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudCarousel Class="" Style="height:300px;" ShowArrows="false" ShowBullets="true" AutoCycle="false" TData="object">
+                    <BulletTemplate Context="selected">
+                        <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                            <span class="mud-icon-button-label">
+                                <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                            </span>
+                        </div>
+                    </BulletTemplate>
+                    <ChildContent>
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/singapore.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/dubai.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/fuji.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/london.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/hongkong.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+                    </ChildContent>
+                </MudCarousel>
+                <MudPaper Class="mt-3 d-flex justify-space-between" Elevation="0" Style="background-color: transparent;" >
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;"> Hardwick, Vermont </MudText>
+                        <MudText Class="" Typo="Typo.body2"> 15 kilometer away </MudText>
+                    </div>
+                    <div>
+                        <MudText Typo="Typo.subtitle1"> <strong> $213 </strong> night </MudText>
+                        <MudText Class="" Typo="Typo.body2"> Jan 4 - 11 </MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudCarousel Class="" Style="height:300px;" ShowArrows="false" ShowBullets="true" AutoCycle="false" TData="object">
+                    <BulletTemplate Context="selected">
+                        <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                            <span class="mud-icon-button-label">
+                                <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                            </span>
+                        </div>
+                    </BulletTemplate>
+                    <ChildContent>
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/singapore.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/dubai.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/fuji.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/london.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/hongkong.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+                    </ChildContent>
+                </MudCarousel>
+                <MudPaper Class="mt-3 d-flex justify-space-between" Elevation="0" Style="background-color: transparent;">
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;"> Balamban, Central Vysayas </MudText>
+                        <MudText Class="" Typo="Typo.body2"> 20 kilometer away </MudText>
+                    </div>
+                    <div>
+                        <MudText Typo="Typo.subtitle1"> <strong> $213 </strong> night </MudText>
+                        <MudText Class="" Typo="Typo.body2"> Mar 1 - 8 </MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudCarousel Class="" Style="height:300px;" ShowArrows="false" ShowBullets="true" AutoCycle="false" TData="object">
+                    <BulletTemplate Context="selected">
+                        <div class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                            <span class="mud-icon-button-label">
+                                <MudIcon Icon="@(selected ? "fas fa-circle" : "far fa-circle")" Style="color: #ffffff; font-size: 0.725rem !important;" />
+                            </span>
+                        </div>
+                    </BulletTemplate>
+                    <ChildContent>
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/singapore.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/dubai.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/fuji.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/london.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <MudCard Elevation="1" Class="rounded-lg" Style="">
+                                <MudCardMedia Class="rounded-lg" Image="/images/travel/hongkong.jpg" Height="300" />
+                            </MudCard>
+                        </MudCarouselItem>
+                    </ChildContent>
+                </MudCarousel>
+                <MudPaper Class="mt-3 d-flex justify-space-between" Elevation="0" Style="background-color: transparent;">
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;"> Guyonvelle, Grand Est </MudText>
+                        <MudText Class="" Typo="Typo.body2"> 9 kilometer away </MudText>
+                    </div>
+                    <div>
+                        <MudText Typo="Typo.subtitle1"> <strong> $213 </strong> night </MudText>
+                        <MudText Class="" Typo="Typo.body2"> Dec 4 - 11 </MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+    </MudTabPanel>
+</MudTabs>
+
+<div class="d-flex flex-row justify-space-between mt-5 mb-2">
+    <div class="d-flex">
+        <MudIconButton Icon="fad fa-location-arrow" Color="Color.Secondary" Size="Size.Small"></MudIconButton>
+        <MudText Color="Color.Default" Class="mx-2" Style="font-weight: 500;" Typo="Typo.subtitle1">Top Destinations</MudText>
+    </div>
+    <MudText Color="Color.Primary" Class="align-self-center" Typo="Typo.subtitle2">View All</MudText>
+</div>
+<MudGrid Class="mb-5 pt-0 mb-1">
+    <MudItem xs="12">
+        <div class="hz-container px-1 py-2">
+            <MudCard Class="rounded-lg mr-5" Style="width: 250px">
+                <MudCardMedia Image="images/travel/Venice.jpeg" Height="160" />
+                <MudCardContent Class="py-0" Style="width: 250px">
+                    <div class="d-flex justify-space-between">
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Class="align-self-center">Venice, Italy</MudText>
+                        <MudToggleIconButton @bind-Toggled="@IsFavorite1" Edge="Edge.End"
+                                Icon="@Icons.Material.Filled.FavoriteBorder" Color="@Color.Default" title="Add to favorite"
+                                ToggledIcon="@Icons.Material.Filled.Favorite" ToggledColor="@Color.Error" />
+                    </div>
+                    <MudText Class="max-line-2" Typo="Typo.body2">Venice is arguably the most beautiful city in the world. The world seems to agree, sending 30 million tourists to walk its cobblestone streets, cross its ornate bridges, and sail down its elegant canals every year.</MudText>
+                </MudCardContent>
+                <MudCardActions Class="d-flex justify-space-between px-4 py-3">
+                    <MudText Typo="Typo.h6" Style="font-weight: 600;" Class="align-self-center" Color="Color.Error"> $999 </MudText>
+                    <MudIcon Icon="fal fa-arrow-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCardActions>
+            </MudCard>
+
+            <MudCard Class="rounded-lg mr-5" Style="width: 250px">
+                <MudCardMedia Image="images/travel/Santorini-greece.jpeg" Height="160" />
+                <MudCardContent Class="py-0" Style="width: 250px">
+                    <div class="d-flex justify-space-between">
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Class="align-self-center">Santorini, Greece</MudText>
+                        <MudToggleIconButton @bind-Toggled="@IsFavorite2" Edge="Edge.End"
+                                Icon="@Icons.Material.Filled.FavoriteBorder" Color="@Color.Default" title="Add to favorite"
+                                ToggledIcon="@Icons.Material.Filled.Favorite" ToggledColor="@Color.Error" />
+                    </div>
+                    <MudText Class="max-line-2" Typo="Typo.body2">The result of volcanic eruptions that devastated ancient civilizations, Santorini, locally known as Thira, is now a tourism must-do. The white buildings and blue roofs of Oia town are an icon of Greece itself.</MudText>
+                </MudCardContent>
+                <MudCardActions Class="d-flex justify-space-between px-4 py-3">
+                    <MudText Typo="Typo.h6" Style="font-weight: 600;" Class="align-self-center" Color="Color.Error"> $999 </MudText>
+                    <MudIcon Icon="fal fa-arrow-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCardActions>
+            </MudCard>
+
+            <MudCard Class="rounded-lg mr-5" Style="width: 250px">
+                <MudCardMedia Image="images/travel/Salt-Pond-Bay-Thailand.jpeg" Height="160" />
+                <MudCardContent Class="py-0" Style="width: 250px">
+                    <div class="d-flex justify-space-between">
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Class="align-self-center">Maya Beach, Thailand</MudText>
+                        <MudToggleIconButton @bind-Toggled="@IsFavorite3" Edge="Edge.End"
+                                Icon="@Icons.Material.Filled.FavoriteBorder" Color="@Color.Default" title="Add to favorite"
+                                ToggledIcon="@Icons.Material.Filled.Favorite" ToggledColor="@Color.Error" />
+                    </div>
+                    <MudText Class="max-line-2" Typo="Typo.body2">The crystal blue waters of this cove were made famous by the 2000 movie The Beach. Surrounded by dramatic cliffs and a white-sand beach, Maya Beach is a popular day trip.</MudText>
+                </MudCardContent>
+                <MudCardActions Class="d-flex justify-space-between px-4 py-3">
+                    <MudText Typo="Typo.h6" Style="font-weight: 600;" Class="align-self-center" Color="Color.Error"> $999 </MudText>
+                    <MudIcon Icon="fal fa-arrow-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCardActions>
+            </MudCard>
+
+            <MudCard Class="rounded-lg mr-5" Style="width: 250px">
+                <MudCardMedia Image="images/travel/Gran-via-Valencia.jpeg" Height="160" />
+                <MudCardContent Class="py-0" Style="width: 250px">
+                    <div class="d-flex justify-space-between">
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600;" Class="align-self-center">Madrid, Spain</MudText>
+                        <MudToggleIconButton @bind-Toggled="@IsFavorite4" Edge="Edge.End"
+                                Icon="@Icons.Material.Filled.FavoriteBorder" Color="@Color.Default" title="Add to favorite"
+                                ToggledIcon="@Icons.Material.Filled.Favorite" ToggledColor="@Color.Error" />
+                    </div>
+                    <MudText Class="max-line-2" Typo="Typo.body2">The capital of Spain tends to be overlooked in favor of the colorful Barcelona, but this city has a glamor of its own.</MudText>
+                </MudCardContent>
+                <MudCardActions Class="d-flex justify-space-between px-4 py-3">
+                    <MudText Typo="Typo.h6" Style="font-weight: 600;" Class="align-self-center" Color="Color.Error"> $999 </MudText>
+                    <MudIcon Icon="fal fa-arrow-right" Color="Color.Default" Class="align-self-center" Size="Size.Small"></MudIcon>
+                </MudCardActions>
+            </MudCard>
+        </div>
+    </MudItem>
+</MudGrid>
+
+<div class="d-flex flex-row justify-space-between mt-5 mb-2">
+    <div class="d-flex">
+        <MudIconButton Icon="fad fa-location-arrow" Color="Color.Secondary" Size="Size.Small"></MudIconButton>
+        <MudText Color="Color.Default" Class="mx-2" Style="font-weight: 500;" Typo="Typo.subtitle1">Best Places</MudText>
+    </div>
+    <MudText Color="Color.Primary" Class="align-self-center" Typo="Typo.subtitle2">View All</MudText>
+</div>
+<MudGrid Class="mb-5 pt-0 mb-1">
+    <MudItem xs="12">
+        <div class="hz-container px-1 py-2">
+            <MudPaper Class="pa-0 rounded-lg mr-5 mud-theme-primary" Style="height: 300px; width: 200px; position: relative;">
+                <MudImage Style="height: 300px; width: 200px;" Src="/images/travel/Salt-Pond-Bay-Thailand.jpeg" Alt="" Class="rounded-lg" ObjectPosition="ObjectPosition.Center" ObjectFit="ObjectFit.Fill" />
+                <MudOverlay Visible="true" DarkBackground="true" Absolute="true" Style="height: 300px; min-width: 200px;">
+                    <div class="d-flex flex-column justify-space-between" style="height: 280px;width: 180px;">
+                        <div class="align-self-end ma-n2">
+                            <MudToggleIconButton @bind-Toggled="@IsFavorite5"
+                                Icon="@Icons.Material.Filled.FavoriteBorder" Color="Color.Inherit" title="Add to favorite"
+                                ToggledIcon="@Icons.Material.Filled.Favorite" ToggledColor="@Color.Error" />
+                        </div>
+
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600; color: white">Maya Bay, Thailand</MudText>
+                    </div>
+                </MudOverlay>
+            </MudPaper>
+
+            <MudPaper Class="pa-0 rounded-lg mr-5 mud-theme-primary" Style="height: 300px; width: 200px; position: relative;">
+                <MudImage Style="height: 300px; width: 200px;" Src="/images/travel/Gran-via-Valencia.jpeg" Alt="" Class="rounded-lg" ObjectPosition="ObjectPosition.Center" ObjectFit="ObjectFit.Fill" />
+                <MudOverlay Visible="true" DarkBackground="true" Absolute="true" Style="height: 300px; min-width: 200px;">
+                    <div class="d-flex flex-column justify-space-between" style="height: 280px;width: 180px;">
+                        <div class="align-self-end ma-n2">
+                            <MudToggleIconButton @bind-Toggled="@IsFavorite6"
+                                Icon="@Icons.Material.Filled.FavoriteBorder" Color="Color.Inherit" title="Add to favorite"
+                                ToggledIcon="@Icons.Material.Filled.Favorite" ToggledColor="@Color.Error" />
+                        </div>
+
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600; color: white">Madrid, Spain</MudText>
+                    </div>
+                </MudOverlay>
+            </MudPaper>
+
+            <MudPaper Class="pa-0 rounded-lg mr-5 mud-theme-primary" Style="height: 300px; width: 200px; position: relative;">
+                <MudImage Style="height: 300px; width: 200px;" Src="/images/travel/Venice.jpeg" Alt="" Class="rounded-lg" ObjectPosition="ObjectPosition.Center" ObjectFit="ObjectFit.Fill" />
+                <MudOverlay Visible="true" DarkBackground="true" Absolute="true" Style="height: 300px; min-width: 200px;">
+                    <div class="d-flex flex-column justify-space-between" style="height: 280px;width: 180px;">
+                        <div class="align-self-end ma-n2">
+                            <MudToggleIconButton @bind-Toggled="@IsFavorite7"
+                                Icon="@Icons.Material.Filled.FavoriteBorder" Color="Color.Inherit" title="Add to favorite"
+                                ToggledIcon="@Icons.Material.Filled.Favorite" ToggledColor="@Color.Error" />
+                        </div>
+
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600; color: white">Venice, Italy</MudText>
+                    </div>
+                </MudOverlay>
+            </MudPaper>
+
+            <MudPaper Class="pa-0 rounded-lg mr-5 mud-theme-primary" Style="height: 300px; width: 200px; position: relative;">
+                <MudImage Style="height: 300px; width: 200px;" Src="/images/travel/Santorini-greece.jpeg" Alt="" Class="rounded-lg" ObjectPosition="ObjectPosition.Center" ObjectFit="ObjectFit.Fill" />
+                <MudOverlay Visible="true" DarkBackground="true" Absolute="true" Style="height: 300px; min-width: 200px;">
+                    <div class="d-flex flex-column justify-space-between" style="height: 280px;width: 180px;">
+                        <div class="align-self-end ma-n2">
+                            <MudToggleIconButton @bind-Toggled="@IsFavorite8"
+                                Icon="@Icons.Material.Filled.FavoriteBorder" Color="Color.Inherit" title="Add to favorite"
+                                ToggledIcon="@Icons.Material.Filled.Favorite" ToggledColor="@Color.Error" />
+                        </div>
+
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600; color: white">Santorini, Greece</MudText>
+                    </div>
+                </MudOverlay>
+            </MudPaper>
+        </div>
+    </MudItem>
+</MudGrid>
+
+@code {
+    public bool IsFavorite1 { get; set; }
+    public bool IsFavorite2 { get; set; }
+    public bool IsFavorite3 { get; set; }
+    public bool IsFavorite4 { get; set; }
+    public bool IsFavorite5 { get; set; }
+    public bool IsFavorite6 { get; set; }
+    public bool IsFavorite7 { get; set; }
+    public bool IsFavorite8 { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        
+    }
+}

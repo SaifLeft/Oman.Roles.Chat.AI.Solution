@@ -1,0 +1,183 @@
+﻿@page "/article-grid"
+
+<style>
+    .card-style {
+        border-radius: 16px;
+    }
+
+    .card-style-1 {
+        background-image: url(/images/p1.png);
+        background-size: cover !important;
+        background-position: center center !important;
+        border-radius: 16px;
+    }
+
+    .card-style-2 {
+        background-image: url(/images/p2.png);
+        background-size: cover !important;
+        background-position: center center !important;
+        border-radius: 16px;
+    }
+
+    .card-style-3 {
+        background-image: url(/images/p3.png);
+        background-size: cover !important;
+        background-position: center center !important;
+        border-radius: 16px;
+    }
+
+    .card-style-4 {
+        background-image: url(/images/p4.png);
+        background-size: cover !important;
+        background-position: center center !important;
+        border-radius: 16px;
+    }
+
+    .card-style-5 {
+        background-image: url(/images/p5.png);
+        background-size: cover !important;
+        background-position: center center !important;
+        border-radius: 16px;
+    }
+
+    .card-hero {
+        position: absolute;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+
+@if (!_loaded)
+{
+    <Spinner></Spinner>
+}
+else
+{
+    <MudPaper Elevation="3" Height="150" Class="px-4 mx-n4 mt-n10 pt-10 mud-theme-primary" Style="border-radius: 0px 0px 45px 45px;" Outlined="false">
+        <MudPaper Elevation="0" Class="py-6" Style="background-color: transparent">
+
+        </MudPaper>
+    </MudPaper>
+
+    <MudGrid Class="mt-n15 pt-0" Spacing="2">
+        <MudItem xs="6" sm="6" md="6">
+            <MudCard Elevation="0" Class="mud-theme-primary rounded-lg card-style">
+                    <MudCardContent Class="d-flex flex-column justify-space-between card-style-1" Style="height: 135px;">
+                        <div class="d-flex justify-space-between">
+                        </div>
+                        <div>
+                            <MudText Typo="Typo.subtitle2" Style="font-weight: 500;">Macbooks are now Quickbooks</MudText>
+                            <MudText Class="mt-1" Typo="Typo.caption">20 min ago</MudText>
+                        </div>    
+                    </MudCardContent>
+            </MudCard>
+            <MudCard Elevation="0" Class="mt-3 mud-theme-primary rounded-lg card-style">
+                    <MudCardContent Class="d-flex flex-column justify-space-between card-style-2" Style="height: 135px;">
+                        <div class="d-flex justify-space-between">
+                        </div>
+                        <div>
+                            <MudText Typo="Typo.subtitle2" Style="font-weight: 500;">Most users don't know about it</MudText>
+                            <MudText Class="mt-1" Typo="Typo.caption">20 min ago</MudText>
+                        </div>    
+                    </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="6" sm="6" md="6">
+            <MudCard Elevation="0" Class="mud-theme-primary rounded-lg card-style">
+                    <MudCardContent Class="d-flex flex-column justify-space-between card-style-3" Style="height: 280px;">
+                        <div class="d-flex justify-space-between">
+                                <MudChip T="string" Color="Color.Error" Label="true" Size="Size.Small">Featured</MudChip>
+                                <MudText />
+                        </div>
+                        <div>
+                            <MudText Typo="Typo.subtitle2" Style="font-weight: 500;">News from Apple. Wireless displays</MudText>
+                            <MudText Class="mt-1" Typo="Typo.caption">20 min ago</MudText>
+                        </div>
+                    </MudCardContent>
+           </MudCard>
+        </MudItem>
+    </MudGrid>
+
+    <MudGrid Class="my-5" Spacing="2">
+        <MudItem xs="6" sm="6" md="6">
+            <MudCard Elevation="0" Class="mud-theme-primary rounded-lg card-style">
+                    <MudCardContent Class="d-flex flex-column justify-space-between card-style-4" Style="height: 380px;">
+                        <div class="d-flex justify-space-between">
+                                <MudChip T="string" Color="Color.Warning" Label="true" Size="Size.Small">Featured</MudChip>
+                                <MudText />
+                        </div>
+                        <MudPaper Class="ma-n2 pa-2 rounded-lg">
+                            <MudText Typo="Typo.subtitle2" Style="font-weight: 500;">Apple releases Wireless displays</MudText>
+                            <MudText Class="mt-1" Typo="Typo.caption">20 min ago</MudText>
+                        </MudPaper>
+                    </MudCardContent>
+           </MudCard>
+        </MudItem>
+        <MudItem xs="6" sm="6" md="6">
+            <MudCard Elevation="0" Class="mud-theme-primary rounded-lg card-style">
+                    <MudCardContent Class="d-flex flex-column justify-space-between card-style-5" Style="height: 185px;">
+                        <div class="d-flex justify-space-between">
+                        </div>
+                        <MudPaper Class="ma-n2 pa-2 rounded-lg">
+                            <MudText Typo="Typo.subtitle2" Style="font-weight: 500;">Chomebook is interesting?</MudText>
+                            <MudText Class="mt-1" Typo="Typo.caption">20 min ago</MudText>
+                        </MudPaper>    
+                    </MudCardContent>
+            </MudCard>
+            <MudCard Elevation="0" Class="mt-3 mud-theme-primary rounded-lg card-style">
+                    <MudCardContent Class="d-flex flex-column justify-space-between card-style-1" Style="height: 185px;">
+                        <div class="d-flex justify-space-between">
+                        </div>
+                        <MudPaper Class="ma-n2 pa-2 rounded-lg">
+                            <MudText Typo="Typo.subtitle2" Style="font-weight: 500;">Most users don't know about it</MudText>
+                            <MudText Class="mt-1" Typo="Typo.caption">20 min ago</MudText>
+                        </MudPaper>    
+                    </MudCardContent>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+
+    <MudGrid Spacing="2">
+        <MudItem xs="6" sm="6" md="6">
+            <MudCard Elevation="1" Class="rounded-lg">
+                    <MudCardMedia Image="images/p3.png" Height="100" />
+                    <MudCardContent Style="height: 85px;">
+                        <MudText Typo="Typo.subtitle2" Style="font-weight: 500;">Chomebook is interesting?</MudText>
+                        <MudText Class="mt-1" Typo="Typo.caption">20 min ago</MudText>   
+                    </MudCardContent>
+            </MudCard>
+            <MudCard Elevation="1" Class="mt-3 rounded-lg">
+                <MudCardMedia Image="images/p4.png" Height="100" />
+                    <MudCardContent Style="height: 85px;">
+                        <MudText Typo="Typo.subtitle2" Style="font-weight: 500;">Most users don't know about it</MudText>
+                        <MudText Class="mt-1" Typo="Typo.caption">20 min ago</MudText>    
+                    </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="6" sm="6" md="6">
+            <MudCard Elevation="1" Class="rounded-lg">
+                <MudCardMedia Image="images/p5.png" Height="295" />
+                    <MudCardContent Style="height: 85px;">
+                        <MudText Typo="Typo.subtitle2" Style="font-weight: 500;">Apple releases Wireless displays</MudText>
+                        <MudText Class="mt-1" Typo="Typo.caption">20 min ago</MudText>
+                    </MudCardContent>
+           </MudCard>
+        </MudItem>
+    </MudGrid>
+}
+@code {
+    public bool _loaded;
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        
+        _loaded = true;
+    }
+
+    int max = 3;
+    int spacing = 3;
+}

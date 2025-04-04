@@ -1,0 +1,96 @@
+﻿@page "/careers"
+
+<MudPaper Elevation="3" Height="150" Class="px-4 mx-n4 mt-n10 pt-10 mud-theme-primary" Style="border-radius: 0px 0px 45px 45px;" Outlined="false">
+    <MudPaper Elevation="0" Class="py-6" Style="background-color: transparent">
+
+    </MudPaper>
+</MudPaper>
+
+<MudGrid Class="mt-n15 pt-0">
+    <MudItem xs="12">
+        <MudCard Elevation="1" Class="rounded-lg py-1">
+            <MudCardContent>
+                <div class="d-flex mb-3">
+                    <MudIcon Class="align-self-center" Color="Color.Tertiary" Icon="fab fa-android" Size="Size.Large" />
+                    <div class="mx-3">
+                        <MudText Color="Color.Default" Typo="Typo.h6" Style="font-weight: 600;">Android Developer</MudText>
+                        <div class="d-flex mt-2">
+                            <MudIcon Class="mr-1" Icon="@Icons.Material.Filled.LocationOn" Size="Size.Small" ></MudIcon>
+                            <MudText Class="mr-1 align-self-center" Color="Color.Default" Typo="Typo.caption" Style="font-weight: 500;">Office</MudText>
+                            
+                            <MudIcon Class="mr-1"Icon="@Icons.Material.Filled.AccessTime" Size="Size.Small" ></MudIcon>
+                            <MudText Class="mr-1 align-self-center" Color="Color.Default" Typo="Typo.caption" Style="font-weight: 500;">Full time</MudText>
+                            
+                            <MudIcon Class="mr-1" Icon="@Icons.Material.Filled.Money" Size="Size.Small" ></MudIcon>
+                            <MudText Class="align-self-center" Color="Color.Default" Typo="Typo.caption" Style="font-weight: 500;">$2000/mo</MudText>
+                        </div>
+                    </div>
+                </div>
+                <MudText Typo="Typo.body2">We're looking for a talented app developer to join our team. Our salary is very attractive and our work hours are great to give you free time to do the things you love. You can apply today.</MudText>
+                <MudButton Class="mt-3 rounded-lg" Color="Color.Tertiary" FullWidth="true" Variant="Variant.Filled"> APPLY HERE </MudButton>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+<MudGrid Class="my-5" Spacing="0">
+    <MudItem xs="12">
+        <MudCard Elevation="1" Class="rounded-lg py-1">
+            <MudCardContent>
+                <div class="d-flex mb-3">
+                    <MudIcon Class="align-self-center" Color="Color.Info" Icon="fab fa-wordpress" Size="Size.Large" />
+                    <div class="mx-3">
+                        <MudText Color="Color.Default" Typo="Typo.h6" Style="font-weight: 600;">WordPress Developer</MudText>
+                        <div class="d-flex mt-2">
+                            <MudIcon Class="mr-1" Icon="@Icons.Material.Filled.LocationOn" Size="Size.Small" ></MudIcon>
+                            <MudText Class="mr-1 align-self-center" Color="Color.Default"  Typo="Typo.caption" Style="font-weight: 500;">Remote</MudText>
+                            
+                            <MudIcon Class="mr-1"Icon="@Icons.Material.Filled.AccessTime" Size="Size.Small" ></MudIcon>
+                            <MudText Class="mr-1 align-self-center" Color="Color.Default"  Typo="Typo.caption" Style="font-weight: 500;">Full time</MudText>
+                            
+                            <MudIcon Class="mr-1" Icon="@Icons.Material.Filled.Money" Size="Size.Small" ></MudIcon>
+                            <MudText Class="align-self-center" Color="Color.Default" Typo="Typo.caption" Style="font-weight: 500;">$3000/mo</MudText>
+                        </div>
+                    </div>
+                </div>
+                <MudText Typo="Typo.body2">We're looking for a talented app developer to join our team. Our salary is very attractive and our work hours are great to give you free time to do the things you love. You can apply today.</MudText>
+                <MudButton Class="mt-3 rounded-lg" Color="Color.Info" FullWidth="true" Variant="Variant.Filled"> APPLY HERE </MudButton>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+<MudGrid Class="my-5" Spacing="0">
+    <MudItem xs="12">
+        <MudCard Elevation="1" Class="rounded-lg py-1">
+            <MudCardContent>
+                <div class="d-flex mb-3">
+                    <MudIcon Class="align-self-center" Color="Color.Default" Icon="fab fa-apple" Size="Size.Large" />
+                    <div class="mx-3">
+                        <MudText Color="Color.Default" Typo="Typo.h6" Style="font-weight: 600;">iOS Developer</MudText>
+                        <div class="d-flex mt-2">
+                            <MudIcon Class="mr-1" Icon="@Icons.Material.Filled.LocationOn" Size="Size.Small" ></MudIcon>
+                            <MudText Class="mr-1 align-self-center" Color="Color.Default" Typo="Typo.caption" Style="font-weight: 500;">Office</MudText>
+                            
+                            <MudIcon Class="mr-1"Icon="@Icons.Material.Filled.AccessTime" Size="Size.Small" ></MudIcon>
+                            <MudText Class="mr-1 align-self-center" Color="Color.Default" Typo="Typo.caption" Style="font-weight: 500;">Full time</MudText>
+                            
+                            <MudIcon Class="mr-1" Icon="@Icons.Material.Filled.Money" Size="Size.Small" ></MudIcon>
+                            <MudText Class="align-self-center" Color="Color.Default" Typo="Typo.caption" Style="font-weight: 500;">$4000/mo</MudText>
+                        </div>
+                    </div>
+                </div>
+                <MudText Typo="Typo.body2">We're looking for a talented app developer to join our team. Our salary is very attractive and our work hours are great to give you free time to do the things you love. You can apply today.</MudText>
+                <MudButton Class="mt-3 rounded-lg" Color="Color.Default" FullWidth="true" Variant="Variant.Filled"> APPLY HERE </MudButton>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+@code {
+    public MudTheme Theme = new MudTheme();
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+}
